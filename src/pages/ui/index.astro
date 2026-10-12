@@ -15,14 +15,14 @@ import { components, data, foundations } from "../../lib/data";
       them with the shadcn CLI, the <code class="font-mono text-base">{data.site.cli}</code> CLI or
       npm.
     </p>
-    <div class="mt-6 grid max-w-xl gap-2">
+    <div class="mt-6 grid max-w-xl grid-cols-1 gap-2">
       <Command command="npx designfrom list" label="List every component" />
     </div>
   </section>
 
   <section aria-labelledby="components-heading" class="pb-12">
     <h2 id="components-heading" class="mb-4 font-medium text-muted-foreground text-sm">Components</h2>
-    <ul class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3" data-testid="gallery">
+    <ul class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3" data-testid="gallery">
       {components.map((entry) => <li><Tile entry={entry} /></li>)}
     </ul>
   </section>
@@ -31,7 +31,7 @@ import { components, data, foundations } from "../../lib/data";
     foundations.length > 0 && (
       <section aria-labelledby="foundations-heading">
         <h2 id="foundations-heading" class="mb-4 font-medium text-muted-foreground text-sm">Foundations</h2>
-        <ul class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <ul class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {foundations.map((entry) => <li><Tile entry={entry} /></li>)}
         </ul>
       </section>

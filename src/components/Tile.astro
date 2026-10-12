@@ -1,6 +1,7 @@
 ---
 import Demos from "../../.generated/Demos.astro";
 import { defaultVariant, type Entry, KIND_LABELS, published } from "../lib/data";
+import { previewName, titleName } from "../lib/transitions";
 
 interface Props {
   entry: Entry;
@@ -10,9 +11,23 @@ const variant = defaultVariant(entry);
 const count = published(entry).length;
 const exportsText = (variant?.exports ?? []).join(", ");
 ---
-<article class="group relative flex h-full flex-col overflow-hidden rounded-lg border bg-card transition-colors hover:border-foreground/30">
+<!--
+  One object per entry: a static, server-rendered preview and its title. The
+  whole card is the link's hit area (stretched link) and shows the focus ring.
+  The preview and title carry the view-transition names that the component
+  page's hero and heading share, so the card grows into that page
+  (docs/decisions/0012-gallery-view-transitions.md).
+-->
+<article
+  class="group relative flex h-full flex-col rounded-lg border bg-card transition-colors hover:border-foreground/30 has-focus-visible:outline-2 has-focus-visible:outline-offset-2 has-focus-visible:outline-ring"
+  data-tile={entry.name}
+>
   <div
-    class="relative flex h-52 items-center justify-center overflow-hidden border-b bg-muted/30 p-6"
+    class="vt-tile-preview relative flex h-52 items-center justify-center overflow-hidden rounded-t-lg border-b bg-muted/30 p-6"
+    transition:name={previewName(entry.name)}
+    transition:animate="initial"
+    data-tile-preview
+    dir="ltr"
     inert
     aria-hidden="true"
   >
@@ -28,9 +43,9 @@ const exportsText = (variant?.exports ?? []).join(", ");
   </div>
   <div class="flex flex-1 flex-col gap-1.5 p-4">
     <div class="flex items-center justify-between gap-2">
-      <h3 class="font-medium">
-        <a href={`/ui/${entry.name}`} class="outline-none after:absolute after:inset-0 after:rounded-lg focus-visible:after:outline-2 focus-visible:after:outline-ring">
-          {entry.title}
+      <h3 class="min-w-0 font-medium">
+        <a href={`/ui/${entry.name}`} class="outline-none after:absolute after:inset-0 after:rounded-lg">
+          <span class="vt-tile-title inline-block" transition:name={titleName(entry.name)} transition:animate="initial">{entry.title}</span>
         </a>
       </h3>
       <span class="font-mono text-[11px] text-muted-foreground uppercase tracking-wide">{KIND_LABELS[entry.kind]}</span>
