@@ -14,3 +14,4 @@ record has a `- Sources:` line (registry ids, or `none: <reason>`).
 | [0006](0006-github-hosted-runners.md) | GitHub-hosted runners for this public repository | Accepted |
 | [0007](0007-component-license-policy.md) | Only redistributable, attributed components publish | Accepted |
 | [0008](0008-npm-names.md) | `@designfrom/react` library and `designfrom` CLI | Accepted |
+| [0009](0009-primitive-variants.md) | Primitive library as a variant dimension, published per variant | Accepted |

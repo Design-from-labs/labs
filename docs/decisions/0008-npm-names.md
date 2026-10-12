@@ -19,13 +19,13 @@ not an npm scope.
 ## Decision
 
 - The component library is **`@designfrom/react`** in the `packages/react`
-  workspace, with per-component, per-icon-set subpath exports
-  (`@designfrom/react/button/lucide`, `@designfrom/react/button/phosphor`,
+  workspace, with subpath exports per primitive, component and icon set
+  (`@designfrom/react/radix/button`, `@designfrom/react/radix/button/phosphor`,
   `@designfrom/react/button` for the default variant, and
-  `@designfrom/react/styles.css`).
+  `@designfrom/react/styles.css`); the scheme is recorded in decision 0009.
 - The registry CLI is **`designfrom`** in `packages/cli`:
-  `npx designfrom add <component> [--style <style>] [--icons lucide|phosphor]`
-  (default `lucide`) resolves the item name, checks it against
+  `npx designfrom add <component> [--primitive radix|base|aria] [--icons lucide|phosphor] [--style <style>]`
+  (defaults `radix` and `lucide`) resolves the item name, checks it against
   `https://labs.designfrom.com/r/registry.json`, and runs
   `shadcn add https://labs.designfrom.com/r/<item>.json`;
   `npx designfrom list` prints the ready components and their variants.

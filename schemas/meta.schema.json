@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://labs.designfrom.com/schemas/meta.schema.json",
   "title": "Design From Labs component sidecar (meta.json)",
-  "description": "Gallery metadata for one component in content/components/<source-id>/<component>/meta.json. Contract: docs/contract.md. The registry items themselves are shadcn registry-item.json files (schemas/labs-registry-item.schema.json).",
+  "description": "Gallery metadata for one component or foundation item in content/components/<source-id>/<name>/meta.json. Contract: docs/contract.md. The registry items themselves are shadcn registry-item.json files (schemas/labs-registry-item.schema.json).",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -14,8 +14,6 @@
     "category",
     "variants",
     "defaultVariant",
-    "demo",
-    "preview",
     "source",
     "author",
     "license",
@@ -23,16 +21,22 @@
     "date"
   ],
   "properties": {
-    "$schema": { "type": "string" },
+    "$schema": {
+      "type": "string"
+    },
     "schemaVersion": {
       "const": 1,
       "description": "The contract version this file follows."
     },
     "name": {
       "$ref": "#/$defs/slug",
-      "description": "The component slug. Must equal the directory name and be unique across every source."
+      "description": "The slug. Must equal the directory name and be unique across every source."
     },
-    "title": { "type": "string", "minLength": 1, "maxLength": 60 },
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 60
+    },
     "description": {
       "type": "string",
       "minLength": 10,
@@ -40,8 +44,13 @@
       "description": "One or two plain sentences. Shown on the gallery tile, the component page, llms.txt and the registry item."
     },
     "status": {
-      "enum": ["draft", "beta", "ready", "deprecated"],
-      "description": "Only ready publishes (site page, /r/*.json, the npm library and llms.txt). draft and beta are validated but not published; deprecated is withdrawn from publishing."
+      "enum": [
+        "draft",
+        "beta",
+        "ready",
+        "deprecated"
+      ],
+      "description": "The component's overall status. A variant publishes only when this is ready AND its own variants[].status is ready (docs/contract.md, section 3)."
     },
     "category": {
       "enum": [
@@ -55,7 +64,8 @@
         "layout",
         "media",
         "typography",
-        "blocks"
+        "blocks",
+        "foundations"
       ]
     },
     "label": {
@@ -65,7 +75,9 @@
     },
     "tags": {
       "type": "array",
-      "items": { "$ref": "#/$defs/slug" },
+      "items": {
+        "$ref": "#/$defs/slug"
+      },
       "uniqueItems": true,
       "maxItems": 8
     },
@@ -73,42 +85,63 @@
       "type": "array",
       "minItems": 1,
       "uniqueItems": true,
-      "items": { "$ref": "#/$defs/variant" },
-      "description": "Every registry item of this component. Each needs items/<name>.json. A component that renders icons ships every style in both icon sets."
+      "items": {
+        "$ref": "#/$defs/variant"
+      },
+      "description": "Every registry item of this entry, one per (style, primitive, icon set). Each needs items/<name>.json. Unimplemented combinations are simply absent; the gallery shows them as not yet available."
     },
     "defaultVariant": {
       "$ref": "#/$defs/itemName",
       "description": "The variant shown first; must be one of variants[].name."
     },
     "demo": {
-      "description": "The gallery demo: a .tsx file (relative to the component directory) whose default export renders the component with no props. Either one path for every variant, or a map from variant name to path with \"*\" as the fallback.",
+      "description": "The gallery demo: a .tsx file (relative to the directory) whose default export renders the component with no props. Either one path for every variant, or a map whose keys are a variant name, a primitive (radix, base, aria) or \"*\" (fallback); the most specific key wins. Optional for foundation kinds.",
       "oneOf": [
-        { "$ref": "#/$defs/relativeTsx" },
+        {
+          "$ref": "#/$defs/relativeTsx"
+        },
         {
           "type": "object",
           "minProperties": 1,
           "propertyNames": {
-            "anyOf": [{ "const": "*" }, { "$ref": "#/$defs/itemName" }]
+            "anyOf": [
+              {
+                "const": "*"
+              },
+              {
+                "$ref": "#/$defs/itemName"
+              }
+            ]
           },
-          "additionalProperties": { "$ref": "#/$defs/relativeTsx" }
+          "additionalProperties": {
+            "$ref": "#/$defs/relativeTsx"
+          }
         }
       ]
     },
     "preview": {
       "type": "string",
       "pattern": "^[a-z0-9][a-z0-9._-]*\\.(webp|avif)$",
-      "description": "A compressed WebP or AVIF still in the component directory, at most 200 KB, 1200x750 recommended."
+      "description": "A compressed WebP or AVIF still in the directory, at most 200 KB, 1200x750 recommended. Optional for foundation kinds."
     },
     "source": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["repo", "commit"],
+      "required": [
+        "repo",
+        "commit"
+      ],
       "properties": {
         "repo": {
           "description": "A public https repository URL, or the literal \"private source\" for an approved private source (never a private URL or path).",
           "oneOf": [
-            { "const": "private source" },
-            { "type": "string", "pattern": "^https://[^\\s]+$" }
+            {
+              "const": "private source"
+            },
+            {
+              "type": "string",
+              "pattern": "^https://[^\\s]+$"
+            }
           ]
         },
         "commit": {
@@ -139,7 +172,10 @@
     },
     "credits": {
       "type": "array",
-      "items": { "type": "string", "pattern": "^S-\\d{3,}$" },
+      "items": {
+        "type": "string",
+        "pattern": "^S-\\d{3,}$"
+      },
       "uniqueItems": true,
       "description": "Source registry ids (docs/sources/registry.yaml) for everything this component uses or derives from: libraries, icon sets, references. At least one."
     },
@@ -153,24 +189,53 @@
       "items": {
         "type": "object",
         "additionalProperties": false,
-        "required": ["name", "type", "description"],
+        "required": [
+          "name",
+          "type",
+          "description"
+        ],
         "properties": {
-          "name": { "type": "string" },
-          "type": { "type": "string" },
-          "default": { "type": "string" },
-          "required": { "type": "boolean" },
-          "description": { "type": "string" }
+          "name": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          },
+          "default": {
+            "type": "string"
+          },
+          "required": {
+            "type": "boolean"
+          },
+          "description": {
+            "type": "string"
+          }
         }
       }
     },
     "a11y": {
       "type": "array",
-      "items": { "type": "string", "minLength": 5 },
+      "items": {
+        "type": "string",
+        "minLength": 5
+      },
       "description": "Keyboard, focus, ARIA and motion notes, one sentence each."
     },
     "usage": {
       "type": "string",
       "description": "Optional short TSX usage snippet shown on the page and in llms-full.txt."
+    },
+    "kind": {
+      "enum": [
+        "component",
+        "theme",
+        "font",
+        "base",
+        "hook",
+        "lib"
+      ],
+      "default": "component",
+      "description": "component (registry:ui or registry:block, the default) or a foundation item: theme (registry:theme), font (registry:font), base (registry:base), hook (registry:hook), lib (registry:lib). Foundations may omit demo and preview."
     }
   },
   "$defs": {
@@ -191,13 +256,33 @@
     "variant": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["name", "iconSet"],
+      "required": [
+        "name",
+        "primitive",
+        "iconSet",
+        "status"
+      ],
       "properties": {
         "name": {
           "$ref": "#/$defs/itemName",
-          "description": "<component>-<iconset>, <component>-<style>-<iconset>, or (no icons) <component> / <component>-<style>."
+          "description": "<component>[-<style>][-<primitive>][-<iconset>]: the primitive segment is omitted when primitive is none, the icon-set segment when iconSet is none. Examples: button-radix-lucide, badge-subtle-phosphor, tooltip-aria, designfrom-theme."
         },
-        "iconSet": { "enum": ["lucide", "phosphor", "none"] },
+        "primitive": {
+          "enum": [
+            "radix",
+            "base",
+            "aria",
+            "none"
+          ],
+          "description": "The headless primitive library: radix (the unified radix-ui package), base (@base-ui/react), aria (react-aria-components), or none."
+        },
+        "iconSet": {
+          "enum": [
+            "lucide",
+            "phosphor",
+            "none"
+          ]
+        },
         "style": {
           "$ref": "#/$defs/slug",
           "description": "Omit for the default style."
@@ -206,8 +291,49 @@
           "type": "string",
           "maxLength": 30,
           "description": "Optional switcher label for the style, e.g. \"Subtle\"."
+        },
+        "status": {
+          "enum": [
+            "draft",
+            "beta",
+            "ready",
+            "deprecated"
+          ],
+          "description": "Per-variant status. A variant publishes only when it is implemented and tested (ready) and the component is ready."
         }
       }
     }
-  }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "kind": {
+            "const": "component"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "demo",
+          "preview"
+        ]
+      }
+    },
+    {
+      "if": {
+        "not": {
+          "required": [
+            "kind"
+          ]
+        }
+      },
+      "then": {
+        "required": [
+          "demo",
+          "preview"
+        ]
+      }
+    }
+  ]
 }
