@@ -1,0 +1,41 @@
+# dependencies
+node_modules/
+.pnpm-store/
+
+# build output
+dist/
+.astro/
+.generated/
+*.tsbuildinfo
+*.tgz
+
+# testing
+coverage/
+playwright-report/
+test-results/
+blob-report/
+
+# env files (commit only templates such as .env.example)
+.env
+.env.*
+*.env
+.envrc
+!.env.example
+
+# key material
+*.pem
+*.p12
+*.key
+id_rsa
+id_ed25519
+
+# deployment link (machine-local)
+.vercel/
+
+# os / editor
+.DS_Store
+.idea/
+*.swp
+
+# logs
+*.log

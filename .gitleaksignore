@@ -1,0 +1,4 @@
+# Exact gitleaks fingerprints (commit:file:rule:line) for findings that are
+# reviewed and are not secrets. Never add a path or rule wildcard; fix the
+# value instead when the commit is not yet pushed. A fingerprint pins one
+# finding in one commit, so a new secret anywhere else still fails the scan.

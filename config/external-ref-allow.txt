@@ -1,0 +1,8 @@
+# Phrases this public repository may name although a shared external-reference
+# pattern matches them: the studio's own name, its Labs domain and the
+# identifier of its approved export source. See
+# docs/decisions/0003-external-reference-guard.md. Add a phrase only with the
+# owner's approval; never add a whole word that could hide another name.
+labs.designfrom.com
+Design From
+design-from
