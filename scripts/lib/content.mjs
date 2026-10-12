@@ -100,6 +100,26 @@ export function isPublished(meta, variant) {
   return meta?.status === "ready" && variant?.status === "ready";
 }
 
+/**
+ * Whether this build also shows beta entries: Vercel preview deployments
+ * (`VERCEL_ENV=preview`), or `LABS_INCLUDE_BETA=1` locally. The owner reviews
+ * beta components there before promoting them to ready. Production builds and
+ * CI never set either, so beta stays unpublished (decision 0005).
+ */
+export function includeBeta(env = process.env) {
+  return env.LABS_INCLUDE_BETA === "1" || env.VERCEL_ENV === "preview";
+}
+
+const SHOWN = new Set(["ready", "beta"]);
+
+/** Published, or beta on a build that shows beta entries. */
+export function isShown(meta, variant, beta = includeBeta()) {
+  if (isPublished(meta, variant)) {
+    return true;
+  }
+  return beta && SHOWN.has(meta?.status) && SHOWN.has(variant?.status);
+}
+
 export function publishedVariants(meta) {
   return (meta?.variants ?? []).filter((v) => isPublished(meta, v));
 }

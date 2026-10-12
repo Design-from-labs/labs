@@ -1,6 +1,6 @@
 # 0005: Only ready components publish
 
-- Status: Accepted
+- Status: Accepted (amended by 0014 for preview deployments)
 - Date: 2026-10-12
 - Deciders: Owner (brief), Pod LAB
 - Sources: S-001

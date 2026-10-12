@@ -1,0 +1,35 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "pop-out",
+  "type": "registry:ui",
+  "title": "Pop Out",
+  "description": "A block pushes up from below and pops the block on top of it into a small hop. Pure CSS keyframes, played once on mount.",
+  "author": "yui540 <https://github.com/yui540>",
+  "categories": [
+    "feedback",
+    "animation"
+  ],
+  "docs": "Installed `PopOut`. Import it from `@/components/ui/pop-out` and render `<PopOut key={run} aria-label=\"A block popping up out of another\" />`.\n\nIt plays once on mount; change its `key` to play it again.\nThe keyframes live in the component file and React 19 hoists them into `<head>` once (`<style href precedence>`), so nothing is added to your global CSS. Colors come from the item's own variables (`--pop-out-surface`, `--pop-out-top`, `--pop-out-base`), with the upstream grays as fallbacks.\n\nReduced motion: no motion; both blocks show their resting state.\n\nPorted from yui540/css-animations (MIT, copyright 2026 yui540); the license text is in the file.",
+  "registryDependencies": [
+    "utils"
+  ],
+  "cssVars": {
+    "light": {
+      "pop-out-surface": "#ffffff",
+      "pop-out-top": "#aaaaaa",
+      "pop-out-base": "#888888"
+    },
+    "dark": {
+      "pop-out-surface": "#1c1c1c",
+      "pop-out-top": "#616161",
+      "pop-out-base": "#7c7c7c"
+    }
+  },
+  "files": [
+    {
+      "path": "registry/pop-out/pop-out.tsx",
+      "type": "registry:ui",
+      "content": "import type * as React from \"react\";\n\nimport { cn } from \"@/lib/utils\";\n\n/*\n * Ported from yui540/css-animations, 2026-04-18/tips-4.html, at commit\n * e30edfcfcc3e: https://github.com/yui540/css-animations\n *\n * MIT License\n *\n * Copyright (c) 2026 yui540\n *\n * Permission is hereby granted, free of charge, to any person obtaining a copy\n * of this software and associated documentation files (the \"Software\"), to deal\n * in the Software without restriction, including without limitation the rights\n * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell\n * copies of the Software, and to permit persons to whom the Software is\n * furnished to do so, subject to the following conditions:\n *\n * The above copyright notice and this permission notice shall be included in all\n * copies or substantial portions of the Software.\n *\n * THE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\n * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\n * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\n * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\n * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\n * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\n * SOFTWARE.\n */\n\n// Upstream CSS, line for line, with component-prefixed parts (data-slot),\n// keyframes (pop-out-*) and colors (--pop-out-*). Mirrored as a whole in a\n// right-to-left context. The base block grows by animating `height`, as\n// upstream does. React 19 hoists this <style> into <head> once, however many\n// instances render.\nconst css = `\n[data-slot=\"pop-out-stack\"] {\n  position: absolute;\n  bottom: 35%;\n  width: 100%;\n  display: grid;\n  row-gap: 3px;\n  justify-items: center;\n  align-content: end;\n}\n[data-slot=\"pop-out-stack\"]:dir(rtl) {\n  scale: -1 1;\n}\n[data-slot=\"pop-out-block\"] {\n  position: relative;\n  width: 120px;\n  height: 40px;\n  border-radius: 8px;\n  transform-origin: bottom center;\n}\n[data-slot=\"pop-out-block\"]:nth-child(1) {\n  background-color: var(--pop-out-top, #aaa);\n  animation: pop-out-jump 0.7s ease-in-out 0.3s both;\n}\n[data-slot=\"pop-out-block\"]:nth-child(2) {\n  background-color: var(--pop-out-base, #888);\n  animation: pop-out-push 0.5s ease-in-out 0.2s both;\n}\n@keyframes pop-out-jump {\n  from {\n    transform: translateY(0);\n  }\n  40% {\n    transform: translateY(-40%) rotate(6deg);\n  }\n  60% {\n    transform: translateY(0%);\n  }\n  80% {\n    transform: translateY(-20%) rotate(-3deg);\n  }\n  to {\n    transform: translateY(0);\n  }\n}\n@keyframes pop-out-push {\n  from {\n    height: 0;\n  }\n  60% {\n    height: 48px;\n  }\n  to {\n    height: 40px;\n  }\n}\n\n/* Reduced motion: no motion; both blocks show their resting state. */\n@media (prefers-reduced-motion: reduce) {\n  [data-slot=\"pop-out-block\"]:nth-child(n) {\n    animation: none;\n  }\n}\n`;\n\n/**\n * A block pushes up from below and pops the block on top of it into a small\n * hop, once on mount. Remount it (change its `key`) to play it again.\n */\nfunction PopOut({ className, ...props }: React.ComponentProps<\"div\">) {\n  const labelled =\n    props[\"aria-label\"] !== undefined || props[\"aria-labelledby\"] !== undefined;\n  return (\n    <div\n      data-slot=\"pop-out\"\n      role={labelled ? \"img\" : undefined}\n      aria-hidden={labelled ? undefined : true}\n      className={cn(\n        \"relative aspect-square w-full max-w-80 overflow-hidden bg-[var(--pop-out-surface,#fff)]\",\n        className,\n      )}\n      {...props}\n    >\n      <style href=\"designfrom-pop-out\" precedence=\"default\">\n        {css}\n      </style>\n      <div data-slot=\"pop-out-stack\">\n        <div data-slot=\"pop-out-block\" />\n        <div data-slot=\"pop-out-block\" />\n      </div>\n    </div>\n  );\n}\n\nexport { PopOut };\n"
+    }
+  ]
+}

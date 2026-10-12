@@ -29,6 +29,16 @@ Design From and Design From Labs (the guards enforce this).
 | [P-016](#p-016) | Tests | Headless Chromium sometimes drops a cross-document view transition |
 | [P-017](#p-017) | Site | Grid and flex children overflow phone widths by default |
 | [P-018](#p-018) | Tests | A local preview server on port 4321 is silently reused |
+| [P-019](#p-019) | Site build | Beta components were invisible on the preview |
+| [P-020](#p-020) | Tests (local) | `astro preview` backgrounds itself and moves to a free port |
+| [P-021](#p-021) | Components (RTL) | Mirroring flipped twice, or pushed a figure off the stage |
+| [P-022](#p-022) | Components (CSS) | The `scale` property mirrors a centering translate |
+| [P-023](#p-023) | Fidelity | Tailwind preflight changes inherited spacing in a diff |
+| [P-024](#p-024) | Components (layout) | A grid root moves relatively positioned parts |
+| [P-025](#p-025) | Components (responsive) | A flex pile re-wraps on a narrower stage |
+| [P-026](#p-026) | Site (React 19) | `<style precedence>` is not hoisted across Astro islands |
+| [P-027](#p-027) | Fidelity harness | Bundling `react-dom/server` as ESM fails |
+| [P-028](#p-028) | Site (layout) | One long attribution widened the whole credits list |
 
 ---
 
@@ -289,3 +299,148 @@ Design From and Design From Labs (the guards enforce this).
 - Prevention: Before a local e2e run, check what listens on 4321
   (`lsof -iTCP:4321 -sTCP:LISTEN`).
 - Links: `playwright.config.ts`, [#8](https://github.com/Design-from-labs/labs/pull/8)
+
+### P-019
+
+- Date: 2026-10-12
+- Area: Site build (publishing)
+- Symptom: A port pull request's Vercel preview showed none of the beta
+  components it added, so there was nothing to review.
+- Cause: `siteData` kept only `ready` entries (decision 0005) on every build.
+- Fix: Preview deployments (`VERCEL_ENV=preview`) and `LABS_INCLUDE_BETA=1`
+  builds also show beta entries, labeled; the npm library stays ready-only
+  (decision 0014).
+- Prevention: Review beta locally with `LABS_INCLUDE_BETA=1 pnpm build:site`;
+  `scripts/publish-visibility.test.mjs`.
+- Links: [#9](https://github.com/Design-from-labs/labs/pull/9), `docs/decisions/0014-beta-on-preview-deployments.md`
+
+### P-020
+
+- Date: 2026-10-12
+- Area: Tests (local)
+- Symptom: Requests to `astro preview --port 4391` timed out; the server was
+  answering on 4392, and Playwright's `webServer` reported that the preview
+  "exited before becoming ready".
+- Cause: Astro 7's `astro preview` starts a background server, takes the next
+  free port when the requested one is busy, and refuses to start a second
+  server while its lock file names one.
+- Fix: Read the port from the "Preview server running at" line; stop it with
+  `pnpm exec astro preview stop`. For a separate e2e run, use a local config
+  whose `webServer` runs `astro preview --port <free> --ignore-lock` with the
+  worktree as `cwd`.
+- Prevention: Never assume the requested port (see P-018), and stop only the
+  server your task started.
+- Links: [#9](https://github.com/Design-from-labs/labs/pull/9)
+
+### P-021
+
+- Date: 2026-10-12
+- Area: Components (right to left)
+- Symptom: Under `dir="rtl"` a domino row reversed its colors after
+  mirroring, and the Scroll Unroll title rendered outside the stage.
+- Cause: Grids and flex rows already reverse in a right-to-left context, so
+  mirroring them flips twice; and a `width: fit-content` block in a
+  right-to-left container sits at the right edge, so `left: 50%` pushes it
+  out.
+- Fix: Draw the figure with `direction: ltr` and physical insets, as
+  upstream, then mirror it once with `:dir(rtl)`; restore `direction: rtl`
+  only where text reads.
+- Prevention: Compare the right-to-left render with the horizontally flipped
+  left-to-right render (no differing pixels expected).
+- Links: [#9](https://github.com/Design-from-labs/labs/pull/9)
+
+### P-022
+
+- Date: 2026-10-12
+- Area: Components (CSS transforms)
+- Symptom: `scale: -1 1` on an element centered with
+  `transform: translate(-50%, -50%)` moved it by its own width.
+- Cause: The individual `scale` property applies outside `transform`, so it
+  mirrors the translation too.
+- Fix: For those elements append `scale(-1, 1)` to the static transform in
+  the `:dir(rtl)` rule; use the `scale` property only on elements without a
+  positioning transform.
+- Prevention: The flipped-render comparison in P-021.
+- Links: [#9](https://github.com/Design-from-labs/labs/pull/9)
+
+### P-023
+
+- Date: 2026-10-12
+- Area: Fidelity (screenshot diffs)
+- Symptom: Scroll Unroll differed by 0.25% to 0.82% of stage pixels while
+  every other port matched exactly.
+- Cause: The spaces between inline-block letters and the line strut use the
+  parent's font and line height. The upstream page inherits the browser
+  defaults; Tailwind preflight sets a sans font and `line-height: 1.5`.
+- Fix: The harness gives the page the upstream defaults
+  (`font-family: initial; line-height: normal`) and the upstream letter font;
+  the component is unchanged.
+- Prevention: Reproduce the upstream page's typographic context before
+  diffing, and record both numbers.
+- Links: [#9](https://github.com/Design-from-labs/labs/pull/9), `docs/evidence/ports/scroll-unroll/fidelity.md`
+
+### P-024
+
+- Date: 2026-10-12
+- Area: Components (layout)
+- Symptom: A part positioned with `position: relative; top: 50%; left: 50%`
+  sat off center.
+- Cause: The root used `grid place-content-center`, which centers the part
+  first; the offsets then apply again.
+- Fix: Give each root the upstream container's display (grid only where
+  upstream uses grid).
+- Prevention: Diff the 0% frame before reviewing motion.
+- Links: [#9](https://github.com/Design-from-labs/labs/pull/9)
+
+### P-025
+
+- Date: 2026-10-12
+- Area: Components (responsive)
+- Symptom: On the 375 px component page (a 277 px stage) Rattle Bounce piled
+  its bricks 1 + 2 + 2 instead of 3 + 2.
+- Cause: Upstream wraps fixed 90 px bricks across the full 320 px stage.
+- Fix: A centered 280 px pile column, pixel-identical at 320 px.
+- Prevention: Check every demo at 375 px wide, not only at 1280.
+- Links: [#9](https://github.com/Design-from-labs/labs/pull/9)
+
+### P-026
+
+- Date: 2026-10-12
+- Area: Site (React 19 in Astro islands)
+- Symptom: A component's keyframe `<style href precedence>` stays in the
+  island markup instead of `<head>`, once per island.
+- Cause: Each Astro island is a separate React root; React hoists and
+  deduplicates only within one root.
+- Fix: None needed: the copies are identical, the styles apply on first
+  paint, and hydration logs no warning.
+- Prevention: Do not rely on cross-island deduplication for anything
+  stateful.
+- Links: [#9](https://github.com/Design-from-labs/labs/pull/9), `docs/decisions/0013-keyframes-in-hoisted-style.md`
+
+### P-027
+
+- Date: 2026-10-12
+- Area: Fidelity harness
+- Symptom: `Dynamic require of "util" is not supported` when running an
+  esbuild ESM bundle that rendered components on the server.
+- Cause: esbuild inlined React's CommonJS server build, which requires Node
+  built-ins.
+- Fix: Bundle with `--packages=external` so React loads from `node_modules`.
+- Prevention: Keep framework packages external in Node-side harness bundles.
+- Links: [#9](https://github.com/Design-from-labs/labs/pull/9)
+
+### P-028
+
+- Date: 2026-10-12
+- Area: Site (layout)
+- Symptom: With the beta ports shown, `/credits` scrolled sideways by 174 px
+  at 320 px wide, on every "By component" row.
+- Cause: The list was a grid with no column template (P-017), and a
+  third-party attribution carried an unbroken license URL, so the implicit
+  column took that URL's width.
+- Fix: `grid-cols-1` and `break-words` on the list; the attribution is the
+  short notice (`Copyright (c) 2026 yui540. MIT License.`), as the
+  `sources.yaml` example shows; the source link is already on the page.
+- Prevention: Run `e2e/layout.spec.ts` against a `LABS_INCLUDE_BETA=1` build
+  when a pull request adds beta content.
+- Links: [#9](https://github.com/Design-from-labs/labs/pull/9), `src/pages/credits.astro`

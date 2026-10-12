@@ -64,6 +64,7 @@ const installTabs = (v: Variant) => [
 
   <header class="py-8">
     <div class="flex flex-wrap items-center gap-2 font-mono text-[11px] text-muted-foreground uppercase tracking-wide">
+      {entry.status === "beta" && (<><span class="rounded-sm border px-1.5 py-0.5 text-foreground">Beta preview</span><span aria-hidden="true">·</span></>)}
       <span>{KIND_LABELS[entry.kind]}</span>
       <span aria-hidden="true">·</span>
       <span>{entry.category}</span>

@@ -23,6 +23,8 @@ import {
 } from "node:fs";
 import { dirname, join, relative } from "node:path";
 import {
+  includeBeta,
+  isPublished,
   kindOf,
   loadComponents,
   loadCredits,
@@ -115,7 +117,8 @@ function main() {
     const preview = entry.meta?.preview;
     if (
       preview &&
-      entry.meta.status === "ready" &&
+      (entry.meta.status === "ready" ||
+        (includeBeta() && entry.meta.status === "beta")) &&
       existsSync(join(entry.dir, preview))
     ) {
       write(
@@ -179,11 +182,15 @@ function main() {
   const { published: _omit, ...pageData } = data;
   write(join(GEN, "site-data.json"), json(pageData));
 
-  // The npm library sources (decision 0009).
+  // The npm library sources (decision 0009). Ready variants only, even on a
+  // build that shows beta entries on the site.
+  const library = published.filter(({ entry, variant }) =>
+    isPublished(entry.meta, variant),
+  );
   const exportsMap = {};
   const entries = [];
   const takenDefaults = new Set();
-  for (const { item, entry, variant, exports } of published) {
+  for (const { item, entry, variant, exports } of library) {
     const kind = kindOf(entry.meta);
     if (!["component", "hook", "lib"].includes(kind)) {
       continue;
@@ -234,7 +241,7 @@ function main() {
     void exports;
   }
   // @designfrom/react/<component> is the default variant when that path is free.
-  for (const { entry, variant } of published) {
+  for (const { entry, variant } of library) {
     const name = entry.meta.name;
     if (
       variant.name !== entry.meta.defaultVariant ||
@@ -258,7 +265,7 @@ function main() {
   exportsMap["./styles.css"] = "./dist/styles.css";
   exportsMap["./package.json"] = "./package.json";
   write(join(PKG_GEN, "entries.json"), json(entries.sort()));
-  write(join(PKG_GEN, "theme.css"), themeCss(published));
+  write(join(PKG_GEN, "theme.css"), themeCss(library));
   // Attribution for everything the library ships (the per-file headers are
   // stripped by the bundler, so the notice travels in NOTICE.md instead).
   const notice = [
@@ -268,7 +275,7 @@ function main() {
     "",
   ];
   const seen = new Set();
-  for (const { entry } of published) {
+  for (const { entry } of library) {
     const m = entry.meta;
     if (seen.has(m.name) || !["component", "hook", "lib"].includes(kindOf(m))) {
       continue;

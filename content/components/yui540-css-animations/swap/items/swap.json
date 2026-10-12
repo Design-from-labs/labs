@@ -1,0 +1,39 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "swap",
+  "type": "registry:ui",
+  "title": "Swap",
+  "description": "A plus tile flips aside to reveal a minus tile beneath, then flips back on top. Pure CSS keyframes, played once on mount.",
+  "author": "yui540 <https://github.com/yui540>",
+  "categories": [
+    "feedback",
+    "animation"
+  ],
+  "docs": "Installed `Swap`. Import it from `@/components/ui/swap` and render `<Swap key={run} aria-label=\"A plus tile and a minus tile swapping places\" />`.\n\nIt plays once on mount; change its `key` to play it again.\nThe keyframes live in the component file and React 19 hoists them into `<head>` once (`<style href precedence>`), so nothing is added to your global CSS. Colors come from the item's own variables (`--swap-surface`, `--swap-front`, `--swap-front-ink`, `--swap-back`, `--swap-back-ink`), with the upstream grays as fallbacks.\n\nReduced motion: opacity only. The plus fades out to show the minus, then fades back in.\n\nPorted from yui540/css-animations (MIT, copyright 2026 yui540); the license text is in the file.",
+  "registryDependencies": [
+    "utils"
+  ],
+  "cssVars": {
+    "light": {
+      "swap-surface": "#f1f1f1",
+      "swap-front": "#999999",
+      "swap-front-ink": "#ffffff",
+      "swap-back": "#ffffff",
+      "swap-back-ink": "#999999"
+    },
+    "dark": {
+      "swap-surface": "#272727",
+      "swap-front": "#6f6f6f",
+      "swap-front-ink": "#1c1c1c",
+      "swap-back": "#1c1c1c",
+      "swap-back-ink": "#6f6f6f"
+    }
+  },
+  "files": [
+    {
+      "path": "registry/swap/swap.tsx",
+      "type": "registry:ui",
+      "content": "import type * as React from \"react\";\n\nimport { cn } from \"@/lib/utils\";\n\n/*\n * Ported from yui540/css-animations, 2026-04-25/tips-3.html, at commit\n * e30edfcfcc3e: https://github.com/yui540/css-animations\n *\n * MIT License\n *\n * Copyright (c) 2026 yui540\n *\n * Permission is hereby granted, free of charge, to any person obtaining a copy\n * of this software and associated documentation files (the \"Software\"), to deal\n * in the Software without restriction, including without limitation the rights\n * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell\n * copies of the Software, and to permit persons to whom the Software is\n * furnished to do so, subject to the following conditions:\n *\n * The above copyright notice and this permission notice shall be included in all\n * copies or substantial portions of the Software.\n *\n * THE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\n * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\n * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\n * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\n * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\n * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\n * SOFTWARE.\n */\n\n// Upstream CSS, line for line, with component-prefixed parts (data-slot),\n// keyframes (swap-*) and colors (--swap-*). Mirrored in a right-to-left\n// context. React 19 hoists this <style> into <head> once, however many\n// instances render.\nconst css = `\n[data-slot=\"swap-box\"] {\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  transform: translate(-50%, -50%);\n  width: 120px;\n  aspect-ratio: 1;\n}\n[data-slot=\"swap-box\"]:dir(rtl) {\n  transform: translate(-50%, -50%) scale(-1, 1);\n}\n\n[data-slot=\"swap-front\"],\n[data-slot=\"swap-back\"] {\n  position: absolute;\n  inset: 0;\n  border-radius: 25%;\n}\n[data-slot=\"swap-front\"]::before,\n[data-slot=\"swap-front\"]::after,\n[data-slot=\"swap-back\"]::before,\n[data-slot=\"swap-back\"]::after {\n  content: \"\";\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  width: 45%;\n  aspect-ratio: 100/18;\n  border-radius: 999px;\n  background-color: currentColor;\n  transform: translate(-50%, -50%);\n}\n[data-slot=\"swap-front\"] {\n  color: var(--swap-front-ink, #fff);\n  background-color: var(--swap-front, #999);\n  transform-origin: right bottom;\n  animation:\n    swap-change 0.6s ease-in-out 0.2s both,\n    swap-change 0.6s ease-in-out 1.4s reverse forwards;\n}\n[data-slot=\"swap-front\"]::before {\n  transform: translate(-50%, -50%) rotate(90deg);\n}\n[data-slot=\"swap-back\"] {\n  color: var(--swap-back-ink, #999);\n  background-color: var(--swap-back, #fff);\n  z-index: 1;\n}\n@keyframes swap-change {\n  from,\n  50% {\n    z-index: 2;\n  }\n  50.1%,\n  to {\n    z-index: 0;\n  }\n\n  from,\n  to {\n    transform: rotate(0deg);\n  }\n  50% {\n    transform: rotate(90deg);\n  }\n}\n\n/*\n * Reduced motion: opacity only. The plus fades out to show the minus, then\n * fades back in, on the same timeline.\n */\n@keyframes swap-fade {\n  from {\n    opacity: 1;\n  }\n  to {\n    opacity: 0;\n  }\n}\n@media (prefers-reduced-motion: reduce) {\n  [data-slot=\"swap-front\"] {\n    z-index: 2;\n    animation:\n      swap-fade 0.6s ease-in-out 0.2s both,\n      swap-fade 0.6s ease-in-out 1.4s reverse forwards;\n  }\n}\n`;\n\n/**\n * A plus tile flips aside to reveal a minus tile beneath, then flips back on\n * top, once on mount. Remount it (change its `key`) to play it again.\n */\nfunction Swap({ className, ...props }: React.ComponentProps<\"div\">) {\n  const labelled =\n    props[\"aria-label\"] !== undefined || props[\"aria-labelledby\"] !== undefined;\n  return (\n    <div\n      data-slot=\"swap\"\n      role={labelled ? \"img\" : undefined}\n      aria-hidden={labelled ? undefined : true}\n      className={cn(\n        \"relative aspect-square w-full max-w-80 overflow-hidden bg-[var(--swap-surface,#f1f1f1)]\",\n        className,\n      )}\n      {...props}\n    >\n      <style href=\"designfrom-swap\" precedence=\"default\">\n        {css}\n      </style>\n      <div data-slot=\"swap-box\">\n        <div data-slot=\"swap-front\" />\n        <div data-slot=\"swap-back\" />\n      </div>\n    </div>\n  );\n}\n\nexport { Swap };\n"
+    }
+  ]
+}

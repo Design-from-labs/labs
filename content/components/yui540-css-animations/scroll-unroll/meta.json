@@ -1,0 +1,70 @@
+{
+  "$schema": "https://labs.designfrom.com/schemas/meta.schema.json",
+  "schemaVersion": 1,
+  "name": "scroll-unroll",
+  "kind": "component",
+  "title": "Scroll Unroll",
+  "description": "A title unrolls like a scroll: a roller sweeps across, the letters rise in behind it, then it all rolls back up. Pure CSS keyframes.",
+  "status": "beta",
+  "category": "feedback",
+  "label": "yui540/css-animations",
+  "tags": [
+    "animation",
+    "css",
+    "keyframes",
+    "reduced-motion"
+  ],
+  "variants": [
+    {
+      "name": "scroll-unroll",
+      "primitive": "none",
+      "iconSet": "none",
+      "status": "beta"
+    }
+  ],
+  "defaultVariant": "scroll-unroll",
+  "demo": "demo.tsx",
+  "preview": "preview.webp",
+  "source": {
+    "repo": "https://github.com/yui540/css-animations",
+    "commit": "e30edfcfcc3e0f7a3bd44f3d5566ee23c9aaa186",
+    "path": "2026-04-25/tips-1.html"
+  },
+  "author": "yui540 <https://github.com/yui540>",
+  "license": "MIT",
+  "attribution": "Copyright (c) 2026 yui540. MIT License.",
+  "credits": [
+    "S-150",
+    "S-003",
+    "S-004",
+    "S-008",
+    "S-019",
+    "S-020",
+    "S-155",
+    "S-156"
+  ],
+  "date": "2026-10-12",
+  "props": [
+    {
+      "name": "children",
+      "type": "string",
+      "description": "The title, split into letters. Short titles (two to six characters) suit the roll best. It is announced once, as a whole."
+    },
+    {
+      "name": "key",
+      "type": "React.Key",
+      "description": "Change it to remount and play the animation again."
+    },
+    {
+      "name": "...props",
+      "type": "React.ComponentProps<\"div\">",
+      "description": "Every native div attribute. className sizes the stage (default w-full max-w-80, square); aria-label names it."
+    }
+  ],
+  "a11y": [
+    "The title is announced once, as a whole (a visually hidden copy); the animated letters are aria-hidden.",
+    "Right to left: the scroll follows the title's own direction (dir=\"auto\"), so a right-to-left title unrolls from the left.",
+    "Reduced motion: opacity only. The line and the title fade in and out on the same timeline; the roll rests where it starts."
+  ],
+  "usage": "<ScrollUnroll>Title</ScrollUnroll>"
+}

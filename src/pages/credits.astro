@@ -57,19 +57,19 @@ const groups = Object.entries(kinds)
 
   <section class="border-t py-8" aria-labelledby="by-component">
     <h2 id="by-component" class="font-medium text-lg">By component</h2>
-    <ul class="mt-4 grid gap-3 text-sm">
+    <ul class="mt-4 grid grid-cols-1 gap-3 text-sm">
       {
         entries.map((e) => (
           <li>
             <a class="font-medium underline underline-offset-4" href={`/ui/${e.name}`}>{e.title}</a>
-            <span class="text-muted-foreground"> · {e.author} · {e.license} · </span>
+            <span class="break-words text-muted-foreground"> · {e.author} · {e.license} · </span>
             {e.credits.map((c, i) => (
               <>
                 {i > 0 && ", "}
                 <a class="font-mono text-muted-foreground hover:text-foreground" href={`#${c.id}`}>{c.id}</a>
               </>
             ))}
-            {e.attribution && <p class="text-muted-foreground">{e.attribution}</p>}
+            {e.attribution && <p class="break-words text-muted-foreground">{e.attribution}</p>}
           </li>
         ))
       }

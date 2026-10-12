@@ -1,0 +1,71 @@
+{
+  "$schema": "https://labs.designfrom.com/schemas/meta.schema.json",
+  "schemaVersion": 1,
+  "name": "ripple",
+  "kind": "component",
+  "title": "Ripple",
+  "description": "Waves spread out from the center and fade, in a loop, with optional content centered above them. Pure CSS keyframes.",
+  "status": "beta",
+  "category": "feedback",
+  "label": "yui540/css-animations",
+  "tags": [
+    "animation",
+    "css",
+    "keyframes",
+    "reduced-motion"
+  ],
+  "variants": [
+    {
+      "name": "ripple",
+      "primitive": "none",
+      "iconSet": "none",
+      "status": "beta"
+    }
+  ],
+  "defaultVariant": "ripple",
+  "demo": "demo.tsx",
+  "preview": "preview.webp",
+  "source": {
+    "repo": "https://github.com/yui540/css-animations",
+    "commit": "e30edfcfcc3e0f7a3bd44f3d5566ee23c9aaa186",
+    "path": "2026-04-25/tips-4.html"
+  },
+  "author": "yui540 <https://github.com/yui540>",
+  "license": "MIT",
+  "attribution": "Copyright (c) 2026 yui540. MIT License.",
+  "credits": [
+    "S-150",
+    "S-003",
+    "S-004",
+    "S-008",
+    "S-019",
+    "S-020",
+    "S-155",
+    "S-156"
+  ],
+  "date": "2026-10-12",
+  "props": [
+    {
+      "name": "children",
+      "type": "React.ReactNode",
+      "description": "Content centered above the waves (an avatar, a status dot). With children, the root is no longer aria-hidden."
+    },
+    {
+      "name": "paused",
+      "type": "boolean",
+      "default": "false",
+      "description": "Holds the waves on their current frame. Without it they loop forever."
+    },
+    {
+      "name": "...props",
+      "type": "React.ComponentProps<\"div\">",
+      "description": "Every native div attribute. className sizes the stage (default w-full max-w-80, square); aria-label names it."
+    }
+  ],
+  "a11y": [
+    "Decorative by default: the root is aria-hidden. Pass aria-label (or aria-labelledby) and it becomes role=\"img\" with that name.",
+    "Loops forever: pass paused from a visible control (WCAG 2.2.2 Pause, Stop, Hide). The demo's toggle is a native button with aria-pressed.",
+    "Reduced motion: opacity only. The waves keep their full size and only pulse."
+  ],
+  "usage": "<Ripple paused={paused} aria-label=\"Listening\" />"
+}
