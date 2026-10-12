@@ -1,0 +1,29 @@
+{
+  "kind": "hook",
+  "type": "registry:hook",
+  "title": "useReducedMotion",
+  "description": "A hook that reports whether the user prefers reduced motion and updates when the setting changes.",
+  "category": "foundations",
+  "iconSets": ["none"],
+  "variants": [
+    {
+      "primitive": "none",
+      "files": ["use-reduced-motion.ts"],
+      "status": "ready"
+    }
+  ],
+  "defaultVariant": "use-reduced-motion",
+  "credits": ["S-003", "S-004"],
+  "props": [
+    {
+      "name": "returns",
+      "type": "boolean",
+      "description": "true when the user prefers reduced motion; false during server rendering."
+    }
+  ],
+  "a11y": [
+    "Use it to skip or shorten JavaScript-driven motion; CSS motion should use motion-safe and motion-reduce instead."
+  ],
+  "usage": "const reduceMotion = useReducedMotion();",
+  "docs": "Installed `useReducedMotion` in your hooks folder. It returns `false` on the server and the live `prefers-reduced-motion` value in the browser."
+}

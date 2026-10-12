@@ -1,0 +1,54 @@
+@import "tailwindcss";
+@import "./tokens.css";
+@import "@fontsource-variable/figtree";
+@import "@fontsource-variable/jetbrains-mono";
+@import "@fontsource/instrument-serif/400.css";
+
+/* Generated demo sources are gitignored, so name them for Tailwind's scan. */
+@source "../../.generated";
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  html {
+    color-scheme: light dark;
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    @apply bg-background font-sans text-foreground antialiased;
+  }
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-ring;
+  }
+  /* !important is the point here: a user's reduced-motion setting must win
+     over any component's own duration, including third-party ones. */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    ::before,
+    ::after {
+      /* biome-ignore lint/complexity/noImportantStyles: reduced motion must override every component */
+      animation-duration: 0.01ms !important;
+      /* biome-ignore lint/complexity/noImportantStyles: reduced motion must override every component */
+      animation-iteration-count: 1 !important;
+      /* biome-ignore lint/complexity/noImportantStyles: reduced motion must override every component */
+      transition-duration: 0.01ms !important;
+      /* biome-ignore lint/complexity/noImportantStyles: reduced motion must override every component */
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+/* Shiki dual themes: light by default, dark with the system setting. */
+.astro-code {
+  @apply overflow-x-auto rounded-md p-4 font-mono text-[13px] leading-relaxed;
+}
+@media (prefers-color-scheme: dark) {
+  .astro-code,
+  .astro-code span {
+    /* biome-ignore lint/complexity/noImportantStyles: Shiki sets inline light colors; dark mode must override them */
+    color: var(--shiki-dark) !important;
+    /* biome-ignore lint/complexity/noImportantStyles: Shiki sets inline light colors; dark mode must override them */
+    background-color: var(--shiki-dark-bg) !important;
+  }
+}

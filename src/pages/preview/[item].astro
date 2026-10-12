@@ -1,0 +1,31 @@
+---
+// A bare render of one variant's demo, used by scripts/previews.mjs to take
+// the gallery still. Not linked from the site and not indexed.
+import Demos from "../../../.generated/Demos.astro";
+import "../../styles/global.css";
+import { entries } from "../../lib/data";
+
+export function getStaticPaths() {
+  return entries.flatMap((entry) =>
+    entry.variants
+      .filter((v) => v.published && v.demo)
+      .map((v) => ({ params: { item: v.name }, props: { title: entry.title } })),
+  );
+}
+const { item } = Astro.params;
+const { title } = Astro.props;
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <title>{title} preview</title>
+  </head>
+  <body class="m-0 bg-background">
+    <main class="flex h-[750px] w-[1200px] items-center justify-center" data-preview>
+      <div class="scale-[1.6]"><Demos item={item} /></div>
+    </main>
+  </body>
+</html>

@@ -44,12 +44,7 @@
       "description": "One or two plain sentences. Shown on the gallery tile, the component page, llms.txt and the registry item."
     },
     "status": {
-      "enum": [
-        "draft",
-        "beta",
-        "ready",
-        "deprecated"
-      ],
+      "enum": ["draft", "beta", "ready", "deprecated"],
       "description": "The component's overall status. A variant publishes only when this is ready AND its own variants[].status is ready (docs/contract.md, section 3)."
     },
     "category": {
@@ -127,10 +122,7 @@
     "source": {
       "type": "object",
       "additionalProperties": false,
-      "required": [
-        "repo",
-        "commit"
-      ],
+      "required": ["repo", "commit"],
       "properties": {
         "repo": {
           "description": "A public https repository URL, or the literal \"private source\" for an approved private source (never a private URL or path).",
@@ -189,11 +181,7 @@
       "items": {
         "type": "object",
         "additionalProperties": false,
-        "required": [
-          "name",
-          "type",
-          "description"
-        ],
+        "required": ["name", "type", "description"],
         "properties": {
           "name": {
             "type": "string"
@@ -226,14 +214,7 @@
       "description": "Optional short TSX usage snippet shown on the page and in llms-full.txt."
     },
     "kind": {
-      "enum": [
-        "component",
-        "theme",
-        "font",
-        "base",
-        "hook",
-        "lib"
-      ],
+      "enum": ["component", "theme", "font", "base", "hook", "lib"],
       "default": "component",
       "description": "component (registry:ui or registry:block, the default) or a foundation item: theme (registry:theme), font (registry:font), base (registry:base), hook (registry:hook), lib (registry:lib). Foundations may omit demo and preview."
     }
@@ -256,32 +237,18 @@
     "variant": {
       "type": "object",
       "additionalProperties": false,
-      "required": [
-        "name",
-        "primitive",
-        "iconSet",
-        "status"
-      ],
+      "required": ["name", "primitive", "iconSet", "status"],
       "properties": {
         "name": {
           "$ref": "#/$defs/itemName",
           "description": "<component>[-<style>][-<primitive>][-<iconset>]: the primitive segment is omitted when primitive is none, the icon-set segment when iconSet is none. Examples: button-radix-lucide, badge-subtle-phosphor, tooltip-aria, designfrom-theme."
         },
         "primitive": {
-          "enum": [
-            "radix",
-            "base",
-            "aria",
-            "none"
-          ],
+          "enum": ["radix", "base", "aria", "none"],
           "description": "The headless primitive library: radix (the unified radix-ui package), base (@base-ui/react), aria (react-aria-components), or none."
         },
         "iconSet": {
-          "enum": [
-            "lucide",
-            "phosphor",
-            "none"
-          ]
+          "enum": ["lucide", "phosphor", "none"]
         },
         "style": {
           "$ref": "#/$defs/slug",
@@ -293,12 +260,7 @@
           "description": "Optional switcher label for the style, e.g. \"Subtle\"."
         },
         "status": {
-          "enum": [
-            "draft",
-            "beta",
-            "ready",
-            "deprecated"
-          ],
+          "enum": ["draft", "beta", "ready", "deprecated"],
           "description": "Per-variant status. A variant publishes only when it is implemented and tested (ready) and the component is ready."
         }
       }
@@ -314,25 +276,17 @@
         }
       },
       "then": {
-        "required": [
-          "demo",
-          "preview"
-        ]
+        "required": ["demo", "preview"]
       }
     },
     {
       "if": {
         "not": {
-          "required": [
-            "kind"
-          ]
+          "required": ["kind"]
         }
       },
       "then": {
-        "required": [
-          "demo",
-          "preview"
-        ]
+        "required": ["demo", "preview"]
       }
     }
   ]

@@ -1,0 +1,78 @@
+---
+import Base from "../layouts/Base.astro";
+import { data, entries } from "../lib/data";
+
+const kinds: Record<string, string> = {
+  library: "Libraries, fonts and icon sets",
+  doc: "Documentation and services",
+  "design-reference": "Design references",
+  "ai-tool": "AI tools",
+  article: "Articles",
+};
+const groups = Object.entries(kinds)
+  .map(([kind, label]) => ({ label, items: data.credits.filter((c) => c.kind === kind) }))
+  .filter((g) => g.items.length > 0);
+---
+<Base title="Credits" description="Every library, font, icon set, reference and tool Design From Labs uses, with its author, link and license.">
+  <section class="py-12 sm:py-16">
+    <h1 class="font-serif text-5xl tracking-tight sm:text-6xl">Credits</h1>
+    <p class="mt-4 max-w-2xl text-lg text-muted-foreground">
+      Everything we build on, with its author, link and license. The repository's own code is MIT
+      licensed; every third-party resource keeps its own license. Ids match
+      <a class="underline underline-offset-4" href="https://github.com/Design-from-labs/labs/blob/main/docs/sources/registry.yaml">the source registry</a>.
+    </p>
+  </section>
+
+  {
+    groups.map((g) => (
+      <section class="border-t py-8" aria-label={g.label}>
+        <h2 class="font-medium text-lg">{g.label}</h2>
+        <div class="mt-4 overflow-x-auto">
+          <table class="w-full text-sm">
+            <thead class="text-muted-foreground">
+              <tr>
+                <th scope="col" class="w-20 py-2 pe-3 text-start font-medium">Id</th>
+                <th scope="col" class="py-2 pe-3 text-start font-medium">Resource</th>
+                <th scope="col" class="py-2 pe-3 text-start font-medium">Author</th>
+                <th scope="col" class="py-2 text-start font-medium">License</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y">
+              {g.items.map((c) => (
+                <tr id={c.id}>
+                  <td class="py-2 pe-3 align-top font-mono text-muted-foreground">{c.id}</td>
+                  <td class="py-2 pe-3 align-top">
+                    {c.url ? <a class="underline underline-offset-4" href={c.url}>{c.title}</a> : c.title}
+                  </td>
+                  <td class="py-2 pe-3 align-top text-muted-foreground">{c.author}</td>
+                  <td class="py-2 align-top">{c.license}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
+    ))
+  }
+
+  <section class="border-t py-8" aria-labelledby="by-component">
+    <h2 id="by-component" class="font-medium text-lg">By component</h2>
+    <ul class="mt-4 grid gap-3 text-sm">
+      {
+        entries.map((e) => (
+          <li>
+            <a class="font-medium underline underline-offset-4" href={`/ui/${e.name}`}>{e.title}</a>
+            <span class="text-muted-foreground"> · {e.author} · {e.license} · </span>
+            {e.credits.map((c, i) => (
+              <>
+                {i > 0 && ", "}
+                <a class="font-mono text-muted-foreground hover:text-foreground" href={`#${c.id}`}>{c.id}</a>
+              </>
+            ))}
+            {e.attribution && <p class="text-muted-foreground">{e.attribution}</p>}
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+</Base>

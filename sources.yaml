@@ -56,11 +56,17 @@ sources:
 #         status: beta               # status written to meta.json; the owner promotes to ready
 #         category: feedback
 #         items:                     # registry-item JSON files at `ref`, one per variant
-#           - variant: spinner-lucide
-#             iconSet: lucide
-#             path: public/r/spinner-lucide.json
-#           - variant: spinner-phosphor
+#           - variant: spinner-radix-lucide
+#             primitive: radix         # radix | base | aria | none
+#             iconSet: lucide          # lucide | phosphor | none
+#             path: public/r/spinner-radix-lucide.json
+#           - variant: spinner-radix-phosphor
+#             primitive: radix
 #             iconSet: phosphor
-#             path: public/r/spinner-phosphor.json
-#         demo: demos/spinner.tsx    # optional; else the scanner writes a minimal demo
+#             path: public/r/spinner-radix-phosphor.json
+#         demo: demos/spinner.tsx    # optional; else the scanner writes a stub demo
+#         credits: [S-0NN]           # optional extra credits
+#
+# The scanner (.github/workflows/scanner.yml) fetches the pinned files and
+# opens a pull request; it never follows a branch. Bump `ref` to update.
 oss: []

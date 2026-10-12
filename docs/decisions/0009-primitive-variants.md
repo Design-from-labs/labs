@@ -32,6 +32,14 @@ to publish only once it is implemented and tested.
   `@designfrom/react/<component>` for the default variant.
 - The `designfrom` CLI takes `--primitive radix|base|aria` (default `radix`)
   and `--icons lucide|phosphor` (default `lucide`).
+- Tokens follow shadcn exactly (owner: "do it how shadcn does it"): theme
+  and base items carry the full shared token set; a component item carries
+  only its own component-prefixed variables (`--badge-success`, as shadcn's
+  sidebar and chart items add `--sidebar-*` and `--chart-*`) in light and dark
+  pairs, never a shared token. `scripts/lib/validate.mjs` rejects a component
+  item whose `cssVars` key is a shared token name or is not prefixed with the
+  component name, so installing a component can never overwrite a user's
+  theme.
 - The Labs examples prove the pipeline: Button and Tooltip in all three
   primitives, Badge as the primitive-free case.
 

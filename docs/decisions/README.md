@@ -15,3 +15,5 @@ record has a `- Sources:` line (registry ids, or `none: <reason>`).
 | [0007](0007-component-license-policy.md) | Only redistributable, attributed components publish | Accepted |
 | [0008](0008-npm-names.md) | `@designfrom/react` library and `designfrom` CLI | Accepted |
 | [0009](0009-primitive-variants.md) | Primitive library as a variant dimension, published per variant | Accepted |
+| [0010](0010-toolchain-pins.md) | Pin the toolchain and prefer aged dependency releases | Accepted |
+| [0011](0011-scanner-pull-requests.md) | The scanner opens pull requests only with a dedicated token | Accepted |

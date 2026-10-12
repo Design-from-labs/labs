@@ -1,0 +1,13 @@
+---
+import CopyButton from "./CopyButton.astro";
+
+interface Props {
+  command: string;
+  label?: string;
+}
+const { command, label } = Astro.props;
+---
+<div class="flex items-center justify-between gap-3 rounded-md border bg-muted/40 py-1.5 ps-3 pe-1.5">
+  <code class="min-w-0 overflow-x-auto whitespace-nowrap font-mono text-[13px]" aria-label={label}>{command}</code>
+  <CopyButton text={command} label="Copy" />
+</div>

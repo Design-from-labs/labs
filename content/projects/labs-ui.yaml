@@ -1,0 +1,9 @@
+# Labs hub entry (src/pages/index.astro). kind: product | experiment;
+# status: active | past.
+name: Labs UI
+kind: product
+status: active
+summary: React components on Radix, Base UI or React Aria, with Lucide or Phosphor icons. Install with the shadcn CLI, the designfrom CLI or npm.
+href: /ui
+started: 2026-10-12
+tags: [registry, react, shadcn]

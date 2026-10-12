@@ -1,0 +1,93 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "designfrom-base-base-lucide",
+  "type": "registry:base",
+  "title": "Design From base (Base UI, Lucide)",
+  "description": "The whole Design From system in one install: theme tokens, the three fonts, utilities, your icon library and your primitive library.",
+  "author": "Design From Labs <https://labs.designfrom.com>",
+  "categories": [
+    "foundations",
+    "base",
+    "lucide"
+  ],
+  "docs": "Installed the Design From base: theme tokens (light and dark), Figtree, JetBrains Mono and Instrument Serif, `cn`, `useReducedMotion`, `composeRefs`, your icon library and your primitive library, and the `@designfrom` registry namespace. Add components with `npx shadcn@latest add @designfrom/<item>`.",
+  "config": {
+    "style": "base-nova",
+    "iconLibrary": "lucide",
+    "tailwind": {
+      "baseColor": "neutral"
+    },
+    "registries": {
+      "@designfrom": "https://labs.designfrom.com/r/{name}.json"
+    }
+  },
+  "dependencies": [
+    "class-variance-authority@^0.7",
+    "lucide-react@^1",
+    "@base-ui/react@^1"
+  ],
+  "cssVars": {
+    "light": {
+      "radius": "0.625rem",
+      "background": "oklch(1 0 0)",
+      "foreground": "oklch(0.145 0 0)",
+      "card": "oklch(1 0 0)",
+      "card-foreground": "oklch(0.145 0 0)",
+      "popover": "oklch(1 0 0)",
+      "popover-foreground": "oklch(0.145 0 0)",
+      "primary": "oklch(0.205 0 0)",
+      "primary-foreground": "oklch(0.985 0 0)",
+      "secondary": "oklch(0.97 0 0)",
+      "secondary-foreground": "oklch(0.205 0 0)",
+      "muted": "oklch(0.97 0 0)",
+      "muted-foreground": "oklch(0.52 0 0)",
+      "accent": "oklch(0.95 0 0)",
+      "accent-foreground": "oklch(0.205 0 0)",
+      "destructive": "oklch(0.55 0.22 27.325)",
+      "destructive-foreground": "oklch(0.985 0 0)",
+      "border": "oklch(0.922 0 0)",
+      "input": "oklch(0.87 0 0)",
+      "ring": "oklch(0.52 0 0)"
+    },
+    "dark": {
+      "background": "oklch(0.145 0 0)",
+      "foreground": "oklch(0.985 0 0)",
+      "card": "oklch(0.18 0 0)",
+      "card-foreground": "oklch(0.985 0 0)",
+      "popover": "oklch(0.205 0 0)",
+      "popover-foreground": "oklch(0.985 0 0)",
+      "primary": "oklch(0.922 0 0)",
+      "primary-foreground": "oklch(0.205 0 0)",
+      "secondary": "oklch(0.269 0 0)",
+      "secondary-foreground": "oklch(0.985 0 0)",
+      "muted": "oklch(0.269 0 0)",
+      "muted-foreground": "oklch(0.74 0 0)",
+      "accent": "oklch(0.3 0 0)",
+      "accent-foreground": "oklch(0.985 0 0)",
+      "destructive": "oklch(0.704 0.191 22.216)",
+      "destructive-foreground": "oklch(0.145 0 0)",
+      "border": "oklch(1 0 0 / 12%)",
+      "input": "oklch(1 0 0 / 20%)",
+      "ring": "oklch(0.74 0 0)"
+    }
+  },
+  "css": {
+    "@layer base": {
+      "*": {
+        "@apply border-border outline-ring/50": {}
+      },
+      "body": {
+        "@apply bg-background text-foreground font-sans": {}
+      }
+    }
+  },
+  "registryDependencies": [
+    "utils",
+    "designfrom-theme",
+    "font-figtree",
+    "font-jetbrains-mono",
+    "font-instrument-serif",
+    "use-reduced-motion",
+    "compose-refs"
+  ]
+}

@@ -1,0 +1,170 @@
+{
+  "name": "@designfrom/react",
+  "version": "0.1.0",
+  "description": "Design From Labs components for React on Radix, Base UI or React Aria, with Lucide or Phosphor icons.",
+  "license": "MIT",
+  "author": "Design From Labs <https://labs.designfrom.com>",
+  "homepage": "https://labs.designfrom.com/ui",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Design-from-labs/labs.git",
+    "directory": "packages/react"
+  },
+  "type": "module",
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE",
+    "NOTICE.md"
+  ],
+  "exports": {
+    "./aria/button": {
+      "types": "./dist/aria/button/index.d.ts",
+      "import": "./dist/aria/button/index.js"
+    },
+    "./aria/button/lucide": {
+      "types": "./dist/aria/button/index.d.ts",
+      "import": "./dist/aria/button/index.js"
+    },
+    "./aria/button/phosphor": {
+      "types": "./dist/aria/button/phosphor/index.d.ts",
+      "import": "./dist/aria/button/phosphor/index.js"
+    },
+    "./aria/tooltip": {
+      "types": "./dist/aria/tooltip/index.d.ts",
+      "import": "./dist/aria/tooltip/index.js"
+    },
+    "./badge": {
+      "types": "./dist/badge/index.d.ts",
+      "import": "./dist/badge/index.js"
+    },
+    "./badge-subtle": {
+      "types": "./dist/badge-subtle/index.d.ts",
+      "import": "./dist/badge-subtle/index.js"
+    },
+    "./badge-subtle/lucide": {
+      "types": "./dist/badge-subtle/index.d.ts",
+      "import": "./dist/badge-subtle/index.js"
+    },
+    "./badge-subtle/phosphor": {
+      "types": "./dist/badge-subtle/phosphor/index.d.ts",
+      "import": "./dist/badge-subtle/phosphor/index.js"
+    },
+    "./badge/lucide": {
+      "types": "./dist/badge/index.d.ts",
+      "import": "./dist/badge/index.js"
+    },
+    "./badge/phosphor": {
+      "types": "./dist/badge/phosphor/index.d.ts",
+      "import": "./dist/badge/phosphor/index.js"
+    },
+    "./base/button": {
+      "types": "./dist/base/button/index.d.ts",
+      "import": "./dist/base/button/index.js"
+    },
+    "./base/button/lucide": {
+      "types": "./dist/base/button/index.d.ts",
+      "import": "./dist/base/button/index.js"
+    },
+    "./base/button/phosphor": {
+      "types": "./dist/base/button/phosphor/index.d.ts",
+      "import": "./dist/base/button/phosphor/index.js"
+    },
+    "./base/tooltip": {
+      "types": "./dist/base/tooltip/index.d.ts",
+      "import": "./dist/base/tooltip/index.js"
+    },
+    "./button": {
+      "types": "./dist/radix/button/index.d.ts",
+      "import": "./dist/radix/button/index.js"
+    },
+    "./compose-refs": {
+      "types": "./dist/compose-refs/index.d.ts",
+      "import": "./dist/compose-refs/index.js"
+    },
+    "./package.json": "./package.json",
+    "./radix/button": {
+      "types": "./dist/radix/button/index.d.ts",
+      "import": "./dist/radix/button/index.js"
+    },
+    "./radix/button/lucide": {
+      "types": "./dist/radix/button/index.d.ts",
+      "import": "./dist/radix/button/index.js"
+    },
+    "./radix/button/phosphor": {
+      "types": "./dist/radix/button/phosphor/index.d.ts",
+      "import": "./dist/radix/button/phosphor/index.js"
+    },
+    "./radix/tooltip": {
+      "types": "./dist/radix/tooltip/index.d.ts",
+      "import": "./dist/radix/tooltip/index.js"
+    },
+    "./styles.css": "./dist/styles.css",
+    "./tooltip": {
+      "types": "./dist/radix/tooltip/index.d.ts",
+      "import": "./dist/radix/tooltip/index.js"
+    },
+    "./use-reduced-motion": {
+      "types": "./dist/use-reduced-motion/index.d.ts",
+      "import": "./dist/use-reduced-motion/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsdown && node scripts/after-build.mjs && tailwindcss -i src/styles.css -o dist/styles.css --minify",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "pack:dry": "npm pack --dry-run"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "dependencies": {
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "tailwind-merge": "^3.7.0"
+  },
+  "peerDependencies": {
+    "@base-ui/react": "^1.9.0",
+    "@phosphor-icons/react": "^2.1.10",
+    "lucide-react": "^1.55.0",
+    "radix-ui": "^1.6.7",
+    "react": "^19.0.0",
+    "react-aria-components": "^1.22.1",
+    "react-dom": "^19.0.0"
+  },
+  "peerDependenciesMeta": {
+    "@base-ui/react": {
+      "optional": true
+    },
+    "@phosphor-icons/react": {
+      "optional": true
+    },
+    "lucide-react": {
+      "optional": true
+    },
+    "radix-ui": {
+      "optional": true
+    },
+    "react-aria-components": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@base-ui/react": "1.9.0",
+    "@phosphor-icons/react": "2.1.10",
+    "@tailwindcss/cli": "4.3.3",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "lucide-react": "1.55.0",
+    "radix-ui": "1.6.7",
+    "react": "19.3.0",
+    "react-aria-components": "1.22.1",
+    "react-dom": "19.3.0",
+    "tailwindcss": "4.3.3",
+    "tsdown": "0.23.1",
+    "typescript": "6.0.3"
+  }
+}
