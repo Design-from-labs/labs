@@ -19,10 +19,22 @@ import {
 const require = createRequire(import.meta.url);
 const { version } = require("../package.json") as { version: string };
 
+/** Quote one argument for cmd.exe (only needed for Windows .cmd shims). */
+function quoteForCmd(arg: string): string {
+  return /[\s"&|<>^]/.test(arg) ? `"${arg.replace(/"/g, '""')}"` : arg;
+}
+
 /** Run a command with inherited stdio and resolve with its exit code. */
 function run(command: string, args: string[]): Promise<number> {
   return new Promise((resolve) => {
-    const child = spawn(command, args, { stdio: "inherit", shell: false });
+    // Node refuses to spawn .cmd shims without a shell (CVE-2024-27980), so
+    // on Windows npx.cmd runs through cmd.exe with every argument quoted.
+    const child = command.endsWith(".cmd")
+      ? spawn([command, ...args.map(quoteForCmd)].join(" "), {
+          stdio: "inherit",
+          shell: true,
+        })
+      : spawn(command, args, { stdio: "inherit", shell: false });
     child.on("error", (error) => {
       process.stderr.write(
         `Could not run ${command}: ${error.message}\n` +
