@@ -12,11 +12,25 @@ export default defineConfig({
     trace: "retain-on-failure",
   },
   projects: [
-    { name: "chromium", use: { ...devices["Desktop Chrome"] } },
+    {
+      name: "chromium",
+      use: { ...devices["Desktop Chrome"] },
+      testIgnore: /gallery\.spec\.ts/,
+    },
     {
       name: "mobile",
       use: { ...devices["Pixel 7"] },
       testMatch: /layout\.spec\.ts/,
+    },
+    // The view-transition checks run last, on their own and in order: under
+    // CPU contention Chromium can skip a cross-document transition, which
+    // would make the morph assertions flaky (docs/pitfalls.md, P-016).
+    {
+      name: "transitions",
+      use: { ...devices["Desktop Chrome"] },
+      testMatch: /gallery\.spec\.ts/,
+      fullyParallel: false,
+      dependencies: ["chromium", "mobile"],
     },
   ],
   webServer: {

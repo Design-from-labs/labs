@@ -34,3 +34,52 @@
   --font-mono: "JetBrains Mono Variable", ui-monospace, monospace;
   --font-serif: "Instrument Serif", ui-serif, Georgia, serif;
 }
+
+/*
+ * Motion tokens (site only; not part of the published designfrom-theme item).
+ * The spring is a damped spring (damping ratio 0.78, about 2% overshoot)
+ * sampled into linear(); browsers without linear() get an ease-out curve.
+ * Decision: docs/decisions/0012-gallery-view-transitions.md.
+ */
+:root {
+  --motion-duration-fast: 120ms;
+  --motion-duration-expand: 400ms;
+  --motion-ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --motion-ease-spring: var(--motion-ease-out);
+}
+@supports (transition-timing-function: linear(0, 1)) {
+  :root {
+    --motion-ease-spring: linear(
+      0,
+      0.046,
+      0.154,
+      0.289,
+      0.431,
+      0.563,
+      0.679,
+      0.775,
+      0.852,
+      0.91,
+      0.953,
+      0.982,
+      1.001,
+      1.012,
+      1.018,
+      1.02,
+      1.019,
+      1.017,
+      1.015,
+      1.012,
+      1.009,
+      1.007,
+      1.005,
+      1.003,
+      1
+    );
+  }
+}
+
+@theme inline {
+  --ease-spring: var(--motion-ease-spring);
+  --ease-out-soft: var(--motion-ease-out);
+}

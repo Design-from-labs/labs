@@ -70,7 +70,8 @@ installs items into fresh Next.js apps with the real shadcn CLI
 external-reference check, citations and a credits link check.
 
 Work happens on `staging` through pull requests; `main` is production and is
-merged only with the owner's approval.
+merged only with the owner's approval. See [CONTRIBUTING.md](CONTRIBUTING.md),
+and log anything that bit you in [docs/pitfalls.md](docs/pitfalls.md).
 
 ## License
 

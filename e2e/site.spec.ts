@@ -2,6 +2,9 @@ import { expect, type Page, test } from "@playwright/test";
 
 const visibleSection = (page: Page) =>
   page.locator("[data-variant]:not([hidden])");
+// The hero demo frame of the selected variant (above the switcher).
+const visibleDemo = (page: Page) =>
+  page.locator("[data-variant-demo]:not([hidden])");
 
 test("the hub lists products and experiments from content/projects", async ({
   page,
@@ -137,14 +140,17 @@ for (const primitive of ["radix", "base", "aria"] as const) {
     page,
   }) => {
     await page.goto(`/ui/tooltip?variant=tooltip-${primitive}`);
-    const frame = visibleSection(page).getByTestId("demo");
+    const frame = visibleDemo(page);
     await frame.scrollIntoViewIfNeeded();
     const trigger = frame.getByRole("button", { name: "Share" });
     await expect(trigger).toBeVisible();
     // Wait for the island to hydrate, then reach the trigger by keyboard:
-    // from the direction switch, Tab moves into the demo.
+    // the hero follows the breadcrumb, so Tab from it moves into the demo.
     await expect(frame.locator("astro-island:not([ssr])")).toBeAttached();
-    await page.locator('input[data-direction][value="ltr"]').focus();
+    await page
+      .getByRole("navigation", { name: "Breadcrumb" })
+      .getByRole("link", { name: "UI" })
+      .focus();
     await page.keyboard.press("Tab");
     await expect(trigger).toBeFocused();
     await expect(page.getByRole("tooltip")).toContainText(
@@ -158,7 +164,7 @@ for (const primitive of ["radix", "base", "aria"] as const) {
 
 test("demos render right-to-left", async ({ page }) => {
   await page.goto("/ui/button");
-  const frame = visibleSection(page).getByTestId("demo");
+  const frame = visibleDemo(page);
   const loading = frame.getByRole("button", { name: "Loading" });
   const ltr = await loading.evaluate((el) => {
     const icon = el.querySelector("svg")?.getBoundingClientRect();

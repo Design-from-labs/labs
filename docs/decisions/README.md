@@ -17,3 +17,4 @@ record has a `- Sources:` line (registry ids, or `none: <reason>`).
 | [0009](0009-primitive-variants.md) | Primitive library as a variant dimension, published per variant | Accepted |
 | [0010](0010-toolchain-pins.md) | Pin the toolchain and prefer aged dependency releases | Accepted |
 | [0011](0011-scanner-pull-requests.md) | The scanner opens pull requests only with a dedicated token | Accepted |
+| [0012](0012-gallery-view-transitions.md) | Expand gallery tiles into component pages with cross-document view transitions | Accepted |

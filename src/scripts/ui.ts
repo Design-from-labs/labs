@@ -112,6 +112,7 @@ if (root) {
     ...root.querySelectorAll<HTMLInputElement>("input[data-dimension]"),
   ];
   const sections = [...root.querySelectorAll<HTMLElement>("[data-variant]")];
+  const demos = [...root.querySelectorAll<HTMLElement>("[data-variant-demo]")];
   const unavailable = root.querySelector<HTMLElement>("[data-unavailable]");
 
   const current = () => {
@@ -132,6 +133,11 @@ if (root) {
   const show = (name: string | null, updateUrl: boolean) => {
     for (const section of sections) {
       section.hidden = section.dataset.variant !== name;
+    }
+    // At most one hero frame is rendered, so its view-transition name stays
+    // unique on the page.
+    for (const demo of demos) {
+      demo.hidden = demo.dataset.variantDemo !== name;
     }
     if (unavailable) {
       unavailable.hidden = name !== null;

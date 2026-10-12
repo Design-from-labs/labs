@@ -28,3 +28,4 @@
 - [ ] Only `ready` components are expected to publish
 - [ ] Every third-party component carries author, link, license and attribution
 - [ ] No env values, secrets, licensed fonts or icons added
+- [ ] Added any new pitfall to docs/pitfalls.md

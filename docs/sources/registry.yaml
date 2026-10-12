@@ -364,3 +364,49 @@ sources:
     accessed: 2026-10-12
     visibility: public
     used-in: [docs/decisions/0009-primitive-variants.md]
+  # S-041 is used by an open export pull request; it is left for it.
+  - id: S-042
+    title: "Owner brief: gallery tiles that expand into component pages, and a pitfalls log"
+    author: "Owner"
+    kind: brief
+    private-file: "Owner instructions relayed in the build session; not in the repository"
+    license: "All rights reserved (owner)"
+    accessed: 2026-10-12
+    visibility: private-cited-only
+    used-in: [docs/decisions/0012-gallery-view-transitions.md, docs/pitfalls.md]
+  - id: S-043
+    title: "Using the View Transition API (MDN)"
+    author: "Mozilla and individual contributors"
+    kind: doc
+    url: "https://developer.mozilla.org/en-US/docs/Web/API/View_Transition_API/Using"
+    license: "CC-BY-SA-2.5 (MDN prose)"
+    accessed: 2026-10-12
+    visibility: public
+    used-in: [docs/decisions/0012-gallery-view-transitions.md, src/styles/global.css]
+  - id: S-044
+    title: "Astro view transitions guide (transition:name, transition:animate)"
+    author: "Astro Technology Company and contributors"
+    kind: doc
+    url: "https://docs.astro.build/en/guides/view-transitions/"
+    license: "MIT (Astro docs repository)"
+    accessed: 2026-10-12
+    visibility: public
+    used-in: [docs/decisions/0012-gallery-view-transitions.md, src/components/Tile.astro]
+  - id: S-045
+    title: "Cross-document view transitions for multi-page applications"
+    author: "Google Chrome team"
+    kind: doc
+    url: "https://developer.chrome.com/docs/web-platform/view-transitions/cross-document"
+    license: "CC-BY-4.0 (prose)"
+    accessed: 2026-10-12
+    visibility: public
+    used-in: [docs/decisions/0012-gallery-view-transitions.md, e2e/gallery.spec.ts]
+  - id: S-046
+    title: "CSS View Transitions Module Level 2"
+    author: "W3C CSS Working Group"
+    kind: doc
+    url: "https://www.w3.org/TR/css-view-transitions-2/"
+    license: "W3C Document License"
+    accessed: 2026-10-12
+    visibility: public
+    used-in: [docs/decisions/0012-gallery-view-transitions.md]

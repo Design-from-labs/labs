@@ -52,3 +52,75 @@
     background-color: var(--shiki-dark-bg) !important;
   }
 }
+
+/*
+ * Gallery tile to component page: a cross-document view transition
+ * (docs/decisions/0012-gallery-view-transitions.md). The site is a static
+ * multi-page app, so both documents opt in and the browser morphs elements
+ * that share a view-transition-name (set with Astro's transition:name on the
+ * tile preview and title, and on the component page's hero and heading).
+ * Browsers without cross-document view transitions navigate normally.
+ * Reduced motion never opts in, so the page changes instantly.
+ */
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition {
+    navigation: auto;
+  }
+}
+
+/* The site header is identical on both pages: keep it still. */
+.vt-site-header {
+  view-transition-name: site-header;
+}
+.vt-tile-preview {
+  view-transition-class: tile-preview;
+}
+.vt-tile-title {
+  view-transition-class: tile-title;
+}
+
+::view-transition-group(*.tile-preview),
+::view-transition-group(*.tile-title) {
+  animation-duration: var(--motion-duration-expand);
+  animation-timing-function: var(--motion-ease-spring);
+}
+
+/* The frame grows; its content keeps its size and stays centred, so the
+   tile reads as the same object opening rather than a stretched picture. */
+::view-transition-group(*.tile-preview) {
+  overflow: clip;
+  border-radius: var(--radius);
+}
+::view-transition-old(*.tile-preview),
+::view-transition-new(*.tile-preview) {
+  block-size: 100%;
+  object-fit: none;
+  object-position: center;
+}
+/* Fade through: the outgoing snapshots leave quickly, the incoming ones
+   arrive as the frame settles, so the two pages never sit on top of each
+   other. The page itself (root) does the same. */
+::view-transition-old(*.tile-preview),
+::view-transition-old(*.tile-title),
+::view-transition-old(root) {
+  animation: var(--motion-duration-fast) ease-out both vt-fade-out;
+}
+::view-transition-new(*.tile-preview),
+::view-transition-new(*.tile-title) {
+  animation: var(--motion-duration-expand) ease-out both vt-fade-in;
+}
+::view-transition-new(root) {
+  animation: var(--motion-duration-expand) ease-out
+    calc(var(--motion-duration-fast) / 2) both vt-fade-in;
+}
+
+@keyframes vt-fade-out {
+  to {
+    opacity: 0;
+  }
+}
+@keyframes vt-fade-in {
+  from {
+    opacity: 0;
+  }
+}
