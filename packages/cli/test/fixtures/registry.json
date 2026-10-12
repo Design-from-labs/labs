@@ -1,0 +1,191 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry.json",
+  "name": "designfrom-fixture",
+  "homepage": "https://labs.designfrom.com",
+  "items": [
+    {
+      "name": "badge-lucide",
+      "type": "registry:ui",
+      "title": "Badge (Lucide)",
+      "description": "A compact status label.",
+      "meta": {
+        "status": "ready",
+        "component": "badge",
+        "kind": "component",
+        "primitive": "none",
+        "iconSet": "lucide"
+      }
+    },
+    {
+      "name": "badge-phosphor",
+      "type": "registry:ui",
+      "title": "Badge (Phosphor)",
+      "description": "A compact status label.",
+      "meta": {
+        "status": "ready",
+        "component": "badge",
+        "kind": "component",
+        "primitive": "none",
+        "iconSet": "phosphor"
+      }
+    },
+    {
+      "name": "badge-subtle-lucide",
+      "type": "registry:ui",
+      "title": "Badge (Subtle, Lucide)",
+      "description": "A compact status label.",
+      "meta": {
+        "status": "ready",
+        "component": "badge",
+        "kind": "component",
+        "primitive": "none",
+        "iconSet": "lucide",
+        "style": "subtle"
+      }
+    },
+    {
+      "name": "badge-subtle-phosphor",
+      "type": "registry:ui",
+      "title": "Badge (Subtle, Phosphor)",
+      "description": "A compact status label.",
+      "meta": {
+        "status": "ready",
+        "component": "badge",
+        "kind": "component",
+        "primitive": "none",
+        "iconSet": "phosphor",
+        "style": "subtle"
+      }
+    },
+    {
+      "name": "button-radix-lucide",
+      "type": "registry:ui",
+      "title": "Button (Radix, Lucide)",
+      "description": "A button.",
+      "meta": {
+        "status": "ready",
+        "component": "button",
+        "kind": "component",
+        "primitive": "radix",
+        "iconSet": "lucide"
+      }
+    },
+    {
+      "name": "button-radix-phosphor",
+      "type": "registry:ui",
+      "title": "Button (Radix, Phosphor)",
+      "description": "A button.",
+      "meta": {
+        "status": "ready",
+        "component": "button",
+        "kind": "component",
+        "primitive": "radix",
+        "iconSet": "phosphor"
+      }
+    },
+    {
+      "name": "button-base-lucide",
+      "type": "registry:ui",
+      "title": "Button (Base UI, Lucide)",
+      "description": "A button.",
+      "meta": {
+        "status": "ready",
+        "component": "button",
+        "kind": "component",
+        "primitive": "base",
+        "iconSet": "lucide"
+      }
+    },
+    {
+      "name": "button-base-phosphor",
+      "type": "registry:ui",
+      "title": "Button (Base UI, Phosphor)",
+      "description": "A button.",
+      "meta": {
+        "status": "ready",
+        "component": "button",
+        "kind": "component",
+        "primitive": "base",
+        "iconSet": "phosphor"
+      }
+    },
+    {
+      "name": "button-aria-lucide",
+      "type": "registry:ui",
+      "title": "Button (React Aria, Lucide)",
+      "description": "A button.",
+      "meta": {
+        "status": "ready",
+        "component": "button",
+        "kind": "component",
+        "primitive": "aria",
+        "iconSet": "lucide"
+      }
+    },
+    {
+      "name": "button-aria-phosphor",
+      "type": "registry:ui",
+      "title": "Button (React Aria, Phosphor)",
+      "description": "A button.",
+      "meta": {
+        "status": "ready",
+        "component": "button",
+        "kind": "component",
+        "primitive": "aria",
+        "iconSet": "phosphor"
+      }
+    },
+    {
+      "name": "designfrom-theme",
+      "type": "registry:theme",
+      "title": "Design From theme",
+      "description": "Design tokens.",
+      "meta": {
+        "status": "ready",
+        "component": "designfrom-theme",
+        "kind": "theme",
+        "primitive": "none",
+        "iconSet": "none"
+      }
+    },
+    {
+      "name": "tooltip-radix",
+      "type": "registry:ui",
+      "title": "Tooltip (Radix)",
+      "description": "A tooltip.",
+      "meta": {
+        "status": "ready",
+        "component": "tooltip",
+        "kind": "component",
+        "primitive": "radix",
+        "iconSet": "none"
+      }
+    },
+    {
+      "name": "tooltip-base",
+      "type": "registry:ui",
+      "title": "Tooltip (Base UI)",
+      "description": "A tooltip.",
+      "meta": {
+        "status": "ready",
+        "component": "tooltip",
+        "kind": "component",
+        "primitive": "base",
+        "iconSet": "none"
+      }
+    },
+    {
+      "name": "tooltip-aria",
+      "type": "registry:ui",
+      "title": "Tooltip (React Aria)",
+      "description": "A tooltip.",
+      "meta": {
+        "status": "ready",
+        "component": "tooltip",
+        "kind": "component",
+        "primitive": "aria",
+        "iconSet": "none"
+      }
+    }
+  ]
+}

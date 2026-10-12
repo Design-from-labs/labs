@@ -1,0 +1,15 @@
+# CLI deploys upload sources only; Vercel installs and builds remotely.
+node_modules
+**/node_modules
+dist
+**/dist
+.astro
+.generated
+public/r
+public/schemas
+public/previews
+packages/react/src/generated
+packages/react/NOTICE.md
+test-results
+playwright-report
+.env*

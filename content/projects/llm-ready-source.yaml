@@ -1,0 +1,7 @@
+name: LLM-ready source
+kind: experiment
+status: active
+summary: Every published file carries a short header with provenance, license and install commands, and the whole registry is indexed in llms.txt for coding assistants.
+href: /llms.txt
+started: 2026-10-12
+tags: [llms.txt, provenance]

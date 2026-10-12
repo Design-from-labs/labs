@@ -1,0 +1,28 @@
+{
+  "kind": "font",
+  "type": "registry:font",
+  "title": "Instrument Serif",
+  "description": "The Instrument Serif typeface as the display serif font (--font-serif).",
+  "category": "foundations",
+  "iconSets": ["none"],
+  "variants": [
+    {
+      "primitive": "none",
+      "status": "ready"
+    }
+  ],
+  "defaultVariant": "font-instrument-serif",
+  "demo": "demo.tsx",
+  "font": {
+    "family": "'Instrument Serif', serif",
+    "provider": "google",
+    "import": "Instrument_Serif",
+    "variable": "--font-serif",
+    "weight": ["400"],
+    "subsets": ["latin"],
+    "dependency": "@fontsource/instrument-serif"
+  },
+  "credits": ["S-037", "S-004", "S-025"],
+  "usage": "npx shadcn@latest add https://labs.designfrom.com/r/font-instrument-serif.json",
+  "docs": "Installed Instrument Serif as `--font-serif`. In Next.js it loads through `next/font/google`; elsewhere through `@fontsource/instrument-serif`. Licensed under the SIL Open Font License 1.1."
+}

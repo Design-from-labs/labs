@@ -1,0 +1,29 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "button-radix-lucide",
+  "type": "registry:ui",
+  "title": "Button (Radix, Lucide)",
+  "description": "A button with five variants, four sizes and a loading state that keeps focus and announces progress, on Radix, Base UI or React Aria.",
+  "author": "Design From Labs <https://labs.designfrom.com>",
+  "categories": [
+    "actions",
+    "radix",
+    "lucide"
+  ],
+  "docs": "Installed `Button`. Import it from `@/components/ui/button`.\n\n- `variant`: default, secondary, outline, ghost, destructive.\n- `loading` shows a spinner and keeps focus on the button.\n\nColors come from your theme tokens (`--primary`, `--ring`, ...). Install `designfrom-theme` for the Design From palette.",
+  "dependencies": [
+    "class-variance-authority@^0.7",
+    "radix-ui@^1",
+    "lucide-react@^1"
+  ],
+  "registryDependencies": [
+    "utils"
+  ],
+  "files": [
+    {
+      "path": "registry/button-radix-lucide/button.tsx",
+      "type": "registry:ui",
+      "content": "import { cva, type VariantProps } from \"class-variance-authority\";\nimport { LoaderCircle } from \"lucide-react\";\nimport { Slot } from \"radix-ui\";\nimport type * as React from \"react\";\n\nimport { cn } from \"@/lib/utils\";\n\n// Every color comes from the shared token layer (primary, accent, ring...),\n// so the button follows whatever theme the host project defines.\nconst buttonVariants = cva(\n  \"inline-flex shrink-0 select-none items-center justify-center gap-2 whitespace-nowrap rounded-md font-medium text-sm outline-none transition-[color,background-color,box-shadow] duration-150 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50 aria-busy:cursor-progress motion-reduce:transition-none [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0\",\n  {\n    variants: {\n      variant: {\n        default: \"bg-primary text-primary-foreground hover:bg-primary/90\",\n        secondary:\n          \"bg-secondary text-secondary-foreground hover:bg-secondary/80\",\n        outline:\n          \"border border-input bg-background hover:bg-accent hover:text-accent-foreground\",\n        ghost: \"hover:bg-accent hover:text-accent-foreground\",\n        destructive:\n          \"bg-destructive text-destructive-foreground hover:bg-destructive/90\",\n      },\n      size: {\n        sm: \"h-8 px-3 text-xs\",\n        md: \"h-9 px-4\",\n        lg: \"h-10 px-6\",\n        icon: \"size-9\",\n      },\n    },\n    defaultVariants: {\n      variant: \"default\",\n      size: \"md\",\n    },\n  },\n);\n\nexport interface ButtonProps\n  extends React.ComponentProps<\"button\">,\n    VariantProps<typeof buttonVariants> {\n  /** Render the child element instead of a button (Radix Slot), e.g. a link. */\n  asChild?: boolean;\n  /** Shows a spinner, sets aria-busy and ignores clicks while true. */\n  loading?: boolean;\n}\n\nfunction Button({\n  className,\n  variant,\n  size,\n  asChild = false,\n  loading = false,\n  type,\n  onClick,\n  children,\n  ...props\n}: ButtonProps) {\n  const Comp = asChild ? Slot.Root : \"button\";\n  return (\n    <Comp\n      data-slot=\"button\"\n      // A Slot child keeps its own semantics; only a real button gets a type.\n      type={asChild ? undefined : (type ?? \"button\")}\n      {...props}\n      // aria-disabled (not disabled) keeps keyboard focus on the button\n      // while the action runs; the click guard below does the blocking.\n      aria-busy={loading || undefined}\n      aria-disabled={loading || props[\"aria-disabled\"] || undefined}\n      className={cn(buttonVariants({ variant, size }), className)}\n      onClick={(event: React.MouseEvent<HTMLButtonElement>) => {\n        if (loading) {\n          event.preventDefault();\n          return;\n        }\n        onClick?.(event);\n      }}\n    >\n      {asChild ? (\n        children\n      ) : (\n        <>\n          {loading ? (\n            <LoaderCircle\n              aria-hidden=\"true\"\n              className=\"motion-safe:animate-spin\"\n            />\n          ) : null}\n          {children}\n        </>\n      )}\n    </Comp>\n  );\n}\n\nexport { Button, buttonVariants };\n"
+    }
+  ]
+}

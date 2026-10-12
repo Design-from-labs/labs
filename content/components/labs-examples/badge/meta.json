@@ -1,0 +1,87 @@
+{
+  "$schema": "https://labs.designfrom.com/schemas/meta.schema.json",
+  "schemaVersion": 1,
+  "name": "badge",
+  "kind": "component",
+  "title": "Badge",
+  "description": "A compact status label in five tones, with a matching status icon and a subtle tinted style.",
+  "status": "ready",
+  "category": "data-display",
+  "label": "Labs examples",
+  "variants": [
+    {
+      "name": "badge-lucide",
+      "primitive": "none",
+      "iconSet": "lucide",
+      "label": "Solid",
+      "status": "ready"
+    },
+    {
+      "name": "badge-phosphor",
+      "primitive": "none",
+      "iconSet": "phosphor",
+      "label": "Solid",
+      "status": "ready"
+    },
+    {
+      "name": "badge-subtle-lucide",
+      "primitive": "none",
+      "iconSet": "lucide",
+      "style": "subtle",
+      "label": "Subtle",
+      "status": "ready"
+    },
+    {
+      "name": "badge-subtle-phosphor",
+      "primitive": "none",
+      "iconSet": "phosphor",
+      "style": "subtle",
+      "label": "Subtle",
+      "status": "ready"
+    }
+  ],
+  "defaultVariant": "badge-lucide",
+  "demo": "demo.tsx",
+  "preview": "preview.webp",
+  "source": {
+    "repo": "https://github.com/Design-from-labs/labs",
+    "commit": "803b92c1a30e0d513e1cb1ff5ca984b2a5f9b492",
+    "path": "examples/badge"
+  },
+  "author": "Design From Labs <https://labs.designfrom.com>",
+  "license": "MIT",
+  "credits": [
+    "S-003",
+    "S-004",
+    "S-005",
+    "S-006",
+    "S-008",
+    "S-018"
+  ],
+  "date": "2026-10-12",
+  "props": [
+    {
+      "name": "tone",
+      "type": "\"neutral\" | \"info\" | \"success\" | \"warning\" | \"danger\"",
+      "default": "\"neutral\"",
+      "description": "Meaning of the label. Every tone except neutral shows its status icon."
+    },
+    {
+      "name": "showIcon",
+      "type": "boolean",
+      "default": "true",
+      "description": "Hide the status icon when space is tight; the text must still carry the meaning."
+    },
+    {
+      "name": "...props",
+      "type": "React.ComponentProps<\"span\">",
+      "description": "Every native span attribute."
+    }
+  ],
+  "a11y": [
+    "Meaning never relies on color alone: each status tone pairs its color with an icon and the text.",
+    "Icons are aria-hidden; the visible text is the accessible name.",
+    "Tone colors meet WCAG AA contrast against their foreground token in light and dark themes."
+  ],
+  "usage": "<Badge tone=\"success\">Deployed</Badge>"
+}

@@ -1,0 +1,26 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "tooltip-aria",
+  "type": "registry:ui",
+  "title": "Tooltip (React Aria)",
+  "description": "A short text hint for a control that opens on hover after a delay and on keyboard focus, and closes with Escape, on Radix, Base UI or React Aria.",
+  "author": "Design From Labs <https://labs.designfrom.com>",
+  "categories": [
+    "overlays",
+    "aria"
+  ],
+  "docs": "Installed `Tooltip`. Import it from `@/components/ui/tooltip`.\n\nRadix and Base UI: wrap your app once in `TooltipProvider`, then compose `Tooltip`, `TooltipTrigger` and `TooltipContent`. React Aria: put the trigger and `Tooltip` inside `TooltipTrigger`.",
+  "dependencies": [
+    "react-aria-components@^1"
+  ],
+  "registryDependencies": [
+    "utils"
+  ],
+  "files": [
+    {
+      "path": "registry/tooltip-aria/tooltip.tsx",
+      "type": "registry:ui",
+      "content": "\"use client\";\n\nimport * as React from \"react\";\nimport {\n  Focusable,\n  OverlayArrow,\n  Tooltip as TooltipPrimitive,\n  TooltipTrigger as TooltipTriggerPrimitive,\n} from \"react-aria-components\";\n\nimport { cn } from \"@/lib/utils\";\n\n// React Aria pairs the trigger and the tooltip inside TooltipTrigger:\n// <TooltipTrigger><button>...</button><Tooltip>...</Tooltip></TooltipTrigger>.\n// Focusable gives a plain focusable child the trigger behaviour.\nfunction TooltipTrigger({\n  delay = 300,\n  children,\n  ...props\n}: React.ComponentProps<typeof TooltipTriggerPrimitive>) {\n  const [trigger, tooltip] = React.Children.toArray(children);\n  return (\n    <TooltipTriggerPrimitive\n      data-slot=\"tooltip-trigger\"\n      delay={delay}\n      {...props}\n    >\n      <Focusable>\n        {trigger as React.ComponentProps<typeof Focusable>[\"children\"]}\n      </Focusable>\n      {tooltip}\n    </TooltipTriggerPrimitive>\n  );\n}\n\nfunction Tooltip({\n  className,\n  placement = \"top\",\n  offset = 8,\n  children,\n  ...props\n}: Omit<\n  React.ComponentProps<typeof TooltipPrimitive>,\n  \"children\" | \"className\"\n> & {\n  className?: string;\n  children?: React.ReactNode;\n}) {\n  return (\n    <TooltipPrimitive\n      data-slot=\"tooltip-content\"\n      placement={placement}\n      offset={offset}\n      className={cn(\n        // React Aria marks entering and exiting frames, so a plain opacity\n        // transition animates both open and close.\n        \"z-50 w-fit max-w-xs rounded-md bg-foreground px-3 py-1.5 text-background text-xs leading-snug shadow-md transition-opacity duration-150 data-entering:opacity-0 data-exiting:opacity-0 motion-reduce:transition-none\",\n        className,\n      )}\n      {...props}\n    >\n      <OverlayArrow>\n        <svg\n          width={10}\n          height={5}\n          viewBox=\"0 0 10 5\"\n          aria-hidden=\"true\"\n          className=\"block fill-foreground in-data-[placement=bottom]:rotate-180\"\n        >\n          <path d=\"M0 0 L5 5 L10 0\" />\n        </svg>\n      </OverlayArrow>\n      {children}\n    </TooltipPrimitive>\n  );\n}\n\nexport { Tooltip, TooltipTrigger };\n"
+    }
+  ]
+}

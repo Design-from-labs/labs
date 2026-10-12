@@ -1,0 +1,307 @@
+---
+import Demos from "../../../.generated/Demos.astro";
+import Command from "../../components/Command.astro";
+import SourceView from "../../components/SourceView.astro";
+import Base from "../../layouts/Base.astro";
+import { data, defaultVariant, type Entry, entries, KIND_LABELS, published, type Variant } from "../../lib/data";
+
+export function getStaticPaths() {
+  return entries.map((entry) => ({ params: { component: entry.name }, props: { entry } }));
+}
+
+interface Props {
+  entry: Entry;
+}
+const { entry } = Astro.props;
+const { labels } = data;
+const live = published(entry);
+const first = defaultVariant(entry) as Variant;
+const dims = entry.dimensions;
+const styleKey = (v: { style: string | null }) => v.style ?? "";
+const anyPublished = (pred: (v: Variant) => boolean) => live.some(pred);
+const groups = [
+  ...(dims.primitives.length
+    ? [{ key: "primitive", label: "Primitive", options: dims.primitives.map((p) => ({ value: p, label: labels.primitives[p] ?? p, available: anyPublished((v) => v.primitive === p) })) }]
+    : []),
+  ...(dims.iconSets.length
+    ? [{ key: "icons", label: "Icons", options: dims.iconSets.map((i) => ({ value: i, label: labels.iconSets[i] ?? i, available: anyPublished((v) => v.iconSet === i) })) }]
+    : []),
+  ...(dims.styles.length > 1
+    ? [{ key: "style", label: "Style", options: dims.styles.map((s) => ({ value: s.value ?? "", label: s.label, available: anyPublished((v) => styleKey(v) === (s.value ?? "")) })) }]
+    : []),
+];
+const selected: Record<string, string> = {
+  primitive: first.primitive,
+  icons: first.iconSet,
+  style: styleKey(first),
+};
+const matrix = live.map((v) => ({ name: v.name, primitive: v.primitive, icons: v.iconSet, style: styleKey(v) }));
+const npmUrl = (spec: string) => {
+  const at = spec.indexOf("@", spec.startsWith("@") ? 1 : 0);
+  const name = at === -1 ? spec : spec.slice(0, at);
+  return `https://www.npmjs.com/package/${name}`;
+};
+const sourceLink =
+  entry.source.repo === "private source"
+    ? null
+    : `${entry.source.repo}/tree/${entry.source.commit}${entry.source.path ? `/${entry.source.path}` : ""}`;
+const installTabs = (v: Variant) => [
+  { id: "shadcn", label: "shadcn", lines: [v.commands?.shadcn ?? ""] },
+  { id: "namespace", label: "@designfrom", lines: [v.commands?.namespace ?? ""] },
+  ...(v.commands?.cli ? [{ id: "cli", label: "designfrom CLI", lines: [v.commands.cli] }] : []),
+  ...(v.commands?.npm ? [{ id: "npm", label: "npm", lines: [v.commands.npm, v.commands.importLine ?? ""] }] : []),
+];
+---
+<Base title={entry.title} description={entry.description} image={entry.preview ? `/previews/${entry.name}.webp` : null}>
+  <nav aria-label="Breadcrumb" class="pt-8 text-muted-foreground text-sm">
+    <ol class="flex gap-2">
+      <li><a href="/ui" class="hover:text-foreground">UI</a></li>
+      <li aria-hidden="true">/</li>
+      <li aria-current="page" class="text-foreground">{entry.title}</li>
+    </ol>
+  </nav>
+
+  <header class="py-8">
+    <div class="flex flex-wrap items-center gap-2 font-mono text-[11px] text-muted-foreground uppercase tracking-wide">
+      <span>{KIND_LABELS[entry.kind]}</span>
+      <span aria-hidden="true">·</span>
+      <span>{entry.category}</span>
+      {entry.label && (<><span aria-hidden="true">·</span><span>{entry.label}</span></>)}
+      <span aria-hidden="true">·</span>
+      <span>{entry.license}</span>
+    </div>
+    <h1 class="mt-3 font-serif text-5xl tracking-tight sm:text-6xl">{entry.title}</h1>
+    <p class="mt-4 max-w-2xl text-lg text-muted-foreground">{entry.description}</p>
+  </header>
+
+  <div id="variant-root" data-matrix={JSON.stringify(matrix)} data-default={first.name} data-component={entry.name}>
+    {
+      groups.length > 0 && (
+        <div class="flex flex-wrap items-end gap-x-8 gap-y-4 border-y py-4" data-testid="switcher">
+          {groups.map((g) => (
+            <fieldset class="min-w-0">
+              <legend class="mb-2 font-medium text-muted-foreground text-xs">{g.label}</legend>
+              <div class="inline-flex rounded-md border bg-muted/40 p-0.5">
+                {g.options.map((o) => (
+                  <label class:list={["relative cursor-pointer rounded-[5px] px-3 py-1 text-sm transition-colors has-checked:bg-foreground has-checked:text-background has-focus-visible:outline-2 has-focus-visible:outline-ring has-disabled:cursor-not-allowed has-disabled:text-muted-foreground/70"]}>
+                    <input
+                      type="radio"
+                      class="sr-only"
+                      name={`${entry.name}-${g.key}`}
+                      value={o.value}
+                      data-dimension={g.key}
+                      checked={selected[g.key] === o.value}
+                      disabled={!o.available}
+                    />
+                    {o.label}
+                    {!o.available && <span class="sr-only"> (not yet available)</span>}
+                  </label>
+                ))}
+              </div>
+            </fieldset>
+          ))}
+          <fieldset class="min-w-0">
+            <legend class="mb-2 font-medium text-muted-foreground text-xs">Direction</legend>
+            <div class="inline-flex rounded-md border bg-muted/40 p-0.5">
+              {["ltr", "rtl"].map((d) => (
+                <label class="cursor-pointer rounded-[5px] px-3 py-1 font-mono text-sm uppercase transition-colors has-checked:bg-foreground has-checked:text-background has-focus-visible:outline-2 has-focus-visible:outline-ring">
+                  <input type="radio" class="sr-only" name={`${entry.name}-dir`} value={d} data-direction checked={d === "ltr"} />
+                  {d}
+                </label>
+              ))}
+            </div>
+          </fieldset>
+        </div>
+      )
+    }
+
+    <p
+      data-unavailable
+      hidden
+      role="status"
+      class="mt-6 rounded-lg border border-dashed p-6 text-muted-foreground"
+    >
+      Not yet available: this combination has no tested variant yet. Pick another option above.
+    </p>
+
+    {
+      live.map((v) => (
+        <section
+          data-variant={v.name}
+          hidden={v.name !== first.name}
+          aria-label={`Variant ${v.name}`}
+          class="mt-6"
+        >
+          {v.demo && (
+            <div
+              data-demo-frame
+              dir="ltr"
+              class="flex min-h-64 items-center justify-center rounded-lg border bg-muted/30 p-8"
+              data-testid="demo"
+            >
+              <Demos item={v.name} hydrate />
+            </div>
+          )}
+
+          <h2 class="mt-12 font-medium text-lg">Install</h2>
+          <p class="mt-1 text-muted-foreground text-sm">
+            Item <code class="font-mono">{v.name}</code>
+            {" · "}
+            <a class="underline underline-offset-4 hover:text-foreground" href={`/r/${v.name}.json`}>registry JSON</a>
+          </p>
+          <div class="mt-4" data-tabs>
+            <div role="tablist" aria-label="Install with" class="flex flex-wrap gap-1 border-b">
+              {installTabs(v).map((t, i) => (
+                <button
+                  type="button"
+                  role="tab"
+                  id={`${v.name}-tab-${t.id}`}
+                  aria-controls={`${v.name}-panel-${t.id}`}
+                  aria-selected={i === 0 ? "true" : "false"}
+                  tabindex={i === 0 ? 0 : -1}
+                  class="-mb-px border-transparent border-b-2 px-3 py-2 text-muted-foreground text-sm hover:text-foreground aria-selected:border-foreground aria-selected:text-foreground"
+                >
+                  {t.label}
+                </button>
+              ))}
+            </div>
+            {installTabs(v).map((t, i) => (
+              <div
+                role="tabpanel"
+                id={`${v.name}-panel-${t.id}`}
+                aria-labelledby={`${v.name}-tab-${t.id}`}
+                hidden={i !== 0}
+                class="grid gap-2 pt-4"
+              >
+                {t.lines.filter(Boolean).map((line) => <Command command={line} />)}
+                {t.id === "namespace" && (
+                  <p class="text-muted-foreground text-sm">
+                    Once, in <code class="font-mono">components.json</code>:{" "}
+                    <code class="font-mono">"registries": {"{"} "@designfrom": "{data.site.url}/r/{"{"}name{"}"}.json" {"}"}</code>
+                  </p>
+                )}
+              </div>
+            ))}
+          </div>
+
+          {(v.files ?? []).length > 0 && (
+            <>
+              <h2 class="mt-12 font-medium text-lg">Source</h2>
+              <p class="mt-1 text-muted-foreground text-sm">
+                Comments are kept. The header lists provenance, license and install commands for
+                people and coding assistants.
+              </p>
+              <div class="mt-4 grid gap-4">
+                {(v.files ?? []).map((f, i) => (
+                  <SourceView id={`${v.name}-source-${i}`} path={f.target} content={f.content} />
+                ))}
+              </div>
+            </>
+          )}
+
+          {v.font && (
+            <>
+              <h2 class="mt-12 font-medium text-lg">Font</h2>
+              <p class="mt-2 text-muted-foreground">
+                <code class="font-mono">{v.font.family}</code> as <code class="font-mono">{v.font.variable}</code>
+                {v.font.dependency && <> (outside Next.js: <code class="font-mono">{v.font.dependency}</code>)</>}
+              </p>
+            </>
+          )}
+
+          <h2 class="mt-12 font-medium text-lg">Dependencies</h2>
+          <ul class="mt-3 flex flex-wrap gap-2 text-sm">
+            {(v.dependencies ?? []).map((d) => (
+              <li><a class="rounded-md border px-2 py-1 font-mono hover:bg-accent" href={npmUrl(d)}>{d}</a></li>
+            ))}
+            {(v.registryDependencies ?? []).map((d) => (
+              <li><span class="rounded-md border border-dashed px-2 py-1 font-mono">{d}</span></li>
+            ))}
+            {(v.dependencies ?? []).length + (v.registryDependencies ?? []).length === 0 && (
+              <li class="text-muted-foreground">None.</li>
+            )}
+          </ul>
+        </section>
+      ))
+    }
+  </div>
+
+  {
+    entry.usage && (
+      <section class="mt-12">
+        <h2 class="font-medium text-lg">Usage</h2>
+        <pre class="mt-3 overflow-x-auto rounded-lg border bg-muted/30 p-4 font-mono text-[13px]"><code>{entry.usage}</code></pre>
+      </section>
+    )
+  }
+
+  {
+    entry.props.length > 0 && (
+      <section class="mt-12">
+        <h2 class="font-medium text-lg">Props</h2>
+        <div class="mt-3 overflow-x-auto rounded-lg border">
+          <table class="w-full text-start text-sm">
+            <thead class="bg-muted/40 text-muted-foreground">
+              <tr>
+                <th scope="col" class="px-3 py-2 text-start font-medium">Prop</th>
+                <th scope="col" class="px-3 py-2 text-start font-medium">Type</th>
+                <th scope="col" class="px-3 py-2 text-start font-medium">Default</th>
+                <th scope="col" class="px-3 py-2 text-start font-medium">Description</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y">
+              {entry.props.map((p) => (
+                <tr>
+                  <td class="px-3 py-2 align-top font-mono">{p.name}{p.required && <span class="text-muted-foreground"> (required)</span>}</td>
+                  <td class="px-3 py-2 align-top font-mono text-muted-foreground">{p.type}</td>
+                  <td class="px-3 py-2 align-top font-mono text-muted-foreground">{p.default ?? ""}</td>
+                  <td class="px-3 py-2 align-top">{p.description}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
+    )
+  }
+
+  {
+    entry.a11y.length > 0 && (
+      <section class="mt-12">
+        <h2 class="font-medium text-lg">Accessibility</h2>
+        <ul class="mt-3 grid list-disc gap-1.5 ps-5 text-muted-foreground">
+          {entry.a11y.map((note) => <li>{note}</li>)}
+        </ul>
+      </section>
+    )
+  }
+
+  <section class="mt-12 grid gap-8 sm:grid-cols-2">
+    <div>
+      <h2 class="font-medium text-lg">Credits</h2>
+      <ul class="mt-3 grid gap-2 text-sm">
+        {
+          entry.credits.map((c) => (
+            <li>
+              {c.url ? <a class="underline underline-offset-4 hover:text-foreground" href={c.url}>{c.title}</a> : c.title}
+              <span class="text-muted-foreground"> · {c.author} · {c.license}</span>
+            </li>
+          ))
+        }
+      </ul>
+      {entry.attribution && <p class="mt-3 text-muted-foreground text-sm">{entry.attribution}</p>}
+    </div>
+    <div>
+      <h2 class="font-medium text-lg">License and source</h2>
+      <dl class="mt-3 grid grid-cols-[7rem_1fr] gap-x-3 gap-y-1.5 text-sm">
+        <dt class="text-muted-foreground">License</dt><dd>{entry.license}</dd>
+        <dt class="text-muted-foreground">Author</dt><dd>{entry.author}</dd>
+        <dt class="text-muted-foreground">Source</dt>
+        <dd class="min-w-0 break-words">{sourceLink ? <a class="underline underline-offset-4" href={sourceLink}>{entry.source.repo.replace("https://", "")}</a> : "Private source"}</dd>
+        <dt class="text-muted-foreground">Commit</dt><dd class="font-mono">{entry.source.commit.slice(0, 12)}</dd>
+        <dt class="text-muted-foreground">Date</dt><dd>{entry.date}</dd>
+        <dt class="text-muted-foreground">Origin</dt><dd>{entry.sourceId}</dd>
+      </dl>
+    </div>
+  </section>
+</Base>

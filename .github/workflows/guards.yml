@@ -1,0 +1,140 @@
+name: Guards
+
+# Repository guards that need no install: external references (files, paths
+# and commit messages), citations, and the pinned gitleaks secret scan. The
+# job names `guards` and `secret-scan` are required status checks.
+#
+# Runners: GitHub-hosted (docs/decisions/0006-github-hosted-runners.md). Jobs
+# that read a secret never run for a fork's pull request.
+on:
+  pull_request:
+    branches: [main, staging]
+  push:
+    branches: [main, staging]
+
+concurrency:
+  group: guards-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+
+permissions:
+  contents: read
+
+jobs:
+  guards:
+    name: guards
+    if: ${{ github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Set up Node
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version-file: .nvmrc
+
+      # Fails closed without the EXTERNAL_REF_PATTERNS secret. The output
+      # names only file:line or a commit and the pattern index.
+      - name: External references (tracked files and commit messages)
+        env:
+          EXTERNAL_REF_PATTERNS: ${{ secrets.EXTERNAL_REF_PATTERNS }}
+          EVENT_NAME: ${{ github.event_name }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+          BEFORE_SHA: ${{ github.event.before }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          args=(--require-patterns --files)
+          if [[ "$EVENT_NAME" == "pull_request" ]]; then
+            args+=(--commits "${BASE_SHA}..${HEAD_SHA}")
+          elif [[ -n "$BEFORE_SHA" && ! "$BEFORE_SHA" =~ ^0+$ ]] && git cat-file -e "${BEFORE_SHA}^{commit}" 2>/dev/null; then
+            args+=(--commits "${BEFORE_SHA}..${HEAD_SHA}")
+          else
+            args+=(--commits "${HEAD_SHA}")
+          fi
+          node scripts/check-external-refs.mjs "${args[@]}"
+
+      - name: Citations
+        run: node scripts/check-sources.mjs
+
+      - name: Guard tests
+        run: node --test scripts/check-external-refs.test.mjs scripts/check-external-refs-core.test.mjs scripts/check-external-refs-allow.test.mjs scripts/check-sources.test.mjs
+
+  # Credits must stay reachable: every public source url, third-party repo and
+  # author link (scripts/check-links.mjs).
+  links:
+    name: links
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413 # v6.1.0
+
+      - name: Set up Node
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+
+      - name: Install
+        run: pnpm install --frozen-lockfile
+
+      - name: Link check on credits
+        run: pnpm check:links
+
+  # The pinned gitleaks binary, verified against its release checksum.
+  secret-scan:
+    name: secret-scan
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      # v8.30.1 has a confirmed detection regression; stay on the last
+      # known-good release. Checksums from gitleaks_8.30.0_checksums.txt.
+      GITLEAKS_VERSION: 8.30.0
+      GITLEAKS_SHA256_X64: 79a3ab579b53f71efd634f3aaf7e04a0fa0cf206b7ed434638d1547a2470a66e
+      GITLEAKS_SHA256_ARM64: b4cbbb6ddf7d1b2a603088cd03a4e3f7ce48ee7fd449b51f7de6ee2906f5fa2f
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Run gitleaks
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          BEFORE_SHA: ${{ github.event.before }}
+          EVENT_NAME: ${{ github.event_name }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          case "$(uname -m)" in
+            x86_64) arch=x64; sum="$GITLEAKS_SHA256_X64" ;;
+            aarch64 | arm64) arch=arm64; sum="$GITLEAKS_SHA256_ARM64" ;;
+            *) echo "::error::No pinned gitleaks checksum for $(uname -m)"; exit 1 ;;
+          esac
+          archive="$RUNNER_TEMP/gitleaks.tar.gz"
+          curl -sSfL -o "$archive" \
+            "https://github.com/gitleaks/gitleaks/releases/download/v${GITLEAKS_VERSION}/gitleaks_${GITLEAKS_VERSION}_linux_${arch}.tar.gz"
+          printf '%s  %s\n' "$sum" "$archive" | sha256sum --check --strict
+          tar -xzf "$archive" -C "$RUNNER_TEMP" gitleaks
+          if [[ "$EVENT_NAME" == "pull_request" ]]; then
+            scan_range="${BASE_SHA}..${HEAD_SHA}"
+          elif [[ -n "$BEFORE_SHA" && ! "$BEFORE_SHA" =~ ^0+$ ]] && git cat-file -e "${BEFORE_SHA}^{commit}" 2>/dev/null; then
+            scan_range="${BEFORE_SHA}..${HEAD_SHA}"
+          else
+            scan_range="--all"
+          fi
+          "$RUNNER_TEMP/gitleaks" git --no-banner --redact --exit-code 1 --log-opts="$scan_range" .
+          "$RUNNER_TEMP/gitleaks" dir --no-banner --redact --exit-code 1 .

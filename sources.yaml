@@ -1,0 +1,72 @@
+# Approved component sources. Contract: docs/contract.md. Read by the scanner
+# (.github/workflows/scanner.yml, scripts/scan-sources.mjs) and the license
+# check (scripts/check-licenses.mjs). A component under
+# content/components/<id>/ must belong to an `active` source listed here.
+#
+# Fields (first-party `sources` and third-party `oss` alike):
+#   id          lower-kebab id; also the directory under content/components/
+#   name        a human name
+#   repo        owner/name on GitHub
+#   visibility  public | private
+#   path        where its components land in this repository
+#   status      active | paused (paused: nothing new is accepted)
+#   fetch       how components arrive:
+#                 exports-only  the source pushes export pull requests here
+#                               (private sources; never fetched from here)
+#                 in-repo       authored in this repository
+#                 pinned-git    the scanner fetches `ref` from a public repo
+#   license     the SPDX license its components are published under
+version: 1
+
+sources:
+  - id: design-from-app
+    name: Design From app
+    repo: AndrewUlloa/Design-From
+    visibility: private
+    path: content/components/design-from-app
+    status: active
+    fetch: exports-only
+    license: MIT
+
+  - id: labs-examples
+    name: Labs examples
+    repo: Design-from-labs/labs
+    visibility: public
+    path: content/components/labs-examples
+    status: active
+    fetch: in-repo
+    license: MIT
+
+# Third-party open-source components. Empty until the owner approves one.
+# Entry format (every field required unless marked optional):
+#
+#   - id: example-oss                # lower-kebab; directory under content/components/
+#     name: Example components
+#     repo: https://github.com/example/components   # public https URL
+#     visibility: public
+#     status: active                 # active | paused
+#     fetch: pinned-git
+#     ref: 0123456789abcdef0123456789abcdef01234567  # full commit SHA, never a branch
+#     author: "Jane Example <https://example.com>"
+#     license: MIT                   # SPDX id on the allowlist (docs/contract.md, section 6)
+#     attribution: "Copyright (c) 2025 Jane Example. MIT License."
+#     credit: S-0NN                  # its entry in docs/sources/registry.yaml
+#     components:
+#       - name: spinner              # the component slug published here
+#         status: beta               # status written to meta.json; the owner promotes to ready
+#         category: feedback
+#         items:                     # registry-item JSON files at `ref`, one per variant
+#           - variant: spinner-radix-lucide
+#             primitive: radix         # radix | base | aria | none
+#             iconSet: lucide          # lucide | phosphor | none
+#             path: public/r/spinner-radix-lucide.json
+#           - variant: spinner-radix-phosphor
+#             primitive: radix
+#             iconSet: phosphor
+#             path: public/r/spinner-radix-phosphor.json
+#         demo: demos/spinner.tsx    # optional; else the scanner writes a stub demo
+#         credits: [S-0NN]           # optional extra credits
+#
+# The scanner (.github/workflows/scanner.yml) fetches the pinned files and
+# opens a pull request; it never follows a branch. Bump `ref` to update.
+oss: []

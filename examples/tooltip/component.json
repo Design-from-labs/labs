@@ -1,0 +1,76 @@
+{
+  "title": "Tooltip",
+  "description": "A short text hint for a control that opens on hover after a delay and on keyboard focus, and closes with Escape, on Radix, Base UI or React Aria.",
+  "category": "overlays",
+  "dependencies": [],
+  "registryDependencies": ["utils"],
+  "iconSets": ["none"],
+  "credits": ["S-003", "S-004", "S-008", "S-027", "S-032", "S-033", "S-034"],
+  "props": [
+    {
+      "name": "TooltipProvider delayDuration / delay",
+      "type": "number",
+      "default": "300",
+      "description": "Radix and Base UI: milliseconds of hover before a tooltip opens; shared by every tooltip inside the provider."
+    },
+    {
+      "name": "TooltipContent side",
+      "type": "\"top\" | \"right\" | \"bottom\" | \"left\"",
+      "default": "\"top\"",
+      "description": "Radix and Base UI: where the hint appears relative to the trigger."
+    },
+    {
+      "name": "TooltipTrigger delay",
+      "type": "number",
+      "default": "300",
+      "description": "React Aria: milliseconds of hover before it opens."
+    },
+    {
+      "name": "Tooltip placement",
+      "type": "\"top\" | \"bottom\" | \"start\" | \"end\" | ...",
+      "default": "\"top\"",
+      "description": "React Aria: where the hint appears; start and end follow the reading direction."
+    },
+    {
+      "name": "className",
+      "type": "string",
+      "description": "Extra classes for the hint bubble."
+    }
+  ],
+  "a11y": [
+    "Follows the WAI-ARIA tooltip pattern: role=tooltip, linked to the trigger with aria-describedby.",
+    "Opens on keyboard focus and closes on blur or Escape.",
+    "Keep the hint short and non-interactive; use a popover for links or buttons.",
+    "The fade animates opacity only and is disabled when the user prefers reduced motion."
+  ],
+  "usage": "<Tooltip>\n  <TooltipTrigger>Share</TooltipTrigger>\n  <TooltipContent>Copies a link</TooltipContent>\n</Tooltip>",
+  "kind": "component",
+  "type": "registry:ui",
+  "variants": [
+    {
+      "primitive": "radix",
+      "files": ["radix/tooltip.tsx"],
+      "dependencies": ["radix-ui@^1"],
+      "status": "ready"
+    },
+    {
+      "primitive": "base",
+      "files": ["base/tooltip.tsx"],
+      "dependencies": ["@base-ui/react@^1"],
+      "status": "ready"
+    },
+    {
+      "primitive": "aria",
+      "files": ["aria/tooltip.tsx"],
+      "dependencies": ["react-aria-components@^1"],
+      "status": "ready"
+    }
+  ],
+  "demo": {
+    "radix": "demo.radix.tsx",
+    "base": "demo.base.tsx",
+    "aria": "demo.aria.tsx"
+  },
+  "defaultVariant": "tooltip-radix",
+  "docs": "Installed `Tooltip`. Import it from `@/components/ui/tooltip`.\n\nRadix and Base UI: wrap your app once in `TooltipProvider`, then compose `Tooltip`, `TooltipTrigger` and `TooltipContent`. React Aria: put the trigger and `Tooltip` inside `TooltipTrigger`."
+}

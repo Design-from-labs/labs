@@ -1,0 +1,88 @@
+---
+import Base from "../layouts/Base.astro";
+import { components, data, foundations } from "../lib/data";
+
+// Data-driven from content/projects/*.yaml (modeled on the structure of a
+// labs page: products, active experiments, past experiments; S-010).
+const projects = data.projects;
+const products = projects.filter((p) => p.kind === "product");
+const active = projects.filter((p) => p.kind === "experiment" && p.status === "active");
+const past = projects.filter((p) => p.kind === "experiment" && p.status === "past");
+const count = components.length + foundations.length;
+---
+<Base
+  title="Design From Labs"
+  description="Design From Labs: experiments and production-ready components."
+>
+  <section class="py-16 sm:py-24">
+    <p class="font-mono text-muted-foreground text-xs uppercase tracking-widest">Design From Labs</p>
+    <h1 class="mt-4 max-w-3xl font-serif text-5xl leading-[1.05] tracking-tight sm:text-7xl">
+      Experiments and production-ready components.
+    </h1>
+    <p class="mt-6 max-w-2xl text-lg text-muted-foreground">
+      What we are trying, what we ship, and what we learned. Everything here is open source, cited
+      and installable.
+    </p>
+  </section>
+
+  <section aria-labelledby="products" class="border-t py-12">
+    <h2 id="products" class="font-medium text-muted-foreground text-sm">Products</h2>
+    <ul class="mt-6 grid gap-4 sm:grid-cols-2">
+      {
+        products.map((p) => (
+          <li class="relative rounded-lg border p-6 transition-colors hover:border-foreground/30">
+            <h3 class="font-serif text-3xl">
+              <a href={p.href} class="outline-none after:absolute after:inset-0 after:rounded-lg focus-visible:after:outline-2 focus-visible:after:outline-ring">
+                {p.name}
+              </a>
+            </h3>
+            <p class="mt-2 text-muted-foreground">{p.summary}</p>
+            {p.href === "/ui" && (
+              <p class="mt-4 font-mono text-muted-foreground text-xs">{count} published entries</p>
+            )}
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <section aria-labelledby="active" class="border-t py-12">
+    <h2 id="active" class="font-medium text-muted-foreground text-sm">Active experiments</h2>
+    <ul class="mt-6 divide-y border-y">
+      {
+        active.map((p) => (
+          <li class="relative grid gap-1 py-5 sm:grid-cols-[16rem_1fr] sm:gap-8">
+            <h3 class="font-medium">
+              {p.href ? (
+                <a href={p.href} class="outline-none after:absolute after:inset-0 focus-visible:after:outline-2 focus-visible:after:outline-ring hover:underline">
+                  {p.name}
+                </a>
+              ) : (
+                p.name
+              )}
+            </h3>
+            <p class="text-muted-foreground">{p.summary}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <section aria-labelledby="past" class="border-t py-12">
+    <h2 id="past" class="font-medium text-muted-foreground text-sm">Past experiments</h2>
+    {
+      past.length === 0 ? (
+        <p class="mt-6 text-muted-foreground">Nothing archived yet. Finished experiments will be listed here with what we learned.</p>
+      ) : (
+        <ul class="mt-6 divide-y border-y">
+          {past.map((p) => (
+            <li class="grid gap-1 py-5 sm:grid-cols-[16rem_1fr] sm:gap-8">
+              <h3 class="font-medium">{p.name}</h3>
+              <p class="text-muted-foreground">{p.summary}</p>
+            </li>
+          ))}
+        </ul>
+      )
+    }
+  </section>
+</Base>

@@ -1,0 +1,19 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "use-reduced-motion",
+  "type": "registry:hook",
+  "title": "useReducedMotion",
+  "description": "A hook that reports whether the user prefers reduced motion and updates when the setting changes.",
+  "author": "Design From Labs <https://labs.designfrom.com>",
+  "categories": [
+    "foundations"
+  ],
+  "docs": "Installed `useReducedMotion` in your hooks folder. It returns `false` on the server and the live `prefers-reduced-motion` value in the browser.",
+  "files": [
+    {
+      "path": "registry/use-reduced-motion/use-reduced-motion.ts",
+      "type": "registry:hook",
+      "content": "\"use client\";\n\nimport * as React from \"react\";\n\nconst QUERY = \"(prefers-reduced-motion: reduce)\";\n\nfunction subscribe(onChange: () => void) {\n  const media = window.matchMedia(QUERY);\n  media.addEventListener(\"change\", onChange);\n  return () => media.removeEventListener(\"change\", onChange);\n}\n\n/**\n * true when the user prefers reduced motion. Server rendering assumes false;\n * the browser value takes over on hydration and follows later changes.\n */\nexport function useReducedMotion(): boolean {\n  return React.useSyncExternalStore(\n    subscribe,\n    () => window.matchMedia(QUERY).matches,\n    () => false,\n  );\n}\n"
+    }
+  ]
+}

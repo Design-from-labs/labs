@@ -1,0 +1,18 @@
+{
+  "kind": "theme",
+  "type": "registry:theme",
+  "title": "Design From theme",
+  "description": "The Design From Labs color, radius and focus tokens for light and dark, using shadcn's variable names.",
+  "category": "foundations",
+  "iconSets": ["none"],
+  "variants": [{ "primitive": "none", "status": "ready" }],
+  "defaultVariant": "designfrom-theme",
+  "demo": "demo.tsx",
+  "credits": ["S-004", "S-008"],
+  "a11y": [
+    "Text tokens meet WCAG AA contrast (4.5:1) on their background tokens in light and dark.",
+    "The ring token reaches at least 3:1 against the background, so focus indicators stay visible."
+  ],
+  "usage": "npx shadcn@latest add https://labs.designfrom.com/r/designfrom-theme.json",
+  "docs": "Added the Design From theme to your CSS variables (light and dark). Every Labs component reads these tokens through Tailwind utilities such as `bg-primary` and `ring-ring`."
+}

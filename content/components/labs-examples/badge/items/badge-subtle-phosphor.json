@@ -1,0 +1,47 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "badge-subtle-phosphor",
+  "type": "registry:ui",
+  "title": "Badge (Subtle, Phosphor)",
+  "description": "A compact status label in five tones, with a matching status icon and a subtle tinted style.",
+  "author": "Design From Labs <https://labs.designfrom.com>",
+  "categories": [
+    "data-display",
+    "phosphor"
+  ],
+  "docs": "Installed `Badge`. Import it from `@/components/ui/badge`.\n\nTones: neutral, info, success, warning, danger. Success and warning use the badge's own variables (`--badge-success`, `--badge-warning` and their foregrounds, light and dark); every other color comes from your theme.",
+  "dependencies": [
+    "class-variance-authority@^0.7",
+    "@phosphor-icons/react@^2"
+  ],
+  "registryDependencies": [
+    "utils"
+  ],
+  "files": [
+    {
+      "path": "registry/badge-subtle-phosphor/badge.tsx",
+      "type": "registry:ui",
+      "content": "import { cva, type VariantProps } from \"class-variance-authority\";\nimport { CheckCircleIcon, InfoIcon, WarningIcon, XCircleIcon } from \"@phosphor-icons/react/ssr\";\nimport type * as React from \"react\";\n\nimport { cn } from \"@/lib/utils\";\n\n// Subtle style: a light tint of the tone color with body-colored text, for\n// dense tables and lists where solid badges would shout.\nconst badgeVariants = cva(\n  \"inline-flex w-fit shrink-0 items-center gap-1 whitespace-nowrap rounded-full border px-2 py-0.5 font-medium text-xs [&_svg]:pointer-events-none [&_svg]:size-3.5 [&_svg]:shrink-0\",\n  {\n    variants: {\n      tone: {\n        neutral: \"border-border bg-muted text-muted-foreground\",\n        info: \"border-primary/20 bg-primary/10 text-foreground\",\n        success: \"border-badge-success/30 bg-badge-success/10 text-foreground\",\n        warning: \"border-badge-warning/40 bg-badge-warning/15 text-foreground\",\n        danger: \"border-destructive/30 bg-destructive/10 text-foreground\",\n      },\n    },\n    defaultVariants: {\n      tone: \"neutral\",\n    },\n  },\n);\n\n// Each status tone pairs its color with an icon, so meaning never rests on\n// color alone.\nconst toneIcons = {\n  neutral: null,\n  info: InfoIcon,\n  success: CheckCircleIcon,\n  warning: WarningIcon,\n  danger: XCircleIcon,\n} as const;\n\nexport interface BadgeProps\n  extends React.ComponentProps<\"span\">,\n    VariantProps<typeof badgeVariants> {\n  /** Shows the tone's status icon (not shown for neutral). */\n  showIcon?: boolean;\n}\n\nfunction Badge({\n  className,\n  tone = \"neutral\",\n  showIcon = true,\n  children,\n  ...props\n}: BadgeProps) {\n  const Icon = toneIcons[tone ?? \"neutral\"];\n  return (\n    <span\n      data-slot=\"badge\"\n      data-tone={tone}\n      className={cn(badgeVariants({ tone }), className)}\n      {...props}\n    >\n      {showIcon && Icon ? <Icon aria-hidden=\"true\" /> : null}\n      {children}\n    </span>\n  );\n}\n\nexport { Badge, badgeVariants };\n"
+    }
+  ],
+  "cssVars": {
+    "theme": {
+      "color-badge-success": "var(--badge-success)",
+      "color-badge-success-foreground": "var(--badge-success-foreground)",
+      "color-badge-warning": "var(--badge-warning)",
+      "color-badge-warning-foreground": "var(--badge-warning-foreground)"
+    },
+    "light": {
+      "badge-success": "oklch(0.527 0.154 150.069)",
+      "badge-success-foreground": "oklch(0.985 0 0)",
+      "badge-warning": "oklch(0.769 0.188 70.08)",
+      "badge-warning-foreground": "oklch(0.205 0 0)"
+    },
+    "dark": {
+      "badge-success": "oklch(0.723 0.219 149.579)",
+      "badge-success-foreground": "oklch(0.205 0 0)",
+      "badge-warning": "oklch(0.828 0.189 84.429)",
+      "badge-warning-foreground": "oklch(0.205 0 0)"
+    }
+  }
+}

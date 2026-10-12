@@ -1,0 +1,47 @@
+{
+  "kind": "base",
+  "type": "registry:base",
+  "title": "Design From base",
+  "description": "The whole Design From system in one install: theme tokens, the three fonts, utilities, your icon library and your primitive library.",
+  "category": "foundations",
+  "iconSets": ["lucide", "phosphor"],
+  "variants": [
+    {
+      "primitive": "radix",
+      "status": "ready"
+    },
+    {
+      "primitive": "base",
+      "status": "ready"
+    },
+    {
+      "primitive": "aria",
+      "status": "ready"
+    }
+  ],
+  "defaultVariant": "designfrom-base-radix-lucide",
+  "registryDependencies": [
+    "utils",
+    "designfrom-theme",
+    "font-figtree",
+    "font-jetbrains-mono",
+    "font-instrument-serif",
+    "use-reduced-motion",
+    "compose-refs"
+  ],
+  "dependencies": ["class-variance-authority@^0.7"],
+  "credits": [
+    "S-004",
+    "S-005",
+    "S-006",
+    "S-008",
+    "S-032",
+    "S-033",
+    "S-034",
+    "S-035",
+    "S-036",
+    "S-037"
+  ],
+  "usage": "npx shadcn@latest init https://labs.designfrom.com/r/designfrom-base-radix-lucide.json",
+  "docs": "Installed the Design From base: theme tokens (light and dark), Figtree, JetBrains Mono and Instrument Serif, `cn`, `useReducedMotion`, `composeRefs`, your icon library and your primitive library, and the `@designfrom` registry namespace. Add components with `npx shadcn@latest add @designfrom/<item>`."
+}

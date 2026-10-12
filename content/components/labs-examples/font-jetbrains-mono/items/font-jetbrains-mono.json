@@ -1,0 +1,22 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "font-jetbrains-mono",
+  "type": "registry:font",
+  "title": "JetBrains Mono",
+  "description": "The JetBrains Mono variable typeface as the monospace font (--font-mono).",
+  "author": "Design From Labs <https://labs.designfrom.com>",
+  "categories": [
+    "foundations"
+  ],
+  "docs": "Installed JetBrains Mono as `--font-mono`. In Next.js it loads through `next/font/google`; elsewhere through `@fontsource-variable/jetbrains-mono`. Licensed under the SIL Open Font License 1.1.",
+  "font": {
+    "family": "'JetBrains Mono Variable', monospace",
+    "provider": "google",
+    "import": "JetBrains_Mono",
+    "variable": "--font-mono",
+    "subsets": [
+      "latin"
+    ],
+    "dependency": "@fontsource-variable/jetbrains-mono"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "kind": "font",
+  "type": "registry:font",
+  "title": "Figtree",
+  "description": "The Figtree variable typeface as the sans-serif font (--font-sans).",
+  "category": "foundations",
+  "iconSets": ["none"],
+  "variants": [
+    {
+      "primitive": "none",
+      "status": "ready"
+    }
+  ],
+  "defaultVariant": "font-figtree",
+  "demo": "demo.tsx",
+  "font": {
+    "family": "'Figtree Variable', sans-serif",
+    "provider": "google",
+    "import": "Figtree",
+    "variable": "--font-sans",
+    "subsets": ["latin"],
+    "dependency": "@fontsource-variable/figtree"
+  },
+  "credits": ["S-035", "S-004", "S-025"],
+  "usage": "npx shadcn@latest add https://labs.designfrom.com/r/font-figtree.json",
+  "docs": "Installed Figtree as `--font-sans`. In Next.js it loads through `next/font/google`; elsewhere through `@fontsource-variable/figtree`. Licensed under the SIL Open Font License 1.1."
+}

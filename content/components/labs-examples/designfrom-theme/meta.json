@@ -1,0 +1,39 @@
+{
+  "$schema": "https://labs.designfrom.com/schemas/meta.schema.json",
+  "schemaVersion": 1,
+  "name": "designfrom-theme",
+  "kind": "theme",
+  "title": "Design From theme",
+  "description": "The Design From Labs color, radius and focus tokens for light and dark, using shadcn's variable names.",
+  "status": "ready",
+  "category": "foundations",
+  "label": "Labs examples",
+  "variants": [
+    {
+      "name": "designfrom-theme",
+      "primitive": "none",
+      "iconSet": "none",
+      "status": "ready"
+    }
+  ],
+  "defaultVariant": "designfrom-theme",
+  "demo": "demo.tsx",
+  "preview": "preview.webp",
+  "source": {
+    "repo": "https://github.com/Design-from-labs/labs",
+    "commit": "803b92c1a30e0d513e1cb1ff5ca984b2a5f9b492",
+    "path": "examples/designfrom-theme"
+  },
+  "author": "Design From Labs <https://labs.designfrom.com>",
+  "license": "MIT",
+  "credits": [
+    "S-004",
+    "S-008"
+  ],
+  "date": "2026-10-12",
+  "a11y": [
+    "Text tokens meet WCAG AA contrast (4.5:1) on their background tokens in light and dark.",
+    "The ring token reaches at least 3:1 against the background, so focus indicators stay visible."
+  ],
+  "usage": "npx shadcn@latest add https://labs.designfrom.com/r/designfrom-theme.json"
+}
