@@ -64,7 +64,8 @@ sources:
     license: "OFL-1.1"
     accessed: 2026-10-12
     visibility: public
-    used-in: [src/styles/global.css]
+    used-in: []
+    note: "Considered for the site; replaced by the owner's chosen fonts (S-035, S-036, S-037)."
   - id: S-008
     title: "Tailwind CSS"
     author: "Tailwind Labs"
@@ -282,3 +283,84 @@ sources:
     accessed: 2026-10-12
     visibility: private-cited-only
     used-in: [docs/decisions/0008-npm-names.md]
+  - id: S-032
+    title: "Radix Primitives (the unified radix-ui package)"
+    author: "WorkOS and contributors"
+    kind: library
+    url: "https://github.com/radix-ui/primitives"
+    license: "MIT"
+    accessed: 2026-10-12
+    visibility: public
+    used-in: [content/components/labs-examples, docs/decisions/0009-primitive-variants.md]
+  - id: S-033
+    title: "Base UI (@base-ui/react)"
+    author: "MUI and contributors"
+    kind: library
+    url: "https://github.com/mui/base-ui"
+    license: "MIT"
+    accessed: 2026-10-12
+    visibility: public
+    used-in: [content/components/labs-examples, docs/decisions/0009-primitive-variants.md]
+  - id: S-034
+    title: "React Aria Components (react-aria-components)"
+    author: "Adobe and contributors"
+    kind: library
+    url: "https://github.com/adobe/react-spectrum"
+    license: "Apache-2.0"
+    accessed: 2026-10-12
+    visibility: public
+    used-in: [content/components/labs-examples, docs/decisions/0009-primitive-variants.md]
+  - id: S-035
+    title: "Figtree typeface"
+    author: "Erik Kennedy"
+    kind: library
+    url: "https://github.com/erikdkennedy/figtree"
+    license: "OFL-1.1"
+    accessed: 2026-10-12
+    visibility: public
+    used-in: [content/components/labs-examples/font-figtree, src/styles/global.css]
+  - id: S-036
+    title: "JetBrains Mono typeface"
+    author: "JetBrains"
+    kind: library
+    url: "https://github.com/JetBrains/JetBrainsMono"
+    license: "OFL-1.1"
+    accessed: 2026-10-12
+    visibility: public
+    used-in: [content/components/labs-examples/font-jetbrains-mono, src/styles/global.css]
+  - id: S-037
+    title: "Instrument Serif typeface"
+    author: "Instrument"
+    kind: library
+    url: "https://github.com/Instrument/instrument-serif"
+    license: "OFL-1.1"
+    accessed: 2026-10-12
+    visibility: public
+    used-in: [content/components/labs-examples/font-instrument-serif, src/styles/global.css]
+  - id: S-038
+    title: "shadcn registry namespaces and MCP server documentation"
+    author: "shadcn"
+    kind: doc
+    url: "https://ui.shadcn.com/docs/registry/namespace"
+    license: "MIT (shadcn/ui repository)"
+    accessed: 2026-10-12
+    visibility: public
+    used-in: [docs/contract.md, docs/registry.md]
+  - id: S-039
+    title: "Owner scope addition: primitives, namespace, foundation item types"
+    author: "Owner"
+    kind: brief
+    private-file: "Owner instructions relayed in the build session; not in the repository"
+    license: "All rights reserved (owner)"
+    accessed: 2026-10-12
+    visibility: private-cited-only
+    used-in: [docs/contract.md, docs/decisions/0009-primitive-variants.md]
+  - id: S-040
+    title: "shadcn components.json schema (style families radix-*, base-*, aria-*)"
+    author: "shadcn"
+    kind: doc
+    url: "https://ui.shadcn.com/schema.json"
+    license: "MIT (shadcn/ui repository)"
+    accessed: 2026-10-12
+    visibility: public
+    used-in: [docs/decisions/0009-primitive-variants.md]
