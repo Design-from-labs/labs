@@ -237,6 +237,7 @@ function exportOne(name) {
     ...(spec.props ? { props: spec.props } : {}),
     ...(spec.a11y ? { a11y: spec.a11y } : {}),
     ...(spec.usage ? { usage: spec.usage } : {}),
+    ...(spec.stage ? { stage: spec.stage } : {}),
   };
   out["meta.json"] = json(meta);
   return out;

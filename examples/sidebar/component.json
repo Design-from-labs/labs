@@ -1,0 +1,71 @@
+{
+  "title": "Sidebar",
+  "description": "App navigation: a full-height rail at the inline start from the md breakpoint, and a top bar with a menu disclosure on phones.",
+  "category": "navigation",
+  "dependencies": [],
+  "registryDependencies": ["utils"],
+  "iconSets": ["lucide", "phosphor"],
+  "credits": ["S-003", "S-004", "S-005", "S-006", "S-008"],
+  "props": [
+    {
+      "name": "Sidebar title",
+      "type": "React.ReactNode",
+      "required": true,
+      "description": "The product or workspace name at the top."
+    },
+    {
+      "name": "Sidebar label",
+      "type": "string",
+      "default": "\"Main\"",
+      "description": "Accessible name of the navigation landmark."
+    },
+    {
+      "name": "Sidebar footer",
+      "type": "React.ReactNode",
+      "description": "Content pinned to the bottom of the rail, such as settings or the account."
+    },
+    {
+      "name": "SidebarGroup label",
+      "type": "string",
+      "description": "A visible group label; the group is announced with it."
+    },
+    {
+      "name": "SidebarItem active",
+      "type": "boolean",
+      "default": "false",
+      "description": "Marks the current page with aria-current=\"page\"."
+    },
+    {
+      "name": "SidebarItem icon",
+      "type": "React.ReactNode",
+      "description": "A decorative icon; the link text stays the accessible name."
+    }
+  ],
+  "a11y": [
+    "The links sit in a nav landmark named by `label`; the current page has aria-current=\"page\".",
+    "Below 768px the menu button is a disclosure: aria-expanded and aria-controls, no focus trap, links stay in reading order.",
+    "Icons are aria-hidden; every link has visible text.",
+    "Start and end are logical, so the rail moves to the right in right-to-left layouts."
+  ],
+  "usage": "<Sidebar title=\"Studio\">\n  <SidebarGroup>\n    <SidebarItem href=\"/\" icon={<House />} active>Home</SidebarItem>\n    <SidebarItem href=\"/inbox\" icon={<Inbox />}>Inbox</SidebarItem>\n  </SidebarGroup>\n</Sidebar>",
+  "stage": {
+    "device": "laptop",
+    "slot": "sidebar-start",
+    "shell": "app"
+  },
+  "kind": "component",
+  "type": "registry:ui",
+  "variants": [
+    {
+      "primitive": "none",
+      "files": ["sidebar.tsx"],
+      "status": "ready"
+    }
+  ],
+  "demo": {
+    "sidebar-lucide": "demo.tsx",
+    "sidebar-phosphor": "demo.phosphor.tsx"
+  },
+  "defaultVariant": "sidebar-lucide",
+  "docs": "Installed `Sidebar`, `SidebarGroup` and `SidebarItem`. Import them from `@/components/ui/sidebar`.\n\nPut `Sidebar` first in a flex row that fills the viewport (`flex h-dvh flex-col md:flex-row`): from 768px it is a rail at the inline start, below that a top bar with a menu button. Mark the current link with `active`."
+}

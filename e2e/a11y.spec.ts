@@ -15,6 +15,8 @@ const PAGES = [
   "/ui/button",
   "/ui/badge",
   "/ui/tooltip",
+  "/ui/sidebar",
+  "/ui/sidebar?device=phone",
   "/ui/designfrom-theme",
   "/ui/use-reduced-motion",
   "/credits",

@@ -213,6 +213,43 @@
       "type": "string",
       "description": "Optional short TSX usage snippet shown on the page and in llms-full.txt."
     },
+    "stage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["device", "slot"],
+      "description": "Optional (contract revision 3). A layout part (sidebar, side panel, sheet, nav bar, toolbar, command palette, header, footer, tab bar) is shown in context: inside a neutral device frame and a skeleton app shell, in the given slot. Components only.",
+      "properties": {
+        "device": {
+          "enum": ["desktop", "laptop", "tablet", "phone", "browser"],
+          "description": "The device frame shown by default. The component page also offers desktop, tablet and phone."
+        },
+        "slot": {
+          "enum": [
+            "sidebar-start",
+            "sidebar-end",
+            "panel-end",
+            "sheet-bottom",
+            "header",
+            "footer",
+            "toolbar",
+            "overlay",
+            "inline"
+          ],
+          "description": "Where the component sits in the shell. Start and end follow the reading direction, so sidebar-start is on the right in right-to-left."
+        },
+        "shell": {
+          "enum": ["app", "marketing", "docs"],
+          "default": "app",
+          "description": "The skeleton around the component."
+        },
+        "height": {
+          "type": "integer",
+          "minimum": 240,
+          "maximum": 1600,
+          "description": "The default device's viewport height in CSS pixels, when the default is too tall or too short for the part (for example a footer)."
+        }
+      }
+    },
     "kind": {
       "enum": ["component", "theme", "font", "base", "hook", "lib"],
       "default": "component",
@@ -287,6 +324,18 @@
       },
       "then": {
         "required": ["demo", "preview"]
+      }
+    },
+    {
+      "if": {
+        "required": ["stage"]
+      },
+      "then": {
+        "properties": {
+          "kind": {
+            "const": "component"
+          }
+        }
       }
     }
   ]

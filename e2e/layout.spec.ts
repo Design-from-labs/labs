@@ -6,6 +6,7 @@ const PAGES = [
   "/ui/button",
   "/ui/badge",
   "/ui/tooltip",
+  "/ui/sidebar",
   "/ui/designfrom-theme",
   "/ui/designfrom-base",
   "/credits",

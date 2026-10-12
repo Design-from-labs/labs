@@ -20,3 +20,4 @@ record has a `- Sources:` line (registry ids, or `none: <reason>`).
 | [0012](0012-gallery-view-transitions.md) | Expand gallery tiles into component pages with cross-document view transitions | Accepted |
 | [0013](0013-keyframes-in-hoisted-style.md) | CSS keyframe animations as registry:ui components with a hoisted style | Accepted |
 | [0014](0014-beta-on-preview-deployments.md) | Beta components on preview deployments, labeled, never in production | Accepted |
+| [0015](0015-layout-stages.md) | Show layout parts in a device frame and app shell (stages) | Accepted |

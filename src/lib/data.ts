@@ -1,5 +1,6 @@
 // Typed access to .generated/site-data.json (scripts/prepare-content.mjs).
 import raw from "../../.generated/site-data.json";
+import type { StageMeta } from "./stage";
 
 export interface Credit {
   id: string;
@@ -73,6 +74,8 @@ export interface Entry {
   props: Prop[];
   a11y: string[];
   usage: string | null;
+  /** A layout part shown in a device frame and app shell (contract rev. 3). */
+  stage: StageMeta | null;
   preview: string | null;
   credits: Credit[];
   defaultVariant: string;

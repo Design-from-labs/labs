@@ -1,6 +1,7 @@
 // The only client script outside demo islands: copy buttons, install tabs,
-// the variant switcher and the demo direction toggle. Progressive: without
-// it, the default variant and the first tab are fully readable.
+// the variant switcher, the demo direction toggle and the stage device
+// switcher. Progressive: without it, the default variant and the first tab
+// are fully readable.
 
 const live = () => document.getElementById("live-region");
 
@@ -176,6 +177,23 @@ if (root) {
     show(initial.name, false);
   }
 
+  // Stages (docs/decisions/0015-layout-stages.md): a staged demo lives in a
+  // same-origin iframe, so its direction is set on the framed document, now
+  // and again whenever a frame (re)loads.
+  const stageFrames = [
+    ...root.querySelectorAll<HTMLIFrameElement>("iframe[data-stage-frame]"),
+  ];
+  const applyDir = (frame: HTMLIFrameElement) => {
+    const dir = frame.dataset.dir;
+    const doc = frame.contentDocument;
+    if (dir && doc?.documentElement) {
+      doc.documentElement.dir = dir;
+    }
+  };
+  for (const frame of stageFrames) {
+    frame.addEventListener("load", () => applyDir(frame));
+  }
+
   for (const input of root.querySelectorAll<HTMLInputElement>(
     "input[data-direction]",
   )) {
@@ -185,6 +203,64 @@ if (root) {
       )) {
         frame.dir = input.value;
       }
+      for (const frame of stageFrames) {
+        frame.dataset.dir = input.value;
+        applyDir(frame);
+      }
     });
+  }
+
+  // The device switcher resizes every stage frame. The framed document stays
+  // loaded; the component reflows to the new viewport through its own
+  // breakpoints.
+  type Viewport = { label: string; width: number; height: number };
+  const figures = [...root.querySelectorAll<HTMLElement>("[data-stage]")];
+  const deviceInputs = [
+    ...root.querySelectorAll<HTMLInputElement>("input[data-device]"),
+  ];
+  const defaultDevice = deviceInputs.find((i) => i.defaultChecked)?.value;
+  const setDevice = (device: string, updateUrl: boolean) => {
+    let label = device;
+    for (const figure of figures) {
+      const viewports: Record<string, Viewport> = JSON.parse(
+        figure.dataset.viewports ?? "{}",
+      );
+      const viewport = viewports[device];
+      if (!viewport) {
+        continue;
+      }
+      label = viewport.label;
+      figure.dataset.device = device;
+      figure.style.setProperty("--vw", String(viewport.width));
+      figure.style.setProperty("--vh", String(viewport.height));
+      const frame = figure.querySelector("iframe");
+      if (frame) {
+        frame.title = `${figure.dataset.title} on a ${viewport.label.toLowerCase()} screen`;
+      }
+    }
+    if (updateUrl) {
+      const url = new URL(window.location.href);
+      if (device !== defaultDevice) {
+        url.searchParams.set("device", device);
+      } else {
+        url.searchParams.delete("device");
+      }
+      history.replaceState(null, "", url);
+    }
+    return label;
+  };
+  for (const input of deviceInputs) {
+    input.addEventListener("change", () => {
+      const label = setDevice(input.value, true);
+      announce(`Showing a ${label.toLowerCase()} screen`);
+    });
+  }
+  const requestedDevice = new URL(window.location.href).searchParams.get(
+    "device",
+  );
+  const initialDevice = deviceInputs.find((i) => i.value === requestedDevice);
+  if (initialDevice) {
+    initialDevice.checked = true;
+    setDevice(initialDevice.value, false);
   }
 }

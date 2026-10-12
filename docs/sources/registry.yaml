@@ -487,3 +487,21 @@ sources:
     accessed: 2026-10-12
     visibility: private-cited-only
     used-in: [docs/decisions/0013-keyframes-in-hoisted-style.md, docs/decisions/0014-beta-on-preview-deployments.md, docs/evidence/ports]
+  - id: S-047
+    title: "Owner brief: stages for layout parts (device frame and app shell)"
+    author: "Owner"
+    kind: brief
+    private-file: "Owner instructions relayed in the build session; not in the repository"
+    license: "All rights reserved (owner)"
+    accessed: 2026-10-12
+    visibility: private-cited-only
+    used-in: [docs/decisions/0015-layout-stages.md, docs/contract.md]
+  - id: S-048
+    title: "CSS atan2() and container query length units (MDN)"
+    author: "Mozilla and individual contributors"
+    kind: doc
+    url: "https://developer.mozilla.org/en-US/docs/Web/CSS/atan2"
+    license: "CC-BY-SA-2.5 (MDN prose)"
+    accessed: 2026-10-12
+    visibility: public
+    used-in: [docs/decisions/0015-layout-stages.md, src/components/Stage.astro]

@@ -1,0 +1,187 @@
+---
+// A layout part in context: a neutral device frame (our own drawing, no
+// vendor shapes) around an iframe of the component in a skeleton app shell
+// (src/pages/stage/*). The iframe has the device's real viewport, so the
+// component's own breakpoints apply; CSS scales it to the frame
+// (docs/decisions/0015-layout-stages.md).
+import { type Device, DEVICES, type StageMeta, stageSrc, switcherDevices, viewport } from "../lib/stage";
+
+interface Props {
+  /** The variant (registry item) to stage. */
+  item: string;
+  /** The component's title, for the frame's accessible name. */
+  title: string;
+  stage: StageMeta;
+  /** "still" renders without hydration (gallery tile, preview still). */
+  mode: "live" | "still";
+  /** Starting device; defaults to the stage's own. */
+  device?: Device;
+  /** Shared view-transition name (the tile to hero morph). */
+  vtName?: string;
+  /** Lazy-load the iframe (variants that start hidden). */
+  lazy?: boolean;
+  class?: string;
+}
+const { item, title, stage, mode, vtName, lazy = false, class: className } = Astro.props;
+const device = Astro.props.device ?? stage.device;
+const start = viewport(stage, device);
+const viewports = Object.fromEntries(
+  switcherDevices(stage).map((d) => [d, viewport(stage, d)]),
+);
+const frameTitle = (d: Device) => `${title} on a ${DEVICES[d].label.toLowerCase()} screen`;
+const attrs = {
+  class: ["stage vt-tile-stage", className].filter(Boolean).join(" "),
+  "data-stage": item,
+  "data-device": device,
+  "data-slot": stage.slot,
+  "data-viewports": JSON.stringify(viewports),
+  "data-title": title,
+  style: `--vw: ${start.width}; --vh: ${start.height};`,
+  dir: "ltr",
+};
+const src = stageSrc(item, mode);
+---
+{
+  vtName ? (
+    <figure {...attrs} transition:name={vtName} transition:animate="initial">
+      <div class="stage-device">
+        <div class="stage-chrome" aria-hidden="true"><span class="stage-address"></span></div>
+        <div class="stage-screen">
+          <iframe src={src} title={frameTitle(device)} loading={lazy ? "lazy" : "eager"} data-stage-frame></iframe>
+        </div>
+      </div>
+      <div class="stage-base" aria-hidden="true"></div>
+    </figure>
+  ) : (
+    <figure {...attrs}>
+      <div class="stage-device">
+        <div class="stage-chrome" aria-hidden="true"><span class="stage-address"></span></div>
+        <div class="stage-screen">
+          <iframe src={src} title={frameTitle(device)} loading={lazy ? "lazy" : "eager"} data-stage-frame></iframe>
+        </div>
+      </div>
+      <div class="stage-base" aria-hidden="true"></div>
+    </figure>
+  )
+}
+
+<style>
+  /*
+   * Sizing: the frame fits --stage-fit-h (set by the context: tile, hero,
+   * preview) and never exceeds its container's width. The screen keeps the
+   * viewport's aspect ratio from the first paint, so nothing shifts when the
+   * iframe loads. The iframe is the device's real viewport, scaled with
+   * tan(atan2(a, b)) = a / b, a unitless ratio of two lengths, so no script
+   * measures anything.
+   */
+  .stage {
+    --bezel: 1.2cqw;
+    --stage-radius: 1.4cqw;
+    container: stage / inline-size;
+    margin: 0;
+    margin-inline: auto;
+    inline-size: min(100%, calc(var(--stage-fit-h, 24rem) * var(--vw) / var(--vh)));
+  }
+  .stage-device {
+    position: relative;
+    border: var(--bezel) solid var(--stage-bezel);
+    border-radius: var(--stage-radius);
+    background: var(--stage-bezel);
+    box-shadow:
+      0 0 0 1px var(--stage-bezel-edge),
+      0 1cqw 3cqw -1cqw oklch(0 0 0 / 0.25);
+  }
+  .stage-screen {
+    container-type: inline-size;
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: var(--vw) / var(--vh);
+    border-radius: calc(var(--stage-radius) - var(--bezel) / 2);
+    background: var(--background);
+  }
+  iframe {
+    position: absolute;
+    inset-block-start: 0;
+    left: 0;
+    inline-size: calc(var(--vw) * 1px);
+    block-size: calc(var(--vh) * 1px);
+    border: 0;
+    transform-origin: 0 0;
+    transform: scale(tan(atan2(100cqw, calc(var(--vw) * 1px))));
+    background: var(--background);
+  }
+  .stage-chrome,
+  .stage-base {
+    display: none;
+  }
+
+  /* Phone and tablet: a plain rounded slab, no notch or buttons. */
+  .stage[data-device="phone"] {
+    --bezel: 3.4cqw;
+    --stage-radius: 13cqw;
+  }
+  .stage[data-device="tablet"] {
+    --bezel: 3cqw;
+    --stage-radius: 6cqw;
+  }
+
+  /* Laptop: a thin lid and a deck wider than the lid. */
+  .stage[data-device="laptop"] .stage-device {
+    margin-inline: 6%;
+    border-end-start-radius: 0;
+    border-end-end-radius: 0;
+  }
+  .stage[data-device="laptop"] .stage-base {
+    display: block;
+    block-size: 2.4cqw;
+    background: var(--stage-base);
+    border: 1px solid var(--stage-base-edge);
+    border-radius: 0 0 2cqw 2cqw;
+  }
+
+  /* Desktop: a monitor on a stand. */
+  .stage[data-device="desktop"] {
+    --bezel: 1cqw;
+    --stage-radius: 1.2cqw;
+  }
+  .stage[data-device="desktop"] .stage-base {
+    display: block;
+    inline-size: 26%;
+    block-size: 5cqw;
+    margin-inline: auto;
+    background: linear-gradient(var(--stage-base), var(--stage-base)) center
+        top / 34% 72% no-repeat,
+      linear-gradient(var(--stage-base), var(--stage-base)) center bottom /
+        100% 28% no-repeat;
+    border-radius: 0 0 0.6cqw 0.6cqw;
+  }
+
+  /* Browser: a window with a toolbar and an empty address field. */
+  .stage[data-device="browser"] {
+    --bezel: 0px;
+    --stage-radius: 1.2cqw;
+  }
+  .stage[data-device="browser"] .stage-device {
+    border: 1px solid var(--border);
+    background: var(--stage-chrome);
+    overflow: hidden;
+  }
+  .stage[data-device="browser"] .stage-chrome {
+    display: flex;
+    align-items: center;
+    block-size: 3.6cqw;
+    padding-inline: 1.4cqw;
+    border-block-end: 1px solid var(--border);
+  }
+  .stage[data-device="browser"] .stage-address {
+    display: block;
+    inline-size: 46%;
+    block-size: 1.9cqw;
+    margin-inline: auto;
+    border-radius: 1cqw;
+    background: var(--background);
+  }
+  .stage[data-device="browser"] .stage-screen {
+    border-radius: 0;
+  }
+</style>
