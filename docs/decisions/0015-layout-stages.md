@@ -50,6 +50,9 @@ the layout reads as the sum of its parts:
   replaces the region its slot names. The direction switch sets the framed
   document's `dir` through the same-origin iframe; the frame itself never
   mirrors.
+- **Framing:** `/stage/*` is the only path the site lets itself frame
+  (`X-Frame-Options: SAMEORIGIN`, `frame-ancestors 'self'` in `vercel.json`);
+  everything else stays `DENY` (docs/pitfalls.md, P-032).
 - **Device switcher:** the default device, then desktop, tablet and phone.
   Switching resizes the iframe; the framed document stays loaded, so state
   and direction persist. `?device=` keeps the choice in the URL, like
@@ -84,6 +87,8 @@ the layout reads as the sum of its parts:
   motion navigates without a transition.
 - `e2e/a11y.spec.ts`: axe clean on `/ui/sidebar` and
   `/ui/sidebar?device=phone`, light and dark, including the framed document.
+- `scripts/vercel-headers.test.mjs`: stage documents are framable by the
+  site only; every other page refuses framing.
 - `scripts/meta-stage.test.mjs`: the schema accepts revision-2 sidecars and
   rejects unknown devices, slots, shells, heights and staged foundations.
 

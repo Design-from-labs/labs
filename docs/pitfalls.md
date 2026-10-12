@@ -42,6 +42,7 @@ Design From and Design From Labs (the guards enforce this).
 | [P-029](#p-029) | Site (Astro) | A component prop named `slot` disappears |
 | [P-030](#p-030) | Accessibility | axe reads an iframe as part of the page |
 | [P-031](#p-031) | Content | `pnpm examples` rewrites every example's `source.commit` |
+| [P-032](#p-032) | Deployments (headers) | `X-Frame-Options: DENY` blanks the site's own iframes on Vercel |
 
 ---
 
@@ -489,3 +490,21 @@ Design From and Design From Labs (the guards enforce this).
 - Prevention: Commit only the examples you changed; CI's `examples:check`
   stays green either way.
 - Links: `scripts/export-labs-examples.mjs`
+
+### P-032
+
+- Date: 2026-10-12
+- Area: Deployments (Vercel headers)
+- Symptom: Every stage frame would have been empty on Vercel, while local
+  previews and every e2e test showed it working.
+- Cause: `vercel.json` sends `X-Frame-Options: DENY` on every path, which
+  forbids framing even by the same origin. `astro preview` does not apply
+  `vercel.json`, so nothing local could see it; `vercel curl -I` on the
+  branch deployment showed the header on `/stage/*`.
+- Fix: `/stage/*` gets `X-Frame-Options: SAMEORIGIN` and
+  `Content-Security-Policy: frame-ancestors 'self'`; every other path keeps
+  `DENY`.
+- Prevention: `scripts/vercel-headers.test.mjs` checks the rules. After a
+  change to `vercel.json`, check the real headers on the branch deployment
+  (`vercel curl <path> --deployment <url> -- -sI`).
+- Links: `vercel.json`, [#10](https://github.com/Design-from-labs/labs/pull/10)
