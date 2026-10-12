@@ -1,0 +1,25 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "separator-radix",
+  "type": "registry:ui",
+  "title": "Separator",
+  "description": "A one-pixel horizontal or vertical rule that separates content, decorative by default and semantic on request.",
+  "author": "Design From <https://labs.designfrom.com>",
+  "categories": [
+    "layout"
+  ],
+  "docs": "Installed `separator.tsx` in `components/ui`.\n\nImport: `import { Separator } from \"@/components/ui/separator\"`\n\n```tsx\n<Separator orientation=\"vertical\" />\n```\n\nColors and radius come from your theme's shadcn tokens (--primary, --border, --radius, and so on).",
+  "dependencies": [
+    "radix-ui@^1.4.3"
+  ],
+  "registryDependencies": [
+    "utils"
+  ],
+  "files": [
+    {
+      "path": "registry/separator-radix/separator.tsx",
+      "type": "registry:ui",
+      "content": "\"use client\";\n\nimport { cn } from \"@/lib/utils\";\nimport { Separator as SeparatorPrimitive } from \"radix-ui\";\nimport type * as React from \"react\";\n\n/**\n * Separator (separator-radix)\n *\n * A one-pixel horizontal or vertical rule that separates content, decorative by default and semantic on request.\n *\n * Exports: Separator\n *\n * Props:\n * - Separator: React.ComponentProps<typeof SeparatorPrimitive.Root>\n *   - orientation: \"horizontal\" | \"vertical\" (default \"horizontal\"). Layout axis.\n *   - decorative: boolean (default true). When true the separator is presentational and hidden from assistive technology.\n *\n * Theme tokens (shadcn names, from your theme): --border.\n *\n * Accessibility:\n * - Decorative by default, so assistive technology skips it.\n * - Set decorative={false} when the rule separates content semantically; it then exposes role=\"separator\" with aria-orientation.\n *\n * Customize:\n * - The line color comes from --border and its thickness is 1px.\n * - Pass className for spacing, such as my-4, or for a different color utility.\n */\n\nfunction Separator({\n  className,\n  orientation = \"horizontal\",\n  decorative = true,\n  ...props\n}: React.ComponentProps<typeof SeparatorPrimitive.Root>) {\n  return (\n    <SeparatorPrimitive.Root\n      className={cn(\n        \"shrink-0 bg-border data-[orientation=horizontal]:h-px data-[orientation=vertical]:h-full data-[orientation=horizontal]:w-full data-[orientation=vertical]:w-px\",\n        className\n      )}\n      data-slot=\"separator\"\n      decorative={decorative}\n      orientation={orientation}\n      {...props}\n    />\n  );\n}\n\nexport { Separator };\n"
+    }
+  ]
+}

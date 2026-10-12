@@ -1,0 +1,63 @@
+{
+  "$schema": "https://labs.designfrom.com/schemas/meta.schema.json",
+  "schemaVersion": 1,
+  "name": "badge",
+  "kind": "component",
+  "title": "Badge",
+  "description": "A compact label with two independent axes: a visual treatment (solid, soft, outline, ghost, link) and a semantic tone for status color.",
+  "status": "ready",
+  "category": "data-display",
+  "variants": [
+    {
+      "name": "badge-radix",
+      "primitive": "radix",
+      "iconSet": "none",
+      "status": "ready"
+    }
+  ],
+  "defaultVariant": "badge-radix",
+  "demo": "demo.tsx",
+  "preview": "preview.webp",
+  "source": {
+    "repo": "private source",
+    "commit": "452d50d23640237f430cceed87eb3505ae07ca22"
+  },
+  "author": "Design From <https://labs.designfrom.com>",
+  "license": "MIT",
+  "credits": [
+    "S-003",
+    "S-004",
+    "S-008",
+    "S-018",
+    "S-019",
+    "S-020",
+    "S-032"
+  ],
+  "date": "2026-10-12",
+  "props": [
+    {
+      "name": "variant",
+      "type": "\"solid\" | \"soft\" | \"outline\" | \"ghost\" | \"link\"",
+      "default": "\"solid\"",
+      "description": "Selects the variant styles defined by badgeVariants."
+    },
+    {
+      "name": "tone",
+      "type": "\"neutral\" | \"accent\" | \"success\" | \"warning\" | \"info\" | \"destructive\"",
+      "default": "\"neutral\"",
+      "description": "Selects the tone styles defined by badgeVariants."
+    },
+    {
+      "name": "asChild",
+      "type": "boolean",
+      "default": "false",
+      "description": "Render the single child element instead of the default element, merging props onto it (Radix Slot)."
+    }
+  ],
+  "a11y": [
+    "Renders an inline span, so its text is read with the surrounding content; keep the label meaningful without its color.",
+    "Tone is never the only signal: the label carries the meaning, and every tone keeps readable text contrast.",
+    "Rendered as a link through asChild, it shows a visible focus ring."
+  ],
+  "usage": "<Badge tone=\"success\" variant=\"soft\">Approved</Badge>"
+}

@@ -364,3 +364,12 @@ sources:
     accessed: 2026-10-12
     visibility: public
     used-in: [docs/decisions/0009-primitive-variants.md]
+  - id: S-041
+    title: "tw-animate-css"
+    author: "Wombosvideo and contributors"
+    kind: library
+    url: "https://github.com/Wombosvideo/tw-animate-css"
+    license: "MIT"
+    accessed: 2026-10-12
+    visibility: public
+    used-in: [content/components/design-from-app/tooltip]

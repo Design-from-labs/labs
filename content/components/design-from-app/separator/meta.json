@@ -1,0 +1,55 @@
+{
+  "$schema": "https://labs.designfrom.com/schemas/meta.schema.json",
+  "schemaVersion": 1,
+  "name": "separator",
+  "kind": "component",
+  "title": "Separator",
+  "description": "A one-pixel horizontal or vertical rule that separates content, decorative by default and semantic on request.",
+  "status": "ready",
+  "category": "layout",
+  "variants": [
+    {
+      "name": "separator-radix",
+      "primitive": "radix",
+      "iconSet": "none",
+      "status": "ready"
+    }
+  ],
+  "defaultVariant": "separator-radix",
+  "demo": "demo.tsx",
+  "preview": "preview.webp",
+  "source": {
+    "repo": "private source",
+    "commit": "452d50d23640237f430cceed87eb3505ae07ca22"
+  },
+  "author": "Design From <https://labs.designfrom.com>",
+  "license": "MIT",
+  "credits": [
+    "S-003",
+    "S-004",
+    "S-008",
+    "S-019",
+    "S-020",
+    "S-032"
+  ],
+  "date": "2026-10-12",
+  "props": [
+    {
+      "name": "orientation",
+      "type": "\"horizontal\" | \"vertical\"",
+      "default": "\"horizontal\"",
+      "description": "Layout axis."
+    },
+    {
+      "name": "decorative",
+      "type": "boolean",
+      "default": "true",
+      "description": "When true the separator is presentational and hidden from assistive technology."
+    }
+  ],
+  "a11y": [
+    "Decorative by default, so assistive technology skips it.",
+    "Set decorative={false} when the rule separates content semantically; it then exposes role=\"separator\" with aria-orientation."
+  ],
+  "usage": "<Separator orientation=\"vertical\" />"
+}
