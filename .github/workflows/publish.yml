@@ -1,10 +1,8 @@
 name: Publish to npm
 
 # Publishes @designfrom/react and designfrom (the CLI) to npm with provenance.
-# DISABLED until the owner creates the `designfrom` npm organization and adds
-# the NPM_TOKEN repository secret (docs/publishing.md); the workflow is also
-# disabled in the Actions tab. Even when enabled it runs only by hand, only
-# from main, and stops at a dry run without the secret.
+# Authenticates with npm trusted publishing (OIDC) only: no NPM_TOKEN secret.
+# Runs only by hand, only from main (docs/publishing.md).
 on:
   workflow_dispatch:
     inputs:
@@ -30,8 +28,6 @@ jobs:
     permissions:
       contents: read
       id-token: write
-    env:
-      NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -46,7 +42,6 @@ jobs:
         with:
           node-version-file: .nvmrc
           cache: pnpm
-          registry-url: https://registry.npmjs.org
 
       - name: Install, verify and build
         run: |
@@ -56,23 +51,25 @@ jobs:
           pnpm build
           pnpm pack:dry
 
-      - name: Publish
+      - name: Publish (npm trusted publishing, no stored token)
         shell: bash
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           WHICH: ${{ inputs.package }}
           DRY_RUN: ${{ inputs.dry-run }}
         run: |
           set -euo pipefail
-          if [[ -z "$NPM_TOKEN" ]]; then
-            echo "::notice::NPM_TOKEN is not set; publishing stays disabled. Packed only."
-            exit 0
-          fi
-          flags=(--access public --provenance --no-git-checks)
+          # Trusted publishing (OIDC) needs npm >= 11.5. Auth comes from this
+          # workflow's GitHub OIDC token, matched against the trusted-publisher
+          # config on npmjs.com (Design-from-labs/labs, publish.yml). No NPM_TOKEN.
+          npm install -g npm@11 --no-fund --no-audit >/dev/null
+          npm --version
+          out="$RUNNER_TEMP/tarballs"; mkdir -p "$out"
+          flags=(--access public --provenance)
           [[ "$DRY_RUN" == "true" ]] && flags+=(--dry-run)
           if [[ "$WHICH" == "both" || "$WHICH" == "@designfrom/react" ]]; then
-            pnpm --filter @designfrom/react publish "${flags[@]}"
+            (cd packages/react && pnpm pack --pack-destination "$out")
           fi
           if [[ "$WHICH" == "both" || "$WHICH" == "designfrom" ]]; then
-            pnpm --filter designfrom publish "${flags[@]}"
+            (cd packages/cli && pnpm pack --pack-destination "$out")
           fi
+          for t in "$out"/*.tgz; do npm publish "$t" "${flags[@]}"; done
