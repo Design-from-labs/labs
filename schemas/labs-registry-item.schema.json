@@ -51,11 +51,7 @@
           "minItems": 0,
           "items": {
             "type": "object",
-            "required": [
-              "path",
-              "type",
-              "content"
-            ],
+            "required": ["path", "type", "content"],
             "properties": {
               "path": {
                 "type": "string",
@@ -115,11 +111,8 @@
         },
         "cssVars": {
           "type": "object",
-          "description": "When present, light and dark are both required (a theme must never be half-defined).",
-          "required": [
-            "light",
-            "dark"
-          ]
+          "description": "When present, light and dark are both required. Component items (ui, block) may only define variables prefixed with their component name; theme and base items carry the shared token set (docs/contract.md, section 2). The prefix rule needs the component name, so scripts/lib/validate.mjs enforces it.",
+          "required": ["light", "dark"]
         }
       }
     },
@@ -137,9 +130,7 @@
         }
       },
       "then": {
-        "required": [
-          "files"
-        ],
+        "required": ["files"],
         "properties": {
           "files": {
             "minItems": 1
@@ -156,9 +147,7 @@
         }
       },
       "then": {
-        "required": [
-          "cssVars"
-        ]
+        "required": ["cssVars"]
       }
     }
   ]

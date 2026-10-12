@@ -1,0 +1,90 @@
+{
+  "title": "Button",
+  "description": "A button with five variants, four sizes and a loading state that keeps focus and announces progress, on Radix, Base UI or React Aria.",
+  "category": "actions",
+  "dependencies": ["class-variance-authority@^0.7"],
+  "registryDependencies": ["utils"],
+  "iconSets": ["lucide", "phosphor"],
+  "credits": [
+    "S-003",
+    "S-004",
+    "S-005",
+    "S-006",
+    "S-008",
+    "S-018",
+    "S-032",
+    "S-033",
+    "S-034"
+  ],
+  "props": [
+    {
+      "name": "variant",
+      "type": "\"default\" | \"secondary\" | \"outline\" | \"ghost\" | \"destructive\"",
+      "default": "\"default\"",
+      "description": "Visual weight. Use one default button per view."
+    },
+    {
+      "name": "size",
+      "type": "\"sm\" | \"md\" | \"lg\" | \"icon\"",
+      "default": "\"md\"",
+      "description": "Height and padding. An icon button needs an aria-label."
+    },
+    {
+      "name": "loading",
+      "type": "boolean",
+      "default": "false",
+      "description": "Shows a spinner and blocks activation while keeping focus: aria-disabled on Radix, focusableWhenDisabled on Base UI, isPending on React Aria."
+    },
+    {
+      "name": "asChild",
+      "type": "boolean",
+      "default": "false",
+      "description": "Radix only: render the child element (for example a link) with button styles."
+    },
+    {
+      "name": "onPress",
+      "type": "(e: PressEvent) => void",
+      "description": "React Aria only: use onPress instead of onClick."
+    },
+    {
+      "name": "...props",
+      "type": "React.ComponentProps<\"button\">",
+      "description": "Every native button attribute."
+    }
+  ],
+  "a11y": [
+    "A native button element: Enter and Space activate it, and it is in the tab order.",
+    "Focus is always visible with a two-pixel ring in the ring token color.",
+    "While loading, focus stays on the button: Radix uses aria-disabled with a click guard, Base UI keeps a disabled button focusable, React Aria uses isPending, which also announces the pending state.",
+    "The spinner is aria-hidden and only spins when the user allows motion (motion-safe)."
+  ],
+  "usage": "<Button onClick={save} loading={saving}>Save changes</Button>",
+  "kind": "component",
+  "type": "registry:ui",
+  "variants": [
+    {
+      "primitive": "radix",
+      "files": ["radix/button.tsx"],
+      "dependencies": ["radix-ui@^1"],
+      "status": "ready"
+    },
+    {
+      "primitive": "base",
+      "files": ["base/button.tsx"],
+      "dependencies": ["@base-ui/react@^1"],
+      "status": "ready"
+    },
+    {
+      "primitive": "aria",
+      "files": ["aria/button.tsx"],
+      "dependencies": ["react-aria-components@^1"],
+      "status": "ready"
+    }
+  ],
+  "demo": {
+    "*": "demo.tsx",
+    "aria": "demo.aria.tsx"
+  },
+  "defaultVariant": "button-radix-lucide",
+  "docs": "Installed `Button`. Import it from `@/components/ui/button`.\n\n- `variant`: default, secondary, outline, ghost, destructive.\n- `loading` shows a spinner and keeps focus on the button.\n\nColors come from your theme tokens (`--primary`, `--ring`, ...). Install `designfrom-theme` for the Design From palette."
+}

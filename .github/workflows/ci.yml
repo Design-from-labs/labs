@@ -1,0 +1,156 @@
+name: CI
+
+# Build, typecheck, lint, registry validation, npm pack dry runs, the
+# Playwright smoke and axe checks, and a real `shadcn add` / `shadcn init`
+# into fresh Next.js apps. Job names `verify`, `e2e` and `registry-install`
+# are required status checks; keep them stable.
+#
+# Runners: GitHub-hosted (docs/decisions/0006-github-hosted-runners.md).
+on:
+  pull_request:
+    branches: [main, staging]
+  push:
+    branches: [main, staging]
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+
+permissions:
+  contents: read
+
+env:
+  DO_NOT_TRACK: 1
+  ASTRO_TELEMETRY_DISABLED: 1
+  NEXT_TELEMETRY_DISABLED: 1
+
+jobs:
+  verify:
+    name: verify
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413 # v6.1.0
+
+      - name: Set up Node
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+
+      - name: Install
+        run: pnpm install --frozen-lockfile
+
+      - name: Labs examples export is current
+        run: pnpm examples:check
+
+      - name: Validate content (contract and shadcn schema)
+        run: pnpm validate:content
+
+      - name: License check
+        run: pnpm check:licenses
+
+      - name: Lint
+        run: pnpm lint
+
+      - name: Typecheck (site, library, CLI)
+        run: pnpm typecheck
+
+      - name: Unit tests (scripts and CLI)
+        run: pnpm test
+
+      - name: Build (site, library, CLI)
+        run: pnpm build
+
+      - name: Library exports are committed
+        run: git diff --exit-code -- packages/react/package.json
+
+      - name: npm pack dry runs
+        run: pnpm pack:dry
+
+  e2e:
+    name: e2e
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413 # v6.1.0
+
+      - name: Set up Node
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+
+      - name: Install
+        run: pnpm install --frozen-lockfile
+
+      - name: Build the site
+        run: pnpm build:site
+
+      - name: Install Chromium
+        run: pnpm exec playwright install --with-deps chromium
+
+      - name: Smoke, RTL, keyboard and axe checks
+        run: pnpm e2e
+
+      - name: Upload the report
+        if: failure()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: playwright-report
+          path: |
+            playwright-report
+            test-results
+          retention-days: 7
+
+  registry-install:
+    name: registry-install
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413 # v6.1.0
+
+      - name: Set up Node
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+
+      - name: Install
+        run: pnpm install --frozen-lockfile
+
+      # Item URLs and cross-item dependencies point at the local server.
+      - name: Build the site for a local registry
+        env:
+          LABS_SITE_URL: http://localhost:4321
+        run: pnpm build:site
+
+      - name: shadcn add (namespace and URL) and shadcn init (base) into fresh Next.js apps
+        shell: bash
+        run: |
+          set -euo pipefail
+          pnpm exec astro preview --port 4321 > "$RUNNER_TEMP/preview.log" 2>&1 &
+          for _ in $(seq 1 60); do
+            curl -sf http://localhost:4321/r/registry.json >/dev/null && break
+            sleep 1
+          done
+          scripts/registry-install-test.sh http://localhost:4321 "$RUNNER_TEMP/registry-install"

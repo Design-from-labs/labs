@@ -1,0 +1,43 @@
+---
+import Demos from "../../.generated/Demos.astro";
+import { defaultVariant, type Entry, KIND_LABELS, published } from "../lib/data";
+
+interface Props {
+  entry: Entry;
+}
+const { entry } = Astro.props;
+const variant = defaultVariant(entry);
+const count = published(entry).length;
+const exportsText = (variant?.exports ?? []).join(", ");
+---
+<article class="group relative flex h-full flex-col overflow-hidden rounded-lg border bg-card transition-colors hover:border-foreground/30">
+  <div
+    class="relative flex h-52 items-center justify-center overflow-hidden border-b bg-muted/30 p-6"
+    inert
+    aria-hidden="true"
+  >
+    {
+      variant?.demo ? (
+        <div class="pointer-events-none origin-center scale-90">
+          <Demos item={variant.name} />
+        </div>
+      ) : (
+        <code class="font-mono text-muted-foreground text-sm">{exportsText || entry.title}</code>
+      )
+    }
+  </div>
+  <div class="flex flex-1 flex-col gap-1.5 p-4">
+    <div class="flex items-center justify-between gap-2">
+      <h3 class="font-medium">
+        <a href={`/ui/${entry.name}`} class="outline-none after:absolute after:inset-0 after:rounded-lg focus-visible:after:outline-2 focus-visible:after:outline-ring">
+          {entry.title}
+        </a>
+      </h3>
+      <span class="font-mono text-[11px] text-muted-foreground uppercase tracking-wide">{KIND_LABELS[entry.kind]}</span>
+    </div>
+    <p class="line-clamp-2 text-muted-foreground text-sm">{entry.description}</p>
+    <p class="mt-auto pt-2 font-mono text-[11px] text-muted-foreground">
+      {count} {count === 1 ? "variant" : "variants"}{entry.label ? ` · ${entry.label}` : ""}
+    </p>
+  </div>
+</article>

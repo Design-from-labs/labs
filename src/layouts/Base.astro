@@ -1,0 +1,96 @@
+---
+import "../styles/global.css";
+
+interface Props {
+  title: string;
+  description: string;
+  image?: string | null;
+}
+const { title, description, image } = Astro.props;
+const site = Astro.site?.toString().replace(/\/$/, "") ?? "";
+const canonical = `${site}${Astro.url.pathname === "/" ? "" : Astro.url.pathname}`;
+const fullTitle = title === "Design From Labs" ? title : `${title} | Design From Labs`;
+const nav = [
+  { href: "/", label: "Labs" },
+  { href: "/ui", label: "UI" },
+  { href: "/credits", label: "Credits" },
+];
+const path = Astro.url.pathname.replace(/\/$/, "") || "/";
+const current = (href: string) =>
+  href === "/" ? path === "/" : path === href || path.startsWith(`${href}/`);
+---
+<!doctype html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="alternate" type="text/plain" title="llms.txt" href="/llms.txt" />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:site_name" content="Design From Labs" />
+    {image && <meta property="og:image" content={`${site}${image}`} />}
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0a0a0a" media="(prefers-color-scheme: dark)" />
+  </head>
+  <body class="min-h-dvh">
+    <a
+      href="#main"
+      class="sr-only z-50 rounded-md bg-primary px-3 py-2 text-primary-foreground focus:not-sr-only focus:fixed focus:start-4 focus:top-4"
+      >Skip to content</a
+    >
+    <header class="border-b">
+      <div class="mx-auto flex h-14 max-w-6xl items-center justify-between gap-4 px-4 sm:px-6">
+        <a href="/" class="flex items-center gap-2 font-medium tracking-tight">
+          <img src="/favicon.svg" alt="" width="22" height="22" />
+          <span>Design From <span class="text-muted-foreground">Labs</span></span>
+        </a>
+        <nav aria-label="Main">
+          <ul class="flex items-center gap-1 text-sm">
+            {
+              nav.map((item) => (
+                <li>
+                  <a
+                    href={item.href}
+                    aria-current={current(item.href) ? "page" : undefined}
+                    class="rounded-md px-2.5 py-1.5 text-muted-foreground transition-colors hover:text-foreground aria-[current=page]:text-foreground aria-[current=page]:font-medium"
+                  >
+                    {item.label}
+                  </a>
+                </li>
+              ))
+            }
+            <li>
+              <a
+                href="https://github.com/Design-from-labs/labs"
+                class="rounded-md px-2.5 py-1.5 text-muted-foreground transition-colors hover:text-foreground"
+                >GitHub</a
+              >
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+    <main id="main" tabindex="-1" class="mx-auto max-w-6xl px-4 pb-24 outline-none sm:px-6">
+      <slot />
+    </main>
+    <footer class="border-t">
+      <div class="mx-auto flex max-w-6xl flex-col gap-2 px-4 py-8 text-muted-foreground text-sm sm:flex-row sm:items-center sm:justify-between sm:px-6">
+        <p>Design From Labs. Code MIT licensed; third-party work keeps its own license.</p>
+        <p class="flex gap-4">
+          <a class="hover:text-foreground" href="/credits">Credits</a>
+          <a class="hover:text-foreground" href="/llms.txt">llms.txt</a>
+          <a class="hover:text-foreground" href="/r/registry.json">Registry</a>
+        </p>
+      </div>
+    </footer>
+    <p id="live-region" class="sr-only" aria-live="polite"></p>
+    <script>
+      import "../scripts/ui.ts";
+    </script>
+  </body>
+</html>

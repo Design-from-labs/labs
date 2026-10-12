@@ -1,0 +1,78 @@
+name: Publish to npm
+
+# Publishes @designfrom/react and designfrom (the CLI) to npm with provenance.
+# DISABLED until the owner creates the `designfrom` npm organization and adds
+# the NPM_TOKEN repository secret (docs/publishing.md); the workflow is also
+# disabled in the Actions tab. Even when enabled it runs only by hand, only
+# from main, and stops at a dry run without the secret.
+on:
+  workflow_dispatch:
+    inputs:
+      package:
+        description: Which package to publish
+        type: choice
+        options: [both, "@designfrom/react", designfrom]
+        default: both
+      dry-run:
+        description: Pack and check without publishing
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    name: publish
+    if: ${{ github.ref == 'refs/heads/main' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      id-token: write
+    env:
+      NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413 # v6.1.0
+
+      - name: Set up Node
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+          registry-url: https://registry.npmjs.org
+
+      - name: Install, verify and build
+        run: |
+          pnpm install --frozen-lockfile
+          pnpm validate:content
+          pnpm check:licenses
+          pnpm build
+          pnpm pack:dry
+
+      - name: Publish
+        shell: bash
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          WHICH: ${{ inputs.package }}
+          DRY_RUN: ${{ inputs.dry-run }}
+        run: |
+          set -euo pipefail
+          if [[ -z "$NPM_TOKEN" ]]; then
+            echo "::notice::NPM_TOKEN is not set; publishing stays disabled. Packed only."
+            exit 0
+          fi
+          flags=(--access public --provenance --no-git-checks)
+          [[ "$DRY_RUN" == "true" ]] && flags+=(--dry-run)
+          if [[ "$WHICH" == "both" || "$WHICH" == "@designfrom/react" ]]; then
+            pnpm --filter @designfrom/react publish "${flags[@]}"
+          fi
+          if [[ "$WHICH" == "both" || "$WHICH" == "designfrom" ]]; then
+            pnpm --filter designfrom publish "${flags[@]}"
+          fi

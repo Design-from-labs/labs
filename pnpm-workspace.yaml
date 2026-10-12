@@ -1,0 +1,8 @@
+packages:
+  - packages/*
+
+# Dependency build scripts stay off unless listed here. @parcel/watcher (via
+# @tailwindcss/cli) ships prebuilt binaries; its install script is only a
+# from-source fallback, so it is explicitly not allowed to run.
+allowBuilds:
+  "@parcel/watcher": false

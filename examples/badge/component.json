@@ -1,0 +1,74 @@
+{
+  "title": "Badge",
+  "description": "A compact status label in five tones, with a matching status icon and a subtle tinted style.",
+  "category": "data-display",
+  "dependencies": ["class-variance-authority@^0.7"],
+  "registryDependencies": ["utils"],
+  "iconSets": ["lucide", "phosphor"],
+  "cssVars": {
+    "theme": {
+      "color-badge-success": "var(--badge-success)",
+      "color-badge-success-foreground": "var(--badge-success-foreground)",
+      "color-badge-warning": "var(--badge-warning)",
+      "color-badge-warning-foreground": "var(--badge-warning-foreground)"
+    },
+    "light": {
+      "badge-success": "oklch(0.527 0.154 150.069)",
+      "badge-success-foreground": "oklch(0.985 0 0)",
+      "badge-warning": "oklch(0.769 0.188 70.08)",
+      "badge-warning-foreground": "oklch(0.205 0 0)"
+    },
+    "dark": {
+      "badge-success": "oklch(0.723 0.219 149.579)",
+      "badge-success-foreground": "oklch(0.205 0 0)",
+      "badge-warning": "oklch(0.828 0.189 84.429)",
+      "badge-warning-foreground": "oklch(0.205 0 0)"
+    }
+  },
+  "credits": ["S-003", "S-004", "S-005", "S-006", "S-008", "S-018"],
+  "props": [
+    {
+      "name": "tone",
+      "type": "\"neutral\" | \"info\" | \"success\" | \"warning\" | \"danger\"",
+      "default": "\"neutral\"",
+      "description": "Meaning of the label. Every tone except neutral shows its status icon."
+    },
+    {
+      "name": "showIcon",
+      "type": "boolean",
+      "default": "true",
+      "description": "Hide the status icon when space is tight; the text must still carry the meaning."
+    },
+    {
+      "name": "...props",
+      "type": "React.ComponentProps<\"span\">",
+      "description": "Every native span attribute."
+    }
+  ],
+  "a11y": [
+    "Meaning never relies on color alone: each status tone pairs its color with an icon and the text.",
+    "Icons are aria-hidden; the visible text is the accessible name.",
+    "Tone colors meet WCAG AA contrast against their foreground token in light and dark themes."
+  ],
+  "usage": "<Badge tone=\"success\">Deployed</Badge>",
+  "kind": "component",
+  "type": "registry:ui",
+  "variants": [
+    {
+      "primitive": "none",
+      "files": ["badge.tsx"],
+      "label": "Solid",
+      "status": "ready"
+    },
+    {
+      "primitive": "none",
+      "style": "subtle",
+      "label": "Subtle",
+      "files": ["styles/subtle/badge.tsx"],
+      "status": "ready"
+    }
+  ],
+  "demo": "demo.tsx",
+  "defaultVariant": "badge-lucide",
+  "docs": "Installed `Badge`. Import it from `@/components/ui/badge`.\n\nTones: neutral, info, success, warning, danger. Success and warning use the badge's own variables (`--badge-success`, `--badge-warning` and their foregrounds, light and dark); every other color comes from your theme."
+}

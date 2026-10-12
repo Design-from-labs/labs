@@ -1,0 +1,40 @@
+{
+  "name": "designfrom",
+  "version": "0.1.0",
+  "description": "Add Design From Labs components to your project with the shadcn CLI.",
+  "license": "MIT",
+  "author": "Design From Labs <https://labs.designfrom.com>",
+  "homepage": "https://labs.designfrom.com/ui",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Design-from-labs/labs.git",
+    "directory": "packages/cli"
+  },
+  "type": "module",
+  "bin": {
+    "designfrom": "./dist/index.js"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "tsdown",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "test": "tsdown && node --test test/*.test.mjs",
+    "pack:dry": "npm pack --dry-run"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "devDependencies": {
+    "@types/node": "26.6.5",
+    "tsdown": "0.23.1",
+    "typescript": "6.0.3"
+  }
+}

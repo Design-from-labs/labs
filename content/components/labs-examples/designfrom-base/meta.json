@@ -1,0 +1,71 @@
+{
+  "$schema": "https://labs.designfrom.com/schemas/meta.schema.json",
+  "schemaVersion": 1,
+  "name": "designfrom-base",
+  "kind": "base",
+  "title": "Design From base",
+  "description": "The whole Design From system in one install: theme tokens, the three fonts, utilities, your icon library and your primitive library.",
+  "status": "ready",
+  "category": "foundations",
+  "label": "Labs examples",
+  "variants": [
+    {
+      "name": "designfrom-base-radix-lucide",
+      "primitive": "radix",
+      "iconSet": "lucide",
+      "status": "ready"
+    },
+    {
+      "name": "designfrom-base-radix-phosphor",
+      "primitive": "radix",
+      "iconSet": "phosphor",
+      "status": "ready"
+    },
+    {
+      "name": "designfrom-base-base-lucide",
+      "primitive": "base",
+      "iconSet": "lucide",
+      "status": "ready"
+    },
+    {
+      "name": "designfrom-base-base-phosphor",
+      "primitive": "base",
+      "iconSet": "phosphor",
+      "status": "ready"
+    },
+    {
+      "name": "designfrom-base-aria-lucide",
+      "primitive": "aria",
+      "iconSet": "lucide",
+      "status": "ready"
+    },
+    {
+      "name": "designfrom-base-aria-phosphor",
+      "primitive": "aria",
+      "iconSet": "phosphor",
+      "status": "ready"
+    }
+  ],
+  "defaultVariant": "designfrom-base-radix-lucide",
+  "source": {
+    "repo": "https://github.com/Design-from-labs/labs",
+    "commit": "803b92c1a30e0d513e1cb1ff5ca984b2a5f9b492",
+    "path": "examples/designfrom-base"
+  },
+  "author": "Design From Labs <https://labs.designfrom.com>",
+  "license": "MIT",
+  "credits": [
+    "S-004",
+    "S-005",
+    "S-006",
+    "S-008",
+    "S-032",
+    "S-033",
+    "S-034",
+    "S-035",
+    "S-036",
+    "S-037"
+  ],
+  "date": "2026-10-12",
+  "usage": "npx shadcn@latest init https://labs.designfrom.com/r/designfrom-base-radix-lucide.json"
+}

@@ -1,0 +1,36 @@
+{
+  "$schema": "https://labs.designfrom.com/schemas/meta.schema.json",
+  "schemaVersion": 1,
+  "name": "font-instrument-serif",
+  "kind": "font",
+  "title": "Instrument Serif",
+  "description": "The Instrument Serif typeface as the display serif font (--font-serif).",
+  "status": "ready",
+  "category": "foundations",
+  "label": "Labs examples",
+  "variants": [
+    {
+      "name": "font-instrument-serif",
+      "primitive": "none",
+      "iconSet": "none",
+      "status": "ready"
+    }
+  ],
+  "defaultVariant": "font-instrument-serif",
+  "demo": "demo.tsx",
+  "preview": "preview.webp",
+  "source": {
+    "repo": "https://github.com/Design-from-labs/labs",
+    "commit": "803b92c1a30e0d513e1cb1ff5ca984b2a5f9b492",
+    "path": "examples/font-instrument-serif"
+  },
+  "author": "Design From Labs <https://labs.designfrom.com>",
+  "license": "MIT",
+  "credits": [
+    "S-037",
+    "S-004",
+    "S-025"
+  ],
+  "date": "2026-10-12",
+  "usage": "npx shadcn@latest add https://labs.designfrom.com/r/font-instrument-serif.json"
+}

@@ -63,7 +63,34 @@ jobs:
         run: node scripts/check-sources.mjs
 
       - name: Guard tests
-        run: node --test "scripts/**/*.test.mjs"
+        run: node --test scripts/check-external-refs.test.mjs scripts/check-external-refs-core.test.mjs scripts/check-external-refs-allow.test.mjs scripts/check-sources.test.mjs
+
+  # Credits must stay reachable: every public source url, third-party repo and
+  # author link (scripts/check-links.mjs).
+  links:
+    name: links
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413 # v6.1.0
+
+      - name: Set up Node
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+
+      - name: Install
+        run: pnpm install --frozen-lockfile
+
+      - name: Link check on credits
+        run: pnpm check:links
 
   # The pinned gitleaks binary, verified against its release checksum.
   secret-scan:

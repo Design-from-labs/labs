@@ -1,0 +1,26 @@
+{
+  "kind": "lib",
+  "type": "registry:lib",
+  "title": "composeRefs",
+  "description": "Combines several React refs (callbacks or objects) into one ref callback, with React 19 cleanup support.",
+  "category": "foundations",
+  "iconSets": ["none"],
+  "variants": [
+    {
+      "primitive": "none",
+      "files": ["compose-refs.ts"],
+      "status": "ready"
+    }
+  ],
+  "defaultVariant": "compose-refs",
+  "credits": ["S-003", "S-004"],
+  "props": [
+    {
+      "name": "...refs",
+      "type": "Array<React.Ref<T> | undefined>",
+      "description": "The refs to keep in sync with one element."
+    }
+  ],
+  "usage": "<div ref={composeRefs(localRef, forwardedRef)} />",
+  "docs": "Installed `composeRefs` in your lib folder. Pass every ref that must point at the same element."
+}

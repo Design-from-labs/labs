@@ -1,0 +1,40 @@
+{
+  "$schema": "https://labs.designfrom.com/schemas/meta.schema.json",
+  "schemaVersion": 1,
+  "name": "compose-refs",
+  "kind": "lib",
+  "title": "composeRefs",
+  "description": "Combines several React refs (callbacks or objects) into one ref callback, with React 19 cleanup support.",
+  "status": "ready",
+  "category": "foundations",
+  "label": "Labs examples",
+  "variants": [
+    {
+      "name": "compose-refs",
+      "primitive": "none",
+      "iconSet": "none",
+      "status": "ready"
+    }
+  ],
+  "defaultVariant": "compose-refs",
+  "source": {
+    "repo": "https://github.com/Design-from-labs/labs",
+    "commit": "803b92c1a30e0d513e1cb1ff5ca984b2a5f9b492",
+    "path": "examples/compose-refs"
+  },
+  "author": "Design From Labs <https://labs.designfrom.com>",
+  "license": "MIT",
+  "credits": [
+    "S-003",
+    "S-004"
+  ],
+  "date": "2026-10-12",
+  "props": [
+    {
+      "name": "...refs",
+      "type": "Array<React.Ref<T> | undefined>",
+      "description": "The refs to keep in sync with one element."
+    }
+  ],
+  "usage": "<div ref={composeRefs(localRef, forwardedRef)} />"
+}

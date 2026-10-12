@@ -1,0 +1,22 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "font-figtree",
+  "type": "registry:font",
+  "title": "Figtree",
+  "description": "The Figtree variable typeface as the sans-serif font (--font-sans).",
+  "author": "Design From Labs <https://labs.designfrom.com>",
+  "categories": [
+    "foundations"
+  ],
+  "docs": "Installed Figtree as `--font-sans`. In Next.js it loads through `next/font/google`; elsewhere through `@fontsource-variable/figtree`. Licensed under the SIL Open Font License 1.1.",
+  "font": {
+    "family": "'Figtree Variable', sans-serif",
+    "provider": "google",
+    "import": "Figtree",
+    "variable": "--font-sans",
+    "subsets": [
+      "latin"
+    ],
+    "dependency": "@fontsource-variable/figtree"
+  }
+}

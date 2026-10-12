@@ -1,0 +1,7 @@
+name: One component, three primitives
+kind: experiment
+status: active
+summary: Every component written once per headless library (Radix, Base UI, React Aria) and both icon sets, switchable on its page, so you can compare behavior side by side.
+href: /ui/button
+started: 2026-10-12
+tags: [radix, base-ui, react-aria]

@@ -59,7 +59,7 @@ format. Required beyond shadcn's schema:
 | `files[]` | required for ui, block, hook and lib items: every file **with its `content`**. `path` is `registry/<name>/<file>`; `type` is one of `registry:ui`, `registry:component`, `registry:block`, `registry:hook`, `registry:lib`. `target` is optional and may only point into components, ui, lib or hooks. No `registry:page` or `registry:file`. |
 | `dependencies` | every npm package the files import (except `react`/`react-dom`), optionally with a range: `lucide-react@^1`. |
 | `registryDependencies` | shadcn built-ins by name (`utils`, `button`), another Labs item by its item name (the build rewrites it to `https://labs.designfrom.com/r/<name>.json`), a namespaced item (`@designfrom/<name>`), or an absolute URL to another public registry. |
-| `cssVars` | optional on components, required on `registry:theme`. When present it has **both** `light` and `dark` (plus `theme` for Tailwind v4 mappings). Prefer the shared tokens (section 5); declare any extra variable here. |
+| `cssVars` | **As shadcn does it.** Theme and base items (`registry:theme`, `registry:base`) carry the full shared token set. A component item carries **no shared tokens**: only its own component-specific variables, each prefixed with the component name (`--badge-success`, like shadcn's `--sidebar-*` and `--chart-*`), with `theme` keys of the form `<namespace>-<component>[-...]` (`color-badge-success`). Whenever `cssVars` is present it has **both** `light` and `dark`. The validator rejects a shared token name or an unprefixed key in a component item. |
 | `css` | allowed (Tailwind v4 form). |
 | `font` | required on `registry:font` (shadcn's font object; `provider: "google"`, plus the `@fontsource` `dependency` for non-Next.js projects). |
 | `config` | `registry:base` only (shadcn's base config: `style`, `iconLibrary`, `rtl`, `tailwind.baseColor`, `registries`). |
@@ -111,9 +111,10 @@ Examples: `button-radix-lucide`, `button-aria-phosphor`,
   `start-*`, `end-*`, `text-start`) instead of left/right ones. The smoke test
   renders every ready demo with `dir="rtl"`.
 - Keep comments: they are shown on the site and shipped to users. Do **not**
-  add a license or provenance header; the build prepends a generated header
+  add a license or provenance header; the build inserts a generated header
   (`@dfl-header`) with the item name, status, license, author, source, credits
-  and install commands, so the attribution travels with the code.
+  and install commands right after the imports (the shadcn CLI drops comments
+  above the first import), so the attribution travels with the code.
 - Third-party code keeps its original copyright notices inside the file as
   well.
 
@@ -199,7 +200,7 @@ with a "not yet available" note.
 
 ## 5. Tokens
 
-Components use the shared token layer
+Components use, but never define, the shared token layer
 ([`src/styles/tokens.css`](../src/styles/tokens.css), published as the
 `designfrom-theme` item), which follows the shadcn variable names so an
 installed item works in any shadcn project: `--background`, `--foreground`,
