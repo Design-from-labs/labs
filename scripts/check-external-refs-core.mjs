@@ -214,8 +214,9 @@ export function compilePatterns(raw) {
  * The repository's allowlist: literal phrases this public repository may
  * name even though a shared pattern would match them (its own studio name and
  * domain). One phrase per line, `#` comments ignored, matched
- * case-insensitively. A phrase is replaced by a space before the patterns
- * run, so it can only ever remove a match, and only for that exact phrase.
+ * case-insensitively and word-bounded. A phrase is replaced by a space
+ * before the patterns run, so it can only ever remove a match, and only for
+ * that exact phrase.
  * The list is public by design: it names what is allowed, never what is not.
  */
 export const ALLOW_FILE = "config/external-ref-allow.txt";
@@ -229,9 +230,15 @@ export function parseAllow(text) {
 }
 
 export function setAllow(phrases) {
+  // Word-bounded: a phrase is neutralized only when it is not glued to a
+  // letter, digit or a further `.label` (so an allowed name never hides a
+  // longer name or a domain that merely starts with it).
   activeAllow = phrases.map(
     (phrase) =>
-      new RegExp(phrase.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "gi"),
+      new RegExp(
+        `(?<![a-z0-9])${phrase.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}(?!\\.?[a-z0-9])`,
+        "gi",
+      ),
   );
 }
 

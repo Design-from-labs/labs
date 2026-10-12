@@ -1,0 +1,213 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://labs.designfrom.com/schemas/meta.schema.json",
+  "title": "Design From Labs component sidecar (meta.json)",
+  "description": "Gallery metadata for one component in content/components/<source-id>/<component>/meta.json. Contract: docs/contract.md. The registry items themselves are shadcn registry-item.json files (schemas/labs-registry-item.schema.json).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "name",
+    "title",
+    "description",
+    "status",
+    "category",
+    "variants",
+    "defaultVariant",
+    "demo",
+    "preview",
+    "source",
+    "author",
+    "license",
+    "credits",
+    "date"
+  ],
+  "properties": {
+    "$schema": { "type": "string" },
+    "schemaVersion": {
+      "const": 1,
+      "description": "The contract version this file follows."
+    },
+    "name": {
+      "$ref": "#/$defs/slug",
+      "description": "The component slug. Must equal the directory name and be unique across every source."
+    },
+    "title": { "type": "string", "minLength": 1, "maxLength": 60 },
+    "description": {
+      "type": "string",
+      "minLength": 10,
+      "maxLength": 300,
+      "description": "One or two plain sentences. Shown on the gallery tile, the component page, llms.txt and the registry item."
+    },
+    "status": {
+      "enum": ["draft", "beta", "ready", "deprecated"],
+      "description": "Only ready publishes (site page, /r/*.json, the npm library and llms.txt). draft and beta are validated but not published; deprecated is withdrawn from publishing."
+    },
+    "category": {
+      "enum": [
+        "actions",
+        "inputs",
+        "forms",
+        "feedback",
+        "overlays",
+        "navigation",
+        "data-display",
+        "layout",
+        "media",
+        "typography",
+        "blocks"
+      ]
+    },
+    "label": {
+      "type": "string",
+      "maxLength": 40,
+      "description": "Optional collection label shown on the tile, e.g. \"Labs examples\"."
+    },
+    "tags": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/slug" },
+      "uniqueItems": true,
+      "maxItems": 8
+    },
+    "variants": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/variant" },
+      "description": "Every registry item of this component. Each needs items/<name>.json. A component that renders icons ships every style in both icon sets."
+    },
+    "defaultVariant": {
+      "$ref": "#/$defs/itemName",
+      "description": "The variant shown first; must be one of variants[].name."
+    },
+    "demo": {
+      "description": "The gallery demo: a .tsx file (relative to the component directory) whose default export renders the component with no props. Either one path for every variant, or a map from variant name to path with \"*\" as the fallback.",
+      "oneOf": [
+        { "$ref": "#/$defs/relativeTsx" },
+        {
+          "type": "object",
+          "minProperties": 1,
+          "propertyNames": {
+            "anyOf": [{ "const": "*" }, { "$ref": "#/$defs/itemName" }]
+          },
+          "additionalProperties": { "$ref": "#/$defs/relativeTsx" }
+        }
+      ]
+    },
+    "preview": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9._-]*\\.(webp|avif)$",
+      "description": "A compressed WebP or AVIF still in the component directory, at most 200 KB, 1200x750 recommended."
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["repo", "commit"],
+      "properties": {
+        "repo": {
+          "description": "A public https repository URL, or the literal \"private source\" for an approved private source (never a private URL or path).",
+          "oneOf": [
+            { "const": "private source" },
+            { "type": "string", "pattern": "^https://[^\\s]+$" }
+          ]
+        },
+        "commit": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$",
+          "description": "The full commit SHA the export or fetch was taken from."
+        },
+        "path": {
+          "type": "string",
+          "description": "Optional path inside a PUBLIC source. Omit for a private source."
+        }
+      }
+    },
+    "author": {
+      "type": "string",
+      "minLength": 2,
+      "description": "Recommended format: \"Name <https://url>\"."
+    },
+    "license": {
+      "type": "string",
+      "description": "An SPDX identifier on the redistribution allowlist (docs/contract.md, Licenses). scripts/check-licenses.mjs refuses anything else.",
+      "pattern": "^[A-Za-z0-9.+-]+( (OR|AND) [A-Za-z0-9.+-]+)*$"
+    },
+    "attribution": {
+      "type": "string",
+      "minLength": 10,
+      "description": "The notice the license requires to travel with the code (copyright line and license name). Required for every third-party component; the build prints it in each file's header."
+    },
+    "credits": {
+      "type": "array",
+      "items": { "type": "string", "pattern": "^S-\\d{3,}$" },
+      "uniqueItems": true,
+      "description": "Source registry ids (docs/sources/registry.yaml) for everything this component uses or derives from: libraries, icon sets, references. At least one."
+    },
+    "date": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+      "description": "The date of the export or the last substantive change (YYYY-MM-DD)."
+    },
+    "props": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "type", "description"],
+        "properties": {
+          "name": { "type": "string" },
+          "type": { "type": "string" },
+          "default": { "type": "string" },
+          "required": { "type": "boolean" },
+          "description": { "type": "string" }
+        }
+      }
+    },
+    "a11y": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 5 },
+      "description": "Keyboard, focus, ARIA and motion notes, one sentence each."
+    },
+    "usage": {
+      "type": "string",
+      "description": "Optional short TSX usage snippet shown on the page and in llms-full.txt."
+    }
+  },
+  "$defs": {
+    "slug": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+      "maxLength": 40
+    },
+    "itemName": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+      "maxLength": 80
+    },
+    "relativeTsx": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9._-]*\\.tsx$"
+    },
+    "variant": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "iconSet"],
+      "properties": {
+        "name": {
+          "$ref": "#/$defs/itemName",
+          "description": "<component>-<iconset>, <component>-<style>-<iconset>, or (no icons) <component> / <component>-<style>."
+        },
+        "iconSet": { "enum": ["lucide", "phosphor", "none"] },
+        "style": {
+          "$ref": "#/$defs/slug",
+          "description": "Omit for the default style."
+        },
+        "label": {
+          "type": "string",
+          "maxLength": 30,
+          "description": "Optional switcher label for the style, e.g. \"Subtle\"."
+        }
+      }
+    }
+  }
+}

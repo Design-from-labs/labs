@@ -1,0 +1,50 @@
+name: PR text
+
+# The pull request's title and body against the external-reference patterns,
+# and its Sources section against the citation registry. Separate from the
+# other workflows so an edit to the text is checked again on its own.
+on:
+  pull_request:
+    branches: [main, staging]
+    types: [opened, edited, synchronize, reopened, ready_for_review]
+
+concurrency:
+  group: pr-text-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  pr-text:
+    name: pr-text
+    if: ${{ github.event.pull_request.head.repo.full_name == github.repository }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout the checkers
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          sparse-checkout: |
+            scripts
+            config
+            docs/sources
+
+      - name: Set up Node
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 24
+
+      # Read from the event file, never step env, so the text never appears
+      # in the log. Fails closed without the secret.
+      - name: Title and body (external references)
+        env:
+          EXTERNAL_REF_PATTERNS: ${{ secrets.EXTERNAL_REF_PATTERNS }}
+        run: >-
+          node scripts/check-external-refs.mjs --require-patterns
+          --event-text "PR title=pull_request.title"
+          --event-text "PR body=pull_request.body"
+
+      - name: Sources section
+        run: node scripts/check-sources.mjs --pr-body
