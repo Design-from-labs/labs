@@ -1,0 +1,16 @@
+# Decisions
+
+One record per consequential choice, written when it is made. Copy
+`0000-template.md` to `NNNN-short-title.md` and add it to this index. Every
+record has a `- Sources:` line (registry ids, or `none: <reason>`).
+
+| # | Decision | Status |
+| --- | --- | --- |
+| [0001](0001-mit-license.md) | License the repository's own code under MIT | Accepted |
+| [0002](0002-astro-static-site.md) | Astro static output, React islands only for demos | Accepted |
+| [0003](0003-external-reference-guard.md) | External-reference guard: secret patterns, public allowlist | Accepted |
+| [0004](0004-canonical-component-format.md) | shadcn registry items plus meta.json are canonical | Accepted |
+| [0005](0005-only-ready-publishes.md) | Only ready components publish | Accepted |
+| [0006](0006-github-hosted-runners.md) | GitHub-hosted runners for this public repository | Accepted |
+| [0007](0007-component-license-policy.md) | Only redistributable, attributed components publish | Accepted |
+| [0008](0008-npm-names.md) | `@designfrom/react` library and `designfrom` CLI | Accepted |

@@ -1,0 +1,284 @@
+# Every resource this repository uses: briefs, libraries, fonts, icon sets,
+# references, services and AI tools. Format and rules: docs/sources/README.md.
+# Checked by scripts/check-sources.mjs (strict format: one "key: value" per line).
+sources:
+  - id: S-001
+    title: "Owner brief for the Labs registry and site"
+    author: "Owner"
+    kind: brief
+    private-file: "Owner instructions relayed in the build session; not in the repository"
+    license: "All rights reserved (owner)"
+    accessed: 2026-10-12
+    visibility: private-cited-only
+    used-in: [docs/contract.md, docs/decisions/0001-mit-license.md]
+  - id: S-002
+    title: "Astro"
+    author: "Astro Technology Company and contributors"
+    kind: library
+    url: "https://github.com/withastro/astro"
+    license: "MIT"
+    accessed: 2026-10-12
+    visibility: public
+    used-in: [astro.config.mjs, package.json]
+  - id: S-003
+    title: "React"
+    author: "Meta Platforms and contributors"
+    kind: library
+    url: "https://github.com/facebook/react"
+    license: "MIT"
+    accessed: 2026-10-12
+    visibility: public
+    used-in: [package.json, content/components]
+  - id: S-004
+    title: "shadcn/ui and its registry schema"
+    author: "shadcn"
+    kind: library
+    url: "https://github.com/shadcn-ui/ui"
+    license: "MIT"
+    accessed: 2026-10-12
+    visibility: public
+    used-in: [docs/contract.md, schemas/vendor/shadcn-registry-item.schema.json]
+  - id: S-005
+    title: "Lucide icons"
+    author: "Lucide contributors"
+    kind: library
+    url: "https://github.com/lucide-icons/lucide"
+    license: "ISC"
+    accessed: 2026-10-12
+    visibility: public
+    used-in: [content/components]
+  - id: S-006
+    title: "Phosphor Icons"
+    author: "Phosphor Icons (Helena Zhang and Tobias Fried)"
+    kind: library
+    url: "https://github.com/phosphor-icons/react"
+    license: "MIT"
+    accessed: 2026-10-12
+    visibility: public
+    used-in: [content/components]
+  - id: S-007
+    title: "Geist and Geist Mono typefaces"
+    author: "Vercel"
+    kind: library
+    url: "https://github.com/vercel/geist-font"
+    license: "OFL-1.1"
+    accessed: 2026-10-12
+    visibility: public
+    used-in: [src/styles/global.css]
+  - id: S-008
+    title: "Tailwind CSS"
+    author: "Tailwind Labs"
+    kind: library
+    url: "https://github.com/tailwindlabs/tailwindcss"
+    license: "MIT"
+    accessed: 2026-10-12
+    visibility: public
+    used-in: [src/styles/global.css, packages/react]
+  - id: S-009
+    title: "Vercel hosting"
+    author: "Vercel"
+    kind: doc
+    url: "https://vercel.com/docs"
+    license: "Service terms (Vercel)"
+    accessed: 2026-10-12
+    visibility: public
+    used-in: [vercel.json, docs/decisions/0002-astro-static-site.md]
+  - id: S-010
+    title: "Vercel Labs page (layout reference for the hub)"
+    author: "Vercel"
+    kind: design-reference
+    url: "https://vercel.com/labs"
+    license: "All rights reserved (Vercel); referenced for structure only, nothing copied"
+    accessed: 2026-10-12
+    visibility: public
+    used-in: [src/pages/index.astro]
+  - id: S-011
+    title: "pnpm"
+    author: "pnpm contributors"
+    kind: library
+    url: "https://github.com/pnpm/pnpm"
+    license: "MIT"
+    accessed: 2026-10-12
+    visibility: public
+    used-in: [package.json, pnpm-workspace.yaml]
+  - id: S-012
+    title: "Biome"
+    author: "Biome contributors"
+    kind: library
+    url: "https://github.com/biomejs/biome"
+    license: "MIT OR Apache-2.0"
+    accessed: 2026-10-12
+    visibility: public
+    used-in: [biome.json]
+  - id: S-013
+    title: "TypeScript"
+    author: "Microsoft"
+    kind: library
+    url: "https://github.com/microsoft/TypeScript"
+    license: "Apache-2.0"
+    accessed: 2026-10-12
+    visibility: public
+    used-in: [tsconfig.json]
+  - id: S-014
+    title: "Playwright"
+    author: "Microsoft"
+    kind: library
+    url: "https://github.com/microsoft/playwright"
+    license: "Apache-2.0"
+    accessed: 2026-10-12
+    visibility: public
+    used-in: [playwright.config.ts, e2e]
+  - id: S-015
+    title: "axe-core and @axe-core/playwright"
+    author: "Deque Systems"
+    kind: library
+    url: "https://github.com/dequelabs/axe-core"
+    license: "MPL-2.0"
+    accessed: 2026-10-12
+    visibility: public
+    used-in: [e2e]
+    note: "Test-only dependency; never shipped in the site or the packages."
+  - id: S-016
+    title: "gitleaks"
+    author: "Zachary Rice and contributors"
+    kind: library
+    url: "https://github.com/gitleaks/gitleaks"
+    license: "MIT"
+    accessed: 2026-10-12
+    visibility: public
+    used-in: [.github/workflows/ci.yml]
+  - id: S-017
+    title: "tsdown"
+    author: "VoidZero and contributors"
+    kind: library
+    url: "https://github.com/rolldown/tsdown"
+    license: "MIT"
+    accessed: 2026-10-12
+    visibility: public
+    used-in: [packages/react, packages/cli]
+  - id: S-018
+    title: "class-variance-authority"
+    author: "Joe Bell"
+    kind: library
+    url: "https://github.com/joe-bell/cva"
+    license: "Apache-2.0"
+    accessed: 2026-10-12
+    visibility: public
+    used-in: [content/components]
+  - id: S-019
+    title: "clsx"
+    author: "Luke Edwards"
+    kind: library
+    url: "https://github.com/lukeed/clsx"
+    license: "MIT"
+    accessed: 2026-10-12
+    visibility: public
+    used-in: [src/lib/utils.ts]
+  - id: S-020
+    title: "tailwind-merge"
+    author: "Dany Castillo"
+    kind: library
+    url: "https://github.com/dcastil/tailwind-merge"
+    license: "MIT"
+    accessed: 2026-10-12
+    visibility: public
+    used-in: [src/lib/utils.ts]
+  - id: S-021
+    title: "Shiki"
+    author: "Pine Wu, Anthony Fu and contributors"
+    kind: library
+    url: "https://github.com/shikijs/shiki"
+    license: "MIT"
+    accessed: 2026-10-12
+    visibility: public
+    used-in: [src/components/SourceView.astro]
+  - id: S-022
+    title: "yaml"
+    author: "Eemeli Aro"
+    kind: library
+    url: "https://github.com/eemeli/yaml"
+    license: "ISC"
+    accessed: 2026-10-12
+    visibility: public
+    used-in: [scripts/lib/content.mjs]
+  - id: S-023
+    title: "Ajv JSON schema validator"
+    author: "Evgeny Poberezkin and contributors"
+    kind: library
+    url: "https://github.com/ajv-validator/ajv"
+    license: "MIT"
+    accessed: 2026-10-12
+    visibility: public
+    used-in: [scripts/validate-content.mjs]
+  - id: S-024
+    title: "sharp"
+    author: "Lovell Fuller and contributors"
+    kind: library
+    url: "https://github.com/lovell/sharp"
+    license: "Apache-2.0"
+    accessed: 2026-10-12
+    visibility: public
+    used-in: [scripts/previews.mjs]
+  - id: S-025
+    title: "Fontsource"
+    author: "Fontsource contributors"
+    kind: library
+    url: "https://github.com/fontsource/fontsource"
+    license: "MIT"
+    accessed: 2026-10-12
+    visibility: public
+    used-in: [src/styles/global.css]
+  - id: S-026
+    title: "The /llms.txt proposal"
+    author: "Jeremy Howard"
+    kind: doc
+    url: "https://llmstxt.org"
+    license: "CC-BY-4.0 (proposal text); format followed, nothing copied"
+    accessed: 2026-10-12
+    visibility: public
+    used-in: [src/pages/llms.txt.ts]
+  - id: S-027
+    title: "WAI-ARIA Authoring Practices: Tooltip pattern"
+    author: "W3C"
+    kind: doc
+    url: "https://www.w3.org/WAI/ARIA/apg/patterns/tooltip/"
+    license: "W3C Software and Document License"
+    accessed: 2026-10-12
+    visibility: public
+    used-in: [content/components/labs-examples/tooltip]
+  - id: S-028
+    title: "Claude (Opus) via Claude Code"
+    author: "Anthropic"
+    kind: ai-tool
+    url: "https://www.anthropic.com/claude"
+    license: "Commercial terms (Anthropic)"
+    accessed: 2026-10-12
+    visibility: public
+    used-in: [docs/sources/ai-contributions.md]
+  - id: S-029
+    title: "GitHub Actions"
+    author: "GitHub"
+    kind: doc
+    url: "https://docs.github.com/actions"
+    license: "Service terms (GitHub)"
+    accessed: 2026-10-12
+    visibility: public
+    used-in: [.github/workflows]
+  - id: S-030
+    title: "npm naming convention of Vercel packages (@vercel/*, ai, @ai-sdk/react, ai-elements, flags, streamdown, agent-browser, skills)"
+    author: "Vercel"
+    kind: design-reference
+    url: "https://www.npmjs.com/package/ai-elements"
+    license: "Public package listings; referenced for naming only"
+    accessed: 2026-10-12
+    visibility: public
+    used-in: [docs/decisions/0008-npm-names.md]
+  - id: S-031
+    title: "Owner decision on npm names (@designfrom/react and the designfrom CLI)"
+    author: "Owner"
+    kind: brief
+    private-file: "Owner instructions relayed in the build session; not in the repository"
+    license: "All rights reserved (owner)"
+    accessed: 2026-10-12
+    visibility: private-cited-only
+    used-in: [docs/decisions/0008-npm-names.md]
