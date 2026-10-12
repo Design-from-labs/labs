@@ -2,7 +2,7 @@
 // section 8): the generated file header, the published registry items, the
 // registry index and the data the site renders. Deterministic: no clocks, so
 // two builds of one commit produce identical output.
-import { demoFor, isPublished, kindOf } from "./content.mjs";
+import { demoFor, includeBeta, isShown, kindOf } from "./content.mjs";
 import {
   CLI_NAME,
   cliCommand,
@@ -289,18 +289,19 @@ function creditView(credits, id) {
  * variant appear; each lists every variant with its published state so the
  * switcher can mark unavailable combinations honestly.
  */
-export function siteData(components, credits, projects) {
+export function siteData(components, credits, projects, beta = includeBeta()) {
   const labsNames = new Set(components.flatMap((c) => [...c.items.keys()]));
   const entries = [];
   const published = [];
   for (const entry of components) {
     const { meta } = entry;
-    if (meta?.status !== "ready") {
+    if (!(meta?.status === "ready" || (beta && meta?.status === "beta"))) {
       continue;
     }
     const variants = [];
     for (const variant of meta.variants) {
-      const live = isPublished(meta, variant) && entry.items.has(variant.name);
+      const live =
+        isShown(meta, variant, beta) && entry.items.has(variant.name);
       const view = {
         name: variant.name,
         primitive: variant.primitive,
@@ -350,6 +351,7 @@ export function siteData(components, credits, projects) {
     entries.push({
       name: meta.name,
       sourceId: entry.sourceId,
+      status: meta.status,
       kind: kindOf(meta),
       title: meta.title,
       description: meta.description,

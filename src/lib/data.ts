@@ -57,6 +57,8 @@ export interface Prop {
 export interface Entry {
   name: string;
   sourceId: string;
+  /** "beta" only on preview builds (scripts/lib/content.mjs, includeBeta). */
+  status: "ready" | "beta";
   kind: "component" | "theme" | "font" | "base" | "hook" | "lib";
   title: string;
   description: string;

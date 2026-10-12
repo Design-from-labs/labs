@@ -1,0 +1,35 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "blocks",
+  "type": "registry:ui",
+  "title": "Blocks",
+  "description": "A ball, a bar and a smaller ball stacked like toy blocks wobble into balance. Pure CSS keyframes, played once on mount.",
+  "author": "yui540 <https://github.com/yui540>",
+  "categories": [
+    "feedback",
+    "animation"
+  ],
+  "docs": "Installed `Blocks`. Import it from `@/components/ui/blocks` and render `<Blocks key={run} aria-label=\"Toy blocks wobbling into balance\" />`.\n\nIt plays once on mount; change its `key` to play it again.\nThe keyframes live in the component file and React 19 hoists them into `<head>` once (`<style href precedence>`), so nothing is added to your global CSS. Colors come from the item's own variables (`--blocks-surface`, `--blocks-shape`, `--blocks-shade`), with the upstream grays as fallbacks.\n\nReduced motion: no motion; the stack shows its resting state.\n\nPorted from yui540/css-animations (MIT, copyright 2026 yui540); the license text is in the file.",
+  "registryDependencies": [
+    "utils"
+  ],
+  "cssVars": {
+    "light": {
+      "blocks-surface": "#ffffff",
+      "blocks-shape": "#aaaaaa",
+      "blocks-shade": "#777777"
+    },
+    "dark": {
+      "blocks-surface": "#1c1c1c",
+      "blocks-shape": "#616161",
+      "blocks-shade": "#8a8a8a"
+    }
+  },
+  "files": [
+    {
+      "path": "registry/blocks/blocks.tsx",
+      "type": "registry:ui",
+      "content": "import type * as React from \"react\";\n\nimport { cn } from \"@/lib/utils\";\n\n/*\n * Ported from yui540/css-animations, 2026-04-18/tips-1.html, at commit\n * e30edfcfcc3e: https://github.com/yui540/css-animations\n *\n * MIT License\n *\n * Copyright (c) 2026 yui540\n *\n * Permission is hereby granted, free of charge, to any person obtaining a copy\n * of this software and associated documentation files (the \"Software\"), to deal\n * in the Software without restriction, including without limitation the rights\n * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell\n * copies of the Software, and to permit persons to whom the Software is\n * furnished to do so, subject to the following conditions:\n *\n * The above copyright notice and this permission notice shall be included in all\n * copies or substantial portions of the Software.\n *\n * THE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\n * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\n * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\n * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\n * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\n * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\n * SOFTWARE.\n */\n\n// Upstream CSS, line for line, with component-prefixed parts (data-slot),\n// keyframes (blocks-*) and colors (--blocks-*). React 19 hoists this <style>\n// into <head> once, however many instances render.\nconst css = `\n[data-slot=\"blocks-stack\"] {\n  display: grid;\n  justify-items: center;\n}\n[data-slot=\"blocks-stack\"]:dir(rtl) {\n  scale: -1 1;\n}\n\n[data-slot=\"blocks-large-ball\"] {\n  position: relative;\n  width: 65px;\n  aspect-ratio: 1;\n  border-radius: 50%;\n  background: linear-gradient(to top, var(--blocks-shape, #aaa) 0 50%, var(--blocks-shade, #777) 0);\n  animation:\n    blocks-large-ball-1 0.7s ease-in-out 0s both,\n    blocks-large-ball-2 1.2s ease-in-out 0.7s forwards;\n}\n@keyframes blocks-large-ball-1 {\n  from {\n    transform: translateX(0);\n  }\n  to {\n    transform: translate(50%, 3%) rotate(30deg);\n  }\n}\n@keyframes blocks-large-ball-2 {\n  from {\n    transform: translate(50%, 3%) rotate(30deg);\n  }\n  50% {\n    transform: translate(-50%, 3%) rotate(-35deg);\n  }\n  75% {\n    transform: translate(10%, 1%) rotate(10deg);\n  }\n  to {\n    transform: translateX(0);\n  }\n}\n\n[data-slot=\"blocks-bar\"] {\n  width: 120px;\n  height: 12px;\n  border-radius: 999px;\n  background-color: var(--blocks-shape, #aaa);\n  animation:\n    blocks-bar-1 0.6s ease-in-out 0s both,\n    blocks-bar-2 1.2s ease-in-out 0.6s forwards;\n}\n@keyframes blocks-bar-1 {\n  from {\n    transform: translateX(0);\n  }\n  to {\n    transform: translateX(8%) rotate(6deg);\n  }\n}\n@keyframes blocks-bar-2 {\n  from {\n    transform: translateX(8%) rotate(6deg);\n  }\n  50% {\n    transform: translateX(-8%) rotate(-6deg);\n  }\n  75% {\n    transform: translateX(2%) rotate(2deg);\n  }\n  to {\n    transform: translateX(0);\n  }\n}\n\n[data-slot=\"blocks-small-ball\"] {\n  position: relative;\n  width: 35px;\n  aspect-ratio: 1;\n  border-radius: 50%;\n  background: linear-gradient(to top right, var(--blocks-shape, #aaa) 0 50%, var(--blocks-shade, #777) 0);\n  animation:\n    blocks-small-ball-1 0.5s ease-in-out 0s both,\n    blocks-small-ball-2 1.2s ease-in-out 0.5s forwards;\n}\n@keyframes blocks-small-ball-1 {\n  from {\n    transform: translateX(0);\n  }\n  to {\n    transform: translateX(30%) rotate(25deg);\n  }\n}\n@keyframes blocks-small-ball-2 {\n  from {\n    transform: translateX(30%) rotate(25deg);\n  }\n  50% {\n    transform: translateX(-30%) rotate(-25deg);\n  }\n  75% {\n    transform: translateX(10%) rotate(5deg);\n  }\n  to {\n    transform: translateX(0);\n  }\n}\n\n/* Reduced motion: no motion; the stack shows its resting state. */\n@media (prefers-reduced-motion: reduce) {\n  [data-slot=\"blocks-large-ball\"],\n  [data-slot=\"blocks-bar\"],\n  [data-slot=\"blocks-small-ball\"] {\n    animation: none;\n  }\n}\n`;\n\n/**\n * A ball, a bar and a smaller ball stacked like toy blocks, wobbling into\n * balance once on mount. Remount it (change its `key`) to play it again.\n */\nfunction Blocks({ className, ...props }: React.ComponentProps<\"div\">) {\n  const labelled =\n    props[\"aria-label\"] !== undefined || props[\"aria-labelledby\"] !== undefined;\n  return (\n    <div\n      data-slot=\"blocks\"\n      role={labelled ? \"img\" : undefined}\n      aria-hidden={labelled ? undefined : true}\n      className={cn(\n        \"relative grid aspect-square w-full max-w-80 place-content-center overflow-hidden bg-[var(--blocks-surface,#fff)]\",\n        className,\n      )}\n      {...props}\n    >\n      <style href=\"designfrom-blocks\" precedence=\"default\">\n        {css}\n      </style>\n      <div data-slot=\"blocks-stack\">\n        <div data-slot=\"blocks-large-ball\" />\n        <div data-slot=\"blocks-bar\" />\n        <div data-slot=\"blocks-small-ball\" />\n      </div>\n    </div>\n  );\n}\n\nexport { Blocks };\n"
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "domino",
+  "type": "registry:ui",
+  "title": "Domino",
+  "description": "Four dominoes topple one after another and come to rest. Pure CSS keyframes, played once on mount.",
+  "author": "yui540 <https://github.com/yui540>",
+  "categories": [
+    "feedback",
+    "animation"
+  ],
+  "docs": "Installed `Domino`. Import it from `@/components/ui/domino` and render `<Domino key={run} aria-label=\"Four dominoes toppling\" />`.\n\nIt plays once on mount; change its `key` to play it again.\nThe keyframes live in the component file and React 19 hoists them into `<head>` once (`<style href precedence>`), so nothing is added to your global CSS. Colors come from the item's own variables (`--domino-1`, `--domino-2`, `--domino-3`, `--domino-4`, `--domino-surface`), with the upstream grays as fallbacks.\n\nReduced motion: no motion; the row shows its fallen end state.\n\nPorted from yui540/css-animations (MIT, copyright 2026 yui540); the license text is in the file.",
+  "registryDependencies": [
+    "utils"
+  ],
+  "cssVars": {
+    "light": {
+      "domino-1": "#777777",
+      "domino-2": "#bbbbbb",
+      "domino-3": "#aaaaaa",
+      "domino-4": "#999999",
+      "domino-surface": "#ffffff"
+    },
+    "dark": {
+      "domino-1": "#8a8a8a",
+      "domino-2": "#535353",
+      "domino-3": "#616161",
+      "domino-4": "#6f6f6f",
+      "domino-surface": "#1c1c1c"
+    }
+  },
+  "files": [
+    {
+      "path": "registry/domino/domino.tsx",
+      "type": "registry:ui",
+      "content": "import type * as React from \"react\";\n\nimport { cn } from \"@/lib/utils\";\n\n/*\n * Ported from yui540/css-animations, 2026-04-18/tips-2.html, at commit\n * e30edfcfcc3e: https://github.com/yui540/css-animations\n *\n * MIT License\n *\n * Copyright (c) 2026 yui540\n *\n * Permission is hereby granted, free of charge, to any person obtaining a copy\n * of this software and associated documentation files (the \"Software\"), to deal\n * in the Software without restriction, including without limitation the rights\n * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell\n * copies of the Software, and to permit persons to whom the Software is\n * furnished to do so, subject to the following conditions:\n *\n * The above copyright notice and this permission notice shall be included in all\n * copies or substantial portions of the Software.\n *\n * THE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\n * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\n * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\n * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\n * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\n * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\n * SOFTWARE.\n */\n\n// Upstream CSS, line for line, with component-prefixed parts (data-slot),\n// keyframes (domino-*) and colors (--domino-*). The row is drawn left to\n// right and mirrored as a whole in a right-to-left context. React 19 hoists\n// this <style> into <head> once, however many instances render.\nconst css = `\n[data-slot=\"domino-row\"] {\n  display: grid;\n  column-gap: 20px;\n  grid-template-columns: repeat(4, auto);\n  place-content: center;\n  direction: ltr;\n}\n[data-slot=\"domino-row\"]:dir(rtl) {\n  scale: -1 1;\n}\n[data-slot=\"domino-block\"] {\n  position: relative;\n  width: 20px;\n  aspect-ratio: 20/60;\n  border-radius: 5px;\n  transform-origin: right bottom;\n}\n[data-slot=\"domino-block\"]:nth-child(1) {\n  background-color: var(--domino-1, #777);\n  animation: domino-fall-down-1 0.65s ease-in-out 0.2s both;\n}\n[data-slot=\"domino-block\"]:nth-child(2) {\n  background-color: var(--domino-2, #bbb);\n  animation: domino-fall-down-2 0.65s ease-in-out 0.3s both;\n}\n[data-slot=\"domino-block\"]:nth-child(3) {\n  background-color: var(--domino-3, #aaa);\n  animation: domino-fall-down-3 0.65s ease-in-out 0.4s both;\n}\n[data-slot=\"domino-block\"]:nth-child(4) {\n  background-color: var(--domino-4, #999);\n  animation: domino-fall-down-4 0.65s ease-in-out 0.5s both;\n}\n@keyframes domino-fall-down-1 {\n  from {\n    transform: rotate(0deg);\n  }\n  60% {\n    transform: rotate(60deg);\n  }\n  80% {\n    transform: rotate(55deg);\n  }\n  to {\n    transform: rotate(60deg);\n  }\n}\n@keyframes domino-fall-down-2 {\n  from {\n    transform: rotate(0deg);\n  }\n  60% {\n    transform: rotate(61deg);\n  }\n  80% {\n    transform: rotate(56deg);\n  }\n  to {\n    transform: rotate(61deg);\n  }\n}\n@keyframes domino-fall-down-3 {\n  from {\n    transform: rotate(0deg);\n  }\n  60% {\n    transform: rotate(66deg);\n  }\n  80% {\n    transform: rotate(60deg);\n  }\n  to {\n    transform: rotate(66deg);\n  }\n}\n@keyframes domino-fall-down-4 {\n  from {\n    transform: rotate(0deg);\n  }\n  60% {\n    transform: rotate(90deg);\n  }\n  80% {\n    transform: rotate(85deg);\n  }\n  to {\n    transform: rotate(90deg);\n  }\n}\n\n/* Reduced motion: no motion; the row shows its fallen end state. */\n@media (prefers-reduced-motion: reduce) {\n  [data-slot=\"domino-block\"]:nth-child(n) {\n    animation: none;\n  }\n  [data-slot=\"domino-block\"]:nth-child(1) {\n    transform: rotate(60deg);\n  }\n  [data-slot=\"domino-block\"]:nth-child(2) {\n    transform: rotate(61deg);\n  }\n  [data-slot=\"domino-block\"]:nth-child(3) {\n    transform: rotate(66deg);\n  }\n  [data-slot=\"domino-block\"]:nth-child(4) {\n    transform: rotate(90deg);\n  }\n}\n`;\n\n/**\n * Four dominoes toppling one after another, once on mount. Remount it\n * (change its `key`) to play it again.\n */\nfunction Domino({ className, ...props }: React.ComponentProps<\"div\">) {\n  const labelled =\n    props[\"aria-label\"] !== undefined || props[\"aria-labelledby\"] !== undefined;\n  return (\n    <div\n      data-slot=\"domino\"\n      role={labelled ? \"img\" : undefined}\n      aria-hidden={labelled ? undefined : true}\n      className={cn(\n        \"relative grid aspect-square w-full max-w-80 place-content-center overflow-hidden bg-[var(--domino-surface,#fff)]\",\n        className,\n      )}\n      {...props}\n    >\n      <style href=\"designfrom-domino\" precedence=\"default\">\n        {css}\n      </style>\n      <div data-slot=\"domino-row\">\n        <div data-slot=\"domino-block\" />\n        <div data-slot=\"domino-block\" />\n        <div data-slot=\"domino-block\" />\n        <div data-slot=\"domino-block\" />\n      </div>\n    </div>\n  );\n}\n\nexport { Domino };\n"
+    }
+  ]
+}

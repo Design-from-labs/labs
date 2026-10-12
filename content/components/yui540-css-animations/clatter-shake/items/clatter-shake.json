@@ -1,0 +1,37 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "clatter-shake",
+  "type": "registry:ui",
+  "title": "Clatter Shake",
+  "description": "A hanging tag drops in on its string and clatters side to side until it hangs still. Pure CSS keyframes, played once on mount.",
+  "author": "yui540 <https://github.com/yui540>",
+  "categories": [
+    "feedback",
+    "animation"
+  ],
+  "docs": "Installed `ClatterShake`. Import it from `@/components/ui/clatter-shake` and render `<ClatterShake key={run} aria-label=\"A hanging tag swinging to a stop\" />`.\n\nIt plays once on mount; change its `key` to play it again.\nThe keyframes live in the component file and React 19 hoists them into `<head>` once (`<style href precedence>`), so nothing is added to your global CSS. Colors come from the item's own variables (`--clatter-shake-surface`, `--clatter-shake-string`, `--clatter-shake-tag`, `--clatter-shake-hole`), with the upstream grays as fallbacks.\n\nReduced motion: no motion; the tag hangs at rest.\n\nPorted from yui540/css-animations (MIT, copyright 2026 yui540); the license text is in the file.",
+  "registryDependencies": [
+    "utils"
+  ],
+  "cssVars": {
+    "light": {
+      "clatter-shake-surface": "#ffffff",
+      "clatter-shake-string": "#888888",
+      "clatter-shake-tag": "#bbbbbb",
+      "clatter-shake-hole": "#eeeeee"
+    },
+    "dark": {
+      "clatter-shake-surface": "#1c1c1c",
+      "clatter-shake-string": "#7c7c7c",
+      "clatter-shake-tag": "#535353",
+      "clatter-shake-hole": "#2a2a2a"
+    }
+  },
+  "files": [
+    {
+      "path": "registry/clatter-shake/clatter-shake.tsx",
+      "type": "registry:ui",
+      "content": "import type * as React from \"react\";\n\nimport { cn } from \"@/lib/utils\";\n\n/*\n * Ported from yui540/css-animations, 2026-04-18/tips-3.html, at commit\n * e30edfcfcc3e: https://github.com/yui540/css-animations\n *\n * MIT License\n *\n * Copyright (c) 2026 yui540\n *\n * Permission is hereby granted, free of charge, to any person obtaining a copy\n * of this software and associated documentation files (the \"Software\"), to deal\n * in the Software without restriction, including without limitation the rights\n * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell\n * copies of the Software, and to permit persons to whom the Software is\n * furnished to do so, subject to the following conditions:\n *\n * The above copyright notice and this permission notice shall be included in all\n * copies or substantial portions of the Software.\n *\n * THE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\n * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\n * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\n * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\n * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\n * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\n * SOFTWARE.\n */\n\n// Upstream CSS, line for line, with component-prefixed parts (data-slot),\n// keyframes (clatter-shake-*) and colors (--clatter-shake-*). Mirrored as a\n// whole in a right-to-left context. React 19 hoists this <style> into <head>\n// once, however many instances render.\nconst css = `\n[data-slot=\"clatter-shake-panel\"] {\n  position: relative;\n  animation: clatter-shake-translate-x 0.84s ease-in-out 0s both;\n}\n[data-slot=\"clatter-shake-panel\"]:dir(rtl) {\n  scale: -1 1;\n}\n@keyframes clatter-shake-translate-x {\n  from {\n    transform: translateX(32%);\n  }\n  40% {\n    transform: translateX(-16%);\n  }\n  70% {\n    transform: translateX(8%);\n  }\n  to {\n    transform: translateX(0%);\n  }\n}\n\n[data-slot=\"clatter-shake-inner\"] {\n  position: relative;\n  animation: clatter-shake-translate-y 0.84s ease-in-out 0s both;\n}\n[data-slot=\"clatter-shake-inner\"]::after {\n  content: \"\";\n  position: absolute;\n  top: 0;\n  left: 50%;\n  transform: translate(-50%, -95%);\n  width: 6%;\n  height: 200%;\n  background-color: var(--clatter-shake-string, #888);\n  border-radius: 999px;\n}\n@keyframes clatter-shake-translate-y {\n  from {\n    transform: translateY(-150%);\n  }\n  40% {\n    transform: translateY(20%);\n  }\n  60% {\n    transform: translateY(0);\n  }\n  80% {\n    transform: translateY(10%);\n  }\n  to {\n    transform: translateY(0);\n  }\n}\n\n[data-slot=\"clatter-shake-tag\"] {\n  position: relative;\n  width: 90px;\n  aspect-ratio: 20 / 26;\n  border-radius: 12px;\n  background-color: var(--clatter-shake-tag, #bbb);\n  transform-origin: 50% 10%;\n  animation: clatter-shake-shake 0.84s ease-in-out 0s both;\n}\n[data-slot=\"clatter-shake-tag\"]::after {\n  content: \"\";\n  display: block;\n  position: absolute;\n  top: 8%;\n  left: 50%;\n  transform: translateX(-50%);\n  width: 15%;\n  aspect-ratio: 1;\n  border-radius: 50%;\n  background-color: var(--clatter-shake-hole, #eee);\n}\n@keyframes clatter-shake-shake {\n  from {\n    transform: rotate(50deg);\n  }\n  40% {\n    transform: rotate(-16deg);\n  }\n  70% {\n    transform: rotate(8deg);\n  }\n  to {\n    transform: rotate(0deg);\n  }\n}\n\n/* Optional content on the tag, below the hole. */\n[data-slot=\"clatter-shake-content\"] {\n  position: absolute;\n  inset: 26% 8% 8%;\n  display: grid;\n  place-items: center;\n  text-align: center;\n}\n[data-slot=\"clatter-shake-panel\"]:dir(rtl) [data-slot=\"clatter-shake-content\"] {\n  scale: -1 1;\n}\n\n/* Reduced motion: no motion; the tag hangs at rest. */\n@media (prefers-reduced-motion: reduce) {\n  [data-slot=\"clatter-shake-panel\"],\n  [data-slot=\"clatter-shake-inner\"],\n  [data-slot=\"clatter-shake-tag\"] {\n    animation: none;\n  }\n}\n`;\n\n/**\n * A tag drops in on its string and clatters from side to side until it\n * hangs still, once on mount. Children render on the tag. Remount it (change\n * its `key`) to play it again.\n */\nfunction ClatterShake({\n  className,\n  children,\n  ...props\n}: React.ComponentProps<\"div\">) {\n  const labelled =\n    props[\"aria-label\"] !== undefined || props[\"aria-labelledby\"] !== undefined;\n  const decorative = !labelled && children == null;\n  return (\n    <div\n      data-slot=\"clatter-shake\"\n      role={labelled && children == null ? \"img\" : undefined}\n      aria-hidden={decorative ? true : undefined}\n      className={cn(\n        \"relative grid aspect-square w-full max-w-80 place-content-center overflow-hidden bg-[var(--clatter-shake-surface,#fff)]\",\n        className,\n      )}\n      {...props}\n    >\n      <style href=\"designfrom-clatter-shake\" precedence=\"default\">\n        {css}\n      </style>\n      <div data-slot=\"clatter-shake-panel\">\n        <div data-slot=\"clatter-shake-inner\">\n          <div data-slot=\"clatter-shake-tag\">\n            {children == null ? null : (\n              <div data-slot=\"clatter-shake-content\">{children}</div>\n            )}\n          </div>\n        </div>\n      </div>\n    </div>\n  );\n}\n\nexport { ClatterShake };\n"
+    }
+  ]
+}

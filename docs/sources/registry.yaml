@@ -410,3 +410,80 @@ sources:
     accessed: 2026-10-12
     visibility: public
     used-in: [docs/decisions/0012-gallery-view-transitions.md]
+  - id: S-150
+    title: "yui540/css-animations (2026-04-18 and 2026-04-25 tips)"
+    author: "yui540"
+    kind: library
+    url: "https://github.com/yui540/css-animations"
+    license: "MIT"
+    accessed: 2026-10-12
+    visibility: public
+    used-in: [sources.yaml, content/components/yui540-css-animations, docs/evidence/ports]
+    note: "Pinned at e30edfcfcc3e0f7a3bd44f3d5566ee23c9aaa186. Ported: blocks, domino, clatter-shake, pop-out (2026-04-18) and scroll-unroll, rattle-bounce, swap, ripple (2026-04-25). The other dated tips are out of scope."
+  - id: S-151
+    title: "M PLUS 1 typeface"
+    author: "Coji Morishita and the M+ Fonts Project"
+    kind: library
+    url: "https://fonts.google.com/specimen/M+PLUS+1"
+    license: "OFL-1.1"
+    accessed: 2026-10-12
+    visibility: public
+    used-in: [docs/evidence/ports/scroll-unroll/fidelity.md]
+    note: "Loaded from Google Fonts by the upstream Scroll Unroll demo, and by our fidelity harness to match it. Not shipped: the component inherits its font."
+  - id: S-152
+    title: "pixelmatch"
+    author: "Mapbox"
+    kind: library
+    url: "https://github.com/mapbox/pixelmatch"
+    license: "ISC"
+    accessed: 2026-10-12
+    visibility: public
+    used-in: [docs/evidence/ports]
+    note: "Fidelity harness only (screenshot diffs); not a repository dependency."
+  - id: S-153
+    title: "pngjs"
+    author: "pngjs contributors"
+    kind: library
+    url: "https://github.com/pngjs/pngjs"
+    license: "MIT"
+    accessed: 2026-10-12
+    visibility: public
+    used-in: [docs/evidence/ports]
+    note: "Fidelity harness only (PNG decode and crop); not a repository dependency."
+  - id: S-154
+    title: "esbuild"
+    author: "Evan Wallace"
+    kind: library
+    url: "https://github.com/evanw/esbuild"
+    license: "MIT"
+    accessed: 2026-10-12
+    visibility: public
+    used-in: [docs/evidence/ports]
+    note: "Fidelity harness only (bundles the ported components for server rendering); not a repository dependency."
+  - id: S-155
+    title: "MDN: the :dir() pseudo-class"
+    author: "MDN contributors"
+    kind: doc
+    url: "https://developer.mozilla.org/en-US/docs/Web/CSS/:dir"
+    license: "CC-BY-SA-2.5"
+    accessed: 2026-10-12
+    visibility: public
+    used-in: [content/components/yui540-css-animations, docs/decisions/0013-keyframes-in-hoisted-style.md]
+  - id: S-156
+    title: "React: the <style> component (href and precedence)"
+    author: "Meta Platforms and contributors"
+    kind: doc
+    url: "https://react.dev/reference/react-dom/components/style"
+    license: "CC-BY-4.0"
+    accessed: 2026-10-12
+    visibility: public
+    used-in: [content/components/yui540-css-animations, docs/decisions/0013-keyframes-in-hoisted-style.md]
+  - id: S-157
+    title: "Owner brief for component ports (fidelity first, then enhance; beta until preview review)"
+    author: "Owner"
+    kind: brief
+    private-file: "Owner instructions relayed to the port pods; not in the repository"
+    license: "All rights reserved (owner)"
+    accessed: 2026-10-12
+    visibility: private-cited-only
+    used-in: [docs/decisions/0013-keyframes-in-hoisted-style.md, docs/decisions/0014-beta-on-preview-deployments.md, docs/evidence/ports]

@@ -69,4 +69,52 @@ sources:
 #
 # The scanner (.github/workflows/scanner.yml) fetches the pinned files and
 # opens a pull request; it never follows a branch. Bump `ref` to update.
-oss: []
+oss:
+  # Ported by hand in this repository from the pinned commit (fetch: in-repo;
+  # the scanner only fetches pinned-git sources). The upstream ships HTML
+  # demos, not registry items. Port notes and fidelity evidence:
+  # docs/evidence/ports/<component>/fidelity.md.
+  - id: yui540-css-animations
+    name: yui540 CSS animations
+    repo: https://github.com/yui540/css-animations
+    visibility: public
+    status: active
+    fetch: in-repo
+    ref: e30edfcfcc3e0f7a3bd44f3d5566ee23c9aaa186
+    author: "yui540 <https://github.com/yui540>"
+    license: MIT
+    attribution: "Copyright (c) 2026 yui540. MIT License."
+    credit: S-150
+    components:
+      - name: blocks
+        status: beta
+        category: feedback
+        upstream: 2026-04-18/tips-1.html
+      - name: domino
+        status: beta
+        category: feedback
+        upstream: 2026-04-18/tips-2.html
+      - name: clatter-shake
+        status: beta
+        category: feedback
+        upstream: 2026-04-18/tips-3.html
+      - name: pop-out
+        status: beta
+        category: feedback
+        upstream: 2026-04-18/tips-4.html
+      - name: scroll-unroll
+        status: beta
+        category: feedback
+        upstream: 2026-04-25/tips-1.html
+      - name: rattle-bounce
+        status: beta
+        category: feedback
+        upstream: 2026-04-25/tips-2.html
+      - name: swap
+        status: beta
+        category: feedback
+        upstream: 2026-04-25/tips-3.html
+      - name: ripple
+        status: beta
+        category: feedback
+        upstream: 2026-04-25/tips-4.html

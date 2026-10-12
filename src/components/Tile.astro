@@ -48,7 +48,7 @@ const exportsText = (variant?.exports ?? []).join(", ");
           <span class="vt-tile-title inline-block" transition:name={titleName(entry.name)} transition:animate="initial">{entry.title}</span>
         </a>
       </h3>
-      <span class="font-mono text-[11px] text-muted-foreground uppercase tracking-wide">{KIND_LABELS[entry.kind]}</span>
+      <span class="font-mono text-[11px] text-muted-foreground uppercase tracking-wide">{entry.status === "beta" ? "Beta · " : ""}{KIND_LABELS[entry.kind]}</span>
     </div>
     <p class="line-clamp-2 text-muted-foreground text-sm">{entry.description}</p>
     <p class="mt-auto pt-2 font-mono text-[11px] text-muted-foreground">
