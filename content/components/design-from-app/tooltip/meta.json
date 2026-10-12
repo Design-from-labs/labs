@@ -1,0 +1,58 @@
+{
+  "$schema": "https://labs.designfrom.com/schemas/meta.schema.json",
+  "schemaVersion": 1,
+  "name": "tooltip",
+  "kind": "component",
+  "title": "Tooltip",
+  "description": "A short text label that appears on hover or keyboard focus, built on Radix Tooltip with a theme-inverted bubble and arrow.",
+  "status": "ready",
+  "category": "overlays",
+  "variants": [
+    {
+      "name": "tooltip-radix",
+      "primitive": "radix",
+      "iconSet": "none",
+      "status": "ready"
+    }
+  ],
+  "defaultVariant": "tooltip-radix",
+  "demo": "demo.tsx",
+  "preview": "preview.webp",
+  "source": {
+    "repo": "private source",
+    "commit": "452d50d23640237f430cceed87eb3505ae07ca22"
+  },
+  "author": "Design From <https://labs.designfrom.com>",
+  "license": "MIT",
+  "credits": [
+    "S-003",
+    "S-004",
+    "S-008",
+    "S-019",
+    "S-020",
+    "S-032",
+    "S-041"
+  ],
+  "date": "2026-10-12",
+  "props": [
+    {
+      "name": "TooltipProvider.delayDuration",
+      "type": "number",
+      "default": "200",
+      "description": "Milliseconds the pointer must rest before the tooltip opens."
+    },
+    {
+      "name": "TooltipContent.sideOffset",
+      "type": "number",
+      "default": "0",
+      "description": "Distance in pixels between the trigger and the content."
+    }
+  ],
+  "a11y": [
+    "Opens on keyboard focus as well as hover, and Escape closes it.",
+    "The content is linked to its trigger with aria-describedby, so screen readers announce it as a description.",
+    "Use it for supplementary text only; never put interactive controls or essential information in a tooltip.",
+    "Enter and exit animations are disabled under prefers-reduced-motion."
+  ],
+  "usage": "<TooltipProvider>\n  <Tooltip>\n    <TooltipTrigger asChild>\n      <Button variant=\"outline\">Save</Button>\n    </TooltipTrigger>\n    <TooltipContent>Saves a draft</TooltipContent>\n  </Tooltip>\n</TooltipProvider>"
+}

@@ -1,0 +1,38 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "button-radix",
+  "type": "registry:ui",
+  "title": "Button",
+  "description": "A button with seven visual variants and four sizes, built on a native button element with an optional asChild slot for links.",
+  "author": "Design From <https://labs.designfrom.com>",
+  "categories": [
+    "actions"
+  ],
+  "docs": "Installed `button.tsx` in `components/ui`.\n\nImport: `import { Button, buttonVariants } from \"@/components/ui/button\"`\n\n```tsx\n<Button variant=\"outline\">Save draft</Button>\n```\n\nColors and radius come from your theme's shadcn tokens (--primary, --border, --radius, and so on).\nThis item added its own variables to your CSS: `--button-destructive-foreground`, `--button-font-size`, `--button-radius`.",
+  "dependencies": [
+    "class-variance-authority@^0.7.1",
+    "radix-ui@^1.4.3"
+  ],
+  "registryDependencies": [
+    "utils"
+  ],
+  "files": [
+    {
+      "path": "registry/button-radix/button.tsx",
+      "type": "registry:ui",
+      "content": "\"use client\";\n\nimport { Slot as SlotPrimitive } from \"radix-ui\";\nimport { cva, type VariantProps } from \"class-variance-authority\";\nimport type * as React from \"react\";\nimport { cn } from \"@/lib/utils\";\n\n/**\n * Button (button-radix)\n *\n * A button with seven visual variants and four sizes, built on a native button element with an optional asChild slot for links.\n *\n * Exports: Button, buttonVariants\n *\n * Props:\n * - Button: React.ComponentProps<\"button\"> & VariantProps<typeof buttonVariants> & { asChild?: boolean; }\n *   - variant: \"default\" | \"accent\" | \"destructive\" | \"outline\" | \"secondary\" | \"ghost\" | \"link\" (default \"default\"). Selects the variant styles defined by buttonVariants.\n *   - size: \"default\" | \"sm\" | \"lg\" | \"icon\" (default \"default\"). Selects the size styles defined by buttonVariants.\n *   - asChild: boolean (default false). Render the single child element instead of the default element, merging props onto it (Radix Slot).\n *\n * Theme tokens (shadcn names, from your theme): --accent, --accent-foreground, --background, --destructive, --input, --primary, --primary-foreground, --radius, --ring, --secondary, --secondary-foreground.\n * Component variables (shipped in this item's cssVars, light and dark): --button-destructive-foreground, --button-font-size, --button-radius.\n *\n * Accessibility:\n * - Renders a native button with type=\"button\" by default, so Enter and Space activate it and it never submits a form by accident.\n * - Focus is always visible through a 3px ring in the ring color.\n * - Disabled buttons ignore pointer events and dim to 50% opacity; explain why nearby when the reason is not obvious.\n * - Icon-only buttons (size \"icon\") need an aria-label.\n * - The press scale is skipped under prefers-reduced-motion.\n *\n * Customize:\n * - Edit or add variants and sizes in buttonVariants; every color comes from theme tokens such as bg-primary, bg-accent, and bg-destructive.\n * - Change the corner radius and label size through the button's own radius and font-size variables, which ship with this item.\n * - Use asChild to give a link or router component button styling.\n * - Set the data-no-press-scale attribute to turn off the press scale on one button.\n */\n\nconst buttonVariants = cva(\n  \"inline-flex shrink-0 cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-[var(--button-radius)] font-medium text-[length:var(--button-font-size)] outline-none transition-[background-color,border-color,color,transform,box-shadow,opacity] duration-150 ease-out focus-visible:ring-[3px] focus-visible:ring-ring/50 active:scale-[0.97] disabled:pointer-events-none disabled:opacity-50 data-[no-press-scale]:active:scale-100 motion-reduce:transition-none motion-reduce:active:scale-100 [&_svg:not([class*='size-'])]:size-4 [&_svg]:pointer-events-none\",\n  {\n    variants: {\n      variant: {\n        default:\n          \"bg-primary text-primary-foreground shadow-xs hover:bg-primary/90\",\n        accent: \"bg-accent text-accent-foreground shadow-xs hover:bg-accent/90\",\n        destructive:\n          \"bg-destructive text-(--button-destructive-foreground) shadow-xs hover:bg-destructive/90\",\n        outline:\n          \"border border-input bg-background shadow-xs hover:bg-secondary hover:text-secondary-foreground\",\n        secondary:\n          \"bg-secondary text-secondary-foreground shadow-xs hover:bg-secondary/80\",\n        ghost: \"hover:bg-secondary hover:text-secondary-foreground\",\n        link: \"text-primary underline-offset-4 hover:underline\",\n      },\n      size: {\n        default: \"h-9 px-4 py-2 has-[>svg]:px-3\",\n        sm: \"h-8 gap-1.5 px-3 has-[>svg]:px-2.5\",\n        lg: \"h-10 px-6 has-[>svg]:px-4\",\n        icon: \"size-9\",\n      },\n    },\n    defaultVariants: {\n      variant: \"default\",\n      size: \"default\",\n    },\n  }\n);\n\nfunction Button({\n  className,\n  variant,\n  size,\n  asChild = false,\n  ...props\n}: React.ComponentProps<\"button\"> &\n  VariantProps<typeof buttonVariants> & {\n    asChild?: boolean;\n  }) {\n  const Comp = asChild ? SlotPrimitive.Slot : \"button\";\n  return (\n    <Comp\n      className={cn(buttonVariants({ variant, size, className }))}\n      data-slot=\"button\"\n      type={asChild ? undefined : \"button\"}\n      {...props}\n    />\n  );\n}\n\nexport { Button, buttonVariants };\n"
+    }
+  ],
+  "cssVars": {
+    "light": {
+      "button-destructive-foreground": "oklch(0.99 0.002 95)",
+      "button-font-size": "0.875rem",
+      "button-radius": "calc(var(--radius) - 2px)"
+    },
+    "dark": {
+      "button-destructive-foreground": "oklch(0.98 0.002 95)",
+      "button-font-size": "0.875rem",
+      "button-radius": "calc(var(--radius) - 2px)"
+    }
+  }
+}

@@ -1,0 +1,65 @@
+{
+  "$schema": "https://labs.designfrom.com/schemas/meta.schema.json",
+  "schemaVersion": 1,
+  "name": "button",
+  "kind": "component",
+  "title": "Button",
+  "description": "A button with seven visual variants and four sizes, built on a native button element with an optional asChild slot for links.",
+  "status": "ready",
+  "category": "actions",
+  "variants": [
+    {
+      "name": "button-radix",
+      "primitive": "radix",
+      "iconSet": "none",
+      "status": "ready"
+    }
+  ],
+  "defaultVariant": "button-radix",
+  "demo": "demo.tsx",
+  "preview": "preview.webp",
+  "source": {
+    "repo": "private source",
+    "commit": "452d50d23640237f430cceed87eb3505ae07ca22"
+  },
+  "author": "Design From <https://labs.designfrom.com>",
+  "license": "MIT",
+  "credits": [
+    "S-003",
+    "S-004",
+    "S-008",
+    "S-018",
+    "S-019",
+    "S-020",
+    "S-032"
+  ],
+  "date": "2026-10-12",
+  "props": [
+    {
+      "name": "variant",
+      "type": "\"default\" | \"accent\" | \"destructive\" | \"outline\" | \"secondary\" | \"ghost\" | \"link\"",
+      "default": "\"default\"",
+      "description": "Selects the variant styles defined by buttonVariants."
+    },
+    {
+      "name": "size",
+      "type": "\"default\" | \"sm\" | \"lg\" | \"icon\"",
+      "default": "\"default\"",
+      "description": "Selects the size styles defined by buttonVariants."
+    },
+    {
+      "name": "asChild",
+      "type": "boolean",
+      "default": "false",
+      "description": "Render the single child element instead of the default element, merging props onto it (Radix Slot)."
+    }
+  ],
+  "a11y": [
+    "Renders a native button with type=\"button\" by default, so Enter and Space activate it and it never submits a form by accident.",
+    "Focus is always visible through a 3px ring in the ring color.",
+    "Disabled buttons ignore pointer events and dim to 50% opacity; explain why nearby when the reason is not obvious.",
+    "Icon-only buttons (size \"icon\") need an aria-label.",
+    "The press scale is skipped under prefers-reduced-motion."
+  ],
+  "usage": "<Button variant=\"outline\">Save draft</Button>"
+}

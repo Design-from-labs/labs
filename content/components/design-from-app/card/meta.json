@@ -1,0 +1,42 @@
+{
+  "$schema": "https://labs.designfrom.com/schemas/meta.schema.json",
+  "schemaVersion": 1,
+  "name": "card",
+  "kind": "component",
+  "title": "Card",
+  "description": "A bordered surface that groups related content, with header, title, description, action, content, and footer slots.",
+  "status": "ready",
+  "category": "layout",
+  "variants": [
+    {
+      "name": "card",
+      "primitive": "none",
+      "iconSet": "none",
+      "status": "ready"
+    }
+  ],
+  "defaultVariant": "card",
+  "demo": "demo.tsx",
+  "preview": "preview.webp",
+  "source": {
+    "repo": "private source",
+    "commit": "452d50d23640237f430cceed87eb3505ae07ca22"
+  },
+  "author": "Design From <https://labs.designfrom.com>",
+  "license": "MIT",
+  "credits": [
+    "S-003",
+    "S-004",
+    "S-008",
+    "S-019",
+    "S-020"
+  ],
+  "date": "2026-10-12",
+  "props": [],
+  "a11y": [
+    "Every slot renders a div with no implicit role.",
+    "CardTitle is not a heading; put a heading element inside it when the title belongs in the document outline.",
+    "Give icon-only buttons in CardAction an aria-label."
+  ],
+  "usage": "<Card>\n  <CardHeader>\n    <CardTitle>Brand sprint</CardTitle>\n    <CardDescription>A two-week engagement.</CardDescription>\n  </CardHeader>\n  <CardContent>Five working sessions.</CardContent>\n</Card>"
+}
