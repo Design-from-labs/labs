@@ -238,7 +238,7 @@ Design From and Design From Labs (the guards enforce this).
 - Fix: `e2e/layout.spec.ts` checks 320 and 375 px with mobile emulation off,
   left-to-right and right-to-left, on every page type.
 - Prevention: Measure overflow at explicit widths with `isMobile: false`.
-- Links: `e2e/layout.spec.ts`, the gallery tile expand pull request
+- Links: `e2e/layout.spec.ts`, [#8](https://github.com/Design-from-labs/labs/pull/8)
 
 ### P-016
 
@@ -258,8 +258,7 @@ Design From and Design From Labs (the guards enforce this).
   the same starting state before failing.
 - Prevention: Assert morphs only through `navigateWithMorph`, in the
   `transitions` project.
-- Links: `playwright.config.ts`, `e2e/gallery.spec.ts`, the gallery tile
-  expand pull request
+- Links: `playwright.config.ts`, `e2e/gallery.spec.ts`, [#8](https://github.com/Design-from-labs/labs/pull/8)
 
 ### P-017
 
@@ -275,7 +274,7 @@ Design From and Design From Labs (the guards enforce this).
   long unbroken values.
 - Prevention: The 320 px checks in `e2e/layout.spec.ts` (P-015).
 - Links: `src/pages/ui/[component].astro`, `src/components/Command.astro`,
-  the gallery tile expand pull request
+  [#8](https://github.com/Design-from-labs/labs/pull/8)
 
 ### P-018
 
@@ -289,4 +288,4 @@ Design From and Design From Labs (the guards enforce this).
   config's `baseURL` at your own preview port.
 - Prevention: Before a local e2e run, check what listens on 4321
   (`lsof -iTCP:4321 -sTCP:LISTEN`).
-- Links: `playwright.config.ts`, the gallery tile expand pull request
+- Links: `playwright.config.ts`, [#8](https://github.com/Design-from-labs/labs/pull/8)
