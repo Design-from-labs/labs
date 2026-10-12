@@ -1,0 +1,93 @@
+{
+  "$schema": "https://labs.designfrom.com/schemas/meta.schema.json",
+  "schemaVersion": 1,
+  "name": "sidebar",
+  "kind": "component",
+  "title": "Sidebar",
+  "description": "App navigation: a full-height rail at the inline start from the md breakpoint, and a top bar with a menu disclosure on phones.",
+  "status": "ready",
+  "category": "navigation",
+  "label": "Labs examples",
+  "variants": [
+    {
+      "name": "sidebar-lucide",
+      "primitive": "none",
+      "iconSet": "lucide",
+      "status": "ready"
+    },
+    {
+      "name": "sidebar-phosphor",
+      "primitive": "none",
+      "iconSet": "phosphor",
+      "status": "ready"
+    }
+  ],
+  "defaultVariant": "sidebar-lucide",
+  "demo": {
+    "sidebar-lucide": "demo.tsx",
+    "sidebar-phosphor": "demo.phosphor.tsx"
+  },
+  "preview": "preview.webp",
+  "source": {
+    "repo": "https://github.com/Design-from-labs/labs",
+    "commit": "8bdb5d8fa32b63042e9926af3e4f1d02f4696041",
+    "path": "examples/sidebar"
+  },
+  "author": "Design From Labs <https://labs.designfrom.com>",
+  "license": "MIT",
+  "credits": [
+    "S-003",
+    "S-004",
+    "S-005",
+    "S-006",
+    "S-008"
+  ],
+  "date": "2026-10-12",
+  "props": [
+    {
+      "name": "Sidebar title",
+      "type": "React.ReactNode",
+      "required": true,
+      "description": "The product or workspace name at the top."
+    },
+    {
+      "name": "Sidebar label",
+      "type": "string",
+      "default": "\"Main\"",
+      "description": "Accessible name of the navigation landmark."
+    },
+    {
+      "name": "Sidebar footer",
+      "type": "React.ReactNode",
+      "description": "Content pinned to the bottom of the rail, such as settings or the account."
+    },
+    {
+      "name": "SidebarGroup label",
+      "type": "string",
+      "description": "A visible group label; the group is announced with it."
+    },
+    {
+      "name": "SidebarItem active",
+      "type": "boolean",
+      "default": "false",
+      "description": "Marks the current page with aria-current=\"page\"."
+    },
+    {
+      "name": "SidebarItem icon",
+      "type": "React.ReactNode",
+      "description": "A decorative icon; the link text stays the accessible name."
+    }
+  ],
+  "a11y": [
+    "The links sit in a nav landmark named by `label`; the current page has aria-current=\"page\".",
+    "Below 768px the menu button is a disclosure: aria-expanded and aria-controls, no focus trap, links stay in reading order.",
+    "Icons are aria-hidden; every link has visible text.",
+    "Start and end are logical, so the rail moves to the right in right-to-left layouts."
+  ],
+  "usage": "<Sidebar title=\"Studio\">\n  <SidebarGroup>\n    <SidebarItem href=\"/\" icon={<House />} active>Home</SidebarItem>\n    <SidebarItem href=\"/inbox\" icon={<Inbox />}>Inbox</SidebarItem>\n  </SidebarGroup>\n</Sidebar>",
+  "stage": {
+    "device": "laptop",
+    "slot": "sidebar-start",
+    "shell": "app"
+  }
+}

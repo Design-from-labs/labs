@@ -1,0 +1,139 @@
+---
+// The document inside a stage's iframe: a skeleton app shell with the
+// component in its slot. Placeholders are aria-hidden; only the component is
+// real content. Start and end are logical, so right-to-left mirrors every
+// slot (sidebar-start moves to the right). The shell follows the iframe's
+// viewport, so phone and tablet frames get the narrow layouts.
+import "../styles/global.css";
+import type { Shell, Slot } from "../lib/stage";
+
+interface Props {
+  title: string;
+  /** The slot the component fills (named `region`: `slot` is reserved). */
+  region: Slot;
+  shell: Shell;
+}
+const { title, region, shell } = Astro.props;
+const is = (s: Slot) => region === s;
+// Lines of skeleton text, as widths, so the shell reads as a real page.
+const lines = ["w-11/12", "w-10/12", "w-9/12", "w-11/12", "w-7/12"];
+---
+<!doctype html>
+<html lang="en" dir="ltr" class="h-full">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <title>{title} (stage)</title>
+    <script is:inline>
+      // ?dir=rtl from the page that frames this stage; it also sets the
+      // direction live through the same-origin iframe.
+      (() => {
+        const dir = new URLSearchParams(location.search).get("dir");
+        if (dir === "rtl" || dir === "ltr") {
+          document.documentElement.dir = dir;
+        }
+      })();
+    </script>
+  </head>
+  <body class="h-full overflow-hidden bg-background text-foreground" data-shell={shell} data-slot={region}>
+    <div class="flex h-full flex-col md:flex-row" data-stage-shell>
+      {/* Start sidebar: the component, or a skeleton rail in app and docs shells. */}
+      {
+        is("sidebar-start") ? (
+          <div class="shrink-0" data-stage-slot="sidebar-start"><slot /></div>
+        ) : (
+          shell !== "marketing" && (
+            <div aria-hidden="true" class="hidden w-56 shrink-0 flex-col gap-3 border-e bg-muted/40 p-4 md:flex" data-skeleton="sidebar-start">
+              <div class="h-6 w-24 rounded-md bg-muted-foreground/15" />
+              {[0, 1, 2, 3, 4].map(() => <div class="h-4 w-36 rounded bg-muted-foreground/15" />)}
+            </div>
+          )
+        )
+      }
+
+      <div class="flex min-w-0 flex-1 flex-col">
+        {
+          is("header") ? (
+            <div data-stage-slot="header"><slot /></div>
+          ) : (
+            <div aria-hidden="true" class="flex h-14 shrink-0 items-center gap-4 border-b px-4" data-skeleton="header">
+              <div class="h-6 w-24 rounded-md bg-muted-foreground/15" />
+              <div class="ms-auto flex gap-3">
+                <div class="h-4 w-14 rounded bg-muted-foreground/15" />
+                <div class="h-4 w-14 rounded bg-muted-foreground/15" />
+                <div class="h-8 w-8 rounded-full bg-muted-foreground/15" />
+              </div>
+            </div>
+          )
+        }
+        {is("toolbar") && <div class="border-b" data-stage-slot="toolbar"><slot /></div>}
+
+        <div class="relative flex min-h-0 flex-1">
+          {/* Not a <main>: the framing page has one, and axe reads both documents as one page. */}
+          <div class="min-w-0 flex-1 overflow-hidden p-6" data-stage-content>
+            <h1 class="sr-only">{title}</h1>
+            {
+              is("inline") ? (
+                <div data-stage-slot="inline"><slot /></div>
+              ) : (
+                <div aria-hidden="true" class="grid gap-6" data-skeleton="content">
+                  <div class="h-8 w-1/2 rounded-md bg-muted-foreground/15" />
+                  <div class="grid gap-2">
+                    {lines.map((w) => <div class={`h-3 rounded bg-muted-foreground/15 ${w}`} />)}
+                  </div>
+                  {shell === "marketing" ? (
+                    <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
+                      {[0, 1, 2].map(() => <div class="h-28 rounded-lg bg-muted-foreground/10" />)}
+                    </div>
+                  ) : (
+                    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                      {[0, 1].map(() => <div class="h-32 rounded-lg bg-muted-foreground/10" />)}
+                    </div>
+                  )}
+                  <div class="grid gap-2">
+                    {lines.slice(0, 3).map((w) => <div class={`h-3 rounded bg-muted-foreground/15 ${w}`} />)}
+                  </div>
+                </div>
+              )
+            }
+          </div>
+          {is("panel-end") && <div class="shrink-0" data-stage-slot="panel-end"><slot /></div>}
+          {
+            shell === "docs" && !is("sidebar-end") && (
+              <div aria-hidden="true" class="hidden w-48 shrink-0 flex-col gap-2 p-6 lg:flex" data-skeleton="toc">
+                {[0, 1, 2, 3].map(() => <div class="h-3 w-28 rounded bg-muted-foreground/15" />)}
+              </div>
+            )
+          }
+        </div>
+
+        {
+          is("footer") ? (
+            <div data-stage-slot="footer"><slot /></div>
+          ) : (
+            shell === "marketing" && (
+              <div aria-hidden="true" class="flex h-16 shrink-0 items-center gap-4 border-t px-6" data-skeleton="footer">
+                <div class="h-4 w-24 rounded bg-muted-foreground/15" />
+                <div class="ms-auto h-4 w-32 rounded bg-muted-foreground/15" />
+              </div>
+            )
+          )
+        }
+      </div>
+
+      {is("sidebar-end") && <div class="shrink-0" data-stage-slot="sidebar-end"><slot /></div>}
+    </div>
+
+    {
+      is("sheet-bottom") && (
+        <div class="fixed inset-x-0 bottom-0" data-stage-slot="sheet-bottom"><slot /></div>
+      )
+    }
+    {
+      is("overlay") && (
+        <div class="fixed inset-0 grid place-items-center bg-foreground/20 p-6" data-stage-slot="overlay"><slot /></div>
+      )
+    }
+  </body>
+</html>

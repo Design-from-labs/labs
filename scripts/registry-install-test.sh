@@ -41,7 +41,8 @@ npx --yes shadcn@latest add --yes --overwrite \
 
 echo "registry-install: add by URL"
 npx --yes shadcn@latest add --yes --overwrite \
-  "$BASE/r/compose-refs.json"
+  "$BASE/r/compose-refs.json" \
+  "$BASE/r/sidebar-phosphor.json"
 
 # A page that renders every installed component, so the build proves the
 # imports, the cssVars and the generated headers all compile together.
@@ -51,6 +52,7 @@ cat > src/app/labs/page.tsx <<'TSX'
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Sidebar, SidebarGroup, SidebarItem } from "@/components/ui/sidebar";
 import { Tooltip, TooltipTrigger } from "@/components/ui/tooltip";
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import { composeRefs } from "@/lib/compose-refs";
@@ -59,6 +61,13 @@ export default function Labs() {
   const reduced = useReducedMotion();
   return (
     <main ref={composeRefs<HTMLElement>(undefined)} className="flex gap-4 p-8">
+      <Sidebar title="Labs">
+        <SidebarGroup label="Pages">
+          <SidebarItem href="/" active>
+            Home
+          </SidebarItem>
+        </SidebarGroup>
+      </Sidebar>
       <Button loading={reduced}>Save</Button>
       <Badge tone="success">Deployed</Badge>
       <TooltipTrigger>

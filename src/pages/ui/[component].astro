@@ -2,8 +2,10 @@
 import Demos from "../../../.generated/Demos.astro";
 import Command from "../../components/Command.astro";
 import SourceView from "../../components/SourceView.astro";
+import Stage from "../../components/Stage.astro";
 import Base from "../../layouts/Base.astro";
 import { data, defaultVariant, type Entry, entries, KIND_LABELS, published, type Variant } from "../../lib/data";
+import { DEVICES, switcherDevices } from "../../lib/stage";
 import { previewName, titleName } from "../../lib/transitions";
 
 export function getStaticPaths() {
@@ -36,6 +38,8 @@ const selected: Record<string, string> = {
   icons: first.iconSet,
   style: styleKey(first),
 };
+const stage = entry.stage;
+const devices = stage ? switcherDevices(stage) : [];
 const matrix = live.map((v) => ({ name: v.name, primitive: v.primitive, icons: v.iconSet, style: styleKey(v) }));
 const npmUrl = (spec: string) => {
   const at = spec.indexOf("@", spec.startsWith("@") ? 1 : 0);
@@ -86,7 +90,26 @@ const installTabs = (v: Variant) => [
       rendered at a time, so the shared name stays unique.
     -->
     {
-      live.map((v) => (
+      live.map((v) => stage && v.demo ? (
+        <div
+          data-variant-demo={v.name}
+          data-demo-frame
+          data-testid="demo"
+          dir="ltr"
+          hidden={v.name !== first.name}
+          class="flex min-h-64 items-center justify-center rounded-lg border bg-muted/30 p-4 [--stage-fit-h:min(34rem,62vh)] sm:p-8"
+        >
+          <Stage
+            item={v.name}
+            title={entry.title}
+            stage={stage}
+            mode="live"
+            vtName={previewName(entry.name)}
+            lazy={v.name !== first.name}
+            class="w-full"
+          />
+        </div>
+      ) : (
         <div
           data-variant-demo={v.name}
           data-demo-frame
@@ -107,7 +130,7 @@ const installTabs = (v: Variant) => [
     }
 
     {
-      groups.length > 0 && (
+      (groups.length > 0 || devices.length > 0) && (
         <div class="mt-6 flex flex-wrap items-end gap-x-8 gap-y-4 border-y py-4" data-testid="switcher">
           {groups.map((g) => (
             <fieldset class="min-w-0">
@@ -131,6 +154,19 @@ const installTabs = (v: Variant) => [
               </div>
             </fieldset>
           ))}
+          {devices.length > 0 && (
+            <fieldset class="min-w-0" data-device-switcher>
+              <legend class="mb-2 font-medium text-muted-foreground text-xs">Device</legend>
+              <div class="inline-flex rounded-md border bg-muted/40 p-0.5">
+                {devices.map((d) => (
+                  <label class="cursor-pointer rounded-[5px] px-3 py-1 text-sm transition-colors has-checked:bg-foreground has-checked:text-background has-focus-visible:outline-2 has-focus-visible:outline-ring">
+                    <input type="radio" class="sr-only" name={`${entry.name}-device`} value={d} data-device checked={d === stage?.device} />
+                    {DEVICES[d].label}
+                  </label>
+                ))}
+              </div>
+            </fieldset>
+          )}
           <fieldset class="min-w-0">
             <legend class="mb-2 font-medium text-muted-foreground text-xs">Direction</legend>
             <div class="inline-flex rounded-md border bg-muted/40 p-0.5">

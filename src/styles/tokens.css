@@ -83,3 +83,32 @@
   --ease-spring: var(--motion-ease-spring);
   --ease-out-soft: var(--motion-ease-out);
 }
+
+/*
+ * Stage tokens (site only): the neutral device frames drawn around layout
+ * parts (src/components/Stage.astro, docs/decisions/0015-layout-stages.md).
+ */
+:root {
+  --stage-bezel: oklch(0.21 0 0);
+  --stage-bezel-edge: oklch(0.38 0 0);
+  --stage-base: oklch(0.88 0 0);
+  --stage-base-edge: oklch(0.78 0 0);
+  --stage-chrome: oklch(0.96 0 0);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --stage-bezel: oklch(0.3 0 0);
+    --stage-bezel-edge: oklch(0.44 0 0);
+    --stage-base: oklch(0.34 0 0);
+    --stage-base-edge: oklch(0.42 0 0);
+    --stage-chrome: oklch(0.24 0 0);
+  }
+}
+:root[data-theme="dark"],
+.dark {
+  --stage-bezel: oklch(0.3 0 0);
+  --stage-bezel-edge: oklch(0.44 0 0);
+  --stage-base: oklch(0.34 0 0);
+  --stage-base-edge: oklch(0.42 0 0);
+  --stage-chrome: oklch(0.24 0 0);
+}

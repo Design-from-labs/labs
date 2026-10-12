@@ -78,9 +78,15 @@
 .vt-tile-title {
   view-transition-class: tile-title;
 }
+/* A staged layout part: the device frame is the shared object
+   (docs/decisions/0015-layout-stages.md). */
+.vt-tile-stage {
+  view-transition-class: tile-stage;
+}
 
 ::view-transition-group(*.tile-preview),
-::view-transition-group(*.tile-title) {
+::view-transition-group(*.tile-title),
+::view-transition-group(*.tile-stage) {
   animation-duration: var(--motion-duration-expand);
   animation-timing-function: var(--motion-ease-spring);
 }
@@ -112,6 +118,17 @@
 ::view-transition-new(root) {
   animation: var(--motion-duration-expand) ease-out
     calc(var(--motion-duration-fast) / 2) both vt-fade-in;
+}
+
+/* A device is a rigid object: it scales as a whole, and when the device
+   changes shape (a phone back into a laptop tile) it keeps its proportions
+   while the two crossfade. */
+::view-transition-old(*.tile-stage),
+::view-transition-new(*.tile-stage) {
+  block-size: 100%;
+  object-fit: contain;
+  animation-duration: var(--motion-duration-expand);
+  animation-timing-function: ease-out;
 }
 
 @keyframes vt-fade-out {

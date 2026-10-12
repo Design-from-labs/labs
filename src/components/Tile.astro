@@ -1,6 +1,7 @@
 ---
 import Demos from "../../.generated/Demos.astro";
 import { defaultVariant, type Entry, KIND_LABELS, published } from "../lib/data";
+import Stage from "./Stage.astro";
 import { previewName, titleName } from "../lib/transitions";
 
 interface Props {
@@ -10,6 +11,8 @@ const { entry } = Astro.props;
 const variant = defaultVariant(entry);
 const count = published(entry).length;
 const exportsText = (variant?.exports ?? []).join(", ");
+// A layout part shows its device frame; the frame carries the shared name.
+const staged = Boolean(entry.stage && variant?.demo);
 ---
 <!--
   One object per entry: a static, server-rendered preview and its title. The
@@ -22,6 +25,19 @@ const exportsText = (variant?.exports ?? []).join(", ");
   class="group relative flex h-full flex-col rounded-lg border bg-card transition-colors hover:border-foreground/30 has-focus-visible:outline-2 has-focus-visible:outline-offset-2 has-focus-visible:outline-ring"
   data-tile={entry.name}
 >
+  {
+    staged && variant && entry.stage ? (
+      <div
+        class="relative flex h-52 items-center justify-center overflow-hidden rounded-t-lg border-b bg-muted/30 px-6 py-4 [--stage-fit-h:9.25rem]"
+        data-tile-preview
+        data-staged
+        dir="ltr"
+        inert
+        aria-hidden="true"
+      >
+        <Stage item={variant.name} title={entry.title} stage={entry.stage} mode="still" vtName={previewName(entry.name)} />
+      </div>
+    ) : (
   <div
     class="vt-tile-preview relative flex h-52 items-center justify-center overflow-hidden rounded-t-lg border-b bg-muted/30 p-6"
     transition:name={previewName(entry.name)}
@@ -41,6 +57,8 @@ const exportsText = (variant?.exports ?? []).join(", ");
       )
     }
   </div>
+    )
+  }
   <div class="flex flex-1 flex-col gap-1.5 p-4">
     <div class="flex items-center justify-between gap-2">
       <h3 class="min-w-0 font-medium">

@@ -178,9 +178,11 @@ test("a tile is a link that expands into the component page hero", async ({
   ).toBe("tile-title-button");
   // Names are unique on the gallery, or the browser skips the transition.
   const names = await page
-    .locator("[data-tile-preview], .vt-tile-title")
+    .locator("[data-tile-preview], [data-stage], .vt-tile-title")
     .evaluateAll((els) =>
-      els.map((el) => getComputedStyle(el).viewTransitionName),
+      els
+        .map((el) => getComputedStyle(el).viewTransitionName)
+        .filter((name) => name !== "none"),
     );
   expect(new Set(names).size).toBe(names.length);
 
@@ -204,6 +206,45 @@ test("a tile is a link that expands into the component page hero", async ({
   );
   // Only one hero frame is rendered, so the name stays unique.
   await expect(page.locator("[data-variant-demo]:visible")).toHaveCount(1);
+});
+
+test("a staged tile morphs its device frame into the hero's", async ({
+  page,
+}) => {
+  await page.goto("/ui");
+  await painted(page);
+  const tileStage = page.locator('[data-tile="sidebar"] [data-stage]');
+  expect(
+    await tileStage.evaluate((el) => getComputedStyle(el).viewTransitionName),
+  ).toBe("tile-preview-sidebar");
+  await navigateWithMorph(page, {
+    go: () => tileLink(page, "Sidebar").click(),
+    reset: () => page.goBack(),
+    path: "/ui/sidebar",
+    group: "tile-preview-sidebar",
+  });
+  // The hero's device frame has the name; its box does not.
+  expect(
+    await transitionName(
+      page,
+      "[data-variant-demo]:not([hidden]) [data-stage]",
+    ),
+  ).toBe("tile-preview-sidebar");
+  expect(await transitionName(page, "[data-variant-demo]:not([hidden])")).toBe(
+    "none",
+  );
+  await expect(page.locator("[data-stage]:visible")).toHaveCount(1);
+});
+
+test("reduced motion: a staged tile navigates without a morph", async ({
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto("/ui");
+  await painted(page);
+  await tileLink(page, "Sidebar").click();
+  await expect(page).toHaveURL(/\/ui\/sidebar$/);
+  expect((await recorded(page, "/ui/sidebar"))?.transition).toBe(false);
 });
 
 test("the hero follows the variant switcher", async ({ page }) => {

@@ -4,5 +4,6 @@
   "CircleX": "XCircleIcon",
   "Info": "InfoIcon",
   "LoaderCircle": "CircleNotchIcon",
-  "TriangleAlert": "WarningIcon"
+  "TriangleAlert": "WarningIcon",
+  "Menu": "ListIcon"
 }

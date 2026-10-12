@@ -1,0 +1,31 @@
+---
+// The document a stage frames (src/components/Stage.astro): the variant's
+// demo in its slot of a skeleton shell. /stage/live/<item> hydrates the demo
+// island (component page); /stage/still/<item> is static (gallery tile,
+// preview still). Not linked from the site and not indexed.
+import Demos from "../../../../.generated/Demos.astro";
+import StageShell from "../../../components/StageShell.astro";
+import { components, published } from "../../../lib/data";
+import type { StageMeta } from "../../../lib/stage";
+
+export function getStaticPaths() {
+  return components
+    .filter((entry) => entry.stage)
+    .flatMap((entry) =>
+      published(entry)
+        .filter((v) => v.demo)
+        .flatMap((v) =>
+          (["live", "still"] as const).map((mode) => ({
+            params: { mode, item: v.name },
+            props: { entry },
+          })),
+        ),
+    );
+}
+const { mode, item } = Astro.params;
+const { entry } = Astro.props;
+const stage = entry.stage as StageMeta;
+---
+<StageShell title={`${entry.title} in an app shell`} region={stage.slot} shell={stage.shell ?? "app"}>
+  <Demos item={item} hydrate={mode === "live"} />
+</StageShell>

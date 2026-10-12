@@ -1,8 +1,10 @@
 # Component export contract
 
-- Contract version: **1**, revision 2 (2026-10-12: primitive dimension,
-  per-variant status, foundation item types, the `@designfrom` namespace).
-  Nothing had been exported under revision 1, so the version number stays 1.
+- Contract version: **1**, revision 3 (2026-10-12: the optional `stage` for
+  layout parts, section 4.1). Revision 2 (2026-10-12) added the primitive
+  dimension, per-variant status, foundation item types and the `@designfrom`
+  namespace. Both revisions are additive: a sidecar valid under an earlier
+  revision is still valid, so the version number stays 1.
 - Machine-readable: [`schemas/meta.schema.json`](../schemas/meta.schema.json)
   (the sidecar) and
   [`schemas/labs-registry-item.schema.json`](../schemas/labs-registry-item.schema.json)
@@ -12,7 +14,8 @@
   `pnpm check:licenses` (`scripts/check-licenses.mjs`), both in CI on every
   pull request
 - Decisions: [0004](decisions/0004-canonical-component-format.md),
-  [0009](decisions/0009-primitive-variants.md)
+  [0009](decisions/0009-primitive-variants.md),
+  [0015](decisions/0015-layout-stages.md)
 
 This is what a source (an approved repository listed in
 [`sources.yaml`](../sources.yaml)) delivers so a component can appear on
@@ -173,6 +176,7 @@ Examples: `button-radix-lucide`, `button-aria-phosphor`,
 | `credits[]` | yes | ids from [`docs/sources/registry.yaml`](sources/registry.yaml), at least one; add new entries in the same pull request |
 | `date` | yes | `YYYY-MM-DD` |
 | `label`, `tags`, `props`, `a11y`, `usage` | no | shown on the component page and in `llms-full.txt` |
+| `stage` | no | components only (revision 3): show a layout part in a device frame and app shell, section 4.1 |
 
 **Publishing rule:** a variant publishes when the component's `status` is
 `ready` **and** the variant's `status` is `ready` (implemented and tested).
@@ -197,6 +201,38 @@ with a "not yet available" note.
   correctly with `dir="rtl"`.
 - `preview.webp` (or `.avif`) is a still of the default variant's demo, at
   most 200 KB, 1200x750 recommended. `pnpm previews` regenerates previews.
+
+### 4.1 Stages for layout parts
+
+A component that is part of a layout (a sidebar, side panel, sheet, nav bar,
+toolbar, command palette, header, footer or tab bar) declares a `stage`, so
+its demo is shown **in context**: inside a neutral device frame and a
+skeleton app shell, where the layout reads as the sum of its parts.
+
+```json
+"stage": { "device": "laptop", "slot": "sidebar-start", "shell": "app" }
+```
+
+| Field | Required | Values |
+| --- | --- | --- |
+| `device` | yes | the frame shown by default: `desktop` (1440x900), `laptop` (1280x800), `browser` (1280x800), `tablet` (768x1024), `phone` (390x844) |
+| `slot` | yes | where the demo sits in the shell: `sidebar-start`, `sidebar-end`, `panel-end`, `sheet-bottom`, `header`, `footer`, `toolbar`, `overlay`, `inline` |
+| `shell` | no | the skeleton around it: `app` (default), `marketing`, `docs` |
+| `height` | no | the default device's viewport height in CSS pixels (240 to 1600), for a part that needs a shorter or taller screen |
+
+- The demo renders in a same-origin iframe whose size is the device's real
+  viewport, so the component's own breakpoints apply: a sidebar that becomes
+  a top bar below `md` does so in the phone and tablet frames. Write layout
+  parts with viewport breakpoints (`md:`), as an installed user would.
+- Start and end are logical: in right-to-left, `sidebar-start` is on the
+  right. Use logical utilities (section 2).
+- The gallery tile shows the default device, static. The component page
+  shows it live (only the demo hydrates) with a device switcher (the default
+  device, then desktop, tablet and phone) and the direction switch.
+- The demo is the part alone: the shell draws the rest. It fills its slot's
+  height when the slot is a column (`sidebar-*`, `panel-end`), so use
+  `md:h-full` rather than a fixed height.
+- The preview still shows the default device.
 
 ## 5. Tokens
 

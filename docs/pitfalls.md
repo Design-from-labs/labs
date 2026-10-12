@@ -39,6 +39,9 @@ Design From and Design From Labs (the guards enforce this).
 | [P-026](#p-026) | Site (React 19) | `<style precedence>` is not hoisted across Astro islands |
 | [P-027](#p-027) | Fidelity harness | Bundling `react-dom/server` as ESM fails |
 | [P-028](#p-028) | Site (layout) | One long attribution widened the whole credits list |
+| [P-029](#p-029) | Site (Astro) | A component prop named `slot` disappears |
+| [P-030](#p-030) | Accessibility | axe reads an iframe as part of the page |
+| [P-031](#p-031) | Content | `pnpm examples` rewrites every example's `source.commit` |
 
 ---
 
@@ -444,3 +447,45 @@ Design From and Design From Labs (the guards enforce this).
 - Prevention: Run `e2e/layout.spec.ts` against a `LABS_INCLUDE_BETA=1` build
   when a pull request adds beta content.
 - Links: [#9](https://github.com/Design-from-labs/labs/pull/9), `src/pages/credits.astro`
+
+### P-029
+
+- Date: 2026-10-12
+- Area: Site (Astro)
+- Symptom: A prop called `slot` passed to an Astro component never arrived;
+  the child was placed in a named slot of the parent instead.
+- Cause: `slot` is a reserved attribute in Astro templates: it assigns the
+  element or component to a named slot.
+- Fix: The stage shell's prop is `region`.
+- Prevention: Never name an Astro prop `slot`; the same goes for other
+  directive-like names (`class:list`, `set:html`, `transition:*`).
+- Links: `src/components/StageShell.astro`
+
+### P-030
+
+- Date: 2026-10-12
+- Area: Accessibility (axe, iframes)
+- Symptom: axe reported `landmark-unique` on the component page of a staged
+  component: two `nav` landmarks named "Main", and two `main` landmarks.
+- Cause: `@axe-core/playwright` analyzes same-origin iframes as part of the
+  page, so the framed stage document's landmarks join the site's.
+- Fix: The stage shell has no `<main>`; the demo names its navigation
+  ("Studio") instead of using the component's default ("Main").
+- Prevention: A stage document has a title, no `<main>`, and landmark names
+  that the site does not use. `e2e/a11y.spec.ts` covers a staged page.
+- Links: `src/components/StageShell.astro`, `examples/sidebar/demo.tsx`
+
+### P-031
+
+- Date: 2026-10-12
+- Area: Content (Labs examples)
+- Symptom: After `pnpm examples`, every example's `meta.json` showed as
+  changed although only one example was edited.
+- Cause: `source.commit` (and `date`) follow the last commit that touched
+  each example, which moves with the branch; `pnpm examples:check` ignores
+  both fields, so the churn is harmless but noisy.
+- Fix: Restore the untouched examples' `meta.json` before committing
+  (`git checkout -- content/components/labs-examples/<name>/meta.json`).
+- Prevention: Commit only the examples you changed; CI's `examples:check`
+  stays green either way.
+- Links: `scripts/export-labs-examples.mjs`

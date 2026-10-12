@@ -102,6 +102,18 @@
       "types": "./dist/radix/tooltip/index.d.ts",
       "import": "./dist/radix/tooltip/index.js"
     },
+    "./sidebar": {
+      "types": "./dist/sidebar/index.d.ts",
+      "import": "./dist/sidebar/index.js"
+    },
+    "./sidebar/lucide": {
+      "types": "./dist/sidebar/index.d.ts",
+      "import": "./dist/sidebar/index.js"
+    },
+    "./sidebar/phosphor": {
+      "types": "./dist/sidebar/phosphor/index.d.ts",
+      "import": "./dist/sidebar/phosphor/index.js"
+    },
     "./styles.css": "./dist/styles.css",
     "./tooltip": {
       "types": "./dist/radix/tooltip/index.d.ts",
