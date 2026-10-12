@@ -10,10 +10,11 @@ on GitHub-hosted runners (decision 0006).
 | `pr-text.yml` | `pr-text` (title and body against the patterns; the `## Sources` section) | pull request opened or edited |
 | `ci.yml` | `verify` (examples export, content contract and shadcn schema, licenses, lint, typecheck, unit tests, build, committed library exports, npm pack dry runs), `e2e` (Playwright smoke, keyboard, RTL, axe in light and dark, phone width), `registry-install` (real `shadcn add` by namespace and URL, and `shadcn init` from the base item, into fresh Next.js apps that must build) | every pull request and push |
 | `scanner.yml` | third-party scan; export pull request checks | every 6 hours, by hand, `repository_dispatch: component-export` |
-| `publish.yml` | npm publish with provenance | by hand from `main`, inert without `NPM_TOKEN` ([publishing.md](publishing.md)) |
+| `publish.yml` | npm publish with provenance | by hand from `main`, npm trusted publishing (OIDC), no token ([publishing.md](publishing.md)) |
 
-Repository secrets: `EXTERNAL_REF_PATTERNS` (set), `NPM_TOKEN` and
-`LABS_SCANNER_TOKEN` (optional, owner-provided).
+Repository secrets: `EXTERNAL_REF_PATTERNS` (set) and `LABS_SCANNER_TOKEN`
+(optional, owner-provided). npm publishing uses trusted publishing, so there is
+no npm token.
 
 ## Deployments
 
