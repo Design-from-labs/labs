@@ -871,11 +871,12 @@ sources:
     title: "Distance Transforms of Sampled Functions"
     author: "Pedro F. Felzenszwalb and Daniel P. Huttenlocher"
     kind: article
-    url: "https://theoryofcomputing.org/articles/v008a019/"
+    url: "https://web.archive.org/web/20260316081911/https://theoryofcomputing.org/articles/v008a019/"
     license: "CC-BY-3.0"
     accessed: 2026-10-12
     visibility: public
     used-in: [content/components/jal-co-holosticker]
+    note: "Archived copy (Wayback Machine, 2026-03-16), because the publisher's host stopped answering on 2026-10-13 and failed every link check (P-087). Canonical: https://theoryofcomputing.org/articles/v008a019/, DOI 10.4086/toc.2012.v008a019 (Theory of Computing 8(19), 2012)."
   - id: S-282
     title: "kitasenjudesign lenticular study (inspiration credited by obta1ner/lenticular)"
     author: "kitasenjudesign"

@@ -88,6 +88,7 @@ Design From and Design From Labs (the guards enforce this).
 | [P-075](#p-075) | Site (accessibility) | A sideways-scrolling block was not keyboard reachable at 375px |
 | [P-076](#p-076) | Site (accessibility) | A bare preview page had no level-one heading |
 | [P-077](#p-077) | Site (previews) | A preview of a hydrated demo showed its server markup, with unreadable text |
+| [P-087](#p-087) | CI (links) | An external citation host outage failed every pull request's link check |
 
 ---
 
@@ -1258,3 +1259,20 @@ Design From and Design From Labs (the guards enforce this).
   Tabs previews on a beta build (`LABS_INCLUDE_BETA=1`). Regenerate a still
   of a `loop.hydrate` entry from the hydrated preview.
 - Links: `src/pages/preview/[item].astro`, `e2e/a11y.spec.ts`
+
+### P-087
+
+- Date: 2026-10-13
+- Area: CI (links)
+- Symptom: The `links` job failed on every pull request with `fetch failed`
+  for S-281 (`theoryofcomputing.org`), a citation none of those pull requests
+  touched.
+- Cause: The publisher's host stopped answering; the check fetches every
+  public `url` in the source registry on each run.
+- Fix: S-281's `url` is a Wayback Machine snapshot of the same page (checked:
+  200, the right paper); the canonical URL and the DOI stay in its `note`.
+- Prevention: When a cited host goes down, point the entry at an archived copy
+  and keep the canonical URL in the note; never skip the check or allowlist
+  the host.
+- Links: `docs/sources/registry.yaml` (S-281), `scripts/check-links.mjs`
+
