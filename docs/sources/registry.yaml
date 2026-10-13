@@ -1583,3 +1583,51 @@ sources:
     visibility: public
     note: "Each pen ported here was also checked on its own Details view, which shows its MIT notice and copyright line."
     used-in: [sources.yaml, docs/decisions, ports]
+  - id: S-465
+    title: "Jhey, \"masked inset border shine\" (a CodePen pen: a glass icon with a pointer-following masked inset highlight)"
+    author: "Jhey"
+    kind: library
+    url: "https://codepen.io/jh3y/pen/WbwyGBb"
+    license: "MIT"
+    accessed: 2026-10-13
+    visibility: public
+    note: "No git commit: pinned by the tree hash of the verbatim debug-view snapshot (decision 0027). The pen also loads GSAP and Tweakpane for its debug panel; neither is ported. Its Google font (Gloria Hallelujah) draws only the pen's annotation arrows and is not shipped."
+    used-in: [ports/jh3y-border-shine, content/components/jh3y-border-shine, sources.yaml, docs/evidence/ports/border-shine]
+  - id: S-466
+    title: "Victor Welander, \"Gooey Text Morphing\" (a 21st.dev community item: words that melt into each other with an SVG threshold filter)"
+    author: "Victor Welander"
+    kind: library
+    url: "https://21st.dev/@victorwelander/components/gooey-text-morphing"
+    license: "MIT"
+    accessed: 2026-10-13
+    visibility: public
+    note: "No git repository: pinned by the tree hash of the verbatim files from 21st's CDN (decision 0027). The item's license field reads mit; its page dates it 2024-11-27."
+    used-in: [ports/victorwelander-gooey-text, content/components/victorwelander-gooey-text, sources.yaml, docs/evidence/ports/gooey-text]
+  - id: S-467
+    title: "21st.dev Terms of Service (open-source works keep their license and credit the author; copies link back to the component page)"
+    author: "21st.dev"
+    kind: doc
+    url: "https://21st.dev/terms"
+    license: "All rights reserved (21st.dev); cited for the attribution terms only"
+    accessed: 2026-10-13
+    visibility: public
+    used-in: [sources.yaml, docs/evidence/ports/gooey-text, ports/victorwelander-gooey-text]
+  - id: S-468
+    title: "MDN: corner-shape (squircle and other corner geometries)"
+    author: "MDN contributors"
+    kind: doc
+    url: "https://developer.mozilla.org/en-US/docs/Web/CSS/corner-shape"
+    license: "CC-BY-SA-2.5"
+    accessed: 2026-10-13
+    visibility: public
+    used-in: [ports/jh3y-border-shine, docs/evidence/ports/border-shine]
+  - id: S-469
+    title: "WCAG 2.2: Success Criterion 2.2.2 Pause, Stop, Hide"
+    author: "W3C"
+    kind: doc
+    url: "https://www.w3.org/TR/WCAG22/#pause-stop-hide"
+    license: "W3C Document License"
+    accessed: 2026-10-13
+    visibility: public
+    note: "Cited for why Gooey Text, which changes words on its own without end, has a paused prop and says to pair it with a pause control."
+    used-in: [ports/victorwelander-gooey-text, docs/evidence/ports/gooey-text]

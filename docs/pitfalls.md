@@ -157,6 +157,11 @@ Design From and Design From Labs (the guards enforce this).
 | [P-144](#p-144) | Components (CSS) | Links ported to buttons lose their letter-spacing |
 | [P-145](#p-145) | Fidelity (dependency versions) | three.js 0.185 blends fading WebGPU planes differently from 0.184 |
 | [P-146](#p-146) | Ports (closure) | A bundler's metafile misses type-only modules |
+| [P-WEB1-A3-1](#p-web1-a3-1) | Components (Tailwind) | Tailwind's `ease-out` is not the CSS keyword `ease-out` |
+| [P-WEB1-A3-2](#p-web1-a3-2) | Fidelity harness | A screenshot after keyboard focus includes the focus ring |
+| [P-WEB1-A3-3](#p-web1-a3-3) | Fidelity harness | A crop at the viewport centre missed a component that is not centred |
+| [P-WEB1-A3-4](#p-web1-a3-4) | Fidelity harness (Vite) | A leftover dev server answered with a dead esbuild |
+| [P-WEB1-A3-5](#p-web1-a3-5) | Components (React effects) | An animation loop without cleanup runs twice under StrictMode |
 
 ---
 
@@ -2217,6 +2222,55 @@ Design From and Design From Labs (the guards enforce this).
   and let the stale-owner check clear it.
 - Prevention: One heavy run per component; only the owner releases a lock.
 - Links: the shared port tools (outside the repository)
+### P-WEB1-A3-1
+
+- Date: 2026-10-13
+- Area: Components (Tailwind)
+- Symptom: The port's press transition (`translate` and `scale`, 100 ms) matched the pen's end state but not its frames: 16 ms in, the translate was 0.43 px against the pen's 0.25 px.
+- Cause: The pen writes `transition-timing-function: ease-out`, the CSS keyword, `cubic-bezier(0, 0, 0.58, 1)`. Tailwind v4's `ease-out` utility is its own token, `cubic-bezier(0, 0, 0.2, 1)`, a different curve.
+- Fix: `ease-[ease-out]` (an arbitrary value, so the keyword itself).
+- Prevention: Record a transition's computed values every 16 ms on both sides, not only its end state, and spell a port's easing as the upstream spells it.
+- Links: `docs/evidence/ports/border-shine/fidelity.md`
+
+### P-WEB1-A3-2
+
+- Date: 2026-10-13
+- Area: Fidelity harness
+- Symptom: A keyboard test of the port against the pen showed 1,787 differing pixels at the same angle.
+- Cause: The port's button had keyboard focus when the screenshot was taken, so its focus ring was in the picture; the pen's button had none.
+- Fix: Blur the focused element, then settle two frames, before the screenshot.
+- Prevention: Compare pixels after focus is cleared; assert focus styles separately.
+- Links: `docs/evidence/ports/border-shine/fidelity.md`
+
+### P-WEB1-A3-3
+
+- Date: 2026-10-13
+- Area: Fidelity harness
+- Symptom: The evidence strips for Gooey Text were blank although the full-viewport diffs were measured correctly.
+- Cause: The strips were cropped around the viewport's centre, but the component's root has no height and sits at the top of an unstyled body, so the words were 100 px from the top.
+- Fix: Crop from where the component is (here, the top 160 px), checked by opening the strip.
+- Prevention: Look at every evidence image before committing it; take crops from the element's bounding box.
+- Links: `docs/evidence/ports/gooey-text/fidelity.md`
+
+### P-WEB1-A3-4
+
+- Date: 2026-10-13
+- Area: Fidelity harness (Vite)
+- Symptom: A harness page served by a Vite dev server left running by an earlier session failed with "The service is no longer running" for every `.tsx` file, while plain files still loaded.
+- Cause: The dev server's esbuild child had exited; Vite does not restart it.
+- Fix: Stop that server (it was this task's own) and start a new one.
+- Prevention: Check that a reused dev server transforms a `.tsx` file (`curl` it) before a run, and start servers per run.
+- Links: `docs/evidence/ports/gooey-text/fidelity.md`
+
+### P-WEB1-A3-5
+
+- Date: 2026-10-13
+- Area: Components (React effects)
+- Symptom: Under React StrictMode the upstream Gooey Text armed 180 animation frames in 1.5 s, the ported one 90.
+- Cause: The upstream effect starts a `requestAnimationFrame` loop and returns an empty cleanup, so StrictMode's second mount leaves the first loop running beside the new one (and any change of `texts` adds another).
+- Fix: The port keeps the frame id, cancels it and disconnects its observer in the cleanup, and keys the effect on the words' contents.
+- Prevention: Count `requestAnimationFrame` registrations per second in a StrictMode harness for every ported loop.
+- Links: `docs/evidence/ports/gooey-text/fidelity.md`
 
 ### P-139
 

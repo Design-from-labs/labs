@@ -914,6 +914,49 @@ oss:
         category: blocks
         upstream: src/scripts/index.js
         port: ports/theoplawinski-sticky-grid/sticky-grid-scroll
+  # A public CodePen pen, MIT licensed by its own Details view. It has no git
+  # commit: `ref` is the git tree hash of the verbatim snapshot in
+  # ports/jh3y-border-shine/border-shine/upstream (decision 0027,
+  # docs/decisions/0027-pin-snapshot-sources.md). The pen also loads GSAP
+  # (proprietary) and Tweakpane for its debug panel; neither is ported.
+  - id: jh3y-border-shine
+    name: Border Shine (CodePen)
+    repo: https://codepen.io/jh3y/pen/WbwyGBb
+    visibility: public
+    status: active
+    fetch: in-repo
+    ref: ccec66c2191e6105456fcb8d6e5eefc6f53c1ef9
+    author: "Jhey <https://codepen.io/jh3y>"
+    license: MIT
+    attribution: "Copyright (c) 2026 by Jhey (https://codepen.io/jh3y/pen/WbwyGBb). MIT License."
+    credit: S-465
+    components:
+      - name: border-shine
+        status: beta
+        category: layout
+        upstream: upstream/debug.html
+
+  # A 21st.dev community item, MIT licensed by its own license field. 21st's
+  # terms ask to keep the license notice, credit the author and link back to
+  # the item page, which this entry and the file header do. `ref` is the git
+  # tree hash of the verbatim snapshot in
+  # ports/victorwelander-gooey-text/gooey-text/upstream (decision 0027).
+  - id: victorwelander-gooey-text
+    name: Gooey Text Morphing (21st.dev)
+    repo: https://21st.dev/@victorwelander/components/gooey-text-morphing
+    visibility: public
+    status: active
+    fetch: in-repo
+    ref: d25e7a0b47e178eee1fba417e742d9950e30cebf
+    author: "Victor Welander <https://21st.dev/@victorwelander>"
+    license: MIT
+    attribution: "Copyright (c) 2024 Victor Welander. MIT License. https://21st.dev/@victorwelander/components/gooey-text-morphing"
+    credit: S-466
+    components:
+      - name: gooey-text
+        status: beta
+        category: typography
+        upstream: upstream/gooey-text-morphing.tsx
 
   - id: hiro-kiii-scroll-transition
     name: Hiro-kiii scroll transitions

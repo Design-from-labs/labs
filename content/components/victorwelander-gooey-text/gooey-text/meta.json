@@ -1,0 +1,108 @@
+{
+  "$schema": "https://labs.designfrom.com/schemas/meta.schema.json",
+  "schemaVersion": 1,
+  "name": "gooey-text",
+  "kind": "component",
+  "title": "Gooey Text",
+  "description": "Words that melt into each other: two blurred copies cross-fade and an SVG threshold filter merges their edges into one gooey shape.",
+  "status": "beta",
+  "category": "typography",
+  "label": "Gooey Text Morphing (21st.dev)",
+  "variants": [
+    {
+      "name": "gooey-text",
+      "primitive": "none",
+      "iconSet": "none",
+      "status": "beta"
+    }
+  ],
+  "defaultVariant": "gooey-text",
+  "demo": "demo.tsx",
+  "preview": "preview.webp",
+  "source": {
+    "repo": "https://21st.dev/@victorwelander/components/gooey-text-morphing",
+    "commit": "d25e7a0b47e178eee1fba417e742d9950e30cebf",
+    "path": "upstream/gooey-text-morphing.tsx"
+  },
+  "author": "Victor Welander <https://21st.dev/@victorwelander>",
+  "license": "MIT",
+  "attribution": "Copyright (c) 2024 Victor Welander. MIT License. https://21st.dev/@victorwelander/components/gooey-text-morphing",
+  "credits": [
+    "S-466",
+    "S-003",
+    "S-004",
+    "S-008",
+    "S-019",
+    "S-020",
+    "S-152",
+    "S-157",
+    "S-237",
+    "S-450",
+    "S-467",
+    "S-469"
+  ],
+  "date": "2026-10-13",
+  "tile": {
+    "span": 2,
+    "rows": 1
+  },
+  "loop": {
+    "hydrate": true
+  },
+  "tags": [
+    "text",
+    "morph",
+    "svg-filter",
+    "blur",
+    "gooey",
+    "animation"
+  ],
+  "props": [
+    {
+      "name": "texts",
+      "type": "string[]",
+      "required": true,
+      "description": "The words or phrases to morph through, in order, looping. The same words in a new array do not restart the morph."
+    },
+    {
+      "name": "morphTime",
+      "type": "number",
+      "default": "1",
+      "description": "Seconds one morph takes."
+    },
+    {
+      "name": "cooldownTime",
+      "type": "number",
+      "default": "0.25",
+      "description": "Seconds a word holds before the next morph."
+    },
+    {
+      "name": "className",
+      "type": "string",
+      "description": "Classes for the root. It has no height of its own (the words are absolutely positioned), so give it or its parent a height, as the demo does."
+    },
+    {
+      "name": "textClassName",
+      "type": "string",
+      "description": "Classes for both text copies: size, weight and color (upstream: text-6xl, text-[60pt] from md up, text-foreground)."
+    },
+    {
+      "name": "label",
+      "type": "string",
+      "description": "What screen readers read instead of the moving words. Default: every word, comma separated."
+    },
+    {
+      "name": "paused",
+      "type": "boolean",
+      "default": "false",
+      "description": "Stop the morph where it is, for example behind a pause control."
+    }
+  ],
+  "a11y": [
+    "The morphing copies are aria-hidden. Screen readers read every word once, from a visually hidden span (or the label prop); the moving words are never announced, so nothing interrupts.",
+    "Reduced motion: the words swap at the same rhythm with no blur and no fade.",
+    "The words change on their own without end. Pair it with a pause control that sets paused when it sits in the reading flow.",
+    "The loop pauses off screen, in a hidden tab, in a paused gallery tile and while paused is set, and resumes where it stopped."
+  ],
+  "usage": "<div className=\"flex h-[200px] items-center justify-center\">\n  <GooeyText texts={[\"Design\", \"Engineering\", \"Is\", \"Awesome\"]} className=\"font-bold\" />\n</div>"
+}

@@ -120,3 +120,5 @@ paths (pitfall P-044); until then they are reviewed on preview deployments.
 | `kareem-aez-fold-carousel` | `fold-carousel` | Kareem-AEz's fold carousel, `src/registry/fold-carousel` (variants shape, primitives; de-branded) |
 | `bnpne-webgpu-transitions` | `webgpu-page-transition` | bnpne/page-transitions-with-webgpu-vanilla-js, `src` (one component; WebGPU, WebGL 2 and DOM tiers; GSAP and SplitText rewritten) |
 | `paperlab` | `paper` | NourMtir0722/Paperlab, `packages/paperlab/src/Paper.tsx` and its closure (Apache-2.0 with NOTICE; GSAP rewritten with Motion) |
+| `jh3y-border-shine` | `border-shine` | Jhey's CodePen "masked inset border shine" (debug-view snapshot pinned by tree hash; GSAP and the debug panel left out, arrow keys added) |
+| `victorwelander-gooey-text` | `gooey-text` | Victor Welander's 21st.dev item "Gooey Text Morphing" (CDN files pinned by tree hash; a different technique from `text-morph`) |

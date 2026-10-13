@@ -1,0 +1,109 @@
+{
+  "title": "Border Shine",
+  "description": "A glass edge that catches the light: a masked inset highlight whose angle follows the pointer, or the arrow keys. Wraps any card or button.",
+  "category": "layout",
+  "type": "registry:ui",
+  "status": "beta",
+  "upstreamPath": "upstream/debug.html",
+  "iconSets": ["none"],
+  "registryDependencies": ["utils", "use-reduced-motion"],
+  "files": [
+    {
+      "file": "border-shine.tsx",
+      "type": "registry:ui"
+    }
+  ],
+  "demo": "demo.tsx",
+  "tile": {
+    "span": 1,
+    "rows": 2,
+    "surface": "dark"
+  },
+  "loop": {
+    "script": "hover[1] → press[1] → release[1] → idle",
+    "duration": 4000
+  },
+  "cssVars": {
+    "light": {
+      "border-shine-from": "hsl(0 0% 100% / 0.18)",
+      "border-shine-to": "hsl(0 0% 4% / 0.7)",
+      "border-shine-highlight": "hsl(0 0% 100% / 0.8)",
+      "border-shine-sun": "oklch(78.95% 0.13901149690990544 97.30600066166386)",
+      "border-shine-sun-stroke": "#ffffff95",
+      "border-shine-cloud": "hsl(0 0% 100% / 0.8)",
+      "border-shine-cloud-stroke": "#ffffff"
+    },
+    "dark": {
+      "border-shine-from": "hsl(0 0% 100% / 0.18)",
+      "border-shine-to": "hsl(0 0% 4% / 0.7)",
+      "border-shine-highlight": "hsl(0 0% 100% / 0.8)",
+      "border-shine-sun": "oklch(78.95% 0.13901149690990544 97.30600066166386)",
+      "border-shine-sun-stroke": "#ffffff95",
+      "border-shine-cloud": "hsl(0 0% 100% / 0.8)",
+      "border-shine-cloud-stroke": "#ffffff"
+    }
+  },
+  "credits": [
+    "S-003",
+    "S-004",
+    "S-008",
+    "S-019",
+    "S-020",
+    "S-152",
+    "S-156",
+    "S-157",
+    "S-237",
+    "S-345",
+    "S-450",
+    "S-451",
+    "S-468"
+  ],
+  "tags": [
+    "border",
+    "glass",
+    "highlight",
+    "mask",
+    "pointer",
+    "backdrop-filter"
+  ],
+  "props": [
+    {
+      "name": "as",
+      "type": "\"div\" | \"span\" | \"button\" | \"a\" | \"article\" | \"section\" | \"li\"",
+      "default": "\"div\"",
+      "description": "The element to render. Use button or a for a control."
+    },
+    {
+      "name": "angle",
+      "type": "number",
+      "default": "325",
+      "description": "Where the light sits, in degrees (0 is the top, clockwise), before the pointer moves and whenever it does not follow."
+    },
+    {
+      "name": "follow",
+      "type": "boolean",
+      "default": "true",
+      "description": "Turn the light toward the pointer anywhere on the page, and with the arrow keys while the element, or a button or link inside it, has focus. Reduced motion keeps the light at angle."
+    },
+    {
+      "name": "squircle",
+      "type": "boolean",
+      "default": "true",
+      "description": "Upstream's squircle corners (24% radius, a true squircle where corner-shape is supported). Turn it off to set your own radius with a rounded-* class."
+    },
+    {
+      "name": "className",
+      "type": "string",
+      "description": "Size, radius and fill of the plate (upstream: a 64 px square at scale 2)."
+    }
+  ],
+  "a11y": [
+    "Decorative edge: the highlight, the glass fill and BorderShineGlyph are aria-hidden or pseudo-elements, and the pseudo-elements ignore the pointer, so everything inside stays clickable.",
+    "Name the control: BorderShine renders a div by default; use as=\"button\" or as=\"a\" with an accessible name (the glyph has none).",
+    "Keyboard: while the element, or a button or link inside it, has focus, ArrowRight and ArrowUp turn the light clockwise 15 degrees (Shift: 45), ArrowLeft and ArrowDown the other way, Home resets it. Inputs, text fields and widgets that use the arrows themselves (sliders, tabs, menus, listboxes) keep their keys.",
+    "Reduced motion: the light stays at the angle prop; the pointer and the arrow keys no longer move it.",
+    "More contrast and forced colors: the highlight becomes a solid white inset line under prefers-contrast: more, and a CanvasText border under forced colors."
+  ],
+  "usage": "<BorderShine as=\"button\" type=\"button\" aria-label=\"Weather\" className=\"size-16\">\n  <BorderShineGlyph />\n</BorderShine>",
+  "docs": "Installed `BorderShine` (and its `BorderShineGlyph`) in `components/ui/`, plus `useReducedMotion` in `hooks/`. Wrap any card or button: `<BorderShine as=\"button\" type=\"button\" aria-label=\"Weather\" className=\"size-16\"><BorderShineGlyph /></BorderShine>`. Give it a size, and a radius with `squircle={false}` and a `rounded-*` class.\n\nThe edge is a masked 1px inset shadow whose gradient angle follows the pointer anywhere on the page, and the arrow keys while the element or a button inside it has focus; `angle` sets where it rests (and where it sits under reduced motion). The glass fill, the highlight and the glyph's colors are `--border-shine-from`, `-to`, `-highlight`, `-sun`, `-sun-stroke`, `-cloud` and `-cloud-stroke`.\n\nThe fill needs something behind it to blur and saturate, so put it over an image or a gradient. Ported from jh3y's CodePen \"masked inset border shine\" (MIT, copyright 2026 Jhey); the license text is in the file."
+}
