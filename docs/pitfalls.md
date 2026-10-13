@@ -157,15 +157,32 @@ Design From and Design From Labs (the guards enforce this).
 | [P-144](#p-144) | Components (CSS) | Links ported to buttons lose their letter-spacing |
 | [P-145](#p-145) | Fidelity (dependency versions) | three.js 0.185 blends fading WebGPU planes differently from 0.184 |
 | [P-146](#p-146) | Ports (closure) | A bundler's metafile misses type-only modules |
-| [P-WEB1-A3-1](#p-web1-a3-1) | Components (Tailwind) | Tailwind's `ease-out` is not the CSS keyword `ease-out` |
-| [P-WEB1-A3-2](#p-web1-a3-2) | Fidelity harness | A screenshot after keyboard focus includes the focus ring |
-| [P-WEB1-A3-3](#p-web1-a3-3) | Fidelity harness | A crop at the viewport centre missed a component that is not centred |
-| [P-WEB1-A3-4](#p-web1-a3-4) | Fidelity harness (Vite) | A leftover dev server answered with a dead esbuild |
-| [P-WEB1-A3-5](#p-web1-a3-5) | Components (React effects) | An animation loop without cleanup runs twice under StrictMode |
-| [P-WEB1-A1-2](#p-web1-a1-2) | Components (RTL animation) | `animation-direction: reverse` is not a mirror when the easing is not symmetric |
-| [P-WEB1-A1-3](#p-web1-a1-3) | Components (system colors) | `canvas` and `canvasText` follow `color-scheme`, not the site's theme class |
-| [P-WEB1-A1-4](#p-web1-a1-4) | Pen ports (durations) | A pen's `textContent` includes the markup's indentation, so lengths and durations differ from the visible text |
-| [P-WEB1-A1-5](#p-web1-a1-5) | Fidelity harness (RTL check) | A mirrored-render check built a URL without a `?`, and a wide block text overflowed one direction only |
+| [P-147](#p-147) | Components (Tailwind) | Tailwind's `ease-out` is not the CSS keyword `ease-out` |
+| [P-148](#p-148) | Fidelity harness | A screenshot after keyboard focus includes the focus ring |
+| [P-149](#p-149) | Fidelity harness | A crop at the viewport centre missed a component that is not centred |
+| [P-150](#p-150) | Fidelity harness (Vite) | A leftover dev server answered with a dead esbuild |
+| [P-151](#p-151) | Components (React effects) | An animation loop without cleanup runs twice under StrictMode |
+| [P-152](#p-152) | Fidelity harness (shared tools) | A nested heavy run waited on its own lock and could delete another run's slot |
+| [P-153](#p-153) | Sources (CodePen snapshots) | A saved debug view was a 5,648-byte challenge page with no pen code |
+| [P-154](#p-154) | Sources (CodePen 2.0 editor) | The editor page cannot post its files to a local receiver |
+| [P-155](#p-155) | Fidelity harness (page defaults) | Tailwind preflight on the port page changed the line height again (P-023) |
+| [P-156](#p-156) | Fidelity (faint shadows) | Faint shadow rings slip under pixelmatch's default threshold |
+| [P-157](#p-157) | Site (component page) and sources | A component page scrolled sideways at 320px although its demo fit |
+| [P-158](#p-158) | Components (CSS ports, focus ring) | A restated focus ring was one pixel thinner than the browser's |
+| [P-159](#p-159) | Tests (keyframe guard) | The keyframe-prefix guard read keyframe names inside comments |
+| [P-160](#p-160) | Gallery demos (previews) | A demo of only absolute children had no width in its preview |
+| [P-161](#p-161) | Fidelity harness (color schemes) | A pen with `light-dark()` and no `color-scheme` ignored the emulated dark scheme |
+| [P-162](#p-162) | Components (Base UI NavigationMenu, Radix NavigationMenu) | Navigation menus read direction from their own provider, not the page |
+| [P-163](#p-163) | Components (CSS color) | `color-mix()` with `transparent` is a 50% mix, not the full color |
+| [P-164](#p-164) | Components (3D transforms) | A script-driven 3D ring differed from the composited one at half pixels |
+| [P-165](#p-165) | Tests (wall and gallery specs) | Wall and gallery specs had bounds that a longer wall outgrew |
+| [P-166](#p-166) | Components and demos (landmarks) | A staged demo's header and a nav named "Main" duplicated the site's landmarks |
+| [P-167](#p-167) | Tests (staged demos) | A staged demo is scaled, so page measurements are off by a constant |
+| [P-168](#p-168) | Fidelity harness (browsers) | Cached WebKit builds hang under the current Playwright driver |
+| [P-169](#p-169) | Components (RTL animation) | `animation-direction: reverse` is not a mirror when the easing is not symmetric |
+| [P-170](#p-170) | Components (system colors) | `canvas` and `canvasText` follow `color-scheme`, not the site's theme class |
+| [P-171](#p-171) | Pen ports (durations) | A pen's `textContent` includes the markup's indentation, so lengths and durations differ from the visible text |
+| [P-172](#p-172) | Fidelity harness (RTL check) | A mirrored-render check built a URL without a `?`, and a wide block text overflowed one direction only |
 
 ---
 
@@ -2343,7 +2360,7 @@ Design From and Design From Labs (the guards enforce this).
   bundler's output.
 - Links: `ports/paperlab/paper/src`
 
-### P-WEB1-A3-1
+### P-147
 
 - Date: 2026-10-13
 - Area: Components (Tailwind)
@@ -2353,7 +2370,7 @@ Design From and Design From Labs (the guards enforce this).
 - Prevention: Record a transition's computed values every 16 ms on both sides, not only its end state, and spell a port's easing as the upstream spells it.
 - Links: `docs/evidence/ports/border-shine/fidelity.md`
 
-### P-WEB1-A3-2
+### P-148
 
 - Date: 2026-10-13
 - Area: Fidelity harness
@@ -2363,7 +2380,7 @@ Design From and Design From Labs (the guards enforce this).
 - Prevention: Compare pixels after focus is cleared; assert focus styles separately.
 - Links: `docs/evidence/ports/border-shine/fidelity.md`
 
-### P-WEB1-A3-3
+### P-149
 
 - Date: 2026-10-13
 - Area: Fidelity harness
@@ -2373,7 +2390,7 @@ Design From and Design From Labs (the guards enforce this).
 - Prevention: Look at every evidence image before committing it; take crops from the element's bounding box.
 - Links: `docs/evidence/ports/gooey-text/fidelity.md`
 
-### P-WEB1-A3-4
+### P-150
 
 - Date: 2026-10-13
 - Area: Fidelity harness (Vite)
@@ -2383,7 +2400,7 @@ Design From and Design From Labs (the guards enforce this).
 - Prevention: Check that a reused dev server transforms a `.tsx` file (`curl` it) before a run, and start servers per run.
 - Links: `docs/evidence/ports/gooey-text/fidelity.md`
 
-### P-WEB1-A3-5
+### P-151
 
 - Date: 2026-10-13
 - Area: Components (React effects)
@@ -2393,7 +2410,7 @@ Design From and Design From Labs (the guards enforce this).
 - Prevention: Count `requestAnimationFrame` registrations per second in a StrictMode harness for every ported loop.
 - Links: `docs/evidence/ports/gooey-text/fidelity.md`
 
-### P-WEB1-LEAD-1
+### P-152
 
 - Date: 2026-10-13
 - Area: Fidelity harness (shared tools)
@@ -2412,7 +2429,7 @@ Design From and Design From Labs (the guards enforce this).
 - Links: `docs/evidence/ports/gooey-text/fidelity.md`,
   `docs/evidence/ports/magnet-menu/fidelity.md`
 
-### P-WEB1-A2-1
+### P-153
 
 - Date: 2026-10-13
 - Area: Sources (CodePen snapshots)
@@ -2427,9 +2444,9 @@ Design From and Design From Labs (the guards enforce this).
 - Prevention: Check a snapshot's `<title>` and size before pinning it (a
   challenge page is 5.6 KB and titled "Just a moment..."), and apply the WEB-1
   bot-check rule: a challenged route is a hard stop, never a puzzle to solve.
-- Links: `docs/decisions/0027-pin-snapshot-sources.md`
+- Links: `docs/decisions/0030-pin-snapshot-sources.md`
 
-### P-WEB1-A2-2
+### P-154
 
 - Date: 2026-10-13
 - Area: Sources (CodePen 2.0 editor)
@@ -2446,7 +2463,7 @@ Design From and Design From Labs (the guards enforce this).
   saved file's, in the fidelity notes.
 - Links: `docs/evidence/ports/elevation/fidelity.md`
 
-### P-WEB1-A2-3
+### P-155
 
 - Date: 2026-10-13
 - Area: Fidelity harness (page defaults)
@@ -2468,7 +2485,7 @@ Design From and Design From Labs (the guards enforce this).
 - Links: `docs/evidence/ports/elevation/fidelity.md`,
   `docs/evidence/ports/text-shimmer/fidelity.md`, P-023
 
-### P-WEB1-A2-4
+### P-156
 
 - Date: 2026-10-13
 - Area: Fidelity (faint shadows)
@@ -2483,7 +2500,7 @@ Design From and Design From Labs (the guards enforce this).
   values and raw buffers, not only pixelmatch's count.
 - Links: `docs/evidence/ports/elevation/fidelity.md`
 
-### P-WEB1-A2-5
+### P-157
 
 - Date: 2026-10-13
 - Area: Site (component page) and sources
@@ -2501,7 +2518,7 @@ Design From and Design From Labs (the guards enforce this).
   `scrollWidth - innerWidth` on a new component page at 320px (the e2e spec
   does); a site fix would be `break-words` on that paragraph.
 - Links: `e2e/shadow-ports.spec.ts`
-### P-WEB1-B1-1
+### P-158
 
 - Date: 2026-10-13
 - Area: Components (CSS ports, focus ring)
@@ -2518,7 +2535,7 @@ Design From and Design From Labs (the guards enforce this).
   focused with the keyboard in the upstream page, not from memory.
 - Links: `ports/jh3y-anchor-magnet-menu/magnet-menu/src/shared/magnet-menu-styles.tsx`
 
-### P-WEB1-B1-2
+### P-159
 
 - Date: 2026-10-13
 - Area: Tests (keyframe guard)
@@ -2532,7 +2549,7 @@ Design From and Design From Labs (the guards enforce this).
   name in a comment of a port that ships keyframes.
 - Links: `ports/jh3y-scroll-carousel/scroll-carousel/scroll-carousel-styles.tsx`
 
-### P-WEB1-B1-4
+### P-160
 
 - Date: 2026-10-13
 - Area: Gallery demos (previews)
@@ -2547,7 +2564,7 @@ Design From and Design From Labs (the guards enforce this).
 - Prevention: Give a demo that has no in-flow content a definite width.
 - Links: `ports/jh3y-scroll-carousel/scroll-carousel/demo.tsx`
 
-### P-WEB1-B1-5
+### P-161
 
 - Date: 2026-10-13
 - Area: Fidelity harness (color schemes)
@@ -2564,7 +2581,7 @@ Design From and Design From Labs (the guards enforce this).
   is not a measurement.
 - Links: `docs/evidence/ports/magnet-menu/fidelity.md`
 
-### P-WEB1-B1-6
+### P-162
 
 - Date: 2026-10-13
 - Area: Components (Base UI NavigationMenu, Radix NavigationMenu)
@@ -2584,7 +2601,7 @@ Design From and Design From Labs (the guards enforce this).
   focus, in both directions, not with dispatched events.
 - Links: `ports/jh3y-anchor-magnet-menu/magnet-menu/src/base/magnet-menu.tsx`
 
-### P-WEB1-B1-7
+### P-163
 
 - Date: 2026-10-13
 - Area: Components (CSS color)
@@ -2598,7 +2615,7 @@ Design From and Design From Labs (the guards enforce this).
   text-only region is the quickest check of a color.
 - Links: `ports/jh3y-scroll-carousel/scroll-carousel/scroll-carousel-styles.tsx`
 
-### P-WEB1-B1-8
+### P-164
 
 - Date: 2026-10-13
 - Area: Components (3D transforms)
@@ -2615,7 +2632,7 @@ Design From and Design From Labs (the guards enforce this).
   viewport width too.
 - Links: `ports/jh3y-scroll-carousel/scroll-carousel/scroll-carousel-styles.tsx`
 
-### P-WEB1-B1-9
+### P-165
 
 - Date: 2026-10-13
 - Area: Tests (wall and gallery specs)
@@ -2631,7 +2648,7 @@ Design From and Design From Labs (the guards enforce this).
   that was true on the day it was written.
 - Links: `e2e/gallery.spec.ts`, `e2e/wall.spec.ts`
 
-### P-WEB1-B1-10
+### P-166
 
 - Date: 2026-10-13
 - Area: Components and demos (landmarks)
@@ -2647,7 +2664,7 @@ Design From and Design From Labs (the guards enforce this).
   navigation only where the page needs it.
 - Links: `ports/jh3y-anchor-magnet-menu/magnet-menu/demo.tsx`
 
-### P-WEB1-B1-11
+### P-167
 
 - Date: 2026-10-13
 - Area: Tests (staged demos)
@@ -2661,7 +2678,7 @@ Design From and Design From Labs (the guards enforce this).
   computed style of the same document.
 - Links: `e2e/magnet-menu.spec.ts`
 
-### P-WEB1-B1-12
+### P-168
 
 - Date: 2026-10-13
 - Area: Fidelity harness (browsers)
@@ -2677,7 +2694,7 @@ Design From and Design From Labs (the guards enforce this).
 - Prevention: Give a probe an overall deadline, and install the revision the
   driver names before claiming a cross-engine result.
 - Links: `docs/evidence/ports/magnet-menu/fidelity.md`
-### P-WEB1-A1-2
+### P-169
 
 - Date: 2026-10-13
 - Area: Components (RTL animation)
@@ -2687,7 +2704,7 @@ Design From and Design From Labs (the guards enforce this).
 - Prevention: Prove a right-to-left animation by comparing it with the flipped left-to-right frames at several times, using glyphs that are symmetric (block characters), and check that the unflipped comparison differs.
 - Links: `ports/devongovett-text-shimmer/text-shimmer/text-shimmer.tsx`
 
-### P-WEB1-A1-3
+### P-170
 
 - Date: 2026-10-13
 - Area: Components (system colors)
@@ -2697,7 +2714,7 @@ Design From and Design From Labs (the guards enforce this).
 - Prevention: Use theme variables, not system color keywords, for a component's colors, and test it inside a `.dark` container on a light system.
 - Links: `ports/jh3y-text-shimmer/shimmer-lines/component.json`
 
-### P-WEB1-A1-4
+### P-171
 
 - Date: 2026-10-13
 - Area: Pen ports (durations)
@@ -2707,7 +2724,7 @@ Design From and Design From Labs (the guards enforce this).
 - Prevention: Read computed durations on the upstream page before comparing frames, and do not assume a length measures only the visible text.
 - Links: `docs/evidence/ports/shimmer-lines/fidelity.md`
 
-### P-WEB1-A1-5
+### P-172
 
 - Date: 2026-10-13
 - Area: Fidelity harness (RTL check)

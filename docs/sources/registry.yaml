@@ -1591,7 +1591,7 @@ sources:
     license: "MIT"
     accessed: 2026-10-13
     visibility: public
-    note: "No git commit: pinned by the tree hash of the verbatim debug-view snapshot (decision 0027). The pen also loads GSAP and Tweakpane for its debug panel; neither is ported. Its Google font (Gloria Hallelujah) draws only the pen's annotation arrows and is not shipped."
+    note: "No git commit: pinned by the tree hash of the verbatim debug-view snapshot (decision 0030). The pen also loads GSAP and Tweakpane for its debug panel; neither is ported. Its Google font (Gloria Hallelujah) draws only the pen's annotation arrows and is not shipped."
     used-in: [ports/jh3y-border-shine, content/components/jh3y-border-shine, sources.yaml, docs/evidence/ports/border-shine]
   - id: S-466
     title: "Victor Welander, \"Gooey Text Morphing\" (a 21st.dev community item: words that melt into each other with an SVG threshold filter)"
@@ -1601,7 +1601,7 @@ sources:
     license: "MIT"
     accessed: 2026-10-13
     visibility: public
-    note: "No git repository: pinned by the tree hash of the verbatim files from 21st's CDN (decision 0027). The item's license field reads mit; its page dates it 2024-11-27."
+    note: "No git repository: pinned by the tree hash of the verbatim files from 21st's CDN (decision 0030). The item's license field reads mit; its page dates it 2024-11-27."
     used-in: [ports/victorwelander-gooey-text, content/components/victorwelander-gooey-text, sources.yaml, docs/evidence/ports/gooey-text]
   - id: S-467
     title: "21st.dev Terms of Service (open-source works keep their license and credit the author; copies link back to the component page)"
@@ -1612,15 +1612,6 @@ sources:
     accessed: 2026-10-13
     visibility: public
     used-in: [sources.yaml, docs/evidence/ports/gooey-text, ports/victorwelander-gooey-text]
-  - id: S-468
-    title: "MDN: corner-shape (squircle and other corner geometries)"
-    author: "MDN contributors"
-    kind: doc
-    url: "https://developer.mozilla.org/en-US/docs/Web/CSS/corner-shape"
-    license: "CC-BY-SA-2.5"
-    accessed: 2026-10-13
-    visibility: public
-    used-in: [ports/jh3y-border-shine, docs/evidence/ports/border-shine]
   - id: S-469
     title: "WCAG 2.2: Success Criterion 2.2.2 Pause, Stop, Hide"
     author: "W3C"
@@ -1639,7 +1630,7 @@ sources:
     license: "MIT"
     accessed: 2026-10-13
     visibility: public
-    note: "Snapshot of the pen's compiled debug view, pinned by the git tree hash of ports/una-neumorphic-shadows/neumorphic-panel/upstream (docs/decisions/0027-pin-snapshot-sources.md)."
+    note: "Snapshot of the pen's compiled debug view, pinned by the git tree hash of ports/una-neumorphic-shadows/neumorphic-panel/upstream (docs/decisions/0030-pin-snapshot-sources.md)."
     used-in: [ports/una-neumorphic-shadows, content/components/una-neumorphic-shadows, sources.yaml, docs/evidence/ports/neumorphic-panel]
   - id: S-461
     title: "CodePen 2.0: Shadow Stacking I (a stacked box-shadow elevation scale, light and dark)"
@@ -1649,7 +1640,7 @@ sources:
     license: "MIT"
     accessed: 2026-10-13
     visibility: public
-    note: "index.html, style.css and script.js (empty) read from the pen's editor and pinned by the git tree hash of ports/jshmllr-shadow-stacking/elevation/upstream (docs/decisions/0027-pin-snapshot-sources.md)."
+    note: "index.html, style.css and script.js (empty) read from the pen's editor and pinned by the git tree hash of ports/jshmllr-shadow-stacking/elevation/upstream (docs/decisions/0030-pin-snapshot-sources.md)."
     used-in: [ports/jshmllr-shadow-stacking, content/components/jshmllr-shadow-stacking, sources.yaml, docs/evidence/ports/elevation]
   - id: S-462
     title: "CodePen 2.0: Shadow Stacking II (the pen Shadow Stacking I was forked from)"
@@ -1669,8 +1660,8 @@ sources:
     license: "CC-BY-SA-2.5"
     accessed: 2026-10-13
     visibility: public
-    note: "Cited for the @supports (corner-shape: squircle) block the pen uses and the port keeps."
-    used-in: [docs/evidence/ports/neumorphic-panel]
+    note: "Cited for the @supports (corner-shape: squircle) blocks the Neumorphic Panel and Border Shine pens use and the ports keep."
+    used-in: [ports/una-neumorphic-shadows, ports/jh3y-border-shine, docs/evidence/ports/neumorphic-panel, docs/evidence/ports/border-shine]
   - id: S-464
     title: "MDN: the prefers-contrast media feature (and the forced-colors media feature)"
     author: "MDN contributors"
@@ -1690,7 +1681,7 @@ sources:
     accessed: 2026-10-13
     visibility: public
     used-in: [sources.yaml, ports/jh3y-anchor-magnet-menu, content/components/jh3y-anchor-magnet-menu/magnet-menu]
-    note: "Pinned by the verbatim snapshot of the pen's debug view (https://cdpn.io/pen/debug/GRapZqO, 19,374 bytes, checked byte for byte against a second fetch on the access date); sources.yaml ref is the git tree hash of that directory (decision 0027). The pen's Details view shows the MIT notice and the copyright line kept in ports/jh3y-anchor-magnet-menu/LICENSE."
+    note: "Pinned by the verbatim snapshot of the pen's debug view (https://cdpn.io/pen/debug/GRapZqO, 19,374 bytes, checked byte for byte against a second fetch on the access date); sources.yaml ref is the git tree hash of that directory (decision 0030). The pen's Details view shows the MIT notice and the copyright line kept in ports/jh3y-anchor-magnet-menu/LICENSE."
   - id: S-471
     title: "CSS Scroll-Driven Image Carousel (CodePen pen by Jhey)"
     author: "Jhey"
@@ -1700,7 +1691,7 @@ sources:
     accessed: 2026-10-13
     visibility: public
     used-in: [sources.yaml, ports/jh3y-scroll-carousel, content/components/jh3y-scroll-carousel/scroll-carousel]
-    note: "Pinned by the verbatim snapshot of the pen's debug view (https://cdpn.io/pen/debug/PovoorJ, 15,895 bytes, checked byte for byte against a second fetch on the access date); sources.yaml ref is the git tree hash of that directory (decision 0027). The pen loads GSAP and ScrollTrigger (proprietary, S-345), tweakpane and photos from picsum.photos; none of them is in the port (the fallback is a scroll listener, the panel's defaults are props, the photos are generated placeholders)."
+    note: "Pinned by the verbatim snapshot of the pen's debug view (https://cdpn.io/pen/debug/PovoorJ, 15,895 bytes, checked byte for byte against a second fetch on the access date); sources.yaml ref is the git tree hash of that directory (decision 0030). The pen loads GSAP and ScrollTrigger (proprietary, S-345), tweakpane and photos from picsum.photos; none of them is in the port (the fallback is a scroll listener, the panel's defaults are props, the photos are generated placeholders)."
   - id: S-472
     title: "MDN Web Docs: CSS anchor positioning"
     author: "Mozilla contributors"

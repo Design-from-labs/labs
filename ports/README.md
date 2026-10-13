@@ -122,9 +122,9 @@ paths (pitfall P-044); until then they are reviewed on preview deployments.
 | `paperlab` | `paper` | NourMtir0722/Paperlab, `packages/paperlab/src/Paper.tsx` and its closure (Apache-2.0 with NOTICE; GSAP rewritten with Motion) |
 | `jh3y-border-shine` | `border-shine` | Jhey's CodePen "masked inset border shine" (debug-view snapshot pinned by tree hash; GSAP and the debug panel left out, arrow keys added) |
 | `victorwelander-gooey-text` | `gooey-text` | Victor Welander's 21st.dev item "Gooey Text Morphing" (CDN files pinned by tree hash; a different technique from `text-morph`) |
-| `una-neumorphic-shadows` | `neumorphic-panel` | Una Kravets's CodePen "Neumorphic shadows", `debug.html` (a verbatim snapshot, pinned by tree hash; decision 0027) |
+| `una-neumorphic-shadows` | `neumorphic-panel` | Una Kravets's CodePen "Neumorphic shadows", `debug.html` (a verbatim snapshot, pinned by tree hash; decision 0030) |
 | `jshmllr-shadow-stacking` | `elevation` | Josh Miller's CodePen 2.0 "Shadow Stacking I" (a fork of "Shadow Stacking II"), `style.css` and `index.html` (a verbatim snapshot, pinned by tree hash) |
-| `jh3y-anchor-magnet-menu` | `magnet-menu` | CodePen pen jh3y/GRapZqO, pinned by the snapshot in `upstream/` (decision 0027; variants shape, Radix and Base UI NavigationMenu, a script fallback without anchor positioning) |
-| `jh3y-scroll-carousel` | `scroll-carousel` | CodePen pen jh3y/PovoorJ, pinned by the snapshot in `upstream/` (decision 0027; GSAP fallback rewritten as a scroll listener, photos replaced, a flat strip under reduced motion) |
+| `jh3y-anchor-magnet-menu` | `magnet-menu` | CodePen pen jh3y/GRapZqO, pinned by the snapshot in `upstream/` (decision 0030; variants shape, Radix and Base UI NavigationMenu, a script fallback without anchor positioning) |
+| `jh3y-scroll-carousel` | `scroll-carousel` | CodePen pen jh3y/PovoorJ, pinned by the snapshot in `upstream/` (decision 0030; GSAP fallback rewritten as a scroll listener, photos replaced, a flat strip under reduced motion) |
 | `jh3y-text-shimmer` | `shimmer-lines` | Jhey's CodePen "Text Shimmer Lines" (a snapshot of the pen's debug view; tweakpane left out, defaults pinned) |
 | `devongovett-text-shimmer` | `text-shimmer` | Devon Govett's CodePen 2.0 "GPU accelerated text shimmer" (a snapshot of its files) |

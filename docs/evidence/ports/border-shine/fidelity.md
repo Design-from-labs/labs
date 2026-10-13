@@ -1,7 +1,7 @@
 # border-shine: fidelity
 
 - Upstream: Jhey's CodePen [masked inset border shine](https://codepen.io/jh3y/pen/WbwyGBb) (S-465). Its own Details view shows an MIT notice, "Copyright (c) 2026 by Jhey (https://codepen.io/jh3y/pen/WbwyGBb)", which is `ports/jh3y-border-shine/LICENSE` (public pens are MIT by default, S-451).
-- Pin (decision 0027, `docs/decisions/0027-pin-snapshot-sources.md`): a pen has no commit. The pen's debug view, `https://cdpn.io/pen/debug/WbwyGBb` (the code that actually runs), is saved byte for byte, fetched 2026-10-13 and re-fetched to confirm, as `ports/jh3y-border-shine/border-shine/upstream/debug.html`. `sources.yaml` `ref` is the git tree hash of that directory, `ccec66c2191e6105456fcb8d6e5eefc6f53c1ef9`; verify it with `git rev-parse <commit>:ports/jh3y-border-shine/border-shine/upstream`.
+- Pin (decision 0030, `docs/decisions/0030-pin-snapshot-sources.md`): a pen has no commit. The pen's debug view, `https://cdpn.io/pen/debug/WbwyGBb` (the code that actually runs), is saved byte for byte, fetched 2026-10-13 and re-fetched to confirm, as `ports/jh3y-border-shine/border-shine/upstream/debug.html`. `sources.yaml` `ref` is the git tree hash of that directory, `ccec66c2191e6105456fcb8d6e5eefc6f53c1ef9`; verify it with `git rev-parse <commit>:ports/jh3y-border-shine/border-shine/upstream`.
 - Port: `ports/jh3y-border-shine/border-shine`, exported to `content/components/jh3y-border-shine/border-shine` (item `border-shine`, primitive none, no icons).
 - What the pen is: a 64 px glass button drawn at scale 2 (a sun behind a cloud). Its `::before` is a dark gradient with a backdrop filter, its `::after` a 1 px inset highlight masked by a linear gradient, and the gradient's angle follows the pointer anywhere on the page (`--pointer-angle`, 0 at the top, clockwise). The same angle masks the sun's and the cloud's strokes.
 - Method: Playwright (S-014) Chromium, device scale 1, dark scheme (the pen's pinned default). The pen runs as saved (its page script and the esm.sh modules it imports load), with its own page furniture hidden by a style tag (annotation arrows, the social link, the debug panel; none is part of the component). The port renders `BorderShine` with the pen's markup and classes in a harness page with the pen's page CSS (black body, the fading grid, the `main` wrapper with its 3D transform). Each state is a fresh load on both sides, the pointer moved to the same point (clamped into the viewport), settled for 300 ms plus two frames, then a full-viewport screenshot. pixelmatch (S-152), threshold 0.1. Noise floor: the pen against a second load of itself.
@@ -20,7 +20,7 @@ Strips (1280x800, a 256 px crop around the button: rest, top left, right, below,
 
 ### The press, frame by frame
 
-The pen's only motion of its own is the CSS transition on `translate` and `scale` when the button is pressed (0.1 s). The port's classes are `transition-[translate,scale] duration-100 ease-[ease-out]` (Tailwind's own `ease-out` is a different curve, `cubic-bezier(0, 0, 0.2, 1)`; P-WEB1-A3-1). With the mouse down, the two transitions were paused and sought to 0, 16, 32, 48, 64, 80, 96 and 100 ms on each side: `scale` and `translate` are identical on all eight frames (for example 1.99058 and 0 0.471233px at 32 ms; 1.98 and 0 1px at 100 ms). Screenshots at 0, 48 and 100 ms differ by 88 px (0.0086%), 14 px (0.0014%) and 0 px.
+The pen's only motion of its own is the CSS transition on `translate` and `scale` when the button is pressed (0.1 s). The port's classes are `transition-[translate,scale] duration-100 ease-[ease-out]` (Tailwind's own `ease-out` is a different curve, `cubic-bezier(0, 0, 0.2, 1)`; P-147). With the mouse down, the two transitions were paused and sought to 0, 16, 32, 48, 64, 80, 96 and 100 ms on each side: `scale` and `translate` are identical on all eight frames (for example 1.99058 and 0 0.471233px at 32 ms; 1.98 and 0 1px at 100 ms). Screenshots at 0, 48 and 100 ms differ by 88 px (0.0086%), 14 px (0.0014%) and 0 px.
 
 ### GSAP
 
@@ -49,4 +49,4 @@ Every change from upstream. The numbers above are measured on the shipped code, 
 
 ## Credits
 
-S-465 (the pen), S-451 (CodePen's licensing), S-345 (GSAP's license, why GSAP is not used), S-468 (`corner-shape`), S-156 (hoisted `<style>`), S-157, S-450.
+S-465 (the pen), S-451 (CodePen's licensing), S-345 (GSAP's license, why GSAP is not used), S-463 (`corner-shape`), S-156 (hoisted `<style>`), S-157, S-450.

@@ -1005,8 +1005,8 @@ oss:
         port: ports/lenis/smooth-scroll
   # A public CodePen pen, MIT licensed by its own Details view. It has no git
   # commit: `ref` is the git tree hash of the verbatim snapshot in
-  # ports/jh3y-border-shine/border-shine/upstream (decision 0027,
-  # docs/decisions/0027-pin-snapshot-sources.md). The pen also loads GSAP
+  # ports/jh3y-border-shine/border-shine/upstream (decision 0030,
+  # docs/decisions/0030-pin-snapshot-sources.md). The pen also loads GSAP
   # (proprietary) and Tweakpane for its debug panel; neither is ported.
   - id: jh3y-border-shine
     name: Border Shine (CodePen)
@@ -1029,7 +1029,7 @@ oss:
   # terms ask to keep the license notice, credit the author and link back to
   # the item page, which this entry and the file header do. `ref` is the git
   # tree hash of the verbatim snapshot in
-  # ports/victorwelander-gooey-text/gooey-text/upstream (decision 0027).
+  # ports/victorwelander-gooey-text/gooey-text/upstream (decision 0030).
   - id: victorwelander-gooey-text
     name: Gooey Text Morphing (21st.dev)
     repo: https://21st.dev/@victorwelander/components/gooey-text-morphing
@@ -1047,7 +1047,7 @@ oss:
         category: typography
         upstream: upstream/gooey-text-morphing.tsx
   # CodePen pens have no git commit: each is pinned by the tree hash of a
-  # verbatim snapshot (docs/decisions/0027-pin-snapshot-sources.md).
+  # verbatim snapshot (docs/decisions/0030-pin-snapshot-sources.md).
   - id: una-neumorphic-shadows
     name: Neumorphic shadows (Una Kravets)
     repo: https://codepen.io/una/pen/gbwjzgw
@@ -1075,7 +1075,7 @@ oss:
     author: "Josh Miller <https://codepen.io/jshmllr>"
     license: MIT
     # The notice stays short: a long unbreakable URL in it widened the
-    # component page past 320px (P-WEB1-A2-5). Both pen URLs are in the
+    # component page past 320px (P-157). Both pen URLs are in the
     # LICENSE (every exported file) and in the credits (S-461 and S-462).
     attribution: "Copyright (c) 2026 Josh Miller, Shadow Stacking I (a fork of Shadow Stacking II). MIT License."
     credit: S-461
@@ -1086,7 +1086,7 @@ oss:
         upstream: style.css
   # A CodePen pen has no commit: `ref` is the git tree hash of the verbatim
   # snapshot in ports/jh3y-anchor-magnet-menu/magnet-menu/upstream
-  # (decision 0027). The MIT notice is the pen's own.
+  # (decision 0030). The MIT notice is the pen's own.
   - id: jh3y-anchor-magnet-menu
     name: Anchor magnet menu
     repo: https://codepen.io/jh3y/pen/GRapZqO
@@ -1124,7 +1124,7 @@ oss:
         category: media
         upstream: upstream/debug.html
   # CodePen pens have no git commit: `ref` is the git tree hash of the verbatim
-  # snapshot in ports/<id>/<component>/upstream (docs/decisions/0027-pin-snapshot-sources.md).
+  # snapshot in ports/<id>/<component>/upstream (docs/decisions/0030-pin-snapshot-sources.md).
   # Verify with `git rev-parse <commit>:ports/<id>/<component>/upstream`.
   - id: jh3y-text-shimmer
     name: Text Shimmer Lines (CodePen)
