@@ -88,6 +88,15 @@ Design From and Design From Labs (the guards enforce this).
 | [P-075](#p-075) | Site (accessibility) | A sideways-scrolling block was not keyboard reachable at 375px |
 | [P-076](#p-076) | Site (accessibility) | A bare preview page had no level-one heading |
 | [P-077](#p-077) | Site (previews) | A preview of a hydrated demo showed its server markup, with unreadable text |
+| [P-078](#p-078) | Site (demo aliases) | Stock shadcn names resolved to Labs components with another API |
+| [P-079](#p-079) | Site (demo aliases) | Items sharing one install root import each other relatively |
+| [P-080](#p-080) | Vendoring | shadcn's registry now imports `cn` from the `cn` package |
+| [P-081](#p-081) | Vendoring | The shadcn CLI writes `"use client"` on some installs of a file only |
+| [P-082](#p-082) | Vendoring | The shadcn CLI's install request omits a style's base packages |
+| [P-083](#p-083) | Dependencies | `shadcn add calendar` installs a major the item's range excludes |
+| [P-084](#p-084) | Fidelity harness | Playwright's fake clock keeps running in real time after `install` |
+| [P-085](#p-085) | Tests (Web Audio) | `page.evaluate` grants user activation, hiding a gesture gate |
+| [P-086](#p-086) | Components (NODE_ENV) | A `typeof process` guard reports development in a Vite production build |
 | [P-087](#p-087) | CI (links) | An external citation host outage failed every pull request's link check |
 
 ---
@@ -1259,6 +1268,139 @@ Design From and Design From Labs (the guards enforce this).
   Tabs previews on a beta build (`LABS_INCLUDE_BETA=1`). Regenerate a still
   of a `loop.hydrate` entry from the hydrated preview.
 - Links: `src/pages/preview/[item].astro`, `e2e/a11y.spec.ts`
+
+### P-078
+
+- Date: 2026-10-13
+- Area: Site (demo aliases)
+- Symptom: `LABS_INCLUDE_BETA=1 pnpm build:site` failed on the data-table
+  demos (`@/components/ui/calendar` and 13 other names unresolved); `button`
+  and `tooltip` did resolve, to Labs' own components, whose props differ from
+  shadcn's (no `size="icon-xs"`), so a building demo would have looked wrong.
+- Cause: The alias plugin resolved `@/components/ui/<name>` only to Labs
+  items, while the items list those names as shadcn built-ins.
+- Fix: Vendored stock shadcn components per style family and icon library
+  (`scripts/vendor-shadcn.mjs`, `vendor/shadcn/`), used only for items that
+  list the bare name (decision 0023).
+- Prevention: `scripts/stock-shadcn.test.mjs` fails when an item lists a
+  stock name the snapshot lacks; prepare-content fails the same way for a
+  published item.
+- Links: `scripts/lib/stock-shadcn.mjs`, `astro.config.mjs`
+
+### P-079
+
+- Date: 2026-10-13
+- Area: Site (demo aliases)
+- Symptom: `data-table-sheet-details.tsx` failed with `UNRESOLVED_IMPORT` for
+  `../data-table-provider`.
+- Cause: The sheet and filter-command items install into the data-table's
+  `components/data-table/` root and import its files relatively; the site
+  writes each item into its own `.generated/items/<item>/` directory.
+- Fix: A relative import the item does not contain resolves through the
+  item's Labs dependencies (the variant it names, so a phosphor sheet uses the
+  phosphor data-table), then the dependency index.
+- Prevention: The resolver tests cover relative and directory-index
+  cross-item imports.
+- Links: `scripts/lib/stock-shadcn.mjs`
+
+### P-080
+
+- Date: 2026-10-13
+- Area: Vendoring
+- Symptom: Files written by `shadcn add` (4.21.4) import `{ cn } from "cn"`,
+  and the CLI installs the `cn` package, even in a project whose
+  `lib/utils.ts` defines `cn` with clsx and tailwind-merge.
+- Cause: shadcn's registry switched its components to its own `cn` package
+  (a drop-in for clsx + tailwind-merge).
+- Fix: The vendoring script rewrites the import to `@/lib/utils`, the site's
+  clsx + tailwind-merge `cn`, and records the rewrite in the manifest.
+- Prevention: A test fails if a vendored file still imports `cn`.
+- Links: `scripts/vendor-shadcn.mjs`
+
+### P-081
+
+- Date: 2026-10-13
+- Area: Vendoring
+- Symptom: With `rsc: false`, `input-group.tsx` came out with `"use client"`
+  when installed through `command`, and without it when added directly, so
+  the two runs disagreed.
+- Cause: The CLI strips the directive for non-RSC projects on direct installs
+  only.
+- Fix: Vendor with `rsc: true` (the directive is what Labs items carry too);
+  the script also tolerates a difference in that directive alone and keeps the
+  version with it, and fails on any other disagreement.
+- Prevention: The script compares every file two names write.
+- Links: `scripts/vendor-shadcn.mjs`
+
+### P-082
+
+- Date: 2026-10-13
+- Area: Vendoring
+- Symptom: The packages the CLI asked to install for radix-nova omitted
+  `radix-ui`, and for aria-nova omitted `react-aria-components`.
+- Cause: `shadcn add` assumes the style's base packages were installed by
+  `shadcn init`.
+- Fix: The manifest lists the packages each name's files actually import.
+- Prevention: Derive dependencies from imports, not from the CLI's install
+  request.
+- Links: `vendor/shadcn/manifest.json`
+
+### P-083
+
+- Date: 2026-10-13
+- Area: Dependencies
+- Symptom: A fresh `shadcn add` of the data-table item installs
+  `react-day-picker` 10, while the item declares `react-day-picker@^9.14.0`.
+- Cause: shadcn's `calendar` asks for `react-day-picker@latest`, which wins
+  over the item's range.
+- Fix: The site pins 10.0.2 (what users get); the item's range needs to
+  accept 10 (port owner).
+- Prevention: Check an item's npm ranges against what its stock
+  dependencies install.
+- Links: `package.json`
+
+### P-084
+
+- Date: 2026-10-13
+- Area: Fidelity harness
+- Symptom: Liveline compared against itself with `--clock` and `--advance`
+  differed by 0.22%; ThiingsGrid momentum frames differed 4% to 15% run to run.
+- Cause: `page.clock.install()` alone lets fake time flow in real time, so the
+  variable page-load time leaks into timers, `requestAnimationFrame` and
+  `Date.now`.
+- Fix: The shared fidelity tool pauses the clock (`pauseAt`) right after
+  `install`, before navigating, then steps it with `runFor`.
+- Prevention: Pause the fake clock before navigation in every frame-matching
+  diff; compare an upstream against itself first to measure the noise floor.
+- Links: `docs/evidence/ports/liveline/fidelity.md`, `docs/evidence/ports/thiings-grid/fidelity.md`
+
+### P-085
+
+- Date: 2026-10-13
+- Area: Tests (Web Audio)
+- Symptom: TableOfContents' check that no AudioContext exists before a user
+  gesture failed after a hover alone.
+- Cause: Playwright's `page.evaluate` and locator helpers run with
+  `userGesture: true`, which grants the page user activation.
+- Fix: Record activation in an init script, drive the page with raw mouse
+  input at known coordinates, and evaluate only afterwards.
+- Prevention: Never call `evaluate` before a gesture-gated assertion.
+- Links: `docs/evidence/ports/table-of-contents/fidelity.md`
+
+### P-086
+
+- Date: 2026-10-13
+- Area: Components (NODE_ENV)
+- Symptom: A `typeof process !== "undefined"` guard around
+  `process.env.NODE_ENV` made GuideframeGrid report development, and show its
+  overlay, in a Vite production build.
+- Cause: Vite replaces the `process.env.NODE_ENV` literal but defines no
+  runtime `process`; also `process.env?.NODE_ENV` is not the literal and fails
+  the decision 0018 check.
+- Fix: A plain `process.env.NODE_ENV` read inside a `try`/`catch` that falls
+  back to development.
+- Prevention: Decision 0018 spells out the safe form.
+- Links: `docs/decisions/0018-node-env-in-items.md`, `ports/guide-frame/guideframe-grid/`
 
 ### P-087
 

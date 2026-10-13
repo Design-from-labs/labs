@@ -1,0 +1,260 @@
+{
+  "baseline-default": {
+    "upstream": "http://127.0.0.1:5350/",
+    "port": "http://127.0.0.1:5351/",
+    "scheme": "light",
+    "threshold": 0.1,
+    "seed": null,
+    "clock": null,
+    "reducedMotion": false,
+    "results": {
+      "1280x800": {
+        "differingPixels": 0,
+        "totalPixels": 1024000,
+        "percent": 0,
+        "sizes": {
+          "upstream": [1280, 800],
+          "port": [1280, 800]
+        },
+        "pass": true
+      },
+      "375x812": {
+        "differingPixels": 0,
+        "totalPixels": 304500,
+        "percent": 0,
+        "sizes": {
+          "upstream": [375, 812],
+          "port": [375, 812]
+        },
+        "pass": true
+      }
+    },
+    "note": "port before enhancements (contract-required changes only)"
+  },
+  "baseline-panel": {
+    "upstream": "http://127.0.0.1:5350/",
+    "port": "http://127.0.0.1:5351/",
+    "scheme": "light",
+    "threshold": 0.1,
+    "seed": null,
+    "clock": null,
+    "reducedMotion": false,
+    "results": {
+      "1280x800": {
+        "differingPixels": 0,
+        "totalPixels": 1024000,
+        "percent": 0,
+        "sizes": {
+          "upstream": [1280, 800],
+          "port": [1280, 800]
+        },
+        "pass": true
+      },
+      "375x812": {
+        "differingPixels": 0,
+        "totalPixels": 304500,
+        "percent": 0,
+        "sizes": {
+          "upstream": [375, 812],
+          "port": [375, 812]
+        },
+        "pass": true
+      }
+    },
+    "note": "port before enhancements (contract-required changes only)"
+  },
+  "baseline-guides-panel": {
+    "upstream": "http://127.0.0.1:5350/",
+    "port": "http://127.0.0.1:5351/",
+    "scheme": "light",
+    "threshold": 0.1,
+    "seed": null,
+    "clock": null,
+    "reducedMotion": false,
+    "results": {
+      "1280x800": {
+        "differingPixels": 0,
+        "totalPixels": 1024000,
+        "percent": 0,
+        "sizes": {
+          "upstream": [1280, 800],
+          "port": [1280, 800]
+        },
+        "pass": true
+      },
+      "375x812": {
+        "differingPixels": 0,
+        "totalPixels": 304500,
+        "percent": 0,
+        "sizes": {
+          "upstream": [375, 812],
+          "port": [375, 812]
+        },
+        "pass": true
+      }
+    },
+    "note": "port before enhancements (contract-required changes only)"
+  },
+  "default": {
+    "upstream": "http://127.0.0.1:5350/",
+    "port": "http://127.0.0.1:5351/",
+    "scheme": "light",
+    "threshold": 0.1,
+    "seed": null,
+    "clock": null,
+    "reducedMotion": false,
+    "pause": null,
+    "results": {
+      "1280x800": {
+        "differingPixels": 0,
+        "totalPixels": 1024000,
+        "percent": 0,
+        "sizes": {
+          "upstream": [1280, 800],
+          "port": [1280, 800]
+        },
+        "pass": true
+      },
+      "375x812": {
+        "differingPixels": 0,
+        "totalPixels": 304500,
+        "percent": 0,
+        "sizes": {
+          "upstream": [375, 812],
+          "port": [375, 812]
+        },
+        "pass": true
+      }
+    }
+  },
+  "panel": {
+    "upstream": "http://127.0.0.1:5350/",
+    "port": "http://127.0.0.1:5351/",
+    "scheme": "light",
+    "threshold": 0.1,
+    "seed": null,
+    "clock": null,
+    "reducedMotion": false,
+    "pause": null,
+    "results": {
+      "1280x800": {
+        "differingPixels": 68,
+        "totalPixels": 1024000,
+        "percent": 0.0066,
+        "sizes": {
+          "upstream": [1280, 800],
+          "port": [1280, 800]
+        },
+        "pass": true
+      },
+      "375x812": {
+        "differingPixels": 70,
+        "totalPixels": 304500,
+        "percent": 0.023,
+        "sizes": {
+          "upstream": [375, 812],
+          "port": [375, 812]
+        },
+        "pass": true
+      }
+    }
+  },
+  "guides-panel": {
+    "upstream": "http://127.0.0.1:5350/",
+    "port": "http://127.0.0.1:5351/",
+    "scheme": "light",
+    "threshold": 0.1,
+    "seed": null,
+    "clock": null,
+    "reducedMotion": false,
+    "pause": null,
+    "results": {
+      "1280x800": {
+        "differingPixels": 79,
+        "totalPixels": 1024000,
+        "percent": 0.0077,
+        "sizes": {
+          "upstream": [1280, 800],
+          "port": [1280, 800]
+        },
+        "pass": true
+      },
+      "375x812": {
+        "differingPixels": 84,
+        "totalPixels": 304500,
+        "percent": 0.0276,
+        "sizes": {
+          "upstream": [375, 812],
+          "port": [375, 812]
+        },
+        "pass": true
+      }
+    }
+  },
+  "reduced-guides-panel": {
+    "upstream": "http://127.0.0.1:5350/",
+    "port": "http://127.0.0.1:5351/",
+    "scheme": "light",
+    "threshold": 0.1,
+    "seed": null,
+    "clock": null,
+    "reducedMotion": true,
+    "pause": null,
+    "results": {
+      "1280x800": {
+        "differingPixels": 79,
+        "totalPixels": 1024000,
+        "percent": 0.0077,
+        "sizes": {
+          "upstream": [1280, 800],
+          "port": [1280, 800]
+        },
+        "pass": true
+      },
+      "375x812": {
+        "differingPixels": 84,
+        "totalPixels": 304500,
+        "percent": 0.0276,
+        "sizes": {
+          "upstream": [375, 812],
+          "port": [375, 812]
+        },
+        "pass": true
+      }
+    },
+    "note": "images not kept (guides-panel shows the open panel; numbers identical)"
+  },
+  "dark-guides-panel": {
+    "upstream": "http://127.0.0.1:5350/",
+    "port": "http://127.0.0.1:5351/",
+    "scheme": "dark",
+    "threshold": 0.1,
+    "seed": null,
+    "clock": null,
+    "reducedMotion": false,
+    "pause": null,
+    "results": {
+      "1280x800": {
+        "differingPixels": 79,
+        "totalPixels": 1024000,
+        "percent": 0.0077,
+        "sizes": {
+          "upstream": [1280, 800],
+          "port": [1280, 800]
+        },
+        "pass": true
+      },
+      "375x812": {
+        "differingPixels": 84,
+        "totalPixels": 304500,
+        "percent": 0.0276,
+        "sizes": {
+          "upstream": [375, 812],
+          "port": [375, 812]
+        },
+        "pass": true
+      }
+    },
+    "note": "images not kept (guides-panel shows the open panel; numbers identical)"
+  }
+}

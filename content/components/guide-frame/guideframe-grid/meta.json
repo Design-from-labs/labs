@@ -1,0 +1,197 @@
+{
+  "$schema": "https://labs.designfrom.com/schemas/meta.schema.json",
+  "schemaVersion": 1,
+  "name": "guideframe-grid",
+  "kind": "component",
+  "title": "GuideframeGrid",
+  "description": "Design-tool layout grids, rulers and draggable, snapping guides drawn over the live page or one container, with a keyboard-reachable control panel and a geometry inspector.",
+  "status": "beta",
+  "category": "layout",
+  "label": "GuideFrame",
+  "variants": [
+    {
+      "name": "guideframe-grid",
+      "primitive": "none",
+      "iconSet": "none",
+      "status": "beta"
+    }
+  ],
+  "defaultVariant": "guideframe-grid",
+  "demo": "demo.tsx",
+  "preview": "preview.webp",
+  "source": {
+    "repo": "https://github.com/Dinil-Thilakarathne/guide-frame",
+    "commit": "aee6735f2b931b2c092f4fd908cb895713d787fb",
+    "path": "packages"
+  },
+  "author": "Dinil Thilakarathne <https://github.com/Dinil-Thilakarathne>",
+  "license": "MIT",
+  "attribution": "Copyright (c) 2026 GuideFrame. MIT License; the full notice ships inside each item.",
+  "credits": [
+    "S-175",
+    "S-003"
+  ],
+  "date": "2026-10-13",
+  "stage": {
+    "device": "laptop",
+    "slot": "inline",
+    "shell": "app"
+  },
+  "tile": {
+    "span": 2,
+    "rows": 2
+  },
+  "tags": [
+    "grid",
+    "rulers",
+    "guides",
+    "overlay",
+    "layout",
+    "developer-tools"
+  ],
+  "props": [
+    {
+      "name": "enabled",
+      "type": "boolean",
+      "description": "Override the production gate. Unset (default), the overlay mounts in development and not when NODE_ENV is \"production\", as upstream. `true` always mounts it (for example a demo on a production build), `false` never does. Changing it remounts the overlay."
+    },
+    {
+      "name": "forceVisibleInProduction",
+      "type": "boolean",
+      "default": "false",
+      "description": "Upstream's option: mount in production too. `enabled` takes precedence when set."
+    },
+    {
+      "name": "container",
+      "type": "Element | null",
+      "description": "Scope the overlay to a positioned element instead of the page. Guides are stored relative to it, and the inspector, click pausing and Shift-drag selection stay inside it. Changing it remounts the overlay."
+    },
+    {
+      "name": "rulers",
+      "type": "boolean | { size?: number; step?: number }",
+      "default": "false",
+      "description": "Top and left rulers; drag from one to place a guide, drop a guide back on it to delete."
+    },
+    {
+      "name": "columns",
+      "type": "number | { desktop?, tablet?, mobile? }",
+      "default": "{ desktop: 12, tablet: 8, mobile: 4 }",
+      "description": "Column count, fixed or per breakpoint."
+    },
+    {
+      "name": "gutter",
+      "type": "number | { desktop?, tablet?, mobile? }",
+      "default": "{ desktop: 24, tablet: 24, mobile: 16 }",
+      "description": "Gap between columns in CSS pixels."
+    },
+    {
+      "name": "margin",
+      "type": "number | { desktop?, tablet?, mobile? }",
+      "default": "{ desktop: 24, tablet: 24, mobile: 16 }",
+      "description": "Outer margin of the grid in CSS pixels."
+    },
+    {
+      "name": "maxWidth",
+      "type": "number | string",
+      "default": "1280",
+      "description": "Maximum grid width, centred; a number, a pixel string or a percentage."
+    },
+    {
+      "name": "breakpoints",
+      "type": "{ tablet?: number; desktop?: number }",
+      "default": "{ tablet: 768, desktop: 1024 }",
+      "description": "Minimum widths of the tablet and desktop breakpoints, matched against the viewport (or the container when scoped)."
+    },
+    {
+      "name": "activeBreakpoint",
+      "type": "\"desktop\" | \"tablet\" | \"mobile\"",
+      "description": "Force one breakpoint."
+    },
+    {
+      "name": "color",
+      "type": "string",
+      "default": "var(--guideframe-grid-color)",
+      "description": "Column, column-tick and accent color. Without it the token is used; its default is rgb(255 0 84)."
+    },
+    {
+      "name": "opacity",
+      "type": "number",
+      "default": "0.12",
+      "description": "Column opacity."
+    },
+    {
+      "name": "visible / defaultVisible / onVisibleChange",
+      "type": "boolean / boolean / (visible: boolean) => void",
+      "default": "true",
+      "description": "Controlled or uncontrolled grid visibility. Uncontrolled visibility persists under `storageKey`."
+    },
+    {
+      "name": "guides / defaultGuides / onGuidesChange",
+      "type": "Guide[] / Guide[] / (guides: Guide[]) => void",
+      "description": "Controlled or initial guides (`{ id, axis: \"x\" | \"y\", position, locked? }`). Uncontrolled guides persist per route under `guidesStorageKey`."
+    },
+    {
+      "name": "snap",
+      "type": "boolean | { elements?, columns?, guides?, threshold? }",
+      "default": "true",
+      "description": "Snap guides to element edges, column boundaries and other guides within `threshold` pixels (6). Hold Cmd/Ctrl while dragging to place freely."
+    },
+    {
+      "name": "panel",
+      "type": "boolean",
+      "default": "true",
+      "description": "Allow the floating control panel."
+    },
+    {
+      "name": "defaultPanelOpen",
+      "type": "boolean",
+      "default": "false",
+      "description": "Open the panel on first load; a stored open or closed choice wins."
+    },
+    {
+      "name": "onPanelOpenChange",
+      "type": "(open: boolean) => void",
+      "description": "Called when the panel opens or closes."
+    },
+    {
+      "name": "shortcut",
+      "type": "boolean",
+      "default": "true",
+      "description": "Global shortcuts (Cmd/Ctrl+G, Cmd/Ctrl+Shift+G, Shift+R, Shift+L, Shift+M, Shift+Z). When false the panel hides its shortcut hints; guide deletion, nudging and Escape still work on a selection."
+    },
+    {
+      "name": "storageKey / guidesStorageKey / panelStorageKey",
+      "type": "string",
+      "default": "\"guideframe:visible\" / \"guideframe:guides\" / \"guideframe:panel\"",
+      "description": "localStorage keys. The panel's position is stored under `${panelStorageKey}-position`. Give each scoped instance its own keys."
+    },
+    {
+      "name": "zIndex",
+      "type": "number",
+      "default": "2147483647",
+      "description": "Stacking order of the overlay root."
+    },
+    {
+      "name": "position",
+      "type": "\"fixed\" | \"absolute\"",
+      "default": "\"fixed\"",
+      "description": "Page overlay positioning; `container` implies absolute."
+    },
+    {
+      "name": "useGuideframe(options)",
+      "type": "{ visible, guides, panelOpen, setVisible, setGuides, clearGuides, setPanelOpen }",
+      "description": "The same overlay driven from your own UI. Takes the options above and returns live state and setters."
+    }
+  ],
+  "a11y": [
+    "The control panel is a labelled non-modal dialog. Cmd/Ctrl+Shift+G moves focus to it so the next Tab reaches its controls; Escape inside it, or the labelled close button, closes it and returns focus to where it was.",
+    "Every panel toggle is a native button with role switch and aria-checked. Shortcut hints are hidden from assistive technology and exposed as aria-keyshortcuts instead, only while shortcuts are enabled.",
+    "The Clear guides actions are a disclosure (aria-expanded and aria-controls on the trigger) over a labelled group of ordinary buttons; Escape collapses it and returns focus to the trigger.",
+    "The grid, rulers, guides and drag readout are aria-hidden: they are a visual instrument. Selection counts and inspector messages are announced through role status.",
+    "Placing a guide is pointer-only, as upstream: drag from a ruler. Selected guides move with the arrow keys (Shift for 10px) and delete with Backspace or Delete; `defaultGuides`, `guides` and `setGuides` place guides without a pointer.",
+    "Focus is visible as a two-pixel outline in the accent color. Panel text and hints meet 4.5:1 on the panel surface.",
+    "The column reveal and the switch and chevron transitions are removed under prefers-reduced-motion.",
+    "Right-to-left: the panel mirrors (it opens on the left, its content uses logical properties, and the switch thumb and chevron follow the direction). The rulers, grid, guides and readouts stay left-to-right because they measure physical CSS pixels, so the vertical ruler stays on the left."
+  ],
+  "usage": "const [frame, setFrame] = useState<HTMLDivElement | null>(null);\n\n<div ref={setFrame} className=\"relative\">\n  {frame ? (\n    <GuideframeGrid\n      container={frame}\n      rulers\n      storageKey=\"preview:visible\"\n      guidesStorageKey=\"preview:guides\"\n      panelStorageKey=\"preview:panel\"\n    />\n  ) : null}\n  {/* your layout */}\n</div>"
+}

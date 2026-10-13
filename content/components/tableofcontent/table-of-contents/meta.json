@@ -1,0 +1,125 @@
+{
+  "$schema": "https://labs.designfrom.com/schemas/meta.schema.json",
+  "schemaVersion": 1,
+  "name": "table-of-contents",
+  "kind": "component",
+  "title": "Table of Contents",
+  "description": "A sticky inline-start table of contents: thin lines that track the active section, dark tooltips with an image preview slider on hover or focus, and smooth jumps.",
+  "status": "beta",
+  "category": "navigation",
+  "label": "Project TOC",
+  "variants": [
+    {
+      "name": "table-of-contents",
+      "primitive": "none",
+      "iconSet": "none",
+      "status": "beta"
+    }
+  ],
+  "defaultVariant": "table-of-contents",
+  "demo": "demo.tsx",
+  "preview": "preview.webp",
+  "source": {
+    "repo": "https://github.com/batuhankarasakal/tableofcontent",
+    "commit": "db0bcee81b34792e03b6b5584d67f1cf23758680",
+    "path": "src/project-toc.js"
+  },
+  "author": "Batuhan Karasakal <https://github.com/batuhankarasakal>",
+  "license": "MIT",
+  "attribution": "Copyright (c) 2026 Batuhan Karasakal. MIT License; the full notice ships inside each item.",
+  "credits": [
+    "S-174",
+    "S-003",
+    "S-008"
+  ],
+  "date": "2026-10-13",
+  "stage": {
+    "device": "laptop",
+    "slot": "inline",
+    "shell": "marketing"
+  },
+  "tile": {
+    "span": 2,
+    "rows": 2
+  },
+  "tags": [
+    "toc",
+    "scrollspy",
+    "tooltip",
+    "image-preview",
+    "sticky"
+  ],
+  "props": [
+    {
+      "name": "items",
+      "type": "{ id: string; title: string; description?: string; images?: (string | { src: string; width?: number; height?: number })[]; previewRatio?: string | number }[]",
+      "description": "One entry per section. id matches an element id on the page; up to ten images feed the tooltip's preview slider. The preview box takes the first image's ratio (width and height set it before load) unless previewRatio is given."
+    },
+    {
+      "name": "activeMarkerRatio",
+      "type": "number",
+      "default": "0.38",
+      "description": "Fraction of the viewport height a section's top must pass to become active."
+    },
+    {
+      "name": "previewInterval",
+      "type": "number",
+      "default": "1500",
+      "description": "Milliseconds between preview slides while a tooltip is open."
+    },
+    {
+      "name": "smoothScroll",
+      "type": "boolean",
+      "default": "true",
+      "description": "Scroll smoothly to the section on click and push its hash; instant when the user prefers reduced motion. false leaves native anchor jumps."
+    },
+    {
+      "name": "enableSound",
+      "type": "boolean",
+      "default": "false",
+      "description": "Opt-in Web Audio hover and press sounds. Off by default, unlike upstream; no AudioContext is created before a user gesture."
+    },
+    {
+      "name": "sounds",
+      "type": "{ hover: Sound; press: Sound }",
+      "description": "Replace the synthesized sounds: { gain, duration, layers: [{ type, start, end, gain? }] }."
+    },
+    {
+      "name": "onActiveChange",
+      "type": "(id: string) => void",
+      "description": "Called with the section id whenever the active section changes."
+    },
+    {
+      "name": "rowHeight",
+      "type": "number",
+      "default": "20",
+      "description": "Row height in pixels: each entry's target height and the line spacing. WCAG 2.2 SC 2.5.8 needs 24px targets (or the spacing exception), so pass 24 where AA is required. Sets --table-of-contents-item-height, which CSS can also set."
+    },
+    {
+      "name": "aria-label",
+      "type": "string",
+      "default": "\"Table of contents\"",
+      "description": "Name of the nav landmark."
+    },
+    {
+      "name": "...props",
+      "type": "React.ComponentProps<\"nav\">",
+      "description": "Every native nav attribute. Layout variables (--table-of-contents-left, -top, -width, -item-width, -item-height, -line-width, -line-active-width, -line-height, -line-magnetic-delta, -tooltip-left, -tooltip-width) can be set in style or CSS."
+    }
+  ],
+  "a11y": [
+    "A nav landmark named by aria-label (default \"Table of contents\") holding real links to the sections.",
+    "The active section's link carries aria-current=\"true\", updated as the page scrolls.",
+    "Each link is named by its title (aria-label) and described by its description through aria-describedby, so the tooltip's text is announced; the image preview is aria-hidden.",
+    "Keyboard focus opens the tooltip and widens the line, like hover; Escape closes the open tooltip without moving focus (WCAG 1.4.13).",
+    "Reduced motion: no smooth scrolling, no preview slideshow, and no transitions on the lines, tooltip, images or dots.",
+    "Sound is opt-in (enableSound, default false), unlike upstream, so nothing plays unexpectedly; even when enabled, no AudioContext exists before a user gesture.",
+    "Right-to-left: the bar sits on the inline-start edge (the right), tooltips open toward the inline end and slide in from the start.",
+    "Below the md breakpoint the bar is hidden, as upstream; the sections remain reachable by scrolling.",
+    "Contrast follows the ports policy, fidelity default and contrast on request: the default colors are upstream's, and the light tooltip description is #a1a1aa on #424346, 3.86:1, below AA for 14px text; inactive lines are #d8d8dc on white, 1.42:1.",
+    "Under prefers-contrast: more the description uses --table-of-contents-tooltip-muted-contrast (#c4c4cc, 5.71:1 light; #d4d4d8 dark), inactive lines use --table-of-contents-line-contrast (#8a8a93, 3.42:1 on white; #71717a, 4.10:1 on near-black), and the tooltip gets a 1px outline.",
+    "Under forced-colors: active the lines and preview dots keep their marks in system colors (GrayText, Highlight for the active or hovered entry) instead of disappearing, the tooltip gets a border, and active entries stay distinguishable by line length as well as color.",
+    "Target size: the default rowHeight of 20px (upstream's spacing, kept for fidelity) fails WCAG 2.2 SC 2.5.8, which needs 24px targets or the spacing exception, and 20px rows do not meet the spacing exception. Pass rowHeight={24} (the demo does) or set --table-of-contents-item-height: 24px."
+  ],
+  "usage": "<TableOfContents\n  items={[\n    { id: \"overview\", title: \"Overview\", description: \"What it does.\", images: [\"/shots/overview.png\"] },\n    { id: \"usage\", title: \"Usage\", description: \"How to use it.\" },\n  ]}\n/>"
+}

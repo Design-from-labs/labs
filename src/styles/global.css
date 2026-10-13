@@ -4,8 +4,13 @@
 @import "@fontsource-variable/jetbrains-mono";
 @import "@fontsource/instrument-serif/400.css";
 
-/* Generated demo sources are gitignored, so name them for Tailwind's scan. */
+@import "../../.generated/stock.css";
+
+/* Generated demo sources are gitignored, so name them for Tailwind's scan.
+   The vendored stock shadcn files are scanned only through the copies the
+   content build makes for items that use them (decision 0023). */
 @source "../../.generated";
+@source not "../../vendor";
 
 @layer base {
   * {

@@ -1076,3 +1076,39 @@ sources:
     accessed: 2026-10-12
     visibility: public
     used-in: [docs/pitfalls.md, content/components/beui/morphing-tabs]
+  - id: S-212
+    title: "React DayPicker (react-day-picker)"
+    author: "Giampaolo Bellavite and contributors"
+    kind: library
+    url: "https://github.com/gpbl/react-day-picker"
+    license: "MIT"
+    accessed: 2026-10-12
+    visibility: public
+    used-in: [ports/data-table-filters]
+  - id: S-214
+    title: "@date-fns/utc (UTC dates for date-fns)"
+    author: "date-fns contributors"
+    kind: library
+    url: "https://github.com/date-fns/utc"
+    license: "MIT"
+    accessed: 2026-10-12
+    visibility: public
+    used-in: [ports/data-table-filters]
+  - id: S-215
+    title: "Vaul (the drawer behind shadcn's drawer)"
+    author: "Emil Kowalski and contributors"
+    kind: library
+    url: "https://github.com/emilkowalski/vaul"
+    license: "MIT"
+    accessed: 2026-10-13
+    visibility: public
+    used-in: [package.json, vendor/shadcn]
+  - id: S-216
+    title: "tw-animate-css (Tailwind CSS v4 animation utilities used by shadcn styles)"
+    author: "Luca Bosin and contributors"
+    kind: library
+    url: "https://github.com/Wombosvideo/tw-animate-css"
+    license: "MIT"
+    accessed: 2026-10-13
+    visibility: public
+    used-in: [package.json, docs/decisions/0023-stock-shadcn-for-demos.md]

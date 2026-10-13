@@ -1,0 +1,127 @@
+{
+  "$schema": "https://labs.designfrom.com/schemas/meta.schema.json",
+  "schemaVersion": 1,
+  "name": "data-table",
+  "kind": "component",
+  "title": "Data Table",
+  "description": "A TanStack Table v9 data table with a filter sidebar (checkbox, input, slider and date range filters), sorting, column ordering and visibility, and a pluggable filter store.",
+  "status": "beta",
+  "category": "data-display",
+  "label": "data-table-filters",
+  "variants": [
+    {
+      "name": "data-table-radix-lucide",
+      "primitive": "radix",
+      "iconSet": "lucide",
+      "status": "beta"
+    },
+    {
+      "name": "data-table-radix-phosphor",
+      "primitive": "radix",
+      "iconSet": "phosphor",
+      "status": "beta"
+    }
+  ],
+  "defaultVariant": "data-table-radix-lucide",
+  "demo": "demo.tsx",
+  "preview": "preview.webp",
+  "source": {
+    "repo": "https://github.com/openstatusHQ/data-table-filters",
+    "commit": "dd87f2770048f1b805d497f1c763794e060781c1",
+    "path": "packages/registry/src"
+  },
+  "author": "OpenStatus <https://github.com/openstatusHQ>",
+  "license": "MIT",
+  "attribution": "Copyright (c) 2024 OpenStatus. MIT License; the full notice ships inside each item.",
+  "credits": [
+    "S-172",
+    "S-176",
+    "S-177",
+    "S-179",
+    "S-180",
+    "S-181",
+    "S-212",
+    "S-004",
+    "S-032",
+    "S-005",
+    "S-006",
+    "S-003",
+    "S-008"
+  ],
+  "date": "2026-10-13",
+  "tile": {
+    "span": 2,
+    "rows": 2
+  },
+  "tags": [
+    "table",
+    "filters",
+    "tanstack-table",
+    "faceted-search"
+  ],
+  "props": [
+    {
+      "name": "columns",
+      "type": "ColumnDef<DataTableFeatures, TData>[]",
+      "description": "TanStack Table v9 column definitions. `meta.headerClassName`, `meta.cellClassName` and `meta.label` are read by the table."
+    },
+    {
+      "name": "data",
+      "type": "TData[]",
+      "description": "The rows. Filtering and sorting run on the client unless you fetch pages from a server."
+    },
+    {
+      "name": "filterFields",
+      "type": "DataTableFilterField<TData>[]",
+      "default": "[]",
+      "description": "The sidebar filters: `checkbox`, `input`, `slider` (`min`, `max`, `unit`) or `timerange` (`presets`), each with `label`, `value` (the column id) and `defaultOpen`."
+    },
+    {
+      "name": "getRowId",
+      "type": "(row: TData) => string",
+      "description": "A stable row id; the sheet and keyboard navigation use it."
+    },
+    {
+      "name": "getRowClassName",
+      "type": "(row: Row) => string",
+      "description": "Extra classes per row. Keep the callback stable (useCallback)."
+    },
+    {
+      "name": "defaultColumnFilters / defaultColumnSorting / defaultRowSelection / defaultColumnVisibility",
+      "type": "TanStack state",
+      "description": "Initial table state."
+    },
+    {
+      "name": "totalRows / filterRows / totalRowsFetched",
+      "type": "number",
+      "description": "Server counts for the toolbar and the load-more row; omit them for client-side data."
+    },
+    {
+      "name": "fetchNextPage / hasNextPage / isFetching / isLoading",
+      "type": "TanStack Query infinite query fields",
+      "description": "Paging: the table loads more on scroll and from the Load More button."
+    },
+    {
+      "name": "tableId",
+      "type": "string",
+      "default": "\"infinite\"",
+      "description": "Namespace for the column order and visibility kept in localStorage."
+    },
+    {
+      "name": "commandSlot / sheetSlot / chartSlot / footerSlot / floatingBarSlot / toolbarActions",
+      "type": "React.ReactNode",
+      "description": "Places for the filter command, the row sheet, a chart, the sidebar footer, a selection bar and toolbar buttons."
+    }
+  ],
+  "a11y": [
+    "Filters are an accordion of native buttons; checkbox filters are labeled checkboxes, and the \"only\" shortcut beside each option appears on keyboard focus as well as on hover.",
+    "The range filter has two labeled number inputs next to a slider whose thumbs move with the arrow keys.",
+    "Sortable headers are buttons; DataTableInfinite also sets aria-sort on each header cell.",
+    "Icon-only controls are named: the view options combobox (\"View\") and, below the sm breakpoint, the filter drawer button (\"Toggle filters\").",
+    "Rows in DataTableInfinite are focusable and Enter selects them; a collapsed filter panel is inert, so it leaves the tab order.",
+    "Shortcuts: Cmd or Ctrl + B toggles the filters, Cmd or Ctrl + Esc resets them, Cmd or Ctrl + U resets column order and visibility.",
+    "Under prefers-reduced-motion the accordion, panel width and spinner animations stop.",
+    "Right-to-left: layout uses logical properties; tooltips, the filter rail, the column resize handle and the slider mirror with dir=\"rtl\" on <html>."
+  ],
+  "usage": "const adapter = useMemoryAdapter(schema.definition);\n\n<DataTableStoreProvider adapter={adapter}>\n  <DataTableInfinite\n    columns={columns}\n    data={rows}\n    filterFields={filterFields}\n    fetchNextPage={async () => {}}\n  />\n</DataTableStoreProvider>"
+}

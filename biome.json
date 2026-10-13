@@ -15,6 +15,7 @@
       "!pnpm-lock.yaml",
       "!content/components",
       "!schemas/vendor",
+      "!vendor/shadcn",
       "!**/*.astro",
       "!ports/torph/text-morph/text-morph*.ts*",
       "!ports/goey-toast/gooey-toast/gooey-toast*.ts*",

@@ -28,3 +28,4 @@ record has a `- Sources:` line (registry ids, or `none: <reason>`).
 | [0020](0020-specimen-loops.md) | Loop each specimen with scripted fake states, in view only, pausable | Accepted |
 | [0021](0021-webgl-render-loop.md) | Run WebGL effects through one render-loop helper, with a static fallback and a measured noise floor | Accepted |
 | [0022](0022-library-picks-shapes.md) | Library picks: prefixed flat files, rebuilt primitive variants, close buttons outside the tablist | Accepted |
+| [0023](0023-stock-shadcn-for-demos.md) | Render demos with vendored stock shadcn components for the names an item lists | Accepted |
