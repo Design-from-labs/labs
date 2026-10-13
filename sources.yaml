@@ -897,3 +897,110 @@ oss:
         status: beta
         category: typography
         upstream: src/index.ts
+  - id: theoplawinski-sticky-grid
+    name: Theo Plawinski sticky grid scroll
+    repo: https://github.com/theoplawinski/codrops-sticky-grid-scroll
+    visibility: public
+    status: active
+    fetch: in-repo
+    ref: 6015d6c7e66d371618c82b5fb0126d278f88e42d
+    author: "Theo Plawinski <https://github.com/theoplawinski>"
+    license: MIT
+    attribution: "Copyright (c) 2025 Theo Plawinski; copyright (c) 2009 - 2025 Codrops. MIT License."
+    credit: S-261
+    components:
+      - name: sticky-grid-scroll
+        status: beta
+        category: blocks
+        upstream: src/scripts/index.js
+        port: ports/theoplawinski-sticky-grid/sticky-grid-scroll
+
+  - id: hiro-kiii-scroll-transition
+    name: Hiro-kiii scroll transitions
+    repo: https://github.com/Hiro-kiii/Scroll-Transition
+    visibility: public
+    status: active
+    fetch: in-repo
+    ref: 6bb67c598f767a014ac595c904d85b86119670ee
+    author: "Hiroki <https://github.com/Hiro-kiii>"
+    license: MIT
+    attribution: "Copyright (c) 2009 - 2025 Codrops. MIT License."
+    credit: S-262
+    components:
+      - name: svg-mask-scroll-transition
+        status: beta
+        category: blocks
+        upstream: js/script.js
+        port: ports/hiro-kiii-scroll-transition/svg-mask-scroll-transition
+
+  - id: bnpne-webgpu-transitions
+    name: bnpne WebGPU page transitions
+    repo: https://github.com/bnpne/page-transitions-with-webgpu-vanilla-js
+    visibility: public
+    status: active
+    fetch: in-repo
+    ref: 70e5c0eafb14cd1fdf02aef0799ba486dead46dc
+    author: "Ben Paine <https://github.com/bnpne>"
+    license: MIT
+    attribution: "Copyright (c) 2009 - 2025 Codrops. MIT License."
+    credit: S-263
+    components:
+      - name: webgpu-page-transition
+        status: beta
+        category: blocks
+        upstream: src
+        port: ports/bnpne-webgpu-transitions/webgpu-page-transition
+
+  - id: kareem-aez-fold-carousel
+    name: Kareem Ahmed fold carousel
+    repo: https://github.com/Kareem-AEz/iphone-duo-fold-carousel
+    visibility: public
+    status: active
+    fetch: in-repo
+    ref: 57cb4976589e9a13cfbe1785700972cabddaa49d
+    author: "Kareem Ahmed <https://github.com/Kareem-AEz>"
+    license: MIT
+    attribution: "Copyright (c) 2026 Kareem Ahmed. MIT License."
+    credit: S-264
+    components:
+      - name: fold-carousel
+        status: beta
+        category: media
+        upstream: src/registry/fold-carousel
+        port: ports/kareem-aez-fold-carousel/fold-carousel
+
+  - id: paperlab
+    name: Paperlab
+    repo: https://github.com/NourMtir0722/Paperlab
+    visibility: public
+    status: active
+    fetch: in-repo
+    ref: 41914833cb9ae12b32a8cbbdee4723f5b12158af
+    author: "Noor Mtir <https://github.com/NourMtir0722>"
+    license: Apache-2.0
+    attribution: "Paperlab. Copyright 2026 Noor Mtir. Licensed under the Apache License, Version 2.0; this product includes software developed by Noor Mtir (upstream NOTICE reproduced with the license text)."
+    credit: S-265
+    components:
+      - name: paper
+        status: beta
+        category: media
+        upstream: packages/paperlab/src/Paper.tsx
+        port: ports/paperlab/paper
+
+  - id: lenis
+    name: Lenis
+    repo: https://github.com/darkroomengineering/lenis
+    visibility: public
+    status: active
+    fetch: in-repo
+    ref: eea71595f5ae595f49b21ed87520822d3624098a
+    author: "darkroom.engineering <https://github.com/darkroomengineering>"
+    license: MIT
+    attribution: "Copyright (c) 2024 darkroom.engineering. MIT License."
+    credit: S-266
+    components:
+      - name: smooth-scroll
+        status: beta
+        category: layout
+        upstream: packages/react/src/provider.tsx
+        port: ports/lenis/smooth-scroll

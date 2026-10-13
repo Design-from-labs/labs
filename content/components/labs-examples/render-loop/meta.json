@@ -19,7 +19,7 @@
   "defaultVariant": "render-loop",
   "source": {
     "repo": "https://github.com/Design-from-labs/labs",
-    "commit": "4c604d5a2de256af88624d2955b432a0f4fafbb2",
+    "commit": "c9e9dcedaa8303704d2fb3f02b3102ba3051e9cb",
     "path": "examples/render-loop"
   },
   "author": "Design From Labs <https://labs.designfrom.com>",
@@ -42,14 +42,14 @@
     },
     {
       "name": "options.context",
-      "type": "\"webgl2\" | \"webgl\" | \"2d\"",
+      "type": "\"webgl2\" | \"webgl\" | \"2d\" | \"none\"",
       "required": true,
-      "description": "The context to create; three.js renderers take it as `context`."
+      "description": "The context to create; three.js renderers take it as `context`. \"none\" creates none, for a renderer that creates its own (three.js WebGPURenderer, a React Three Fiber canvas): `setup` gets null."
     },
     {
       "name": "options.setup / render / resize / dispose",
       "type": "functions",
-      "description": "Create the drawing state, draw one frame, size the buffer (default: CSS size x pixel ratio), release it."
+      "description": "Create the drawing state, draw one frame (return false while nothing is drawn yet, for an asynchronous renderer), size the buffer (default: CSS size x pixel ratio), release it."
     },
     {
       "name": "options.continuous",

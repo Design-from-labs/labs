@@ -691,7 +691,7 @@ sources:
     license: "MIT"
     accessed: 2026-10-12
     visibility: public
-    used-in: [ports/data-table-filters]
+    used-in: [ports/data-table-filters, content/components/paperlab, package.json]
   - id: S-182
     title: "cmdk (the command menu behind shadcn's command)"
     author: "Paco Coursey and contributors"
@@ -1473,3 +1473,94 @@ sources:
     visibility: public
     used-in: [docs/evidence/ports/image-fx, content/components/libraries-dev/image-fx]
     note: "Upstream img-fx fell back to WebGL 1; on three 0.185.1 the renderer needs WebGL 2, so Image FX shows its static fallback without it."
+  - id: S-260
+    title: "Owner brief: port batch J (scroll, page transitions and 3D; GSAP rewritten in Motion, WebGPU fallback, de-branding)"
+    author: "Owner"
+    kind: brief
+    private-file: "Owner instructions relayed to port pod J; not in the repository"
+    license: "All rights reserved (owner)"
+    accessed: 2026-10-13
+    visibility: private-cited-only
+    used-in: [docs/evidence/ports, docs/decisions, sources.yaml]
+  - id: S-261
+    title: "theoplawinski/codrops-sticky-grid-scroll (a scroll-driven sticky image grid)"
+    author: "Theo Plawinski"
+    kind: library
+    url: "https://github.com/theoplawinski/codrops-sticky-grid-scroll"
+    license: "MIT"
+    accessed: 2026-10-13
+    visibility: public
+    used-in: [content/components/theoplawinski-sticky-grid, sources.yaml, docs/evidence/ports/sticky-grid-scroll]
+  - id: S-262
+    title: "Hiro-kiii/Scroll-Transition (SVG mask transitions on scroll)"
+    author: "Hiroki"
+    kind: library
+    url: "https://github.com/Hiro-kiii/Scroll-Transition"
+    license: "MIT"
+    accessed: 2026-10-13
+    visibility: public
+    used-in: [content/components/hiro-kiii-scroll-transition, sources.yaml, docs/evidence/ports/svg-mask-scroll-transition]
+  - id: S-263
+    title: "bnpne/page-transitions-with-webgpu-vanilla-js (page transitions drawn with WebGPU)"
+    author: "Ben Paine"
+    kind: library
+    url: "https://github.com/bnpne/page-transitions-with-webgpu-vanilla-js"
+    license: "MIT"
+    accessed: 2026-10-13
+    visibility: public
+    used-in: [content/components/bnpne-webgpu-transitions, sources.yaml, docs/evidence/ports/webgpu-page-transition]
+  - id: S-264
+    title: "Kareem-AEz/iphone-duo-fold-carousel (a carousel that folds between slides)"
+    author: "Kareem Ahmed"
+    kind: library
+    url: "https://github.com/Kareem-AEz/iphone-duo-fold-carousel"
+    license: "MIT"
+    accessed: 2026-10-13
+    visibility: public
+    used-in: [content/components/kareem-aez-fold-carousel, sources.yaml, docs/evidence/ports/fold-carousel]
+  - id: S-265
+    title: "NourMtir0722/Paperlab (physical paper as a React Three Fiber component)"
+    author: "Noor Mtir"
+    kind: library
+    url: "https://github.com/NourMtir0722/Paperlab"
+    license: "Apache-2.0"
+    accessed: 2026-10-13
+    visibility: public
+    note: "Apache-2.0 with a NOTICE file; the NOTICE ships with the item and in THIRD_PARTY_NOTICES.md"
+    used-in: [content/components/paperlab, sources.yaml, THIRD_PARTY_NOTICES.md, docs/evidence/ports/paper]
+  - id: S-266
+    title: "Lenis (smooth scroll) and its React provider"
+    author: "darkroom.engineering"
+    kind: library
+    url: "https://github.com/darkroomengineering/lenis"
+    license: "MIT"
+    accessed: 2026-10-13
+    visibility: public
+    used-in: [content/components/lenis, package.json, sources.yaml, docs/evidence/ports/smooth-scroll]
+  - id: S-267
+    title: "React Three Fiber (@react-three/fiber)"
+    author: "Poimandres"
+    kind: library
+    url: "https://github.com/pmndrs/react-three-fiber"
+    license: "MIT"
+    accessed: 2026-10-13
+    visibility: public
+    used-in: [content/components/paperlab, package.json]
+  - id: S-268
+    title: "drei (@react-three/drei), helpers for React Three Fiber"
+    author: "Poimandres"
+    kind: library
+    url: "https://github.com/pmndrs/drei"
+    license: "MIT"
+    accessed: 2026-10-13
+    visibility: public
+    used-in: [content/components/paperlab, package.json]
+  - id: S-269
+    title: "three-custom-shader-material"
+    author: "Faraz Shaikh"
+    kind: library
+    url: "https://github.com/FarazzShaikh/THREE-CustomShaderMaterial"
+    license: "MIT"
+    accessed: 2026-10-13
+    visibility: public
+    used-in: [content/components/paperlab, package.json]

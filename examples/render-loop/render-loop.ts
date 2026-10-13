@@ -8,8 +8,14 @@ import { useReducedMotion } from "@/hooks/use-reduced-motion";
  * The drawing context a loop asks the canvas for. Three.js renderers take the
  * WebGL context this loop created (`new WebGLRenderer({ canvas, context })`),
  * so support is detected in one place.
+ *
+ * "none" creates no context: `setup` receives `null` and its renderer creates
+ * its own, for renderers that must (three.js's `WebGPURenderer`, which picks
+ * WebGPU or WebGL 2 itself and initializes asynchronously, or a React Three
+ * Fiber canvas). Support is then the renderer's to report: throw from `setup`,
+ * or return `false` from `render` until the first frame is drawn.
  */
-export type RenderLoopContext = "webgl2" | "webgl" | "2d";
+export type RenderLoopContext = "webgl2" | "webgl" | "2d" | "none";
 
 /**
  * Where a loop stands. Components show their static fallback for every status
@@ -61,15 +67,25 @@ export interface RenderLoopOptions<Handle> {
    * true.
    */
   respectReducedMotion?: boolean;
-  /** Create the drawing state. Throwing reports "unsupported". */
-  setup: (canvas: HTMLCanvasElement, context: RenderingContext) => Handle;
+  /**
+   * Create the drawing state. Throwing reports "unsupported". `context` is
+   * null only when `context` is "none".
+   */
+  setup: (
+    canvas: HTMLCanvasElement,
+    context: RenderingContext | null,
+  ) => Handle;
   /**
    * Size the drawing buffer. The default sets `canvas.width` and
    * `canvas.height` to the CSS size times the clamped pixel ratio.
    */
   resize?: (handle: Handle, size: RenderLoopSize) => void;
-  /** Draw one frame. */
-  render: (handle: Handle, frame: RenderLoopFrame) => void;
+  /**
+   * Draw one frame. Return `false` when nothing was drawn yet (an
+   * asynchronous renderer still initializing): the status stays "pending",
+   * so the fallback stays up, and the loop asks for another frame.
+   */
+  render: (handle: Handle, frame: RenderLoopFrame) => undefined | boolean;
   /** Release the drawing state (on unmount and before a context restore). */
   dispose?: (handle: Handle) => void;
 }
@@ -88,6 +104,9 @@ function createContext(
   attributes: RenderLoopOptions<unknown>["contextAttributes"],
 ): RenderingContext | null {
   try {
+    if (type === "none") {
+      return null;
+    }
     if (type === "2d") {
       return canvas.getContext(
         "2d",
@@ -151,7 +170,7 @@ export function useRenderLoop<Handle>(
       contextType,
       optionsRef.current.contextAttributes,
     );
-    if (!context) {
+    if (!context && contextType !== "none") {
       setStatus("unsupported");
       return;
     }
@@ -240,7 +259,18 @@ export function useRenderLoop<Handle>(
       last = now;
       elapsed += delta;
       dirty = false;
-      optionsRef.current.render(current, { ...size, time: elapsed, delta });
+      const drawn = optionsRef.current.render(current, {
+        ...size,
+        time: elapsed,
+        delta,
+      });
+      if (drawn === false) {
+        // Not drawn yet (an asynchronous renderer): try again next frame.
+        dirty = true;
+        last = -1;
+        schedule();
+        return;
+      }
       if (!shown) {
         shown = true;
         setStatus("ready");
