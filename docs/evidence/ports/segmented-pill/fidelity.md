@@ -139,7 +139,7 @@ behaviour.
   style) so the pill is placed in the control's own pixels. Without a
   transform the scale is exactly 1 and the values are upstream's (the numbers
   above). Found when the first gallery still showed an oversized pill; guarded
-  by an end-to-end test on the scaled preview pages (P-KB2).
+  by an end-to-end test on the scaled preview pages (P-223).
 - **Additions that do not change the default frame:** `prefers-contrast: more`
   (every label at the active color, the pill outlined) and `forced-colors:
   active` (pill in Highlight, selected label in HighlightText).

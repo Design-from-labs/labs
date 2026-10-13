@@ -348,7 +348,7 @@ export function siteData(components, credits, projects, beta = includeBeta()) {
     ].map(([value, label]) => ({ value, label }));
     const usesPrimitives = meta.variants.some((v) => v.primitive !== "none");
     // An entry that mixes a primitive-free default with primitive variants
-    // offers "none" too, so the default can be chosen again (P-KB1).
+    // offers "none" too, so the default can be chosen again (P-222).
     const primitives = usesPrimitives
       ? [
           ...(meta.variants.some((v) => v.primitive === "none")

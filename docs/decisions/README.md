@@ -39,3 +39,4 @@ record has a `- Sources:` line (registry ids, or `none: <reason>`).
 | [0031](0031-vite-install-check-on-beta-items.md) | Install beta port items into a fresh Vite app in CI and run its own build | Accepted |
 | [0032](0032-pill-toast-no-primitive-and-div-root.md) | Port the pill toast primitive-free, with a div root and the npm license | Accepted |
 | [0033](0033-surface-field-frames-on-render-loop.md) | Run an engine that schedules its own frames on the render loop, and leave out its worker prop | Accepted |
+| [0034](0034-menus-numbers-data-ports.md) | One goo engine as a lib item, thin npm wrappers, a required attribution link kept on, "None" in the primitive switcher | Accepted |

@@ -84,7 +84,9 @@ exact (0.0000%) in the same frame at both sizes.
 `<state>-<frame>-<viewport>-before.webp` is upstream, `-after.webp` the port,
 `-diff.webp` the pixelmatch overlay (red: differing pixels). `fidelity.json` has the
 numbers of every frame. Only a representative set is kept (size budget); every frame
-passed or is listed above.
+passed or is listed above. The kept stills are cropped by 80 px at the top and the
+bottom to leave out the upstream demo page's own chrome (its theme switch and
+component tabs, not ported); the measured numbers are of the full viewport.
 
 ## Icon library style (enhancement)
 
