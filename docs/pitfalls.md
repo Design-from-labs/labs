@@ -2288,6 +2288,91 @@ Design From and Design From Labs (the guards enforce this).
 - Prevention: One layer owns a lock; nested tools check for an inherited
   slot before locking, and only the owner unlocks.
 - Links: `docs/evidence/ports/gooey-text/fidelity.md`
+### P-WEB1-A2-1
+
+- Date: 2026-10-13
+- Area: Sources (CodePen snapshots)
+- Symptom: A pen's saved `debug.html` was 5,648 bytes and held no pen code.
+- Cause: The save was a Cloudflare "Just a moment..." page, not the pen: the
+  file name and the 200-looking save hid it. The pen's raw and export routes
+  (`.html`, `.css`, `.js`) and its author's public mirrors were the other ways
+  in; here every raw route was challenged and the author has no public
+  repository or gist.
+- Fix: The pen was not ported and is listed as blocked by a bot check, with the
+  routes tried. Nothing was retried, rotated or taken from another route.
+- Prevention: Check a snapshot's `<title>` and size before pinning it (a
+  challenge page is 5.6 KB and titled "Just a moment..."), and apply the WEB-1
+  bot-check rule: a challenged route is a hard stop, never a puzzle to solve.
+- Links: `docs/decisions/0027-pin-snapshot-sources.md`
+
+### P-WEB1-A2-2
+
+- Date: 2026-10-13
+- Area: Sources (CodePen 2.0 editor)
+- Symptom: A `fetch` to a local receiver from the editor page failed with
+  "Failed to fetch", so the files could not be copied out of the editor's
+  document.
+- Cause: The editor page's content security policy refuses connections to
+  other origins, `localhost` included.
+- Fix: Compare, not copy: the page hashes each file's text (SHA-256 of its
+  UTF-8 bytes) and the saved file is hashed locally; equal hashes mean the
+  snapshot is exactly what the editor shows. Mismatches would mean re-reading
+  the file from the editor.
+- Prevention: For a CodePen 2.0 pen, record the editor-side SHA-256 beside the
+  saved file's, in the fidelity notes.
+- Links: `docs/evidence/ports/elevation/fidelity.md`
+
+### P-WEB1-A2-3
+
+- Date: 2026-10-13
+- Area: Fidelity harness (page defaults)
+- Symptom: The Elevation page rendered 380 px taller on the port side (6,473
+  px against 6,093 px) with the cards' shadows already identical.
+- Cause: The port page loaded Tailwind's preflight, which sets `line-height:
+  1.5` on the page and a different `font-family` and size on `code`; the pen's
+  page has the browser defaults, and its labels rely on them (the same cause
+  as P-023).
+- Fix: The Elevation harness page does not load Tailwind at all: the
+  component is plain CSS, so the pen's page is reproduced as it is and only the
+  card element is the component. The Neumorphic Panel sets its own font and
+  line height and was unaffected.
+- Prevention: Compare page heights and each element's rectangle first; a height
+  difference means the harness page, not the component, differs.
+- Links: `docs/evidence/ports/elevation/fidelity.md`, P-023
+
+### P-WEB1-A2-4
+
+- Date: 2026-10-13
+- Area: Fidelity (faint shadows)
+- Symptom: Elevation's rings (2% to 6% white) are too faint for a pixelmatch
+  threshold of 0.1 to be a convincing check on its own.
+- Cause: pixelmatch compares colors in a perceptual space and forgives small
+  differences, which is what a faint ring is.
+- Fix: Three checks beside the percentage: every card's computed `box-shadow`,
+  radius, background and rectangle equal as strings; the screenshots equal
+  byte for byte; and the upstream page diffed against itself as the noise floor.
+- Prevention: For a shadow or other faint-effect port, also compare computed
+  values and raw buffers, not only pixelmatch's count.
+- Links: `docs/evidence/ports/elevation/fidelity.md`
+
+### P-WEB1-A2-5
+
+- Date: 2026-10-13
+- Area: Site (component page) and sources
+- Symptom: `/ui/elevation` scrolled sideways by 10px at 320px wide, although its
+  demo fit.
+- Cause: The credits section prints the source's attribution notice in a
+  paragraph that does not break words, and the notice held two 80-character
+  pen URLs (P-028 is the same family: one long unbreakable string widened the
+  page).
+- Fix: The notice is `Copyright (c) 2026 Josh Miller, Shadow Stacking I (a fork
+  of Shadow Stacking II). MIT License.`; both pen URLs stay in the source's
+  `LICENSE` (which every exported file carries) and in the credits entries
+  (S-461, S-462).
+- Prevention: Keep `attribution` free of long URLs, and check
+  `scrollWidth - innerWidth` on a new component page at 320px (the e2e spec
+  does); a site fix would be `break-words` on that paragraph.
+- Links: `e2e/shadow-ports.spec.ts`
 
 ### P-139
 

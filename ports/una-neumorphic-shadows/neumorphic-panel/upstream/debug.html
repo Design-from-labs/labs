@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" >
+
+<head>
+  
+  <meta charset="UTF-8">
+  
+  
+  
+
+  <title>Neumorphic shadows</title>
+
+    <link rel="canonical" href="https://codepen.io/una/pen/gbwjzgw">
+  
+  
+  
+  
+<style>
+.raised {
+  box-shadow: 
+    /*   White highlight (top left)   */
+    -31px -31px 43px 0px rgba(255, 255, 255, 1),
+    
+    /*   Dark shadow (bottom right)   */
+    8px 8px 10px 0px rgba(13, 39, 80, 0.04);
+}
+
+.pressed {
+  box-shadow: 
+    /*   Outer Shadows   */
+    /*   Light (top left)   */
+    -31px -31px 43px 0px rgba(255, 255, 255, 1),
+    /*   Dark (bottom right)   */
+    8px 8px 10px 0px rgba(13, 39, 80, 0.04),
+    
+    /*   Inner Shadows   */
+    /*   White highlight inset (top left)   */
+    inset -33px -33px 46px 0px rgba(255, 255, 255, 0.64),
+    /*   Dark shadow inset (bottom right)   */
+    inset 28px 28px 54px 0px rgba(13, 39, 80, 0.16);
+}
+
+/* etc */
+
+body {
+  background-color: #E8EAE9;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3rem;
+  padding: 3rem;
+  font-family: system-ui, sans-serif;
+}
+
+/* Common styles for both squares */
+.neumorphic-panel {
+  width: 300px;
+  aspect-ratio: 1;
+  background-color: #e8eae9;
+  border-radius: 64px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #ced3d9;
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  
+  @supports (corner-shape: squircle) {
+    corner-shape: squircle;
+    border-radius: 120px;
+  }
+}
+</style>
+
+  
+  
+  
+</head>
+
+<body>
+  <div class="neumorphic-panel raised">
+  E8EAE9
+</div>
+
+<div class="neumorphic-panel pressed">
+  E8EAE9
+</div>
+  
+  
+  
+</body>
+
+</html>

@@ -122,3 +122,5 @@ paths (pitfall P-044); until then they are reviewed on preview deployments.
 | `paperlab` | `paper` | NourMtir0722/Paperlab, `packages/paperlab/src/Paper.tsx` and its closure (Apache-2.0 with NOTICE; GSAP rewritten with Motion) |
 | `jh3y-border-shine` | `border-shine` | Jhey's CodePen "masked inset border shine" (debug-view snapshot pinned by tree hash; GSAP and the debug panel left out, arrow keys added) |
 | `victorwelander-gooey-text` | `gooey-text` | Victor Welander's 21st.dev item "Gooey Text Morphing" (CDN files pinned by tree hash; a different technique from `text-morph`) |
+| `una-neumorphic-shadows` | `neumorphic-panel` | Una Kravets's CodePen "Neumorphic shadows", `debug.html` (a verbatim snapshot, pinned by tree hash; decision 0027) |
+| `jshmllr-shadow-stacking` | `elevation` | Josh Miller's CodePen 2.0 "Shadow Stacking I" (a fork of "Shadow Stacking II"), `style.css` and `index.html` (a verbatim snapshot, pinned by tree hash) |

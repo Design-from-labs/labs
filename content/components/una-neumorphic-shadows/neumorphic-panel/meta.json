@@ -1,0 +1,91 @@
+{
+  "$schema": "https://labs.designfrom.com/schemas/meta.schema.json",
+  "schemaVersion": 1,
+  "name": "neumorphic-panel",
+  "kind": "component",
+  "title": "Neumorphic Panel",
+  "description": "A soft extruded panel with a light highlight and a faint shadow, raised or pressed, with an optional toggle button.",
+  "status": "beta",
+  "category": "layout",
+  "label": "Neumorphic shadows (Una Kravets)",
+  "variants": [
+    {
+      "name": "neumorphic-panel",
+      "primitive": "none",
+      "iconSet": "none",
+      "status": "beta"
+    }
+  ],
+  "defaultVariant": "neumorphic-panel",
+  "demo": "demo.tsx",
+  "preview": "preview.webp",
+  "source": {
+    "repo": "https://codepen.io/una/pen/gbwjzgw",
+    "commit": "fc17a41832744c5ad747c8b8570a5cf2832562b9",
+    "path": "debug.html"
+  },
+  "author": "Una Kravets <https://codepen.io/una>",
+  "license": "MIT",
+  "attribution": "Copyright (c) 2026 by Una Kravets (https://codepen.io/una/pen/gbwjzgw). MIT License.",
+  "credits": [
+    "S-460",
+    "S-003",
+    "S-004",
+    "S-008",
+    "S-152",
+    "S-157",
+    "S-237",
+    "S-450",
+    "S-451",
+    "S-463",
+    "S-464"
+  ],
+  "date": "2026-10-13",
+  "tile": {
+    "span": 2,
+    "rows": 2
+  },
+  "loop": {
+    "script": "click[1] → wait → wait → click[1] → wait",
+    "duration": 4800,
+    "hydrate": true
+  },
+  "tags": [
+    "neumorphism",
+    "shadow",
+    "squircle",
+    "surface",
+    "toggle"
+  ],
+  "props": [
+    {
+      "name": "state",
+      "type": "\"raised\" | \"pressed\"",
+      "default": "\"raised\"",
+      "description": "The pen's raised look (a highlight and a shadow outside) or its pressed look (the same plus two inner shadows). Ignored when `pressable`."
+    },
+    {
+      "name": "pressable",
+      "type": "boolean",
+      "default": "false",
+      "description": "Render a toggle button (`aria-pressed`) instead of a div; its pressed state is the pressed look."
+    },
+    {
+      "name": "pressed / defaultPressed / onPressedChange",
+      "type": "boolean / boolean / (pressed: boolean) => void",
+      "description": "Controlled or initial pressed state of a `pressable` panel, and its change callback."
+    },
+    {
+      "name": "className / children",
+      "type": "string / React.ReactNode",
+      "description": "Classes for the root, and its content. All other div (or button) props pass through."
+    }
+  ],
+  "a11y": [
+    "A plain panel is a div with no role. A pressable panel is a native button with aria-pressed: Enter and Space toggle it, and a visible focus outline appears for keyboard focus only.",
+    "The pressed look only changes shadows, so the state is carried by aria-pressed for assistive technology; under prefers-contrast: more and forced colors the pressed state also gets a heavier double border.",
+    "Contrast (fidelity default, contrast on request): the pen's text is #ced3d9 on #e8eae9 (1.25:1) and its edge is a soft shadow, a known deviation from AA kept for fidelity. Under prefers-contrast: more the text becomes #4b525c (6.5:1) and the panel gets a 2px edge; under forced colors it uses ButtonText with a border. Set --neumorphic-panel-foreground to make the higher contrast the default.",
+    "Reduced motion: the pressed look changes instantly; otherwise the shadow eases for 200ms."
+  ],
+  "usage": "<NeumorphicPanel pressable aria-label=\"Mute\" defaultPressed>Mute</NeumorphicPanel>"
+}

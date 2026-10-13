@@ -957,6 +957,44 @@ oss:
         status: beta
         category: typography
         upstream: upstream/gooey-text-morphing.tsx
+  # CodePen pens have no git commit: each is pinned by the tree hash of a
+  # verbatim snapshot (docs/decisions/0027-pin-snapshot-sources.md).
+  - id: una-neumorphic-shadows
+    name: Neumorphic shadows (Una Kravets)
+    repo: https://codepen.io/una/pen/gbwjzgw
+    visibility: public
+    status: active
+    fetch: in-repo
+    ref: fc17a41832744c5ad747c8b8570a5cf2832562b9
+    author: "Una Kravets <https://codepen.io/una>"
+    license: MIT
+    attribution: "Copyright (c) 2026 by Una Kravets (https://codepen.io/una/pen/gbwjzgw). MIT License."
+    credit: S-460
+    components:
+      - name: neumorphic-panel
+        status: beta
+        category: layout
+        upstream: debug.html
+
+  - id: jshmllr-shadow-stacking
+    name: Shadow Stacking I (Josh Miller)
+    repo: https://codepen.io/editor/jshmllr/pen/019d8276-da5b-7365-a8fa-a8e929da3a6d
+    visibility: public
+    status: active
+    fetch: in-repo
+    ref: 5fdcdb2351abaae531707bf910d538dbf571bb2e
+    author: "Josh Miller <https://codepen.io/jshmllr>"
+    license: MIT
+    # The notice stays short: a long unbreakable URL in it widened the
+    # component page past 320px (P-WEB1-A2-5). Both pen URLs are in the
+    # LICENSE (every exported file) and in the credits (S-461 and S-462).
+    attribution: "Copyright (c) 2026 Josh Miller, Shadow Stacking I (a fork of Shadow Stacking II). MIT License."
+    credit: S-461
+    components:
+      - name: elevation
+        status: beta
+        category: layout
+        upstream: style.css
 
   - id: hiro-kiii-scroll-transition
     name: Hiro-kiii scroll transitions

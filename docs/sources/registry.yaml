@@ -1631,3 +1631,53 @@ sources:
     visibility: public
     note: "Cited for why Gooey Text, which changes words on its own without end, has a paused prop and says to pair it with a pause control."
     used-in: [ports/victorwelander-gooey-text, docs/evidence/ports/gooey-text]
+  - id: S-460
+    title: "CodePen: Neumorphic shadows (raised and pressed neumorphic panels)"
+    author: "Una Kravets"
+    kind: library
+    url: "https://codepen.io/una/pen/gbwjzgw"
+    license: "MIT"
+    accessed: 2026-10-13
+    visibility: public
+    note: "Snapshot of the pen's compiled debug view, pinned by the git tree hash of ports/una-neumorphic-shadows/neumorphic-panel/upstream (docs/decisions/0027-pin-snapshot-sources.md)."
+    used-in: [ports/una-neumorphic-shadows, content/components/una-neumorphic-shadows, sources.yaml, docs/evidence/ports/neumorphic-panel]
+  - id: S-461
+    title: "CodePen 2.0: Shadow Stacking I (a stacked box-shadow elevation scale, light and dark)"
+    author: "Josh Miller"
+    kind: library
+    url: "https://codepen.io/editor/jshmllr/pen/019d8276-da5b-7365-a8fa-a8e929da3a6d"
+    license: "MIT"
+    accessed: 2026-10-13
+    visibility: public
+    note: "index.html, style.css and script.js (empty) read from the pen's editor and pinned by the git tree hash of ports/jshmllr-shadow-stacking/elevation/upstream (docs/decisions/0027-pin-snapshot-sources.md)."
+    used-in: [ports/jshmllr-shadow-stacking, content/components/jshmllr-shadow-stacking, sources.yaml, docs/evidence/ports/elevation]
+  - id: S-462
+    title: "CodePen 2.0: Shadow Stacking II (the pen Shadow Stacking I was forked from)"
+    author: "Josh Miller"
+    kind: library
+    url: "https://codepen.io/editor/jshmllr/pen/019d8247-a4ea-71f5-9316-4daaf53bbfdf"
+    license: "MIT"
+    accessed: 2026-10-13
+    visibility: public
+    note: "Cited as the origin of Shadow Stacking I; its code was not read or copied."
+    used-in: [ports/jshmllr-shadow-stacking, sources.yaml, docs/evidence/ports/elevation]
+  - id: S-463
+    title: "MDN: corner-shape (squircle and other corner geometries)"
+    author: "MDN contributors"
+    kind: doc
+    url: "https://developer.mozilla.org/en-US/docs/Web/CSS/corner-shape"
+    license: "CC-BY-SA-2.5"
+    accessed: 2026-10-13
+    visibility: public
+    note: "Cited for the @supports (corner-shape: squircle) block the pen uses and the port keeps."
+    used-in: [docs/evidence/ports/neumorphic-panel]
+  - id: S-464
+    title: "MDN: the prefers-contrast media feature (and the forced-colors media feature)"
+    author: "MDN contributors"
+    kind: doc
+    url: "https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-contrast"
+    license: "CC-BY-SA-2.5"
+    accessed: 2026-10-13
+    visibility: public
+    note: "Cited for the contrast-on-request rules (prefers-contrast: more, forced-colors: active) added to both components."
+    used-in: [docs/evidence/ports/neumorphic-panel, docs/evidence/ports/elevation]
