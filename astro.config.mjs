@@ -78,6 +78,16 @@ export default defineConfig({
   integrations: [react()],
   vite: {
     plugins: [itemAliases(), tailwindcss()],
+    // roughjs (Rough Annotation) ships ES modules whose internal imports have
+    // no file extension, which Node's own resolver rejects: bundle it into the
+    // server builds instead of leaving it external (docs/pitfalls.md). Astro
+    // renders pages in its own `prerender` environment, which does not read
+    // the top-level `ssr` option.
+    environments: {
+      ssr: { resolve: { noExternal: ["roughjs"] } },
+      prerender: { resolve: { noExternal: ["roughjs"] } },
+      astro: { resolve: { noExternal: ["roughjs"] } },
+    },
   },
   devToolbar: { enabled: false },
 });

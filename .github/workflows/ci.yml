@@ -173,7 +173,7 @@ jobs:
         run: |
           set -euo pipefail
           # The first step's preview still holds Astro's preview lock, so a
-          # second `astro preview` exits at once without --ignore-lock (P-186).
+          # second `astro preview` exits at once without --ignore-lock (P-221).
           pnpm exec astro preview --port 4322 --ignore-lock > "$RUNNER_TEMP/preview-beta.log" 2>&1 &
           for _ in $(seq 1 60); do
             curl -sf http://localhost:4322/r/registry.json >/dev/null && break

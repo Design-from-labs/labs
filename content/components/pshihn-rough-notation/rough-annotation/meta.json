@@ -1,0 +1,145 @@
+{
+  "$schema": "https://labs.designfrom.com/schemas/meta.schema.json",
+  "schemaVersion": 1,
+  "name": "rough-annotation",
+  "kind": "component",
+  "title": "Rough Annotation",
+  "description": "Hand-drawn marks around any text or element: underline, box, circle, highlight, strike-through, crossed-off and bracket, drawn stroke by stroke, with a group that plays them in order.",
+  "status": "beta",
+  "category": "typography",
+  "label": "Rough Notation by Preet Shihn",
+  "variants": [
+    {
+      "name": "rough-annotation",
+      "primitive": "none",
+      "iconSet": "none",
+      "status": "beta"
+    }
+  ],
+  "defaultVariant": "rough-annotation",
+  "demo": "demo.tsx",
+  "preview": "preview.webp",
+  "source": {
+    "repo": "https://github.com/rough-stuff/rough-notation",
+    "commit": "668ba82ac89c903d6f59c9351b9b85855da9882c",
+    "path": "src"
+  },
+  "author": "Preet Shihn <https://github.com/pshihn>",
+  "license": "MIT",
+  "attribution": "Rough Notation, Copyright (c) 2020 Preet Shihn. MIT License.",
+  "credits": [
+    "S-504",
+    "S-505",
+    "S-506",
+    "S-507",
+    "S-003",
+    "S-004",
+    "S-157",
+    "S-528",
+    "S-014",
+    "S-152"
+  ],
+  "date": "2026-10-13",
+  "tile": {
+    "span": 2,
+    "rows": 2
+  },
+  "loop": {
+    "hydrate": true,
+    "duration": 8500
+  },
+  "tags": [
+    "annotation",
+    "hand-drawn",
+    "highlight",
+    "underline",
+    "sketch",
+    "svg",
+    "reduced-motion"
+  ],
+  "props": [
+    {
+      "name": "type",
+      "type": "\"underline\" | \"box\" | \"circle\" | \"highlight\" | \"strike-through\" | \"crossed-off\" | \"bracket\"",
+      "description": "Required. The mark. It cannot change on a live annotation: a new type draws a new one."
+    },
+    {
+      "name": "show",
+      "type": "boolean",
+      "default": "true",
+      "description": "Draw the mark. Turning it off hides it at once; turning it on again animates it. Ignored inside a RoughNotationGroup."
+    },
+    {
+      "name": "animate",
+      "type": "boolean",
+      "default": "true",
+      "description": "Draw stroke by stroke. Under prefers-reduced-motion the mark always appears at once."
+    },
+    {
+      "name": "animationDuration",
+      "type": "number",
+      "default": "800",
+      "description": "Milliseconds to draw the whole mark (shared between the lines of a multiline mark and by length between its strokes)."
+    },
+    {
+      "name": "color",
+      "type": "string",
+      "default": "\"currentColor\"",
+      "description": "Any CSS color, including var(--token). The highlight type defaults to the --rough-annotation-highlight token instead, because a text-colored bar would hide the text."
+    },
+    {
+      "name": "strokeWidth",
+      "type": "number",
+      "description": "Stroke width in pixels. Default 2; highlight ignores it and uses 95% of the line height."
+    },
+    {
+      "name": "padding",
+      "type": "number | [number, number] | [number, number, number, number]",
+      "default": "5",
+      "description": "Space between the content and the mark in pixels: one value, [vertical, horizontal] or [top, right, bottom, left]."
+    },
+    {
+      "name": "iterations",
+      "type": "number",
+      "default": "2",
+      "description": "Passes of the pen. Underline, strike-through, crossed-off and highlight alternate direction on each pass; a circle draws a double outline for every two iterations."
+    },
+    {
+      "name": "multiline",
+      "type": "boolean",
+      "default": "false",
+      "description": "Annotate each line of wrapped inline text separately instead of one box around all of it."
+    },
+    {
+      "name": "brackets",
+      "type": "\"left\" | \"right\" | \"top\" | \"bottom\" | \"start\" | \"end\" or an array of them",
+      "default": "\"end\"",
+      "description": "Which sides a bracket mark covers. `start` and `end` follow the text direction (`end` is the right in left-to-right text, the left in right-to-left); `left` and `right` are physical. Upstream's default is the right side."
+    },
+    {
+      "name": "rtl",
+      "type": "boolean",
+      "description": "Start drawing from the right. Default: the element's computed direction, read when the annotation is created, so Arabic and Hebrew text is drawn from its start."
+    },
+    {
+      "name": "as",
+      "type": "React.ElementType",
+      "default": "\"span\"",
+      "description": "The element to render. Use a block element (p, blockquote) for a bracket, and a semantic one (mark, del, ins, em, strong) when the mark carries meaning."
+    },
+    {
+      "name": "RoughNotationGroup show",
+      "type": "boolean",
+      "default": "true",
+      "description": "Wrap several RoughNotation elements to draw them one after another in document order. Their own show props are ignored."
+    }
+  ],
+  "a11y": [
+    "The marks are decoration: every annotation is an SVG with aria-hidden=\"true\" and pointer events off, so it adds nothing to the accessibility tree and never takes a click. Meaning belongs in the markup: render a strike-through as `del`, a highlight as `mark`, an emphasis as `em` or `strong` (the `as` prop; the component clears the browser's own yellow `mark` fill and `del` line so the hand-drawn mark is not doubled).",
+    "Under prefers-reduced-motion the marks are drawn at once, with no stroke animation, including a mark that was mid-draw when the preference switched on.",
+    "Right to left: a line mark (underline, strike-through, crossed-off, highlight) starts drawing from the right when the text's computed direction is rtl (read when the annotation is created; the `rtl` prop overrides it). Positions are measured from the rendered text, so boxes, circles and brackets follow mirrored layouts, and a bracket's default side `end` is the left in right-to-left text.",
+    "Contrast (fidelity default, contrast on request): the default highlight tokens already keep body text above 4.5:1 (measured 16.0:1 in light, 8.1:1 in dark, against `--card`). Under prefers-contrast: more the bar switches to `--rough-annotation-highlight-contrast`, a stronger amber that reads as a shape (3.2:1 in light, 3.5:1 in dark against the card) while text on it keeps 6.2:1 and 5.1:1. Under forced colors the highlight bar becomes the system `Mark` color with `MarkText` text, and every other mark takes the system text color (`CanvasText`), because the shape, not its color, carries the meaning.",
+    "The color you pass is yours: give text-colored marks (underline, box, circle) at least 3:1 against the page, and never rely on a mark's color alone to say what it means."
+  ],
+  "usage": "<RoughNotation type=\"underline\" color=\"var(--destructive)\">important</RoughNotation>"
+}

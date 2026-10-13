@@ -1,0 +1,2958 @@
+{
+  "method": "upstream npm 0.5.1 build (identical to a build of the pinned commit) on a plain HTML page against the port, same seed (42), animations paused at matched times, Chromium (Playwright 1.64), device scale 1, pixelmatch threshold 0.1",
+  "final": {
+    "seed": 42,
+    "results": [
+      {
+        "scene": "types",
+        "viewport": "1280x800",
+        "frame": 150,
+        "animations": {
+          "upstream": 25,
+          "port": 25
+        },
+        "differing": 0,
+        "total": 1024000,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [1280, 800, 1280, 800]
+      },
+      {
+        "scene": "types",
+        "viewport": "1280x800",
+        "frame": 400,
+        "animations": {
+          "upstream": 25,
+          "port": 25
+        },
+        "differing": 0,
+        "total": 1024000,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [1280, 800, 1280, 800]
+      },
+      {
+        "scene": "types",
+        "viewport": "1280x800",
+        "frame": 800,
+        "animations": {
+          "upstream": 25,
+          "port": 25
+        },
+        "differing": 0,
+        "total": 1024000,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [1280, 800, 1280, 800]
+      },
+      {
+        "scene": "types",
+        "viewport": "1280x800",
+        "frame": 1600,
+        "animations": {
+          "upstream": 25,
+          "port": 25
+        },
+        "differing": 0,
+        "total": 1024000,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [1280, 800, 1280, 800]
+      },
+      {
+        "scene": "types",
+        "viewport": "1280x800",
+        "frame": "end",
+        "animations": {
+          "upstream": 25,
+          "port": 25
+        },
+        "differing": 0,
+        "total": 1024000,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [1280, 800, 1280, 800]
+      },
+      {
+        "scene": "types",
+        "viewport": "375x812",
+        "frame": 150,
+        "animations": {
+          "upstream": 25,
+          "port": 25
+        },
+        "differing": 0,
+        "total": 304500,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [375, 812, 375, 812]
+      },
+      {
+        "scene": "types",
+        "viewport": "375x812",
+        "frame": 400,
+        "animations": {
+          "upstream": 25,
+          "port": 25
+        },
+        "differing": 0,
+        "total": 304500,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [375, 812, 375, 812]
+      },
+      {
+        "scene": "types",
+        "viewport": "375x812",
+        "frame": 800,
+        "animations": {
+          "upstream": 25,
+          "port": 25
+        },
+        "differing": 0,
+        "total": 304500,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [375, 812, 375, 812]
+      },
+      {
+        "scene": "types",
+        "viewport": "375x812",
+        "frame": 1600,
+        "animations": {
+          "upstream": 25,
+          "port": 25
+        },
+        "differing": 0,
+        "total": 304500,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [375, 812, 375, 812]
+      },
+      {
+        "scene": "types",
+        "viewport": "375x812",
+        "frame": "end",
+        "animations": {
+          "upstream": 25,
+          "port": 25
+        },
+        "differing": 0,
+        "total": 304500,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [375, 812, 375, 812]
+      },
+      {
+        "scene": "options",
+        "viewport": "1280x800",
+        "frame": 150,
+        "animations": {
+          "upstream": 66,
+          "port": 66
+        },
+        "differing": 0,
+        "total": 1116160,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [1280, 872, 1280, 872]
+      },
+      {
+        "scene": "options",
+        "viewport": "1280x800",
+        "frame": 400,
+        "animations": {
+          "upstream": 66,
+          "port": 66
+        },
+        "differing": 0,
+        "total": 1116160,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [1280, 872, 1280, 872]
+      },
+      {
+        "scene": "options",
+        "viewport": "1280x800",
+        "frame": 800,
+        "animations": {
+          "upstream": 66,
+          "port": 66
+        },
+        "differing": 0,
+        "total": 1116160,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [1280, 872, 1280, 872]
+      },
+      {
+        "scene": "options",
+        "viewport": "1280x800",
+        "frame": 1600,
+        "animations": {
+          "upstream": 66,
+          "port": 66
+        },
+        "differing": 0,
+        "total": 1116160,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [1280, 872, 1280, 872]
+      },
+      {
+        "scene": "options",
+        "viewport": "1280x800",
+        "frame": "end",
+        "animations": {
+          "upstream": 66,
+          "port": 66
+        },
+        "differing": 0,
+        "total": 1116160,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [1280, 872, 1280, 872]
+      },
+      {
+        "scene": "options",
+        "viewport": "375x812",
+        "frame": 150,
+        "animations": {
+          "upstream": 66,
+          "port": 66
+        },
+        "differing": 0,
+        "total": 304500,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [375, 812, 375, 812]
+      },
+      {
+        "scene": "options",
+        "viewport": "375x812",
+        "frame": 400,
+        "animations": {
+          "upstream": 66,
+          "port": 66
+        },
+        "differing": 0,
+        "total": 304500,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [375, 812, 375, 812]
+      },
+      {
+        "scene": "options",
+        "viewport": "375x812",
+        "frame": 800,
+        "animations": {
+          "upstream": 66,
+          "port": 66
+        },
+        "differing": 0,
+        "total": 304500,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [375, 812, 375, 812]
+      },
+      {
+        "scene": "options",
+        "viewport": "375x812",
+        "frame": 1600,
+        "animations": {
+          "upstream": 66,
+          "port": 66
+        },
+        "differing": 0,
+        "total": 304500,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [375, 812, 375, 812]
+      },
+      {
+        "scene": "options",
+        "viewport": "375x812",
+        "frame": "end",
+        "animations": {
+          "upstream": 66,
+          "port": 66
+        },
+        "differing": 0,
+        "total": 304500,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [375, 812, 375, 812]
+      },
+      {
+        "scene": "multiline",
+        "viewport": "1280x800",
+        "frame": 150,
+        "animations": {
+          "upstream": 20,
+          "port": 20
+        },
+        "differing": 0,
+        "total": 1024000,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [1280, 800, 1280, 800]
+      },
+      {
+        "scene": "multiline",
+        "viewport": "1280x800",
+        "frame": 400,
+        "animations": {
+          "upstream": 20,
+          "port": 20
+        },
+        "differing": 0,
+        "total": 1024000,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [1280, 800, 1280, 800]
+      },
+      {
+        "scene": "multiline",
+        "viewport": "1280x800",
+        "frame": 800,
+        "animations": {
+          "upstream": 20,
+          "port": 20
+        },
+        "differing": 0,
+        "total": 1024000,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [1280, 800, 1280, 800]
+      },
+      {
+        "scene": "multiline",
+        "viewport": "1280x800",
+        "frame": 1600,
+        "animations": {
+          "upstream": 20,
+          "port": 20
+        },
+        "differing": 0,
+        "total": 1024000,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [1280, 800, 1280, 800]
+      },
+      {
+        "scene": "multiline",
+        "viewport": "1280x800",
+        "frame": "end",
+        "animations": {
+          "upstream": 20,
+          "port": 20
+        },
+        "differing": 0,
+        "total": 1024000,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [1280, 800, 1280, 800]
+      },
+      {
+        "scene": "multiline",
+        "viewport": "375x812",
+        "frame": 150,
+        "animations": {
+          "upstream": 20,
+          "port": 20
+        },
+        "differing": 0,
+        "total": 304500,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [375, 812, 375, 812]
+      },
+      {
+        "scene": "multiline",
+        "viewport": "375x812",
+        "frame": 400,
+        "animations": {
+          "upstream": 20,
+          "port": 20
+        },
+        "differing": 0,
+        "total": 304500,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [375, 812, 375, 812]
+      },
+      {
+        "scene": "multiline",
+        "viewport": "375x812",
+        "frame": 800,
+        "animations": {
+          "upstream": 20,
+          "port": 20
+        },
+        "differing": 0,
+        "total": 304500,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [375, 812, 375, 812]
+      },
+      {
+        "scene": "multiline",
+        "viewport": "375x812",
+        "frame": 1600,
+        "animations": {
+          "upstream": 20,
+          "port": 20
+        },
+        "differing": 0,
+        "total": 304500,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [375, 812, 375, 812]
+      },
+      {
+        "scene": "multiline",
+        "viewport": "375x812",
+        "frame": "end",
+        "animations": {
+          "upstream": 20,
+          "port": 20
+        },
+        "differing": 0,
+        "total": 304500,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [375, 812, 375, 812]
+      },
+      {
+        "scene": "group",
+        "viewport": "1280x800",
+        "frame": 400,
+        "animations": {
+          "upstream": 14,
+          "port": 14
+        },
+        "differing": 0,
+        "total": 1024000,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [1280, 800, 1280, 800]
+      },
+      {
+        "scene": "group",
+        "viewport": "1280x800",
+        "frame": 1200,
+        "animations": {
+          "upstream": 14,
+          "port": 14
+        },
+        "differing": 0,
+        "total": 1024000,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [1280, 800, 1280, 800]
+      },
+      {
+        "scene": "group",
+        "viewport": "1280x800",
+        "frame": 2400,
+        "animations": {
+          "upstream": 14,
+          "port": 14
+        },
+        "differing": 0,
+        "total": 1024000,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [1280, 800, 1280, 800]
+      },
+      {
+        "scene": "group",
+        "viewport": "1280x800",
+        "frame": 3600,
+        "animations": {
+          "upstream": 14,
+          "port": 14
+        },
+        "differing": 0,
+        "total": 1024000,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [1280, 800, 1280, 800]
+      },
+      {
+        "scene": "group",
+        "viewport": "1280x800",
+        "frame": "end",
+        "animations": {
+          "upstream": 14,
+          "port": 14
+        },
+        "differing": 0,
+        "total": 1024000,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [1280, 800, 1280, 800]
+      },
+      {
+        "scene": "group",
+        "viewport": "375x812",
+        "frame": 400,
+        "animations": {
+          "upstream": 14,
+          "port": 14
+        },
+        "differing": 0,
+        "total": 304500,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [375, 812, 375, 812]
+      },
+      {
+        "scene": "group",
+        "viewport": "375x812",
+        "frame": 1200,
+        "animations": {
+          "upstream": 14,
+          "port": 14
+        },
+        "differing": 0,
+        "total": 304500,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [375, 812, 375, 812]
+      },
+      {
+        "scene": "group",
+        "viewport": "375x812",
+        "frame": 2400,
+        "animations": {
+          "upstream": 14,
+          "port": 14
+        },
+        "differing": 0,
+        "total": 304500,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [375, 812, 375, 812]
+      },
+      {
+        "scene": "group",
+        "viewport": "375x812",
+        "frame": 3600,
+        "animations": {
+          "upstream": 14,
+          "port": 14
+        },
+        "differing": 0,
+        "total": 304500,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [375, 812, 375, 812]
+      },
+      {
+        "scene": "group",
+        "viewport": "375x812",
+        "frame": "end",
+        "animations": {
+          "upstream": 14,
+          "port": 14
+        },
+        "differing": 0,
+        "total": 304500,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [375, 812, 375, 812]
+      },
+      {
+        "scene": "rtl",
+        "viewport": "1280x800",
+        "frame": 150,
+        "animations": {
+          "upstream": 19,
+          "port": 19
+        },
+        "differing": 0,
+        "total": 1024000,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [1280, 800, 1280, 800]
+      },
+      {
+        "scene": "rtl",
+        "viewport": "1280x800",
+        "frame": 400,
+        "animations": {
+          "upstream": 19,
+          "port": 19
+        },
+        "differing": 0,
+        "total": 1024000,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [1280, 800, 1280, 800]
+      },
+      {
+        "scene": "rtl",
+        "viewport": "1280x800",
+        "frame": 800,
+        "animations": {
+          "upstream": 19,
+          "port": 19
+        },
+        "differing": 0,
+        "total": 1024000,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [1280, 800, 1280, 800]
+      },
+      {
+        "scene": "rtl",
+        "viewport": "1280x800",
+        "frame": 1600,
+        "animations": {
+          "upstream": 19,
+          "port": 19
+        },
+        "differing": 0,
+        "total": 1024000,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [1280, 800, 1280, 800]
+      },
+      {
+        "scene": "rtl",
+        "viewport": "1280x800",
+        "frame": "end",
+        "animations": {
+          "upstream": 19,
+          "port": 19
+        },
+        "differing": 0,
+        "total": 1024000,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [1280, 800, 1280, 800]
+      },
+      {
+        "scene": "rtl",
+        "viewport": "375x812",
+        "frame": 150,
+        "animations": {
+          "upstream": 19,
+          "port": 19
+        },
+        "differing": 0,
+        "total": 304500,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [375, 812, 375, 812]
+      },
+      {
+        "scene": "rtl",
+        "viewport": "375x812",
+        "frame": 400,
+        "animations": {
+          "upstream": 19,
+          "port": 19
+        },
+        "differing": 0,
+        "total": 304500,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [375, 812, 375, 812]
+      },
+      {
+        "scene": "rtl",
+        "viewport": "375x812",
+        "frame": 800,
+        "animations": {
+          "upstream": 19,
+          "port": 19
+        },
+        "differing": 0,
+        "total": 304500,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [375, 812, 375, 812]
+      },
+      {
+        "scene": "rtl",
+        "viewport": "375x812",
+        "frame": 1600,
+        "animations": {
+          "upstream": 19,
+          "port": 19
+        },
+        "differing": 0,
+        "total": 304500,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [375, 812, 375, 812]
+      },
+      {
+        "scene": "rtl",
+        "viewport": "375x812",
+        "frame": "end",
+        "animations": {
+          "upstream": 19,
+          "port": 19
+        },
+        "differing": 0,
+        "total": 304500,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [375, 812, 375, 812]
+      },
+      {
+        "scene": "rtl-auto",
+        "viewport": "1280x800",
+        "frame": 150,
+        "animations": {
+          "upstream": 19,
+          "port": 19
+        },
+        "differing": 0,
+        "total": 1024000,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [1280, 800, 1280, 800]
+      },
+      {
+        "scene": "rtl-auto",
+        "viewport": "1280x800",
+        "frame": 400,
+        "animations": {
+          "upstream": 19,
+          "port": 19
+        },
+        "differing": 0,
+        "total": 1024000,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [1280, 800, 1280, 800]
+      },
+      {
+        "scene": "rtl-auto",
+        "viewport": "1280x800",
+        "frame": 800,
+        "animations": {
+          "upstream": 19,
+          "port": 19
+        },
+        "differing": 0,
+        "total": 1024000,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [1280, 800, 1280, 800]
+      },
+      {
+        "scene": "rtl-auto",
+        "viewport": "1280x800",
+        "frame": 1600,
+        "animations": {
+          "upstream": 19,
+          "port": 19
+        },
+        "differing": 0,
+        "total": 1024000,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [1280, 800, 1280, 800]
+      },
+      {
+        "scene": "rtl-auto",
+        "viewport": "1280x800",
+        "frame": "end",
+        "animations": {
+          "upstream": 19,
+          "port": 19
+        },
+        "differing": 0,
+        "total": 1024000,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [1280, 800, 1280, 800]
+      },
+      {
+        "scene": "rtl-auto",
+        "viewport": "375x812",
+        "frame": 150,
+        "animations": {
+          "upstream": 19,
+          "port": 19
+        },
+        "differing": 0,
+        "total": 304500,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [375, 812, 375, 812]
+      },
+      {
+        "scene": "rtl-auto",
+        "viewport": "375x812",
+        "frame": 400,
+        "animations": {
+          "upstream": 19,
+          "port": 19
+        },
+        "differing": 0,
+        "total": 304500,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [375, 812, 375, 812]
+      },
+      {
+        "scene": "rtl-auto",
+        "viewport": "375x812",
+        "frame": 800,
+        "animations": {
+          "upstream": 19,
+          "port": 19
+        },
+        "differing": 0,
+        "total": 304500,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [375, 812, 375, 812]
+      },
+      {
+        "scene": "rtl-auto",
+        "viewport": "375x812",
+        "frame": 1600,
+        "animations": {
+          "upstream": 19,
+          "port": 19
+        },
+        "differing": 0,
+        "total": 304500,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [375, 812, 375, 812]
+      },
+      {
+        "scene": "rtl-auto",
+        "viewport": "375x812",
+        "frame": "end",
+        "animations": {
+          "upstream": 19,
+          "port": 19
+        },
+        "differing": 0,
+        "total": 304500,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [375, 812, 375, 812]
+      },
+      {
+        "scene": "logical",
+        "viewport": "1280x800",
+        "frame": 150,
+        "animations": {
+          "upstream": 27,
+          "port": 27
+        },
+        "differing": 0,
+        "total": 1024000,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [1280, 800, 1280, 800]
+      },
+      {
+        "scene": "logical",
+        "viewport": "1280x800",
+        "frame": 400,
+        "animations": {
+          "upstream": 27,
+          "port": 27
+        },
+        "differing": 0,
+        "total": 1024000,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [1280, 800, 1280, 800]
+      },
+      {
+        "scene": "logical",
+        "viewport": "1280x800",
+        "frame": 800,
+        "animations": {
+          "upstream": 27,
+          "port": 27
+        },
+        "differing": 0,
+        "total": 1024000,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [1280, 800, 1280, 800]
+      },
+      {
+        "scene": "logical",
+        "viewport": "1280x800",
+        "frame": 1600,
+        "animations": {
+          "upstream": 27,
+          "port": 27
+        },
+        "differing": 0,
+        "total": 1024000,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [1280, 800, 1280, 800]
+      },
+      {
+        "scene": "logical",
+        "viewport": "1280x800",
+        "frame": "end",
+        "animations": {
+          "upstream": 27,
+          "port": 27
+        },
+        "differing": 0,
+        "total": 1024000,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [1280, 800, 1280, 800]
+      },
+      {
+        "scene": "logical",
+        "viewport": "375x812",
+        "frame": 150,
+        "animations": {
+          "upstream": 27,
+          "port": 27
+        },
+        "differing": 0,
+        "total": 304500,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [375, 812, 375, 812]
+      },
+      {
+        "scene": "logical",
+        "viewport": "375x812",
+        "frame": 400,
+        "animations": {
+          "upstream": 27,
+          "port": 27
+        },
+        "differing": 0,
+        "total": 304500,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [375, 812, 375, 812]
+      },
+      {
+        "scene": "logical",
+        "viewport": "375x812",
+        "frame": 800,
+        "animations": {
+          "upstream": 27,
+          "port": 27
+        },
+        "differing": 2,
+        "total": 304500,
+        "percent": 0.0007,
+        "noiseFloor": 0,
+        "sizes": [375, 812, 375, 812]
+      },
+      {
+        "scene": "logical",
+        "viewport": "375x812",
+        "frame": 1600,
+        "animations": {
+          "upstream": 27,
+          "port": 27
+        },
+        "differing": 0,
+        "total": 304500,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [375, 812, 375, 812]
+      },
+      {
+        "scene": "logical",
+        "viewport": "375x812",
+        "frame": "end",
+        "animations": {
+          "upstream": 27,
+          "port": 27
+        },
+        "differing": 0,
+        "total": 304500,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [375, 812, 375, 812]
+      }
+    ]
+  },
+  "earlier_after_keyframe_rename_before_scale_fix": {
+    "seed": 42,
+    "results": [
+      {
+        "scene": "types",
+        "viewport": "1280x800",
+        "frame": 150,
+        "animations": {
+          "upstream": 25,
+          "port": 25
+        },
+        "differing": 0,
+        "total": 1024000,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [1280, 800, 1280, 800]
+      },
+      {
+        "scene": "types",
+        "viewport": "1280x800",
+        "frame": 400,
+        "animations": {
+          "upstream": 25,
+          "port": 25
+        },
+        "differing": 0,
+        "total": 1024000,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [1280, 800, 1280, 800]
+      },
+      {
+        "scene": "types",
+        "viewport": "1280x800",
+        "frame": 800,
+        "animations": {
+          "upstream": 25,
+          "port": 25
+        },
+        "differing": 0,
+        "total": 1024000,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [1280, 800, 1280, 800]
+      },
+      {
+        "scene": "types",
+        "viewport": "1280x800",
+        "frame": 1600,
+        "animations": {
+          "upstream": 25,
+          "port": 25
+        },
+        "differing": 0,
+        "total": 1024000,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [1280, 800, 1280, 800]
+      },
+      {
+        "scene": "types",
+        "viewport": "1280x800",
+        "frame": "end",
+        "animations": {
+          "upstream": 25,
+          "port": 25
+        },
+        "differing": 0,
+        "total": 1024000,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [1280, 800, 1280, 800]
+      },
+      {
+        "scene": "types",
+        "viewport": "375x812",
+        "frame": 150,
+        "animations": {
+          "upstream": 25,
+          "port": 25
+        },
+        "differing": 0,
+        "total": 304500,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [375, 812, 375, 812]
+      },
+      {
+        "scene": "types",
+        "viewport": "375x812",
+        "frame": 400,
+        "animations": {
+          "upstream": 25,
+          "port": 25
+        },
+        "differing": 0,
+        "total": 304500,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [375, 812, 375, 812]
+      },
+      {
+        "scene": "types",
+        "viewport": "375x812",
+        "frame": 800,
+        "animations": {
+          "upstream": 25,
+          "port": 25
+        },
+        "differing": 0,
+        "total": 304500,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [375, 812, 375, 812]
+      },
+      {
+        "scene": "types",
+        "viewport": "375x812",
+        "frame": 1600,
+        "animations": {
+          "upstream": 25,
+          "port": 25
+        },
+        "differing": 0,
+        "total": 304500,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [375, 812, 375, 812]
+      },
+      {
+        "scene": "types",
+        "viewport": "375x812",
+        "frame": "end",
+        "animations": {
+          "upstream": 25,
+          "port": 25
+        },
+        "differing": 0,
+        "total": 304500,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [375, 812, 375, 812]
+      },
+      {
+        "scene": "options",
+        "viewport": "1280x800",
+        "frame": 150,
+        "animations": {
+          "upstream": 66,
+          "port": 66
+        },
+        "differing": 0,
+        "total": 1116160,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [1280, 872, 1280, 872]
+      },
+      {
+        "scene": "options",
+        "viewport": "1280x800",
+        "frame": 400,
+        "animations": {
+          "upstream": 66,
+          "port": 66
+        },
+        "differing": 0,
+        "total": 1116160,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [1280, 872, 1280, 872]
+      },
+      {
+        "scene": "options",
+        "viewport": "1280x800",
+        "frame": 800,
+        "animations": {
+          "upstream": 66,
+          "port": 66
+        },
+        "differing": 0,
+        "total": 1116160,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [1280, 872, 1280, 872]
+      },
+      {
+        "scene": "options",
+        "viewport": "1280x800",
+        "frame": 1600,
+        "animations": {
+          "upstream": 66,
+          "port": 66
+        },
+        "differing": 0,
+        "total": 1116160,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [1280, 872, 1280, 872]
+      },
+      {
+        "scene": "options",
+        "viewport": "1280x800",
+        "frame": "end",
+        "animations": {
+          "upstream": 66,
+          "port": 66
+        },
+        "differing": 0,
+        "total": 1116160,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [1280, 872, 1280, 872]
+      },
+      {
+        "scene": "options",
+        "viewport": "375x812",
+        "frame": 150,
+        "animations": {
+          "upstream": 66,
+          "port": 66
+        },
+        "differing": 0,
+        "total": 304500,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [375, 812, 375, 812]
+      },
+      {
+        "scene": "options",
+        "viewport": "375x812",
+        "frame": 400,
+        "animations": {
+          "upstream": 66,
+          "port": 66
+        },
+        "differing": 0,
+        "total": 304500,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [375, 812, 375, 812]
+      },
+      {
+        "scene": "options",
+        "viewport": "375x812",
+        "frame": 800,
+        "animations": {
+          "upstream": 66,
+          "port": 66
+        },
+        "differing": 0,
+        "total": 304500,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [375, 812, 375, 812]
+      },
+      {
+        "scene": "options",
+        "viewport": "375x812",
+        "frame": 1600,
+        "animations": {
+          "upstream": 66,
+          "port": 66
+        },
+        "differing": 0,
+        "total": 304500,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [375, 812, 375, 812]
+      },
+      {
+        "scene": "options",
+        "viewport": "375x812",
+        "frame": "end",
+        "animations": {
+          "upstream": 66,
+          "port": 66
+        },
+        "differing": 0,
+        "total": 304500,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [375, 812, 375, 812]
+      },
+      {
+        "scene": "multiline",
+        "viewport": "1280x800",
+        "frame": 150,
+        "animations": {
+          "upstream": 20,
+          "port": 20
+        },
+        "differing": 0,
+        "total": 1024000,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [1280, 800, 1280, 800]
+      },
+      {
+        "scene": "multiline",
+        "viewport": "1280x800",
+        "frame": 400,
+        "animations": {
+          "upstream": 20,
+          "port": 20
+        },
+        "differing": 0,
+        "total": 1024000,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [1280, 800, 1280, 800]
+      },
+      {
+        "scene": "multiline",
+        "viewport": "1280x800",
+        "frame": 800,
+        "animations": {
+          "upstream": 20,
+          "port": 20
+        },
+        "differing": 0,
+        "total": 1024000,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [1280, 800, 1280, 800]
+      },
+      {
+        "scene": "multiline",
+        "viewport": "1280x800",
+        "frame": 1600,
+        "animations": {
+          "upstream": 20,
+          "port": 20
+        },
+        "differing": 0,
+        "total": 1024000,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [1280, 800, 1280, 800]
+      },
+      {
+        "scene": "multiline",
+        "viewport": "1280x800",
+        "frame": "end",
+        "animations": {
+          "upstream": 20,
+          "port": 20
+        },
+        "differing": 0,
+        "total": 1024000,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [1280, 800, 1280, 800]
+      },
+      {
+        "scene": "multiline",
+        "viewport": "375x812",
+        "frame": 150,
+        "animations": {
+          "upstream": 20,
+          "port": 20
+        },
+        "differing": 0,
+        "total": 304500,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [375, 812, 375, 812]
+      },
+      {
+        "scene": "multiline",
+        "viewport": "375x812",
+        "frame": 400,
+        "animations": {
+          "upstream": 20,
+          "port": 20
+        },
+        "differing": 0,
+        "total": 304500,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [375, 812, 375, 812]
+      },
+      {
+        "scene": "multiline",
+        "viewport": "375x812",
+        "frame": 800,
+        "animations": {
+          "upstream": 20,
+          "port": 20
+        },
+        "differing": 0,
+        "total": 304500,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [375, 812, 375, 812]
+      },
+      {
+        "scene": "multiline",
+        "viewport": "375x812",
+        "frame": 1600,
+        "animations": {
+          "upstream": 20,
+          "port": 20
+        },
+        "differing": 0,
+        "total": 304500,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [375, 812, 375, 812]
+      },
+      {
+        "scene": "multiline",
+        "viewport": "375x812",
+        "frame": "end",
+        "animations": {
+          "upstream": 20,
+          "port": 20
+        },
+        "differing": 0,
+        "total": 304500,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [375, 812, 375, 812]
+      },
+      {
+        "scene": "group",
+        "viewport": "1280x800",
+        "frame": 400,
+        "animations": {
+          "upstream": 14,
+          "port": 14
+        },
+        "differing": 0,
+        "total": 1024000,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [1280, 800, 1280, 800]
+      },
+      {
+        "scene": "group",
+        "viewport": "1280x800",
+        "frame": 1200,
+        "animations": {
+          "upstream": 14,
+          "port": 14
+        },
+        "differing": 0,
+        "total": 1024000,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [1280, 800, 1280, 800]
+      },
+      {
+        "scene": "group",
+        "viewport": "1280x800",
+        "frame": 2400,
+        "animations": {
+          "upstream": 14,
+          "port": 14
+        },
+        "differing": 0,
+        "total": 1024000,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [1280, 800, 1280, 800]
+      },
+      {
+        "scene": "group",
+        "viewport": "1280x800",
+        "frame": 3600,
+        "animations": {
+          "upstream": 14,
+          "port": 14
+        },
+        "differing": 0,
+        "total": 1024000,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [1280, 800, 1280, 800]
+      },
+      {
+        "scene": "group",
+        "viewport": "1280x800",
+        "frame": "end",
+        "animations": {
+          "upstream": 14,
+          "port": 14
+        },
+        "differing": 0,
+        "total": 1024000,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [1280, 800, 1280, 800]
+      },
+      {
+        "scene": "group",
+        "viewport": "375x812",
+        "frame": 400,
+        "animations": {
+          "upstream": 14,
+          "port": 14
+        },
+        "differing": 0,
+        "total": 304500,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [375, 812, 375, 812]
+      },
+      {
+        "scene": "group",
+        "viewport": "375x812",
+        "frame": 1200,
+        "animations": {
+          "upstream": 14,
+          "port": 14
+        },
+        "differing": 0,
+        "total": 304500,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [375, 812, 375, 812]
+      },
+      {
+        "scene": "group",
+        "viewport": "375x812",
+        "frame": 2400,
+        "animations": {
+          "upstream": 14,
+          "port": 14
+        },
+        "differing": 0,
+        "total": 304500,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [375, 812, 375, 812]
+      },
+      {
+        "scene": "group",
+        "viewport": "375x812",
+        "frame": 3600,
+        "animations": {
+          "upstream": 14,
+          "port": 14
+        },
+        "differing": 0,
+        "total": 304500,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [375, 812, 375, 812]
+      },
+      {
+        "scene": "group",
+        "viewport": "375x812",
+        "frame": "end",
+        "animations": {
+          "upstream": 14,
+          "port": 14
+        },
+        "differing": 0,
+        "total": 304500,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [375, 812, 375, 812]
+      },
+      {
+        "scene": "rtl",
+        "viewport": "1280x800",
+        "frame": 150,
+        "animations": {
+          "upstream": 19,
+          "port": 19
+        },
+        "differing": 0,
+        "total": 1024000,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [1280, 800, 1280, 800]
+      },
+      {
+        "scene": "rtl",
+        "viewport": "1280x800",
+        "frame": 400,
+        "animations": {
+          "upstream": 19,
+          "port": 19
+        },
+        "differing": 0,
+        "total": 1024000,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [1280, 800, 1280, 800]
+      },
+      {
+        "scene": "rtl",
+        "viewport": "1280x800",
+        "frame": 800,
+        "animations": {
+          "upstream": 19,
+          "port": 19
+        },
+        "differing": 0,
+        "total": 1024000,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [1280, 800, 1280, 800]
+      },
+      {
+        "scene": "rtl",
+        "viewport": "1280x800",
+        "frame": 1600,
+        "animations": {
+          "upstream": 19,
+          "port": 19
+        },
+        "differing": 0,
+        "total": 1024000,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [1280, 800, 1280, 800]
+      },
+      {
+        "scene": "rtl",
+        "viewport": "1280x800",
+        "frame": "end",
+        "animations": {
+          "upstream": 19,
+          "port": 19
+        },
+        "differing": 0,
+        "total": 1024000,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [1280, 800, 1280, 800]
+      },
+      {
+        "scene": "rtl",
+        "viewport": "375x812",
+        "frame": 150,
+        "animations": {
+          "upstream": 19,
+          "port": 19
+        },
+        "differing": 0,
+        "total": 304500,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [375, 812, 375, 812]
+      },
+      {
+        "scene": "rtl",
+        "viewport": "375x812",
+        "frame": 400,
+        "animations": {
+          "upstream": 19,
+          "port": 19
+        },
+        "differing": 0,
+        "total": 304500,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [375, 812, 375, 812]
+      },
+      {
+        "scene": "rtl",
+        "viewport": "375x812",
+        "frame": 800,
+        "animations": {
+          "upstream": 19,
+          "port": 19
+        },
+        "differing": 0,
+        "total": 304500,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [375, 812, 375, 812]
+      },
+      {
+        "scene": "rtl",
+        "viewport": "375x812",
+        "frame": 1600,
+        "animations": {
+          "upstream": 19,
+          "port": 19
+        },
+        "differing": 0,
+        "total": 304500,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [375, 812, 375, 812]
+      },
+      {
+        "scene": "rtl",
+        "viewport": "375x812",
+        "frame": "end",
+        "animations": {
+          "upstream": 19,
+          "port": 19
+        },
+        "differing": 0,
+        "total": 304500,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [375, 812, 375, 812]
+      },
+      {
+        "scene": "rtl-auto",
+        "viewport": "1280x800",
+        "frame": 150,
+        "animations": {
+          "upstream": 19,
+          "port": 19
+        },
+        "differing": 0,
+        "total": 1024000,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [1280, 800, 1280, 800]
+      },
+      {
+        "scene": "rtl-auto",
+        "viewport": "1280x800",
+        "frame": 400,
+        "animations": {
+          "upstream": 19,
+          "port": 19
+        },
+        "differing": 0,
+        "total": 1024000,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [1280, 800, 1280, 800]
+      },
+      {
+        "scene": "rtl-auto",
+        "viewport": "1280x800",
+        "frame": 800,
+        "animations": {
+          "upstream": 19,
+          "port": 19
+        },
+        "differing": 0,
+        "total": 1024000,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [1280, 800, 1280, 800]
+      },
+      {
+        "scene": "rtl-auto",
+        "viewport": "1280x800",
+        "frame": 1600,
+        "animations": {
+          "upstream": 19,
+          "port": 19
+        },
+        "differing": 0,
+        "total": 1024000,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [1280, 800, 1280, 800]
+      },
+      {
+        "scene": "rtl-auto",
+        "viewport": "1280x800",
+        "frame": "end",
+        "animations": {
+          "upstream": 19,
+          "port": 19
+        },
+        "differing": 0,
+        "total": 1024000,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [1280, 800, 1280, 800]
+      },
+      {
+        "scene": "rtl-auto",
+        "viewport": "375x812",
+        "frame": 150,
+        "animations": {
+          "upstream": 19,
+          "port": 19
+        },
+        "differing": 0,
+        "total": 304500,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [375, 812, 375, 812]
+      },
+      {
+        "scene": "rtl-auto",
+        "viewport": "375x812",
+        "frame": 400,
+        "animations": {
+          "upstream": 19,
+          "port": 19
+        },
+        "differing": 0,
+        "total": 304500,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [375, 812, 375, 812]
+      },
+      {
+        "scene": "rtl-auto",
+        "viewport": "375x812",
+        "frame": 800,
+        "animations": {
+          "upstream": 19,
+          "port": 19
+        },
+        "differing": 0,
+        "total": 304500,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [375, 812, 375, 812]
+      },
+      {
+        "scene": "rtl-auto",
+        "viewport": "375x812",
+        "frame": 1600,
+        "animations": {
+          "upstream": 19,
+          "port": 19
+        },
+        "differing": 0,
+        "total": 304500,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [375, 812, 375, 812]
+      },
+      {
+        "scene": "rtl-auto",
+        "viewport": "375x812",
+        "frame": "end",
+        "animations": {
+          "upstream": 19,
+          "port": 19
+        },
+        "differing": 0,
+        "total": 304500,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [375, 812, 375, 812]
+      },
+      {
+        "scene": "logical",
+        "viewport": "1280x800",
+        "frame": 150,
+        "animations": {
+          "upstream": 27,
+          "port": 27
+        },
+        "differing": 0,
+        "total": 1024000,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [1280, 800, 1280, 800]
+      },
+      {
+        "scene": "logical",
+        "viewport": "1280x800",
+        "frame": 400,
+        "animations": {
+          "upstream": 27,
+          "port": 27
+        },
+        "differing": 0,
+        "total": 1024000,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [1280, 800, 1280, 800]
+      },
+      {
+        "scene": "logical",
+        "viewport": "1280x800",
+        "frame": 800,
+        "animations": {
+          "upstream": 27,
+          "port": 27
+        },
+        "differing": 0,
+        "total": 1024000,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [1280, 800, 1280, 800]
+      },
+      {
+        "scene": "logical",
+        "viewport": "1280x800",
+        "frame": 1600,
+        "animations": {
+          "upstream": 27,
+          "port": 27
+        },
+        "differing": 0,
+        "total": 1024000,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [1280, 800, 1280, 800]
+      },
+      {
+        "scene": "logical",
+        "viewport": "1280x800",
+        "frame": "end",
+        "animations": {
+          "upstream": 27,
+          "port": 27
+        },
+        "differing": 0,
+        "total": 1024000,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [1280, 800, 1280, 800]
+      },
+      {
+        "scene": "logical",
+        "viewport": "375x812",
+        "frame": 150,
+        "animations": {
+          "upstream": 27,
+          "port": 27
+        },
+        "differing": 0,
+        "total": 304500,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [375, 812, 375, 812]
+      },
+      {
+        "scene": "logical",
+        "viewport": "375x812",
+        "frame": 400,
+        "animations": {
+          "upstream": 27,
+          "port": 27
+        },
+        "differing": 0,
+        "total": 304500,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [375, 812, 375, 812]
+      },
+      {
+        "scene": "logical",
+        "viewport": "375x812",
+        "frame": 800,
+        "animations": {
+          "upstream": 27,
+          "port": 27
+        },
+        "differing": 0,
+        "total": 304500,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [375, 812, 375, 812]
+      },
+      {
+        "scene": "logical",
+        "viewport": "375x812",
+        "frame": 1600,
+        "animations": {
+          "upstream": 27,
+          "port": 27
+        },
+        "differing": 0,
+        "total": 304500,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [375, 812, 375, 812]
+      },
+      {
+        "scene": "logical",
+        "viewport": "375x812",
+        "frame": "end",
+        "animations": {
+          "upstream": 27,
+          "port": 27
+        },
+        "differing": 0,
+        "total": 304500,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [375, 812, 375, 812]
+      }
+    ]
+  },
+  "earlier_first_run": {
+    "seed": 42,
+    "results": [
+      {
+        "scene": "types",
+        "viewport": "1280x800",
+        "frame": 150,
+        "animations": {
+          "upstream": 25,
+          "port": 25
+        },
+        "differing": 0,
+        "total": 1024000,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [1280, 800, 1280, 800]
+      },
+      {
+        "scene": "types",
+        "viewport": "1280x800",
+        "frame": 400,
+        "animations": {
+          "upstream": 25,
+          "port": 25
+        },
+        "differing": 0,
+        "total": 1024000,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [1280, 800, 1280, 800]
+      },
+      {
+        "scene": "types",
+        "viewport": "1280x800",
+        "frame": 800,
+        "animations": {
+          "upstream": 25,
+          "port": 25
+        },
+        "differing": 0,
+        "total": 1024000,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [1280, 800, 1280, 800]
+      },
+      {
+        "scene": "types",
+        "viewport": "1280x800",
+        "frame": 1600,
+        "animations": {
+          "upstream": 25,
+          "port": 25
+        },
+        "differing": 0,
+        "total": 1024000,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [1280, 800, 1280, 800]
+      },
+      {
+        "scene": "types",
+        "viewport": "1280x800",
+        "frame": "end",
+        "animations": {
+          "upstream": 25,
+          "port": 25
+        },
+        "differing": 0,
+        "total": 1024000,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [1280, 800, 1280, 800]
+      },
+      {
+        "scene": "types",
+        "viewport": "375x812",
+        "frame": 150,
+        "animations": {
+          "upstream": 25,
+          "port": 25
+        },
+        "differing": 0,
+        "total": 304500,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [375, 812, 375, 812]
+      },
+      {
+        "scene": "types",
+        "viewport": "375x812",
+        "frame": 400,
+        "animations": {
+          "upstream": 25,
+          "port": 25
+        },
+        "differing": 0,
+        "total": 304500,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [375, 812, 375, 812]
+      },
+      {
+        "scene": "types",
+        "viewport": "375x812",
+        "frame": 800,
+        "animations": {
+          "upstream": 25,
+          "port": 25
+        },
+        "differing": 0,
+        "total": 304500,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [375, 812, 375, 812]
+      },
+      {
+        "scene": "types",
+        "viewport": "375x812",
+        "frame": 1600,
+        "animations": {
+          "upstream": 25,
+          "port": 25
+        },
+        "differing": 0,
+        "total": 304500,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [375, 812, 375, 812]
+      },
+      {
+        "scene": "types",
+        "viewport": "375x812",
+        "frame": "end",
+        "animations": {
+          "upstream": 25,
+          "port": 25
+        },
+        "differing": 0,
+        "total": 304500,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [375, 812, 375, 812]
+      },
+      {
+        "scene": "options",
+        "viewport": "1280x800",
+        "frame": 150,
+        "animations": {
+          "upstream": 66,
+          "port": 66
+        },
+        "differing": 0,
+        "total": 1116160,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [1280, 872, 1280, 872]
+      },
+      {
+        "scene": "options",
+        "viewport": "1280x800",
+        "frame": 400,
+        "animations": {
+          "upstream": 66,
+          "port": 66
+        },
+        "differing": 0,
+        "total": 1116160,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [1280, 872, 1280, 872]
+      },
+      {
+        "scene": "options",
+        "viewport": "1280x800",
+        "frame": 800,
+        "animations": {
+          "upstream": 66,
+          "port": 66
+        },
+        "differing": 0,
+        "total": 1116160,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [1280, 872, 1280, 872]
+      },
+      {
+        "scene": "options",
+        "viewport": "1280x800",
+        "frame": 1600,
+        "animations": {
+          "upstream": 66,
+          "port": 66
+        },
+        "differing": 0,
+        "total": 1116160,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [1280, 872, 1280, 872]
+      },
+      {
+        "scene": "options",
+        "viewport": "1280x800",
+        "frame": "end",
+        "animations": {
+          "upstream": 66,
+          "port": 66
+        },
+        "differing": 0,
+        "total": 1116160,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [1280, 872, 1280, 872]
+      },
+      {
+        "scene": "options",
+        "viewport": "375x812",
+        "frame": 150,
+        "animations": {
+          "upstream": 66,
+          "port": 66
+        },
+        "differing": 0,
+        "total": 304500,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [375, 812, 375, 812]
+      },
+      {
+        "scene": "options",
+        "viewport": "375x812",
+        "frame": 400,
+        "animations": {
+          "upstream": 66,
+          "port": 66
+        },
+        "differing": 0,
+        "total": 304500,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [375, 812, 375, 812]
+      },
+      {
+        "scene": "options",
+        "viewport": "375x812",
+        "frame": 800,
+        "animations": {
+          "upstream": 66,
+          "port": 66
+        },
+        "differing": 0,
+        "total": 304500,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [375, 812, 375, 812]
+      },
+      {
+        "scene": "options",
+        "viewport": "375x812",
+        "frame": 1600,
+        "animations": {
+          "upstream": 66,
+          "port": 66
+        },
+        "differing": 0,
+        "total": 304500,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [375, 812, 375, 812]
+      },
+      {
+        "scene": "options",
+        "viewport": "375x812",
+        "frame": "end",
+        "animations": {
+          "upstream": 66,
+          "port": 66
+        },
+        "differing": 0,
+        "total": 304500,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [375, 812, 375, 812]
+      },
+      {
+        "scene": "multiline",
+        "viewport": "1280x800",
+        "frame": 150,
+        "animations": {
+          "upstream": 20,
+          "port": 20
+        },
+        "differing": 0,
+        "total": 1024000,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [1280, 800, 1280, 800]
+      },
+      {
+        "scene": "multiline",
+        "viewport": "1280x800",
+        "frame": 400,
+        "animations": {
+          "upstream": 20,
+          "port": 20
+        },
+        "differing": 0,
+        "total": 1024000,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [1280, 800, 1280, 800]
+      },
+      {
+        "scene": "multiline",
+        "viewport": "1280x800",
+        "frame": 800,
+        "animations": {
+          "upstream": 20,
+          "port": 20
+        },
+        "differing": 0,
+        "total": 1024000,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [1280, 800, 1280, 800]
+      },
+      {
+        "scene": "multiline",
+        "viewport": "1280x800",
+        "frame": 1600,
+        "animations": {
+          "upstream": 20,
+          "port": 20
+        },
+        "differing": 0,
+        "total": 1024000,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [1280, 800, 1280, 800]
+      },
+      {
+        "scene": "multiline",
+        "viewport": "1280x800",
+        "frame": "end",
+        "animations": {
+          "upstream": 20,
+          "port": 20
+        },
+        "differing": 0,
+        "total": 1024000,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [1280, 800, 1280, 800]
+      },
+      {
+        "scene": "multiline",
+        "viewport": "375x812",
+        "frame": 150,
+        "animations": {
+          "upstream": 20,
+          "port": 20
+        },
+        "differing": 0,
+        "total": 304500,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [375, 812, 375, 812]
+      },
+      {
+        "scene": "multiline",
+        "viewport": "375x812",
+        "frame": 400,
+        "animations": {
+          "upstream": 20,
+          "port": 20
+        },
+        "differing": 0,
+        "total": 304500,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [375, 812, 375, 812]
+      },
+      {
+        "scene": "multiline",
+        "viewport": "375x812",
+        "frame": 800,
+        "animations": {
+          "upstream": 20,
+          "port": 20
+        },
+        "differing": 0,
+        "total": 304500,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [375, 812, 375, 812]
+      },
+      {
+        "scene": "multiline",
+        "viewport": "375x812",
+        "frame": 1600,
+        "animations": {
+          "upstream": 20,
+          "port": 20
+        },
+        "differing": 0,
+        "total": 304500,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [375, 812, 375, 812]
+      },
+      {
+        "scene": "multiline",
+        "viewport": "375x812",
+        "frame": "end",
+        "animations": {
+          "upstream": 20,
+          "port": 20
+        },
+        "differing": 0,
+        "total": 304500,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [375, 812, 375, 812]
+      },
+      {
+        "scene": "group",
+        "viewport": "1280x800",
+        "frame": 400,
+        "animations": {
+          "upstream": 14,
+          "port": 14
+        },
+        "differing": 0,
+        "total": 1024000,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [1280, 800, 1280, 800]
+      },
+      {
+        "scene": "group",
+        "viewport": "1280x800",
+        "frame": 1200,
+        "animations": {
+          "upstream": 14,
+          "port": 14
+        },
+        "differing": 0,
+        "total": 1024000,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [1280, 800, 1280, 800]
+      },
+      {
+        "scene": "group",
+        "viewport": "1280x800",
+        "frame": 2400,
+        "animations": {
+          "upstream": 14,
+          "port": 14
+        },
+        "differing": 0,
+        "total": 1024000,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [1280, 800, 1280, 800]
+      },
+      {
+        "scene": "group",
+        "viewport": "1280x800",
+        "frame": 3600,
+        "animations": {
+          "upstream": 14,
+          "port": 14
+        },
+        "differing": 0,
+        "total": 1024000,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [1280, 800, 1280, 800]
+      },
+      {
+        "scene": "group",
+        "viewport": "1280x800",
+        "frame": "end",
+        "animations": {
+          "upstream": 14,
+          "port": 14
+        },
+        "differing": 0,
+        "total": 1024000,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [1280, 800, 1280, 800]
+      },
+      {
+        "scene": "group",
+        "viewport": "375x812",
+        "frame": 400,
+        "animations": {
+          "upstream": 14,
+          "port": 14
+        },
+        "differing": 0,
+        "total": 304500,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [375, 812, 375, 812]
+      },
+      {
+        "scene": "group",
+        "viewport": "375x812",
+        "frame": 1200,
+        "animations": {
+          "upstream": 14,
+          "port": 14
+        },
+        "differing": 0,
+        "total": 304500,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [375, 812, 375, 812]
+      },
+      {
+        "scene": "group",
+        "viewport": "375x812",
+        "frame": 2400,
+        "animations": {
+          "upstream": 14,
+          "port": 14
+        },
+        "differing": 0,
+        "total": 304500,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [375, 812, 375, 812]
+      },
+      {
+        "scene": "group",
+        "viewport": "375x812",
+        "frame": 3600,
+        "animations": {
+          "upstream": 14,
+          "port": 14
+        },
+        "differing": 0,
+        "total": 304500,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [375, 812, 375, 812]
+      },
+      {
+        "scene": "group",
+        "viewport": "375x812",
+        "frame": "end",
+        "animations": {
+          "upstream": 14,
+          "port": 14
+        },
+        "differing": 0,
+        "total": 304500,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [375, 812, 375, 812]
+      },
+      {
+        "scene": "rtl",
+        "viewport": "1280x800",
+        "frame": 150,
+        "animations": {
+          "upstream": 19,
+          "port": 19
+        },
+        "differing": 0,
+        "total": 1024000,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [1280, 800, 1280, 800]
+      },
+      {
+        "scene": "rtl",
+        "viewport": "1280x800",
+        "frame": 400,
+        "animations": {
+          "upstream": 19,
+          "port": 19
+        },
+        "differing": 0,
+        "total": 1024000,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [1280, 800, 1280, 800]
+      },
+      {
+        "scene": "rtl",
+        "viewport": "1280x800",
+        "frame": 800,
+        "animations": {
+          "upstream": 19,
+          "port": 19
+        },
+        "differing": 0,
+        "total": 1024000,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [1280, 800, 1280, 800]
+      },
+      {
+        "scene": "rtl",
+        "viewport": "1280x800",
+        "frame": 1600,
+        "animations": {
+          "upstream": 19,
+          "port": 19
+        },
+        "differing": 0,
+        "total": 1024000,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [1280, 800, 1280, 800]
+      },
+      {
+        "scene": "rtl",
+        "viewport": "1280x800",
+        "frame": "end",
+        "animations": {
+          "upstream": 19,
+          "port": 19
+        },
+        "differing": 0,
+        "total": 1024000,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [1280, 800, 1280, 800]
+      },
+      {
+        "scene": "rtl",
+        "viewport": "375x812",
+        "frame": 150,
+        "animations": {
+          "upstream": 19,
+          "port": 19
+        },
+        "differing": 0,
+        "total": 304500,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [375, 812, 375, 812]
+      },
+      {
+        "scene": "rtl",
+        "viewport": "375x812",
+        "frame": 400,
+        "animations": {
+          "upstream": 19,
+          "port": 19
+        },
+        "differing": 0,
+        "total": 304500,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [375, 812, 375, 812]
+      },
+      {
+        "scene": "rtl",
+        "viewport": "375x812",
+        "frame": 800,
+        "animations": {
+          "upstream": 19,
+          "port": 19
+        },
+        "differing": 0,
+        "total": 304500,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [375, 812, 375, 812]
+      },
+      {
+        "scene": "rtl",
+        "viewport": "375x812",
+        "frame": 1600,
+        "animations": {
+          "upstream": 19,
+          "port": 19
+        },
+        "differing": 0,
+        "total": 304500,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [375, 812, 375, 812]
+      },
+      {
+        "scene": "rtl",
+        "viewport": "375x812",
+        "frame": "end",
+        "animations": {
+          "upstream": 19,
+          "port": 19
+        },
+        "differing": 0,
+        "total": 304500,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [375, 812, 375, 812]
+      },
+      {
+        "scene": "rtl-auto",
+        "viewport": "1280x800",
+        "frame": 150,
+        "animations": {
+          "upstream": 19,
+          "port": 19
+        },
+        "differing": 0,
+        "total": 1024000,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [1280, 800, 1280, 800]
+      },
+      {
+        "scene": "rtl-auto",
+        "viewport": "1280x800",
+        "frame": 400,
+        "animations": {
+          "upstream": 19,
+          "port": 19
+        },
+        "differing": 0,
+        "total": 1024000,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [1280, 800, 1280, 800]
+      },
+      {
+        "scene": "rtl-auto",
+        "viewport": "1280x800",
+        "frame": 800,
+        "animations": {
+          "upstream": 19,
+          "port": 19
+        },
+        "differing": 0,
+        "total": 1024000,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [1280, 800, 1280, 800]
+      },
+      {
+        "scene": "rtl-auto",
+        "viewport": "1280x800",
+        "frame": 1600,
+        "animations": {
+          "upstream": 19,
+          "port": 19
+        },
+        "differing": 0,
+        "total": 1024000,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [1280, 800, 1280, 800]
+      },
+      {
+        "scene": "rtl-auto",
+        "viewport": "1280x800",
+        "frame": "end",
+        "animations": {
+          "upstream": 19,
+          "port": 19
+        },
+        "differing": 0,
+        "total": 1024000,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [1280, 800, 1280, 800]
+      },
+      {
+        "scene": "rtl-auto",
+        "viewport": "375x812",
+        "frame": 150,
+        "animations": {
+          "upstream": 19,
+          "port": 19
+        },
+        "differing": 0,
+        "total": 304500,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [375, 812, 375, 812]
+      },
+      {
+        "scene": "rtl-auto",
+        "viewport": "375x812",
+        "frame": 400,
+        "animations": {
+          "upstream": 19,
+          "port": 19
+        },
+        "differing": 0,
+        "total": 304500,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [375, 812, 375, 812]
+      },
+      {
+        "scene": "rtl-auto",
+        "viewport": "375x812",
+        "frame": 800,
+        "animations": {
+          "upstream": 19,
+          "port": 19
+        },
+        "differing": 0,
+        "total": 304500,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [375, 812, 375, 812]
+      },
+      {
+        "scene": "rtl-auto",
+        "viewport": "375x812",
+        "frame": 1600,
+        "animations": {
+          "upstream": 19,
+          "port": 19
+        },
+        "differing": 0,
+        "total": 304500,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [375, 812, 375, 812]
+      },
+      {
+        "scene": "rtl-auto",
+        "viewport": "375x812",
+        "frame": "end",
+        "animations": {
+          "upstream": 19,
+          "port": 19
+        },
+        "differing": 0,
+        "total": 304500,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [375, 812, 375, 812]
+      },
+      {
+        "scene": "logical",
+        "viewport": "1280x800",
+        "frame": 150,
+        "animations": {
+          "upstream": 27,
+          "port": 27
+        },
+        "differing": 0,
+        "total": 1024000,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [1280, 800, 1280, 800]
+      },
+      {
+        "scene": "logical",
+        "viewport": "1280x800",
+        "frame": 400,
+        "animations": {
+          "upstream": 27,
+          "port": 27
+        },
+        "differing": 2,
+        "total": 1024000,
+        "percent": 0.0002,
+        "noiseFloor": 0,
+        "sizes": [1280, 800, 1280, 800]
+      },
+      {
+        "scene": "logical",
+        "viewport": "1280x800",
+        "frame": 800,
+        "animations": {
+          "upstream": 27,
+          "port": 27
+        },
+        "differing": 0,
+        "total": 1024000,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [1280, 800, 1280, 800]
+      },
+      {
+        "scene": "logical",
+        "viewport": "1280x800",
+        "frame": 1600,
+        "animations": {
+          "upstream": 27,
+          "port": 27
+        },
+        "differing": 0,
+        "total": 1024000,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [1280, 800, 1280, 800]
+      },
+      {
+        "scene": "logical",
+        "viewport": "1280x800",
+        "frame": "end",
+        "animations": {
+          "upstream": 27,
+          "port": 27
+        },
+        "differing": 0,
+        "total": 1024000,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [1280, 800, 1280, 800]
+      },
+      {
+        "scene": "logical",
+        "viewport": "375x812",
+        "frame": 150,
+        "animations": {
+          "upstream": 27,
+          "port": 27
+        },
+        "differing": 0,
+        "total": 304500,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [375, 812, 375, 812]
+      },
+      {
+        "scene": "logical",
+        "viewport": "375x812",
+        "frame": 400,
+        "animations": {
+          "upstream": 27,
+          "port": 27
+        },
+        "differing": 0,
+        "total": 304500,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [375, 812, 375, 812]
+      },
+      {
+        "scene": "logical",
+        "viewport": "375x812",
+        "frame": 800,
+        "animations": {
+          "upstream": 27,
+          "port": 27
+        },
+        "differing": 0,
+        "total": 304500,
+        "percent": 0,
+        "noiseFloor": 2,
+        "sizes": [375, 812, 375, 812]
+      },
+      {
+        "scene": "logical",
+        "viewport": "375x812",
+        "frame": 1600,
+        "animations": {
+          "upstream": 27,
+          "port": 27
+        },
+        "differing": 0,
+        "total": 304500,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [375, 812, 375, 812]
+      },
+      {
+        "scene": "logical",
+        "viewport": "375x812",
+        "frame": "end",
+        "animations": {
+          "upstream": 27,
+          "port": 27
+        },
+        "differing": 0,
+        "total": 304500,
+        "percent": 0,
+        "noiseFloor": 0,
+        "sizes": [375, 812, 375, 812]
+      }
+    ]
+  }
+}
