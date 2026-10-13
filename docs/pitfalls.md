@@ -169,6 +169,7 @@ Design From and Design From Labs (the guards enforce this).
 | [P-156](#p-156) | Site (wall) | Beta demos with headings broke the wall's no-text rule unnoticed |
 | [P-157](#p-157) | Site (beta build) | A variant's direct npm import failed the beta site build |
 | [P-158](#p-158) | Registry (Vite installs) | Stock `aria-nova` `ui/label` fails a fresh Vite app's build |
+| [P-159](#p-159) | CI (registry-install) | A second `astro preview` in the same job never started |
 
 ---
 
@@ -2515,3 +2516,22 @@ Design From and Design From Labs (the guards enforce this).
   failure from the stock file and decide on a pin or workaround there, not by
   turning the template's flags off.
 - Links: `scripts/registry-install-vite-test.sh`
+
+### P-159
+
+- Date: 2026-10-13
+- Area: CI (registry-install)
+- Symptom: The Vite install step failed in about a second at `shadcn add`
+  with no output, after its wait loop had spent the full 60 s polling
+  `http://localhost:4322/r/registry.json`. Locally the same script passed.
+- Cause: The job's first step leaves its `astro preview` on 4321 running.
+  Astro keeps a preview lock per project, so the second `astro preview`
+  printed "Preview server already running" and exited. The wait loop did not
+  fail when the server never answered, and the script hid `shadcn add`'s
+  output.
+- Fix: `--ignore-lock` on the second preview, and the step fails with the
+  preview log when the registry does not answer after the wait.
+- Prevention: Pass `--ignore-lock` to every `astro preview` that may share a
+  job or machine with another one, and end every wait loop with a check that
+  fails loudly. Local runs on a fresh port do not reproduce this.
+- Links: `.github/workflows/ci.yml`

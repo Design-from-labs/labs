@@ -71,7 +71,10 @@ fs.writeFileSync("components.json", JSON.stringify(config, null, 2));
 ' "$BASE"
 
 echo "registry-install-vite: add ${ITEMS[*]}"
-env -u npm_config_user_agent "$SHADCN" add --yes --overwrite "${ITEMS[@]/#/@designfrom/}" >/dev/null
+if ! env -u npm_config_user_agent "$SHADCN" add --yes --overwrite "${ITEMS[@]/#/@designfrom/}" >"$WORK/add.log" 2>&1; then
+  cat "$WORK/add.log"
+  exit 1
+fi
 
 # Every demo on one page, so `vite build` bundles each item's module graph
 # (tsc -b checks all of src either way).
