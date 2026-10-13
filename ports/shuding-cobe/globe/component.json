@@ -1,0 +1,119 @@
+{
+  "title": "Globe",
+  "description": "A dotted WebGL globe with markers and arcs, drawn by COBE, that turns on its own and spins with a spring and momentum when dragged.",
+  "category": "media",
+  "type": "registry:ui",
+  "status": "beta",
+  "upstreamPath": "src/index.js",
+  "iconSets": ["none"],
+  "dependencies": ["cobe@^2.0.1", "motion@>=12.34.0"],
+  "registryDependencies": ["utils", "render-loop"],
+  "files": [
+    {
+      "file": "globe.tsx",
+      "type": "registry:ui"
+    }
+  ],
+  "demo": "demo.tsx",
+  "tile": {
+    "span": 1,
+    "rows": 1
+  },
+  "cssVars": {
+    "light": {
+      "globe-base": "color(srgb 1 1 1)",
+      "globe-marker": "color(srgb 0.2 0.4 1)",
+      "globe-glow": "color(srgb 1 1 1)",
+      "globe-arc": "color(srgb 0.3 0.5 1)",
+      "globe-dark": "0"
+    },
+    "dark": {
+      "globe-base": "color(srgb 0.3 0.3 0.3)",
+      "globe-marker": "color(srgb 1 0.5 1)",
+      "globe-glow": "color(srgb 0.1 0.1 0.1)",
+      "globe-arc": "color(srgb 1 0.5 1)",
+      "globe-dark": "1"
+    }
+  },
+  "credits": [
+    "S-104",
+    "S-003",
+    "S-004",
+    "S-019",
+    "S-020",
+    "S-157",
+    "S-344",
+    "S-346"
+  ],
+  "tags": ["globe", "map", "webgl", "markers", "arcs", "3d"],
+  "props": [
+    {
+      "name": "markers",
+      "type": "{ location: [number, number]; size: number; color?: [number, number, number]; id?: string }[]",
+      "description": "Points at [latitude, longitude] in degrees. An id exposes the anchor --cobe-<id> and the variable --cobe-visible-<id>."
+    },
+    {
+      "name": "arcs",
+      "type": "{ from: [number, number]; to: [number, number]; color?: [number, number, number]; id?: string }[]",
+      "description": "Curves between two points. An id exposes --cobe-arc-<id> and --cobe-visible-arc-<id> at the arc's top."
+    },
+    {
+      "name": "phi",
+      "type": "number",
+      "default": "0",
+      "description": "Starting longitude rotation in radians."
+    },
+    {
+      "name": "theta",
+      "type": "number",
+      "default": "0.2",
+      "description": "Tilt in radians."
+    },
+    {
+      "name": "speed",
+      "type": "number",
+      "default": "0.3",
+      "description": "Auto-rotation in radians per second (0 stops it); 0.8 times as fast under the pointer, paused while dragged or focused."
+    },
+    {
+      "name": "interactive",
+      "type": "boolean",
+      "default": "true",
+      "description": "Drag to spin, with a spring and momentum; with a label, the arrow keys turn and tilt it."
+    },
+    {
+      "name": "label",
+      "type": "string",
+      "description": "Names the globe (role=\"img\"); without it the globe is decorative and stays out of the tab order."
+    },
+    {
+      "name": "options",
+      "type": "GlobeOptions",
+      "description": "Passed to cobe: diffuse (1.2), mapSamples (16000), mapBrightness (6), mapBaseBrightness, arcWidth (0.5), arcHeight (0.3), markerElevation, scale, offset, opacity, dark and colors (which override the tokens)."
+    },
+    {
+      "name": "maxDpr",
+      "type": "number",
+      "default": "2",
+      "description": "Device pixel ratio cap."
+    },
+    {
+      "name": "fallback",
+      "type": "React.ReactNode",
+      "description": "Replaces the static SVG globe shown without WebGL 2 or under reduced motion."
+    },
+    {
+      "name": "children",
+      "type": "React.ReactNode",
+      "description": "Laid over the globe, for labels anchored to marker and arc ids."
+    }
+  ],
+  "a11y": [
+    "With label it is role=\"img\" with that name; without one it is decorative (aria-hidden) and not focusable.",
+    "A labelled, interactive globe is focusable with a visible focus ring: Left and Right turn it 15 degrees, Up and Down tilt it, Home returns to the starting view. The arrows follow the physical direction in right-to-left pages too. Rotation pauses while it has focus.",
+    "Under reduced motion, without WebGL 2 and before the land map has loaded it shows a static SVG globe with the same colors, markers and arcs; nothing moves.",
+    "On touch screens a vertical swipe still scrolls the page; a horizontal one spins the globe."
+  ],
+  "usage": "<Globe markers={[{ location: [37.78, -122.44], size: 0.03 }]} label=\"Where we work\" className=\"max-w-md\" />",
+  "docs": "Installed `Globe` in `components/ui/`, plus the `render-loop` helper in `lib/`; it needs `cobe` and `motion` (installed). Render `<Globe markers={[{ location: [37.78, -122.44], size: 0.03, id: \"sf\" }]} label=\"Where we work\" />`; it is a square that fills its width, so size it with `className=\"max-w-md\"`.\n\nColors come from `--globe-base`, `--globe-marker`, `--globe-glow` and `--globe-arc` (any CSS color) and `--globe-dark` (0 or 1, COBE's `dark`), with light and dark values in your theme; `options` overrides them and passes any other COBE setting. Give markers or arcs an `id` and position children with CSS anchor positioning (`position-anchor: --cobe-sf`, `opacity: var(--cobe-visible-sf, 0)`).\n\nDrawing pauses off screen and in hidden tabs; without WebGL 2 or under reduced motion a static SVG globe shows instead. A wrapper over COBE by Shu Ding (MIT, copyright 2021 Shu Ding); the license text is in the file. COBE draws its land from \"World map blank without borders\" by Crates (Wikimedia Commons, CC BY-SA 4.0), which the `cobe` package embeds; keep that credit where you show the globe."
+}

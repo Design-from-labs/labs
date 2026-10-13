@@ -93,6 +93,10 @@ paths (pitfall P-044); until then they are reviewed on preview deployments.
 | `dmitrykurash-holocloth` | `holo-foil` | dmitrykurash/holocloth, `src/holoMaterial.ts` (material only, no cloth) |
 | `obta1ner-lenticular` | `lenticular` | obta1ner/lenticular, `index.html` (rewritten as React) |
 | `mark-x64-ribbon-shader` | `iridescent-ribbon` | mark-x64/siri-ribbon-shader, `src/ribbon.frag` (renamed, no branding) |
+| `haaarshsingh-halftone-dots` | `dot-halftone` | haaarshsingh/halftone-dots, `src/DotHalftone.tsx` (render-loop, sample art replaced) |
+| `shpigford-dither` | `vector-dither` | Shpigford/dither, `packages/core` (merged core plus a React SVG wrapper; presets renamed) |
+| `shuding-cobe` | `globe` | shuding/cobe, a wrapper over npm `cobe` (render-loop, tokens, drag and keys) |
+| `yousuf-viscose-carousel` | `viscose-carousel` | Yousuf-developer/Viscose-carousel, `components/Carousel.jsx` and `components/ring` (GSAP rewritten with Motion) |
 
 | `joshpuckett-stepper` | `stepper` | Josh Puckett's fluid stepper, `packages/*/src` (core, React adapter, stylesheet; the package name is not written here, the guard matches it) |
 | `magic-spells-bottom-sheet` | `bottom-sheet` | magic-spells/bottom-sheet `src` with dialog-panel and physics-engine (web components rewritten as React; variants shape, primitives) |

@@ -1,0 +1,93 @@
+{
+  "$schema": "https://labs.designfrom.com/schemas/meta.schema.json",
+  "schemaVersion": 1,
+  "name": "dot-halftone",
+  "kind": "component",
+  "title": "Dot Halftone",
+  "description": "Any image recreated as a field of dots on one canvas, sized by ink coverage, morphing between images with a radial implode and explode wave.",
+  "status": "beta",
+  "category": "media",
+  "label": "haaarshsingh halftone-dots",
+  "variants": [
+    {
+      "name": "dot-halftone",
+      "primitive": "none",
+      "iconSet": "none",
+      "status": "beta"
+    }
+  ],
+  "defaultVariant": "dot-halftone",
+  "demo": "demo.tsx",
+  "preview": "preview.webp",
+  "source": {
+    "repo": "https://github.com/haaarshsingh/halftone-dots",
+    "commit": "21ddfbdae84cf632dcb9cf617668c83a6f89723b",
+    "path": "src/DotHalftone.tsx"
+  },
+  "author": "Harsh Singh <https://github.com/haaarshsingh>",
+  "license": "MIT",
+  "attribution": "Copyright (c) 2026 Harsh Singh. MIT License.",
+  "credits": [
+    "S-340",
+    "S-003",
+    "S-004",
+    "S-019",
+    "S-020",
+    "S-157",
+    "S-288",
+    "S-344"
+  ],
+  "date": "2026-10-13",
+  "tile": {
+    "span": 1,
+    "rows": 1
+  },
+  "loop": {
+    "hydrate": true,
+    "script": "click[1] → wait → click[2] → wait → click[3] → wait → click[0] → wait",
+    "duration": 8000
+  },
+  "tags": [
+    "halftone",
+    "dots",
+    "canvas",
+    "image",
+    "morph",
+    "effect"
+  ],
+  "props": [
+    {
+      "name": "src",
+      "type": "string",
+      "required": true,
+      "description": "The image to recreate as dots (same origin, CORS or a data URL). Changing it plays the morph. Images on white or transparent backgrounds work best: white is keyed out."
+    },
+    {
+      "name": "gradient",
+      "type": "readonly [string, string]",
+      "description": "A top-to-bottom pair of hex colors that recolors the dots; without it each dot takes the image's ink color."
+    },
+    {
+      "name": "accent",
+      "type": "string",
+      "default": "\"var(--dot-halftone-accent, #5b21ff)\"",
+      "description": "Color of the corner dot clusters."
+    },
+    {
+      "name": "alt",
+      "type": "string",
+      "description": "Describes the picture; without it the halftone is decorative (aria-hidden)."
+    },
+    {
+      "name": "fallback",
+      "type": "React.ReactNode",
+      "description": "Replaces the static picture shown before the first frame (and in the server render)."
+    }
+  ],
+  "a11y": [
+    "With alt it is role=\"img\" with that name; without it the whole picture is decorative. The corner clusters and the dotted backdrop are always aria-hidden.",
+    "Reduced motion: the dots are drawn at once, without the morph.",
+    "Before the dots are drawn (and in the server render) the image shows through a CSS dot screen, so the picture reads without JavaScript."
+  ],
+  "usage": "<DotHalftone src=\"/rocket.png\" gradient={[\"#ff6ea6\", \"#7b2ff7\"]} alt=\"A rocket drawn in dots\" className=\"max-w-sm\" />"
+}

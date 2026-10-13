@@ -1304,3 +1304,13 @@ sources:
     visibility: public
     note: "Cited for why GSAP code is not ported or depended on; nothing from GSAP ships."
     used-in: [sources.yaml, docs/evidence/ports/viscose-carousel]
+  - id: S-346
+    title: "World map blank without borders (the land map COBE samples its dots from)"
+    author: "Crates (Wikimedia Commons)"
+    kind: design-reference
+    url: "https://commons.wikimedia.org/wiki/File:World_map_blank_without_borders.svg"
+    license: "CC-BY-SA-4.0 (or GFDL-1.2-or-later)"
+    accessed: 2026-10-13
+    visibility: public
+    note: "Embedded by the cobe npm package as a small bitmap and credited in its README; no file of this repository contains it. Credited because every rendered globe shows it."
+    used-in: [content/components/shuding-cobe/globe, docs/evidence/ports/globe]

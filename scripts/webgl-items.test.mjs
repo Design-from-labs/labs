@@ -13,6 +13,7 @@ const EFFECTS = [
   "holo-foil",
   "lenticular",
   "iridescent-ribbon",
+  "globe",
 ];
 const items = loadComponents().flatMap((entry) =>
   [...entry.items.values()].map((item) => ({

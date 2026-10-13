@@ -1,0 +1,74 @@
+{
+  "title": "Dot Halftone",
+  "description": "Any image recreated as a field of dots on one canvas, sized by ink coverage, morphing between images with a radial implode and explode wave.",
+  "category": "media",
+  "type": "registry:ui",
+  "status": "beta",
+  "upstreamPath": "src/DotHalftone.tsx",
+  "iconSets": ["none"],
+  "registryDependencies": ["utils", "render-loop"],
+  "files": [
+    {
+      "file": "dot-halftone.tsx",
+      "type": "registry:ui"
+    }
+  ],
+  "demo": "demo.tsx",
+  "tile": {
+    "span": 1,
+    "rows": 1
+  },
+  "loop": {
+    "hydrate": true,
+    "script": "click[1] → wait → click[2] → wait → click[3] → wait → click[0] → wait",
+    "duration": 8000
+  },
+  "cssVars": {
+    "light": {
+      "dot-halftone-accent": "#5b21ff",
+      "dot-halftone-grid": "rgba(20, 16, 40, 0.18)"
+    },
+    "dark": {
+      "dot-halftone-accent": "#5b21ff",
+      "dot-halftone-grid": "rgba(236, 234, 244, 0.18)"
+    }
+  },
+  "credits": ["S-003", "S-004", "S-019", "S-020", "S-157", "S-288", "S-344"],
+  "tags": ["halftone", "dots", "canvas", "image", "morph", "effect"],
+  "props": [
+    {
+      "name": "src",
+      "type": "string",
+      "required": true,
+      "description": "The image to recreate as dots (same origin, CORS or a data URL). Changing it plays the morph. Images on white or transparent backgrounds work best: white is keyed out."
+    },
+    {
+      "name": "gradient",
+      "type": "readonly [string, string]",
+      "description": "A top-to-bottom pair of hex colors that recolors the dots; without it each dot takes the image's ink color."
+    },
+    {
+      "name": "accent",
+      "type": "string",
+      "default": "\"var(--dot-halftone-accent, #5b21ff)\"",
+      "description": "Color of the corner dot clusters."
+    },
+    {
+      "name": "alt",
+      "type": "string",
+      "description": "Describes the picture; without it the halftone is decorative (aria-hidden)."
+    },
+    {
+      "name": "fallback",
+      "type": "React.ReactNode",
+      "description": "Replaces the static picture shown before the first frame (and in the server render)."
+    }
+  ],
+  "a11y": [
+    "With alt it is role=\"img\" with that name; without it the whole picture is decorative. The corner clusters and the dotted backdrop are always aria-hidden.",
+    "Reduced motion: the dots are drawn at once, without the morph.",
+    "Before the dots are drawn (and in the server render) the image shows through a CSS dot screen, so the picture reads without JavaScript."
+  ],
+  "usage": "<DotHalftone src=\"/rocket.png\" gradient={[\"#ff6ea6\", \"#7b2ff7\"]} alt=\"A rocket drawn in dots\" className=\"max-w-sm\" />",
+  "docs": "Installed `DotHalftone` in `components/ui/`, plus the `render-loop` helper in `lib/`. Render `<DotHalftone src=\"/rocket.png\" alt=\"A rocket drawn in dots\" className=\"max-w-sm\" />`; it is square and as wide as its container by default, so size it with `className`. Change `src` to play the morph.\n\nThe dots and the corner clusters draw 24 px outside the box and the dotted backdrop 40 px outside it, so leave room around it. Colors: `gradient` recolors the dots, `--dot-halftone-accent` the corner clusters and `--dot-halftone-grid` the dotted backdrop. Drawing pauses off screen and in hidden tabs; under reduced motion the dots appear without the morph.\n\nPorted from haaarshsingh/halftone-dots (MIT, copyright 2026 Harsh Singh); the license text is in the file."
+}
