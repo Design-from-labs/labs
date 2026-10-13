@@ -31,7 +31,15 @@
     "S-170",
     "S-003"
   ],
-  "date": "2026-10-13",
+  "date": "2026-10-12",
+  "tile": {
+    "span": 2,
+    "rows": 2
+  },
+  "loop": {
+    "hydrate": true,
+    "duration": 6000
+  },
   "tags": [
     "chart",
     "canvas",

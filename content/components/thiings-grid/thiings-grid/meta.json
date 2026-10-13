@@ -32,7 +32,14 @@
     "S-003",
     "S-008"
   ],
-  "date": "2026-10-13",
+  "date": "2026-10-12",
+  "tile": {
+    "span": 2,
+    "rows": 2
+  },
+  "loop": {
+    "hydrate": true
+  },
   "tags": [
     "infinite-canvas",
     "pan",

@@ -75,6 +75,7 @@ export default function LivelineDemo() {
   const [points, setPoints] = useState<LivelinePoint[]>([]);
   const [lineMode, setLineMode] = useState(true);
   const last = useRef(100);
+  const root = useRef<HTMLDivElement>(null);
 
   // Sample data is generated on the client only, so the server render
   // (the loading state) matches the first client render.
@@ -89,6 +90,11 @@ export default function LivelineDemo() {
     last.current = v;
     setPoints(seed);
     const id = window.setInterval(() => {
+      // On the gallery wall the tile pauses offscreen, in a hidden tab, under
+      // reduced motion and when the visitor pauses animations.
+      if (root.current?.closest("[data-loop-paused]")) {
+        return;
+      }
       last.current = step(last.current);
       const point = { time: Date.now() / 1000, value: last.current };
       setPoints((prev) => [...prev.slice(-400), point]);
@@ -101,7 +107,10 @@ export default function LivelineDemo() {
 
   return (
     // A flex column lets the chart fill the space below its controls.
-    <div className="flex h-72 w-full flex-col overflow-hidden rounded-xl border bg-card p-2">
+    <div
+      ref={root}
+      className="flex h-72 w-full flex-col overflow-hidden rounded-xl border bg-card p-2"
+    >
       <Liveline
         aria-label="Sample live value"
         mode="candle"

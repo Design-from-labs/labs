@@ -29,9 +29,9 @@ test("the gallery renders server-side demos without hydrating", async ({
 }) => {
   await page.goto("/ui");
   const gallery = page.getByTestId("gallery");
-  await expect(gallery.getByRole("link", { name: "Button" })).toBeVisible();
-  await expect(gallery.getByRole("link", { name: "Badge" })).toBeVisible();
-  await expect(gallery.getByRole("link", { name: "Tooltip" })).toBeVisible();
+  await expect(gallery.getByRole("link", { name: /^Button: / })).toBeVisible();
+  await expect(gallery.getByRole("link", { name: /^Badge: / })).toBeVisible();
+  await expect(gallery.getByRole("link", { name: /^Tooltip: / })).toBeVisible();
   // The tile previews are real markup from the demos, not images.
   await expect(
     gallery.locator("button", { hasText: "Save changes" }),

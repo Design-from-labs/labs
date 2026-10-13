@@ -41,6 +41,13 @@
     "S-008"
   ],
   "date": "2026-10-12",
+  "tile": {
+    "span": 2,
+    "rows": 3
+  },
+  "loop": {
+    "hydrate": true
+  },
   "tags": [
     "timeline",
     "history",

@@ -199,5 +199,12 @@
     "The desktop time axis runs left to right in every writing direction (a numeric axis); text inside follows its own direction. The vertical layout mirrors in right-to-left.",
     "Contrast (fidelity default, contrast on request): light mode meets WCAG AA. The dark defaults keep upstream's muted grays for labels, ages, the legend and names (--lifeline-label, --lifeline-text: about 2.7:1 and 4.3:1 on black), a known deviation from AA kept for fidelity; under prefers-contrast: more they lift to about 8:1, and under forced colors they use the system text color. Set those two tokens in .dark to make the higher contrast the default."
   ],
-  "usage": "<Lifeline mode=\"embed\" markers={life.markers} birthYear={life.birthYear} title={life.name} className=\"h-full\" />"
+  "usage": "<Lifeline mode=\"embed\" markers={life.markers} birthYear={life.birthYear} title={life.name} className=\"h-full\" />",
+  "tile": {
+    "span": 2,
+    "rows": 3
+  },
+  "loop": {
+    "hydrate": true
+  }
 }
