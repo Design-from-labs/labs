@@ -1,0 +1,149 @@
+{
+  "title": "Stepper",
+  "description": "Dots whose active step stretches into a pill, with an optional autoplay fill, windowing for long flows and a vertical layout. Pure CSS transitions.",
+  "category": "navigation",
+  "type": "registry:ui",
+  "status": "beta",
+  "upstreamPath": "packages/*/src (core, react, styles)",
+  "iconSets": ["none"],
+  "files": [
+    {
+      "file": "stepper.tsx",
+      "type": "registry:ui"
+    },
+    {
+      "file": "stepper-core.ts",
+      "type": "registry:ui"
+    }
+  ],
+  "cssVars": {
+    "light": {
+      "stepper-dot-size": "8px",
+      "stepper-active-width": "24px",
+      "stepper-gap": "6px",
+      "stepper-bg": "rgba(0, 0, 0, 0.12)",
+      "stepper-active-bg": "rgba(0, 0, 0, 0.8)",
+      "stepper-fill-bg": "rgba(255, 255, 255, 0.45)",
+      "stepper-container-bg": "rgba(0, 0, 0, 0.04)",
+      "stepper-container-border": "rgba(0, 0, 0, 0.06)",
+      "stepper-container-radius": "999px",
+      "stepper-focus-ring": "rgba(0, 0, 0, 0.3)"
+    },
+    "dark": {
+      "stepper-dot-size": "8px",
+      "stepper-active-width": "24px",
+      "stepper-gap": "6px",
+      "stepper-bg": "rgba(255, 255, 255, 0.15)",
+      "stepper-active-bg": "rgba(255, 255, 255, 0.9)",
+      "stepper-fill-bg": "rgba(255, 255, 255, 0.3)",
+      "stepper-container-bg": "rgba(255, 255, 255, 0.1)",
+      "stepper-container-border": "rgba(255, 255, 255, 0.12)",
+      "stepper-container-radius": "999px",
+      "stepper-focus-ring": "rgba(255, 255, 255, 0.5)"
+    }
+  },
+  "demo": "demo.tsx",
+  "stage": {
+    "device": "phone",
+    "slot": "inline",
+    "height": 560
+  },
+  "tile": {
+    "span": 1,
+    "rows": 2
+  },
+  "loop": {
+    "hydrate": true,
+    "script": "click[0] → wait → wait → wait → wait",
+    "duration": 10000
+  },
+  "credits": [
+    "S-407",
+    "S-003",
+    "S-004",
+    "S-014",
+    "S-015",
+    "S-024",
+    "S-047",
+    "S-152",
+    "S-153",
+    "S-155",
+    "S-156",
+    "S-157",
+    "S-158",
+    "S-161",
+    "S-184"
+  ],
+  "tags": ["stepper", "progress", "dots", "carousel", "onboarding", "autoplay"],
+  "props": [
+    {
+      "name": "count",
+      "type": "number",
+      "description": "Total number of steps."
+    },
+    {
+      "name": "active",
+      "type": "number",
+      "description": "Zero-based active step. The stepper is controlled: update it from onStepClick or useAutoPlay."
+    },
+    {
+      "name": "onStepClick",
+      "type": "(index: number) => void",
+      "description": "Makes the steps buttons (arrow keys, Home and End move between them). Without it the stepper is a progress indicator."
+    },
+    {
+      "name": "orientation",
+      "type": "\"horizontal\" | \"vertical\"",
+      "default": "\"horizontal\"",
+      "description": "Layout direction."
+    },
+    {
+      "name": "maxVisible",
+      "type": "number",
+      "description": "Steps shown before the row windows around the active one. Assumes the default dot, pill and gap sizes."
+    },
+    {
+      "name": "transitionDuration / easing",
+      "type": "number / string",
+      "default": "500 / \"cubic-bezier(0.215, 0.61, 0.355, 1)\"",
+      "description": "Length in ms and timing function of the pill and dot transitions."
+    },
+    {
+      "name": "filling / fillDuration",
+      "type": "boolean / number",
+      "default": "false / 3000",
+      "description": "Fill the active pill over fillDuration ms (pass both from useAutoPlay)."
+    },
+    {
+      "name": "getStepLabel",
+      "type": "(index: number, count: number) => string",
+      "default": "\"Step 2 of 5\"",
+      "description": "Accessible name of each step, for translations."
+    },
+    {
+      "name": "aria-label",
+      "type": "string",
+      "default": "\"Progress steps\"",
+      "description": "Name of the group (with onStepClick) or of the indicator, which also reads the current step."
+    },
+    {
+      "name": "...props",
+      "type": "React.ComponentProps<\"div\">",
+      "description": "Other attributes go on the container; className and style are where to set the --stepper-* variables."
+    },
+    {
+      "name": "useAutoPlay(options)",
+      "type": "{ count, active, onStepChange, stepDuration?: 3000, loop?: true, enabled?: true, autoStart?: false, paused?: false } => { playing, toggle, filling, fillDuration }",
+      "description": "Advances active every stepDuration while playing. autoStart starts it on mount unless the user prefers reduced motion; paused holds it (no timer, no fill) without stopping it."
+    }
+  ],
+  "a11y": [
+    "With onStepClick the steps are native buttons named \"Step 2 of 5\" in a labelled group; the active one has aria-current=\"step\" and is the only one in the tab order. Arrow keys (mirrored in right to left, Up and Down when vertical) move to the next or previous step and select it; Home and End jump to the ends (Labs additions; upstream used tab roles without panels and had no arrow keys).",
+    "Without onStepClick the stepper is one labelled image that reads the current step (\"Progress steps: Step 2 of 5\"); its dots are not focusable.",
+    "Under prefers-reduced-motion every transition and the autoplay fill resolve at once, and useAutoPlay's autoStart does not start playback.",
+    "Anything that autoplays for more than five seconds needs a visible pause control (WCAG 2.2.2): render a button that calls toggle, as the demo does.",
+    "Fidelity default, contrast on request: upstream's inactive dots (1.3:1 against the container) and focus ring (2.1:1 against white) are kept, and lifted under prefers-contrast: more (a ring in the active color, 11.9:1) and forced colors (system colors, outlined dots). Raise --stepper-bg and --stepper-focus-ring to lift them for everyone."
+  ],
+  "usage": "<Stepper count={5} active={active} onStepClick={setActive} />",
+  "docs": "Installed `Stepper` and `useAutoPlay` (`@/components/ui/stepper`) and the framework-free core they use (`@/components/ui/stepper-core`).\n\n```tsx\nimport { Stepper } from \"@/components/ui/stepper\";\n\nconst [active, setActive] = useState(0);\n\n<Stepper count={5} active={active} onStepClick={setActive} />\n```\n\nAutoplay, with a pause control:\n\n```tsx\nimport { Stepper, useAutoPlay } from \"@/components/ui/stepper\";\n\nconst { playing, toggle, filling, fillDuration } = useAutoPlay({\n  count: 5,\n  active,\n  onStepChange: setActive,\n  stepDuration: 3000,\n});\n\n<Stepper count={5} active={active} filling={filling} fillDuration={fillDuration} />\n<button onClick={toggle}>{playing ? \"Pause\" : \"Play\"}</button>\n```\n\nThe styles live in the component file; React 19 hoists them into `<head>` once, so no CSS import is needed. Theme it with the item's variables (`--stepper-bg`, `--stepper-active-bg`, `--stepper-fill-bg`, `--stepper-container-bg`, `--stepper-container-border`, `--stepper-container-radius`, `--stepper-dot-size`, `--stepper-active-width`, `--stepper-gap`, `--stepper-focus-ring`), added to your theme for light and dark, or per instance through `className` or `style` (for example `className=\"[--stepper-active-bg:var(--primary)]\"`). Windowing (`maxVisible`) assumes the default dot, pill and gap sizes.\n\nPorted from Josh Puckett's fluid stepper (MIT); the license notice is at the end of every file."
+}

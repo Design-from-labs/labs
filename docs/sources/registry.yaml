@@ -1112,3 +1112,140 @@ sources:
     accessed: 2026-10-13
     visibility: public
     used-in: [package.json, docs/decisions/0023-stock-shadcn-for-demos.md]
+  - id: S-400
+    title: "Josh Puckett: a tiny, themeable, dependency-free fluid stepper (React and Vue)"
+    author: "Josh Puckett"
+    kind: library
+    url: "https://github.com/joshpuckett"
+    license: "MIT"
+    accessed: 2026-10-13
+    visibility: public
+    used-in: [sources.yaml, ports/joshpuckett-stepper, content/components/joshpuckett-stepper/stepper]
+    note: "Ported at commit 764823ffdcc21f44d5205b8e9e995707d4f72756 (packages/*/src: core, react, styles). The repository and package name are not written here because the external-reference guard matches it."
+  - id: S-401
+    title: "bottom-sheet: a bottom sheet web component with snap points and drag gestures"
+    author: "Cory Schulz (Magic Spells)"
+    kind: library
+    url: "https://github.com/magic-spells/bottom-sheet"
+    license: "MIT"
+    accessed: 2026-10-13
+    visibility: public
+    used-in: [sources.yaml, ports/magic-spells-bottom-sheet, content/components/magic-spells-bottom-sheet/bottom-sheet]
+    note: "Rewritten as React from commit 75b6ca04d93a11d83918a54cb3562a1a6d906242 (src)."
+  - id: S-402
+    title: "dialog-panel: a web component around the native dialog element with state-driven animations"
+    author: "Cory Schulz (Magic Spells)"
+    kind: library
+    url: "https://github.com/magic-spells/dialog-panel"
+    license: "MIT"
+    accessed: 2026-10-13
+    visibility: public
+    used-in: [ports/magic-spells-bottom-sheet, content/components/magic-spells-bottom-sheet/bottom-sheet]
+    note: "The dialog layer under bottom-sheet; read at commit 07c81f7dc883ddfe7aed7b73c2f614130746665d and as vendored in the bottom-sheet demo."
+  - id: S-403
+    title: "driver.js: guided product tours and element highlighting"
+    author: "Kamran Ahmed"
+    kind: library
+    url: "https://github.com/nilbuild/driver.js"
+    license: "MIT"
+    accessed: 2026-10-13
+    visibility: public
+    used-in: [sources.yaml, package.json, ports/driver-js, content/components/driver-js/product-tour]
+    note: "The item depends on npm driver.js 1.9.0 (tag 1.9.0, commit cc398049bde916d7e256f72a3f84e5eb4ba14506) and wraps it; its stylesheet (src/popover.css and the tour rules of src/driver.css) is adapted into the item with component tokens and logical properties."
+  - id: S-404
+    title: "SimplePlayer: a framework-free video player web component"
+    author: "grizz"
+    kind: library
+    url: "https://github.com/grizzshutsdown/simpleplayer"
+    license: "MIT"
+    accessed: 2026-10-13
+    visibility: public
+    used-in: [sources.yaml, ports/simpleplayer, content/components/simpleplayer/video-player]
+    note: "Rewritten as React from commit 53935947011aacc739012a858238ba3495216c26 (src/player). Its bundled font and logos are not used."
+  - id: S-405
+    title: "kumo flow components (Cloudflare's component library)"
+    author: "Cloudflare, Inc."
+    kind: library
+    url: "https://github.com/cloudflare/kumo"
+    license: "MIT"
+    accessed: 2026-10-13
+    visibility: public
+    used-in: [sources.yaml, ports/cloudflare-kumo, content/components/cloudflare-kumo/flow-diagram]
+    note: "Ported at commit f46e8bc9922c37dc1d3e7da779e589fe171df306 (packages/kumo/src/components/flow); the component is de-branded."
+  - id: S-406
+    title: "Lisse: smooth-corner SVG primitives (core and React)"
+    author: "Jace Attard"
+    kind: library
+    url: "https://github.com/JaceThings/Lisse"
+    license: "MIT"
+    accessed: 2026-10-13
+    visibility: public
+    used-in: [sources.yaml, ports/lisse, content/components/lisse/smooth-corners]
+    note: "Ported at commit 173846978ed806e14c78154ec914a9645a991932 (packages/core/src and packages/react/src)."
+  - id: S-407
+    title: "Owner brief: port batch I (stepper, bottom sheet, product tour, video player, flow diagram, smooth corners)"
+    author: "Owner"
+    kind: brief
+    private-file: "Owner instructions relayed to port pod I; not in the repository"
+    license: "All rights reserved (owner)"
+    accessed: 2026-10-13
+    visibility: private-cited-only
+    used-in: [docs/evidence/ports, content/components]
+  - id: S-412
+    title: "Desperately seeking squircles (the cubic-shoulder squircle construction the default curve follows)"
+    author: "Daniel Furse"
+    kind: article
+    url: "https://www.figma.com/blog/desperately-seeking-squircles/"
+    license: "All rights reserved (reference only)"
+    accessed: 2026-10-13
+    visibility: public
+    used-in: [content/components/lisse/smooth-corners, docs/evidence/ports/smooth-corners]
+    note: "Cited by upstream in its corner-parameter comments; the port's comments describe the construction without the link."
+  - id: S-413
+    title: "MartinRGB: squircle approximation (cubic-shoulder corner parameters)"
+    author: "MartinRGB"
+    kind: library
+    url: "https://github.com/MartinRGB/Figma_Squircles_Approximation"
+    license: "MIT"
+    accessed: 2026-10-13
+    visibility: public
+    used-in: [content/components/lisse/smooth-corners, docs/evidence/ports/smooth-corners]
+    note: "Cited by upstream as the basis of getPathParamsForCorner; no code is taken from it directly."
+  - id: S-411
+    title: "FFmpeg"
+    author: "The FFmpeg developers"
+    kind: library
+    url: "https://ffmpeg.org/"
+    license: "LGPL-2.1-or-later"
+    accessed: 2026-10-13
+    visibility: public
+    used-in: [content/components/simpleplayer/video-player, public/demo-media/video-player, docs/evidence/ports/video-player]
+    note: "Generated the original test-pattern video (lavfi testsrc2 and sine sources, H.264 and AAC) used by the demo and the fidelity run; no FFmpeg code is shipped."
+  - id: S-408
+    title: "physics-engine: a small spring integrator (the settle animation under bottom-sheet)"
+    author: "Cory Schulz (Magic Spells)"
+    kind: library
+    url: "https://github.com/magic-spells/physics-engine"
+    license: "MIT"
+    accessed: 2026-10-13
+    visibility: public
+    used-in: [ports/magic-spells-bottom-sheet, content/components/magic-spells-bottom-sheet/bottom-sheet, docs/evidence/ports/bottom-sheet]
+    note: "Read as npm @magic-spells/physics-engine 1.0.0 (gitHead d1cf5fa81c20ce484f85399e2e5c23576dfe71bc); the spring is rewritten in spring.ts."
+  - id: S-409
+    title: "WAI-ARIA 1.2: aria-expanded and aria-haspopup (supported roles)"
+    author: "W3C"
+    kind: doc
+    url: "https://www.w3.org/TR/wai-aria-1.2/#aria-expanded"
+    license: "W3C Software and Document License"
+    accessed: 2026-10-13
+    visibility: public
+    used-in: [content/components/driver-js/product-tour, docs/evidence/ports/product-tour]
+  - id: S-410
+    title: "WAI-ARIA Authoring Practices: Dialog (Modal) pattern"
+    author: "W3C"
+    kind: doc
+    url: "https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/"
+    license: "W3C Software and Document License"
+    accessed: 2026-10-13
+    visibility: public
+    used-in: [content/components/driver-js/product-tour, docs/evidence/ports/product-tour]

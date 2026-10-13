@@ -1,0 +1,438 @@
+{
+  "method": "stage box (320x160) and whole viewport, pixelmatch threshold 0.1; see fidelity.md",
+  "frames": {
+    "quick-0@1280x800": {
+      "against": "upstream",
+      "stagePixels": 0,
+      "stagePercent": 0,
+      "framePixels": 0,
+      "framePercent": 0
+    },
+    "quick-0@375x812": {
+      "against": "upstream",
+      "stagePixels": 0,
+      "stagePercent": 0,
+      "framePixels": 0,
+      "framePercent": 0
+    },
+    "quick-1@1280x800": {
+      "against": "upstream",
+      "stagePixels": 0,
+      "stagePercent": 0,
+      "framePixels": 0,
+      "framePercent": 0
+    },
+    "quick-1@375x812": {
+      "against": "upstream",
+      "stagePixels": 0,
+      "stagePercent": 0,
+      "framePixels": 0,
+      "framePercent": 0
+    },
+    "quick-2@1280x800": {
+      "against": "upstream",
+      "stagePixels": 0,
+      "stagePercent": 0,
+      "framePixels": 0,
+      "framePercent": 0
+    },
+    "quick-2@375x812": {
+      "against": "upstream",
+      "stagePixels": 0,
+      "stagePercent": 0,
+      "framePixels": 0,
+      "framePercent": 0
+    },
+    "quick-3@1280x800": {
+      "against": "upstream",
+      "stagePixels": 0,
+      "stagePercent": 0,
+      "framePixels": 0,
+      "framePercent": 0
+    },
+    "quick-3@375x812": {
+      "against": "upstream",
+      "stagePixels": 0,
+      "stagePercent": 0,
+      "framePixels": 0,
+      "framePercent": 0
+    },
+    "quick-4@1280x800": {
+      "against": "upstream",
+      "stagePixels": 0,
+      "stagePercent": 0,
+      "framePixels": 0,
+      "framePercent": 0
+    },
+    "quick-4@375x812": {
+      "against": "upstream",
+      "stagePixels": 0,
+      "stagePercent": 0,
+      "framePixels": 0,
+      "framePercent": 0
+    },
+    "to-3-at-100ms@1280x800": {
+      "against": "upstream",
+      "stagePixels": 0,
+      "stagePercent": 0,
+      "framePixels": 0,
+      "framePercent": 0
+    },
+    "to-3-at-100ms@375x812": {
+      "against": "upstream",
+      "stagePixels": 0,
+      "stagePercent": 0,
+      "framePixels": 0,
+      "framePercent": 0
+    },
+    "to-3-at-250ms@1280x800": {
+      "against": "upstream",
+      "stagePixels": 0,
+      "stagePercent": 0,
+      "framePixels": 0,
+      "framePercent": 0
+    },
+    "to-3-at-250ms@375x812": {
+      "against": "upstream",
+      "stagePixels": 0,
+      "stagePercent": 0,
+      "framePixels": 0,
+      "framePercent": 0
+    },
+    "to-3-at-400ms@1280x800": {
+      "against": "upstream",
+      "stagePixels": 0,
+      "stagePercent": 0,
+      "framePixels": 0,
+      "framePercent": 0
+    },
+    "to-3-at-400ms@375x812": {
+      "against": "upstream",
+      "stagePixels": 0,
+      "stagePercent": 0,
+      "framePixels": 0,
+      "framePercent": 0
+    },
+    "autoplay-fill-at-1500ms@1280x800": {
+      "against": "upstream",
+      "stagePixels": 0,
+      "stagePercent": 0,
+      "framePixels": 0,
+      "framePercent": 0
+    },
+    "autoplay-fill-at-1500ms@375x812": {
+      "against": "upstream",
+      "stagePixels": 0,
+      "stagePercent": 0,
+      "framePixels": 0,
+      "framePercent": 0
+    },
+    "autoplay-fill-at-2700ms-step-3@1280x800": {
+      "against": "upstream",
+      "stagePixels": 0,
+      "stagePercent": 0,
+      "framePixels": 0,
+      "framePercent": 0
+    },
+    "autoplay-fill-at-2700ms-step-3@375x812": {
+      "against": "upstream",
+      "stagePixels": 0,
+      "stagePercent": 0,
+      "framePixels": 0,
+      "framePercent": 0
+    },
+    "autoplay-advance-at-200ms@1280x800": {
+      "against": "upstream",
+      "stagePixels": 0,
+      "stagePercent": 0,
+      "framePixels": 0,
+      "framePercent": 0
+    },
+    "autoplay-advance-at-200ms@375x812": {
+      "against": "upstream",
+      "stagePixels": 0,
+      "stagePercent": 0,
+      "framePixels": 0,
+      "framePercent": 0
+    },
+    "window-6@1280x800": {
+      "against": "upstream",
+      "stagePixels": 0,
+      "stagePercent": 0,
+      "framePixels": 0,
+      "framePercent": 0
+    },
+    "window-6@375x812": {
+      "against": "upstream",
+      "stagePixels": 0,
+      "stagePercent": 0,
+      "framePixels": 0,
+      "framePercent": 0
+    },
+    "window-to-8-at-250ms@1280x800": {
+      "against": "upstream",
+      "stagePixels": 0,
+      "stagePercent": 0,
+      "framePixels": 0,
+      "framePercent": 0
+    },
+    "window-to-8-at-250ms@375x812": {
+      "against": "upstream",
+      "stagePixels": 0,
+      "stagePercent": 0,
+      "framePixels": 0,
+      "framePercent": 0
+    },
+    "vertical-3@1280x800": {
+      "against": "upstream",
+      "stagePixels": 0,
+      "stagePercent": 0,
+      "framePixels": 0,
+      "framePercent": 0
+    },
+    "vertical-3@375x812": {
+      "against": "upstream",
+      "stagePixels": 0,
+      "stagePercent": 0,
+      "framePixels": 0,
+      "framePercent": 0
+    },
+    "vertical-to-1-at-250ms@1280x800": {
+      "against": "upstream",
+      "stagePixels": 0,
+      "stagePercent": 0,
+      "framePixels": 0,
+      "framePercent": 0
+    },
+    "vertical-to-1-at-250ms@375x812": {
+      "against": "upstream",
+      "stagePixels": 0,
+      "stagePercent": 0,
+      "framePixels": 0,
+      "framePercent": 0
+    },
+    "enter-6-at-150ms@1280x800": {
+      "against": "upstream",
+      "stagePixels": 0,
+      "stagePercent": 0,
+      "framePixels": 0,
+      "framePercent": 0
+    },
+    "enter-6-at-150ms@375x812": {
+      "against": "upstream",
+      "stagePixels": 0,
+      "stagePercent": 0,
+      "framePixels": 0,
+      "framePercent": 0
+    },
+    "exit-4-at-100ms@1280x800": {
+      "against": "upstream",
+      "stagePixels": 0,
+      "stagePercent": 0,
+      "framePixels": 0,
+      "framePercent": 0
+    },
+    "exit-4-at-100ms@375x812": {
+      "against": "upstream",
+      "stagePixels": 0,
+      "stagePercent": 0,
+      "framePixels": 0,
+      "framePercent": 0
+    },
+    "dark-2@1280x800": {
+      "against": "upstream",
+      "stagePixels": 0,
+      "stagePercent": 0,
+      "framePixels": 0,
+      "framePercent": 0
+    },
+    "dark-2@375x812": {
+      "against": "upstream",
+      "stagePixels": 0,
+      "stagePercent": 0,
+      "framePixels": 0,
+      "framePercent": 0
+    },
+    "dark-fill-at-1500ms@1280x800": {
+      "against": "upstream",
+      "stagePixels": 0,
+      "stagePercent": 0,
+      "framePixels": 0,
+      "framePercent": 0
+    },
+    "dark-fill-at-1500ms@375x812": {
+      "against": "upstream",
+      "stagePixels": 0,
+      "stagePercent": 0,
+      "framePixels": 0,
+      "framePercent": 0
+    },
+    "reduced-to-3@1280x800": {
+      "against": "upstream",
+      "stagePixels": 0,
+      "stagePercent": 0,
+      "framePixels": 0,
+      "framePercent": 0
+    },
+    "reduced-to-3@375x812": {
+      "against": "upstream",
+      "stagePixels": 0,
+      "stagePercent": 0,
+      "framePixels": 0,
+      "framePercent": 0
+    },
+    "reduced-autoplay@1280x800": {
+      "against": "upstream",
+      "stagePixels": 0,
+      "stagePercent": 0,
+      "framePixels": 0,
+      "framePercent": 0
+    },
+    "reduced-autoplay@375x812": {
+      "against": "upstream",
+      "stagePixels": 0,
+      "stagePercent": 0,
+      "framePixels": 0,
+      "framePercent": 0
+    },
+    "control-to-3-at-250ms@1280x800": {
+      "against": "upstream (control)",
+      "stagePixels": 0,
+      "stagePercent": 0,
+      "framePixels": 0,
+      "framePercent": 0
+    },
+    "control-to-3-at-250ms@375x812": {
+      "against": "upstream (control)",
+      "stagePixels": 0,
+      "stagePercent": 0,
+      "framePixels": 0,
+      "framePercent": 0
+    },
+    "control-autoplay-advance-at-200ms@1280x800": {
+      "against": "upstream (control)",
+      "stagePixels": 0,
+      "stagePercent": 0,
+      "framePixels": 0,
+      "framePercent": 0
+    },
+    "control-autoplay-advance-at-200ms@375x812": {
+      "against": "upstream (control)",
+      "stagePixels": 0,
+      "stagePercent": 0,
+      "framePixels": 0,
+      "framePercent": 0
+    },
+    "rtl-quick-2@1280x800": {
+      "against": "port ltr, mirrored",
+      "stagePixels": 0,
+      "stagePercent": 0,
+      "framePixels": null,
+      "framePercent": null
+    },
+    "rtl-quick-2@375x812": {
+      "against": "port ltr, mirrored",
+      "stagePixels": 0,
+      "stagePercent": 0,
+      "framePixels": null,
+      "framePercent": null
+    },
+    "rtl-fill-at-1500ms@1280x800": {
+      "against": "port ltr, mirrored",
+      "stagePixels": 0,
+      "stagePercent": 0,
+      "framePixels": null,
+      "framePercent": null
+    },
+    "rtl-fill-at-1500ms@375x812": {
+      "against": "port ltr, mirrored",
+      "stagePixels": 0,
+      "stagePercent": 0,
+      "framePixels": null,
+      "framePercent": null
+    },
+    "rtl-window-6@1280x800": {
+      "against": "port ltr, mirrored",
+      "stagePixels": 0,
+      "stagePercent": 0,
+      "framePixels": null,
+      "framePercent": null
+    },
+    "rtl-window-6@375x812": {
+      "against": "port ltr, mirrored",
+      "stagePixels": 0,
+      "stagePercent": 0,
+      "framePixels": null,
+      "framePercent": null
+    }
+  },
+  "sharedTool": {
+    "shared-quick-2": {
+      "upstream": "harness/?impl=upstream&scene=quick&active=2",
+      "port": "harness/?impl=port&scene=quick&active=2",
+      "scheme": "light",
+      "threshold": 0.1,
+      "seed": null,
+      "clock": null,
+      "reducedMotion": false,
+      "pause": null,
+      "results": {
+        "1280x800": {
+          "differingPixels": 0,
+          "totalPixels": 1024000,
+          "percent": 0,
+          "sizes": {
+            "upstream": [1280, 800],
+            "port": [1280, 800]
+          },
+          "pass": true
+        },
+        "375x812": {
+          "differingPixels": 0,
+          "totalPixels": 304500,
+          "percent": 0,
+          "sizes": {
+            "upstream": [375, 812],
+            "port": [375, 812]
+          },
+          "pass": true
+        }
+      }
+    },
+    "shared-autoplay-fill-1500": {
+      "upstream": "harness/?impl=upstream&scene=autoplay&active=1",
+      "port": "harness/?impl=port&scene=autoplay&active=1",
+      "scheme": "light",
+      "threshold": 0.1,
+      "seed": null,
+      "clock": {
+        "epoch": 1767225600000,
+        "advance": 0
+      },
+      "reducedMotion": false,
+      "pause": null,
+      "results": {
+        "1280x800": {
+          "differingPixels": 0,
+          "totalPixels": 1024000,
+          "percent": 0,
+          "sizes": {
+            "upstream": [1280, 800],
+            "port": [1280, 800]
+          },
+          "pass": true
+        },
+        "375x812": {
+          "differingPixels": 0,
+          "totalPixels": 304500,
+          "percent": 0,
+          "sizes": {
+            "upstream": [375, 812],
+            "port": [375, 812]
+          },
+          "pass": true
+        }
+      }
+    }
+  }
+}

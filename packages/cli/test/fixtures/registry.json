@@ -186,6 +186,47 @@
         "primitive": "aria",
         "iconSet": "none"
       }
+    },
+    {
+      "name": "player",
+      "type": "registry:ui",
+      "title": "Player",
+      "description": "A player.",
+      "meta": {
+        "status": "ready",
+        "component": "player",
+        "kind": "component",
+        "primitive": "none",
+        "iconSet": "none"
+      }
+    },
+    {
+      "name": "player-icons-lucide",
+      "type": "registry:ui",
+      "title": "Player (Icon library, Lucide)",
+      "description": "A player.",
+      "meta": {
+        "status": "ready",
+        "component": "player",
+        "kind": "component",
+        "primitive": "none",
+        "iconSet": "lucide",
+        "style": "icons"
+      }
+    },
+    {
+      "name": "player-icons-phosphor",
+      "type": "registry:ui",
+      "title": "Player (Icon library, Phosphor)",
+      "description": "A player.",
+      "meta": {
+        "status": "ready",
+        "component": "player",
+        "kind": "component",
+        "primitive": "none",
+        "iconSet": "phosphor",
+        "style": "icons"
+      }
     }
   ]
 }

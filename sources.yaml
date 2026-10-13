@@ -509,3 +509,110 @@ oss:
         status: beta
         category: layout
         port: ports/guide-frame/guideframe-grid
+  # Batch I (inputs, overlays and navigation). The web components
+  # (bottom-sheet, simpleplayer) are rewritten as React; driver.js is wrapped
+  # (the item depends on npm driver.js); the flow diagram is de-branded.
+  # Josh Puckett's fluid stepper. The guard forbids the upstream's package
+  # name in this repository, so `repo` is the author's profile; the pinned
+  # commit identifies the code.
+  - id: joshpuckett-stepper
+    name: Josh Puckett fluid stepper
+    repo: https://github.com/joshpuckett
+    visibility: public
+    status: active
+    fetch: in-repo
+    ref: 764823ffdcc21f44d5205b8e9e995707d4f72756
+    author: "Josh Puckett <https://github.com/joshpuckett>"
+    license: MIT
+    attribution: "Copyright (c) 2026 Josh Puckett. MIT License."
+    credit: S-400
+    components:
+      - name: stepper
+        status: beta
+        category: navigation
+        upstream: packages/*/src (core, react, styles)
+
+  - id: magic-spells-bottom-sheet
+    name: magic-spells bottom-sheet
+    repo: https://github.com/magic-spells/bottom-sheet
+    visibility: public
+    status: active
+    fetch: in-repo
+    ref: 75b6ca04d93a11d83918a54cb3562a1a6d906242
+    author: "Cory Schulz (Magic Spells) <https://github.com/magic-spells>"
+    license: MIT
+    attribution: "Copyright (c) 2024 Magic Spells (Cory Schulz). MIT License."
+    credit: S-401
+    components:
+      - name: bottom-sheet
+        status: beta
+        category: overlays
+        upstream: src
+
+  - id: driver-js
+    name: driver.js
+    repo: https://github.com/nilbuild/driver.js
+    visibility: public
+    status: active
+    fetch: in-repo
+    ref: cc398049bde916d7e256f72a3f84e5eb4ba14506
+    author: "Kamran Ahmed <https://github.com/kamranahmedse>"
+    license: MIT
+    attribution: "Copyright (c) Kamran Ahmed. MIT License."
+    credit: S-403
+    components:
+      - name: product-tour
+        status: beta
+        category: overlays
+        upstream: packages/driver/src
+
+  - id: simpleplayer
+    name: simpleplayer
+    repo: https://github.com/grizzshutsdown/simpleplayer
+    visibility: public
+    status: active
+    fetch: in-repo
+    ref: 53935947011aacc739012a858238ba3495216c26
+    author: "grizz <https://github.com/grizzshutsdown>"
+    license: MIT
+    attribution: "Copyright (c) 2026 grizz. MIT License."
+    credit: S-404
+    components:
+      - name: video-player
+        status: beta
+        category: media
+        upstream: src/player
+
+  - id: cloudflare-kumo
+    name: Cloudflare (flow)
+    repo: https://github.com/cloudflare/kumo
+    visibility: public
+    status: active
+    fetch: in-repo
+    ref: f46e8bc9922c37dc1d3e7da779e589fe171df306
+    author: "Cloudflare, Inc. <https://github.com/cloudflare>"
+    license: MIT
+    attribution: "Copyright (c) 2026 Cloudflare, Inc. MIT License."
+    credit: S-405
+    components:
+      - name: flow-diagram
+        status: beta
+        category: data-display
+        upstream: packages/kumo/src/components/flow
+
+  - id: lisse
+    name: Lisse
+    repo: https://github.com/JaceThings/Lisse
+    visibility: public
+    status: active
+    fetch: in-repo
+    ref: 173846978ed806e14c78154ec914a9645a991932
+    author: "Jace Attard <https://github.com/JaceThings>"
+    license: MIT
+    attribution: "Copyright (c) 2026 Jace Attard. MIT License."
+    credit: S-406
+    components:
+      - name: smooth-corners
+        status: beta
+        category: layout
+        upstream: packages/core/src and packages/react/src

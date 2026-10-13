@@ -155,3 +155,27 @@ test("licenseFooter normalises CRLF license text", () => {
   assert.doesNotMatch(footer, /\r/);
   assert.match(footer, / \* MIT License\n \*\n \* Text\n/);
 });
+
+test("exportPort (variants): a style with its own icon sets beside an icon-free default", () => {
+  const files = exportPort(
+    "simpleplayer",
+    "video-player",
+    source("simpleplayer"),
+  );
+  const meta = JSON.parse(files["meta.json"]);
+  assert.deepEqual(
+    meta.variants.map((v) => [v.name, v.style ?? null, v.iconSet]),
+    [
+      ["video-player", null, "none"],
+      ["video-player-icons-lucide", "icons", "lucide"],
+      ["video-player-icons-phosphor", "icons", "phosphor"],
+    ],
+  );
+  assert.equal(meta.defaultVariant, "video-player");
+  assert.equal(meta.variants[1].label, "Icon library");
+  const plain = JSON.parse(files["items/video-player.json"]);
+  assert.ok(!plain.dependencies?.some((d) => d.startsWith("lucide-react")));
+  const lucide = JSON.parse(files["items/video-player-icons-lucide.json"]);
+  assert.equal(lucide.title, "Video Player (Icon library, Lucide)");
+  assert.ok(lucide.dependencies.includes("lucide-react@^1"));
+});

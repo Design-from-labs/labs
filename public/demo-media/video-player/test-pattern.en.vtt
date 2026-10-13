@@ -1,0 +1,9 @@
+WEBVTT
+
+NOTE Cues sit at 72% of the height, above the player's scrubber and tray.
+
+00:00:00.000 --> 00:00:04.000 line:72%
+[A steady tone plays over a test pattern]
+
+00:00:04.000 --> 00:00:10.000 line:72%
+[The tone continues; the counter keeps time]

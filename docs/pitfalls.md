@@ -98,6 +98,16 @@ Design From and Design From Labs (the guards enforce this).
 | [P-085](#p-085) | Tests (Web Audio) | `page.evaluate` grants user activation, hiding a gesture gate |
 | [P-086](#p-086) | Components (NODE_ENV) | A `typeof process` guard reports development in a Vite production build |
 | [P-087](#p-087) | CI (links) | An external citation host outage failed every pull request's link check |
+| [P-088](#p-088) | Sources (guard) | An upstream's own package name matched the external-reference guard |
+| [P-089](#p-089) | Tooling (git) | An APFS clone of a worktree shares its git index |
+| [P-090](#p-090) | Site (stages) | A staged demo that calls focus() took the page's focus |
+| [P-091](#p-091) | Fidelity harness | A scripted `element.click()` closed a native dialog through its backdrop |
+| [P-092](#p-092) | Fidelity (gestures) | Flick velocities drift on a loaded machine |
+| [P-093](#p-093) | Site (wall) | A measured-layout demo needs hydration to show anything on its tile |
+| [P-094](#p-094) | Components (keyboard) | Focus scrolled a clipped canvas out from under its pan |
+| [P-095](#p-095) | Site (loops) | A toggling click in a staged loop can invert when the frame loads late |
+| [P-096](#p-096) | Ports (tests) | Upstream tests that mock one module miss calls in a merged file |
+| [P-097](#p-097) | Components (CSS) | A library-owned custom property failed the prefixed-variables guard |
 
 ---
 
@@ -1418,3 +1428,169 @@ Design From and Design From Labs (the guards enforce this).
   the host.
 - Links: `docs/sources/registry.yaml` (S-281), `scripts/check-links.mjs`
 
+### P-088
+
+- Date: 2026-10-13
+- Area: Sources (external-reference guard)
+- Symptom: `pnpm check:refs` failed on the stepper port: its source id, its
+  `sources.yaml` and registry entries, and the `ports/<id>/` path all
+  matched a guard pattern.
+- Cause: The guard's private patterns match the upstream's own package and
+  repository name (a word-bounded match), and tracked paths are scanned too.
+- Fix: The source id is `joshpuckett-stepper`; `repo` and the registry `url`
+  point at the author's profile, the pinned commit identifies the code, and
+  no file names the package. The old path was removed from the index as well
+  as the disk.
+- Prevention: Run `pnpm check:refs` before naming a source id or directory
+  after an upstream; allowlisting a phrase needs the owner's approval
+  (decision 0003).
+- Links: `sources.yaml` (`joshpuckett-stepper`), `docs/sources/registry.yaml`
+
+### P-089
+
+- Date: 2026-10-13
+- Area: Tooling (git worktrees)
+- Symptom: Files a helper created in its own copy of the worktree showed up
+  in the shared worktree's index as intent-to-add entries and blocked a
+  rebase.
+- Cause: `cp -cR` of a git worktree copies its `.git` file, which points at
+  the same gitdir, so the copy shares the worktree's index and `HEAD`; a
+  `git add -N` in the copy wrote to the original's index.
+- Fix: `git reset -- <paths>` in the worktree (the files stay on disk), and
+  the copy's `.git` file was deleted.
+- Prevention: Delete the `.git` file of a cloned checkout before running git
+  in it, or make it with `git worktree add`.
+- Links: this pull request
+
+### P-090
+
+- Date: 2026-10-13
+- Area: Site (stages and wall loops)
+- Symptom: On `/ui`, a looping staged tile (bottom sheet, product tour) made
+  the stage iframe the page's `document.activeElement`; on
+  `/ui/bottom-sheet`, a sheet open from the first render did the same on
+  load.
+- Cause: `inert` on the tile stops at the frame boundary: script inside the
+  framed document can still call `focus()` (or `showModal()`), and focusing
+  anything in a frame focuses the frame in its parent. The component page's
+  stage is not inert at all.
+- Fix: The stage shell marks its document inert before any demo runs when
+  its frame sits in an inert tile, and the specimen driver repeats it on
+  every frame load (`e2e/wall.spec.ts` checks the active element across a
+  loop cycle). Scripted clicks still work in an inert document. For the
+  component page, the bottom sheet's `defaultOpen` stays non-modal until the
+  first pointer, key or focus inside a document that has no focus (Radix and
+  Base UI skip their initial focus there); React Aria has no way to skip it.
+- Prevention: Treat a framed demo as a separate document for focus; check
+  `document.activeElement` of the top page after a staged demo loads and
+  loops.
+- Links: `src/components/StageShell.astro`, `src/scripts/specimens.ts`,
+  `docs/evidence/ports/bottom-sheet/fidelity.md`, `docs/evidence/ports/product-tour/fidelity.md`
+
+### P-091
+
+- Date: 2026-10-13
+- Area: Fidelity harness (dialogs)
+- Symptom: Opening a snap point with `element.click()` closed the upstream
+  bottom sheet instead of moving it.
+- Cause: A scripted click carries the coordinates (0, 0); the older
+  dialog-panel build vendored by the upstream demo treats a click outside the
+  dialog's box as a backdrop click and closes it (the pinned source ignores
+  events from descendants).
+- Fix: The fidelity runs use real pointer clicks (`page.click` at the
+  control), which behave the same on both sides.
+- Prevention: Drive dialogs with real pointer input in fidelity runs; note
+  which build an upstream demo vendors.
+- Links: `docs/evidence/ports/bottom-sheet/fidelity.md`
+
+### P-092
+
+- Date: 2026-10-13
+- Area: Fidelity (gestures)
+- Symptom: The same scripted flick produced different release velocities,
+  and sometimes a different snap, from one run to the next.
+- Cause: Pointer moves are timestamped when the page receives them; with
+  other pods' builds and browsers on the machine, the gaps between moves
+  stretch, so the measured px/ms changes.
+- Fix: The gesture comparison reports the velocity each side actually
+  received, repeats every snap row three times and states ranges.
+- Prevention: Report measured velocities, not scripted ones, and repeat
+  timing-sensitive gestures.
+- Links: `docs/evidence/ports/bottom-sheet/gesture.md`
+
+### P-093
+
+- Date: 2026-10-13
+- Area: Site (wall tiles)
+- Symptom: The flow diagram's tile showed no nodes without hydration.
+- Cause: The component measures its nodes and lays them out after mount; the
+  server render has no positions, and tiles do not hydrate by default
+  (P-061).
+- Fix: `loop.hydrate: true`; the preview still was captured from the
+  hydrated component page.
+- Prevention: Any demo whose first paint depends on measured layout needs
+  `loop.hydrate`.
+- Links: `docs/evidence/ports/flow-diagram/fidelity.md`
+
+### P-094
+
+- Date: 2026-10-13
+- Area: Components (keyboard)
+- Symptom: Tabbing to a control inside a node of the flow diagram scrolled
+  the clipped canvas natively, so the pan offset and the scrollbars no
+  longer matched what was shown.
+- Cause: The browser scrolls an `overflow: hidden` container to bring a
+  focused descendant into view; the pan is a transform the browser knows
+  nothing about.
+- Fix: Keyboard focus pans the node into view and folds any native scroll
+  back into the pan; pointer focus is left as upstream (measured identical).
+- Prevention: In a transform-panned canvas, handle `focusin` from the
+  keyboard (`:focus-visible`) and reset native scroll.
+- Links: `docs/evidence/ports/flow-diagram/fidelity.md`
+
+### P-095
+
+- Date: 2026-10-13
+- Area: Site (loops in stages)
+- Symptom: While scripting the stepper's tile, a loop that clicked the
+  demo's Play/Pause toggle could not be trusted to stay in step.
+- Cause: The stage's iframe loads after the loop starts; a click sent before
+  the framed document exists is lost, so a toggle would run one step behind
+  (paused when it should play) for the rest of the visit.
+- Fix: The stepper's loop clicks the first step (setting a state, not
+  toggling one) and lets the demo's own autoplay advance.
+- Prevention: Script staged loops with idempotent clicks (go to a state)
+  rather than toggles.
+- Links: `docs/evidence/ports/stepper/fidelity.md`
+
+### P-096
+
+- Date: 2026-10-13
+- Area: Ports (upstream tests)
+- Symptom: Running upstream's own unit tests against the smooth-corners port
+  failed 3 of 470 tests, all counting `generatePath` calls.
+- Cause: They `vi.mock` the `generate-path` module; in the port that module
+  is merged into `smooth-corners-path.ts`, and the effects file calls it
+  through its own import, which the mock of a separate module never sees.
+- Fix: None needed: the cache code is upstream's, unchanged; the failures are
+  recorded in the port's fidelity notes.
+- Prevention: When merging modules (decision 0016), expect module-boundary
+  mocks in upstream tests to stop applying; judge those failures separately.
+- Links: `docs/evidence/ports/smooth-corners/fidelity.md`
+
+### P-097
+
+- Date: 2026-10-13
+- Area: Components (CSS variables)
+- Symptom: `scripts/keyframe-items.test.mjs` failed for the product tour
+  (`--driver-animation-duration`) and the video player (`--vp-*`).
+- Cause: Items that ship keyframes may read only `--<component>-*`
+  variables; the tour read a variable that driver.js sets on `<body>`, and
+  the player kept private names from upstream.
+- Fix: The wrapper sets `--product-tour-duration` from the same `duration`
+  option; the player's private variables are `--video-player--*` (double
+  dash: internal), its public tokens `--video-player-*`.
+- Prevention: Run `pnpm test` after an export; re-expose a library's own
+  variables under the component prefix instead of reading them.
+- Links: `ports/driver-js/product-tour/product-tour.tsx`,
+  `ports/simpleplayer/video-player/src/shared/video-player-styles.ts`

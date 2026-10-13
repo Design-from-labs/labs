@@ -1,0 +1,170 @@
+{
+  "title": "Video Player",
+  "description": "A video player with overlay controls: play and pause, a scrubber with a hover preview, time, volume, Picture-in-Picture and fullscreen, with lazy loading and muted autoplay.",
+  "category": "media",
+  "type": "registry:ui",
+  "status": "beta",
+  "upstreamPath": "src/player",
+  "iconSets": ["none"],
+  "registryDependencies": ["utils"],
+  "variants": [
+    {
+      "primitive": "none",
+      "roots": ["src/shared", "src/glyphs"],
+      "status": "beta"
+    },
+    {
+      "style": "icons",
+      "label": "Icon library",
+      "primitive": "none",
+      "roots": ["src/shared", "src/library"],
+      "iconSets": ["lucide", "phosphor"],
+      "status": "beta"
+    }
+  ],
+  "demo": "demo.tsx",
+  "tile": {
+    "span": 2,
+    "rows": 2,
+    "surface": "dark"
+  },
+  "loop": {
+    "script": "wait",
+    "duration": 6000,
+    "hydrate": true
+  },
+  "cssVars": {
+    "light": {
+      "video-player-background": "#1E1E1E",
+      "video-player-foreground": "#fff",
+      "video-player-overlay": "rgb(0 0 0 / 0.42)",
+      "video-player-overlay-blur": "0px",
+      "video-player-glass-surface": "rgb(255 255 255 / 0.04)",
+      "video-player-glass-opacity": "0.28",
+      "video-player-control-glass-surface": "rgb(255 255 255 / 0.12)",
+      "video-player-control-glass-opacity": "0.62",
+      "video-player-control-hover-surface": "rgb(255 255 255 / 0.14)",
+      "video-player-glass-filter": "invert(1) grayscale(1)",
+      "video-player-shimmer-highlight": "rgb(255 255 255 / 0.42)",
+      "video-player-focus-ring": "rgb(255 255 255 / 0.92)"
+    },
+    "dark": {
+      "video-player-background": "#1E1E1E",
+      "video-player-foreground": "#fff",
+      "video-player-overlay": "rgb(0 0 0 / 0.42)",
+      "video-player-overlay-blur": "0px",
+      "video-player-glass-surface": "rgb(255 255 255 / 0.04)",
+      "video-player-glass-opacity": "0.28",
+      "video-player-control-glass-surface": "rgb(255 255 255 / 0.12)",
+      "video-player-control-glass-opacity": "0.62",
+      "video-player-control-hover-surface": "rgb(255 255 255 / 0.14)",
+      "video-player-glass-filter": "invert(1) grayscale(1)",
+      "video-player-shimmer-highlight": "rgb(255 255 255 / 0.42)",
+      "video-player-focus-ring": "rgb(255 255 255 / 0.92)"
+    }
+  },
+  "credits": [
+    "S-407",
+    "S-003",
+    "S-004",
+    "S-005",
+    "S-006",
+    "S-019",
+    "S-020",
+    "S-286",
+    "S-290",
+    "S-014",
+    "S-015",
+    "S-152",
+    "S-153",
+    "S-024",
+    "S-411",
+    "S-157",
+    "S-184"
+  ],
+  "tags": [
+    "video",
+    "player",
+    "media",
+    "scrubber",
+    "picture-in-picture",
+    "fullscreen"
+  ],
+  "props": [
+    {
+      "name": "src",
+      "type": "string",
+      "required": true,
+      "description": "The video URL. It is set on the video only when the player nears the viewport (lazy loading)."
+    },
+    {
+      "name": "aspectRatio",
+      "type": "string",
+      "default": "\"16 / 9\"",
+      "description": "The player's CSS aspect ratio; the video covers it."
+    },
+    {
+      "name": "preloadMargin",
+      "type": "string",
+      "default": "\"360px 0px\"",
+      "description": "Root margin of the lazy-load observer: how far ahead of the viewport the video starts loading."
+    },
+    {
+      "name": "autoPlay",
+      "type": "boolean",
+      "default": "true",
+      "description": "Muted, looping autoplay once loaded (browsers allow muted autoplay). Skipped under prefers-reduced-motion."
+    },
+    {
+      "name": "controls",
+      "type": "boolean",
+      "default": "false",
+      "description": "Adds the control tray: mute and volume, Picture-in-Picture and fullscreen. Without it the player shows play and pause and the scrubber only."
+    },
+    {
+      "name": "showTime",
+      "type": "boolean",
+      "default": "false",
+      "description": "With controls, a pinned time button (click to switch elapsed and remaining); without, a time tooltip over the scrubber while hovering or dragging."
+    },
+    {
+      "name": "pauseOnOverlayClick",
+      "type": "boolean",
+      "default": "false",
+      "description": "On desktop pointers, a click anywhere on the video surface plays or pauses."
+    },
+    {
+      "name": "volume / volumeSlider / pictureInPicture / fullscreen",
+      "type": "boolean",
+      "default": "true",
+      "description": "Each control of the tray (needs controls). The mute button hides itself when the video has no audio track."
+    },
+    {
+      "name": "videoRef",
+      "type": "Ref<HTMLVideoElement>",
+      "description": "The underlying video element, to play, pause or seek from outside."
+    },
+    {
+      "name": "children",
+      "type": "ReactNode",
+      "description": "<track> elements (captions, subtitles), passed through to the video."
+    },
+    {
+      "name": "aria-label",
+      "type": "string",
+      "default": "\"Video player\"",
+      "description": "The name of the player group; describe the video."
+    }
+  ],
+  "a11y": [
+    "The player is a focusable group named by aria-label: Space, Enter and K play or pause it, and hardware media keys work through the Media Session API. The play button's name follows the state (Play video, Pause video).",
+    "The scrubber is a slider (WAI-ARIA slider pattern) with the time as aria-valuetext (\"0:03 of 0:10\"): Left and Right seek 5 s (10 s with Shift), Page Up and Page Down 10%, Home and End jump to the ends. The volume slider is vertical: Up and Down step 5% (10% with Shift), Home and End mute or max it; it opens while it has keyboard focus.",
+    "Every control is a native button with a name and a visible focus ring (the play button and the player itself gained one: upstream drew none). Focusing a control reveals the controls. The elapsed and remaining time button is focusable and named (upstream kept it out of the tab order).",
+    "Reduced motion: no autoplay, and the controls appear and hide without fades, slides or the loading shimmer.",
+    "Contrast on request: under prefers-contrast: more the glass behind the time and controls turns opaque dark; under forced colors the bars use Highlight on Canvas. The default keeps upstream's translucent glass over the video.",
+    "Captions: pass <track kind=\"captions\"> children; the browser renders the default track over the video. Give cues a line setting (for example line:72%) to keep them above the scrubber and tray.",
+    "Right to left: the control tray and the pinned time swap sides and the tray's buttons mirror; the timeline and the play glyph stay left to right, as in native players."
+  ],
+  "usage": "<VideoPlayer src=\"/video.mp4\" controls showTime aria-label=\"Product tour\" />",
+  "docs": "Installed `VideoPlayer` in `components/ui/` (with its controller, stylesheet, helpers and icons next to it).\n\n```tsx\nimport { VideoPlayer } from \"@/components/ui/video-player\";\n\n<VideoPlayer src=\"/video.mp4\" aria-label=\"Product tour\" />\n<VideoPlayer src=\"/video.mp4\" controls showTime autoPlay={false} />\n```\n\nThe video loads lazily and autoplays muted and looped (not under reduced motion). `controls` adds the mute, volume, Picture-in-Picture and fullscreen tray; `showTime` adds the time. Pass `<track>` children for captions (give cues a `line:72%` setting so they clear the scrubber) and `videoRef` to control playback.\n\nThe stylesheet is rendered by the component (a React 19 hoisted `<style>`); no CSS import is needed. Size it with `className` (it is `w-full` with an aspect ratio) and theme it with the `--video-player-*` variables (background, foreground, overlay, glass, focus ring). The `-icons-lucide` and `-icons-phosphor` items use icon-library glyphs instead of the player's own.\n\nPorted from SimplePlayer by grizz (MIT); the license notice is at the end of every file."
+}

@@ -18,7 +18,10 @@
 //   variants  `variants: [{ primitive, roots, status }]`: one item per primitive
 //             (radix | base | aria | none) and icon set, built from source roots
 //             overlaid file by file (`src/shared` then `src/radix`, ...), each
-//             file keeping its relative path below `target` when one is set
+//             file keeping its relative path below `target` when one is set;
+//             a variant may name a `style` (with a switcher `label`) and its
+//             own `iconSets`, so one style can draw its own glyphs (icon set
+//             none) while another uses an icon library
 //
 // --check ignores `date`, which follows the last commit that touched a port.
 import { execFileSync } from "node:child_process";
@@ -229,10 +232,17 @@ function buildVariantItem(
   icons,
 ) {
   const primitive = variant.primitive ?? "none";
-  const label = labelFor(primitive, iconSet);
+  const label = [variant.label ?? null, labelFor(primitive, iconSet) || null]
+    .filter(Boolean)
+    .join(", ");
   const item = {
     $schema: SHADCN_ITEM_SCHEMA,
-    name: itemName({ component: name, primitive, iconSet }),
+    name: itemName({
+      component: name,
+      style: variant.style,
+      primitive,
+      iconSet,
+    }),
     type: spec.type,
     title: label ? `${spec.title} (${label})` : spec.title,
     description: spec.description,
@@ -312,7 +322,7 @@ export function exportPort(sourceId, name, source) {
         : {}),
     };
     for (const variant of spec.variants) {
-      for (const iconSet of spec.iconSets ?? ["none"]) {
+      for (const iconSet of variant.iconSets ?? spec.iconSets ?? ["none"]) {
         const item = buildVariantItem(
           name,
           spec,
@@ -326,6 +336,8 @@ export function exportPort(sourceId, name, source) {
         out[`items/${item.name}.json`] = json(item);
         variants.push({
           name: item.name,
+          ...(variant.style ? { style: variant.style } : {}),
+          ...(variant.label ? { label: variant.label } : {}),
           primitive: variant.primitive ?? "none",
           iconSet,
           status: variant.status ?? spec.status,

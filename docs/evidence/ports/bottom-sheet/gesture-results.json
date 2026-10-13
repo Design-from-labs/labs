@@ -1,0 +1,1640 @@
+{
+  "upstream": {
+    "snap: slow drag 40 -> ~65% lands on": {
+      "open": true,
+      "top": 244,
+      "visible": 70,
+      "snap": "70",
+      "scrollTop": 0,
+      "active": "BUTTON",
+      "activeInSheet": true
+    },
+    "snap: slow drag 70 -> ~52% lands on": {
+      "open": true,
+      "top": 487,
+      "visible": 40,
+      "snap": "40",
+      "scrollTop": 0,
+      "active": "BUTTON",
+      "activeInSheet": true
+    },
+    "snap: small fast flick up from 40 (60px)": {
+      "open": true,
+      "top": 487,
+      "visible": 40,
+      "snap": "40",
+      "scrollTop": 0,
+      "active": "BUTTON",
+      "activeInSheet": true,
+      "gesture": {
+        "moved": -60,
+        "ms": 135,
+        "avgV": -0.44,
+        "releaseV": -0.47,
+        "cancelled": false
+      }
+    },
+    "snap: long fast flick up from 40 (400px)": {
+      "open": true,
+      "top": 0,
+      "visible": 100,
+      "snap": "100",
+      "scrollTop": 0,
+      "active": "BUTTON",
+      "activeInSheet": true,
+      "gesture": {
+        "moved": -400,
+        "ms": 140,
+        "avgV": -2.86,
+        "releaseV": -3.03,
+        "cancelled": false
+      }
+    },
+    "snap: hard short flick up from 40 (180px, 2 moves)": {
+      "open": true,
+      "top": 244,
+      "visible": 70,
+      "snap": "70",
+      "scrollTop": 0,
+      "active": "BUTTON",
+      "activeInSheet": true,
+      "gesture": {
+        "moved": -180,
+        "ms": 113,
+        "avgV": -1.59,
+        "releaseV": -1.84,
+        "cancelled": false
+      }
+    },
+    "snap: hard short flick down from 70 (180px, 2 moves)": {
+      "open": true,
+      "top": 487,
+      "visible": 40,
+      "snap": "40",
+      "scrollTop": 0,
+      "active": "BUTTON",
+      "activeInSheet": true,
+      "gesture": {
+        "moved": 180,
+        "ms": 131,
+        "avgV": 1.37,
+        "releaseV": 1.73,
+        "cancelled": false
+      }
+    },
+    "snap: very hard flick down from 70 (240px, 2 moves)": {
+      "open": true,
+      "top": 487,
+      "visible": 40,
+      "snap": "40",
+      "scrollTop": 0,
+      "active": "BUTTON",
+      "activeInSheet": true,
+      "gesture": {
+        "moved": 240,
+        "ms": 88,
+        "avgV": 2.73,
+        "releaseV": 3.33,
+        "cancelled": false
+      }
+    },
+    "snap: small fast flick down from 70 (60px)": {
+      "open": true,
+      "top": 244,
+      "visible": 70,
+      "snap": "70",
+      "scrollTop": 0,
+      "active": "BUTTON",
+      "activeInSheet": true,
+      "gesture": {
+        "moved": 60,
+        "ms": 137,
+        "avgV": 0.44,
+        "releaseV": 0.54,
+        "cancelled": false
+      }
+    },
+    "snap: fast flick down from 40 (80px)": {
+      "open": true,
+      "top": 487,
+      "visible": 40,
+      "snap": "40",
+      "scrollTop": 0,
+      "active": "BUTTON",
+      "activeInSheet": true,
+      "gesture": {
+        "moved": 80,
+        "ms": 145,
+        "avgV": 0.55,
+        "releaseV": 0.64,
+        "cancelled": false
+      }
+    },
+    "snap: drag up on content at 40 (200px)": {
+      "open": true,
+      "top": 244,
+      "visible": 70,
+      "snap": "70",
+      "scrollTop": 0,
+      "active": "BUTTON",
+      "activeInSheet": true
+    },
+    "snap: rows reachable by scrolling at 40 (last row visible after scroll)": {
+      "lastRowBottom": 812,
+      "viewport": 812,
+      "reachable": true
+    },
+    "binary: slow-drag dismissal threshold (px)": {
+      "40": "stays",
+      "70": "stays",
+      "100": "stays",
+      "130": "dismissed",
+      "160": "dismissed",
+      "200": "dismissed",
+      "260": "dismissed"
+    },
+    "binary: fast flick down 50px": {
+      "open": true,
+      "top": 122,
+      "visible": 85,
+      "snap": null,
+      "scrollTop": 0,
+      "active": "BUTTON",
+      "activeInSheet": true,
+      "gesture": {
+        "moved": 50,
+        "ms": 122,
+        "avgV": 0.41,
+        "releaseV": 0.43,
+        "cancelled": false
+      }
+    },
+    "binary: flick down 90px (2 moves)": {
+      "open": false,
+      "top": null,
+      "visible": 0,
+      "snap": null,
+      "scrollTop": null,
+      "active": "open-binary",
+      "activeInSheet": false,
+      "gesture": {
+        "moved": 90,
+        "ms": 84,
+        "avgV": 1.07,
+        "releaseV": 1.55,
+        "cancelled": false
+      }
+    },
+    "binary: overdrag up 200px from handle, mid-drag rise": {
+      "rise": 14,
+      "after": {
+        "open": true,
+        "top": 122,
+        "visible": 85,
+        "snap": null,
+        "scrollTop": 0,
+        "active": "BUTTON",
+        "activeInSheet": true
+      }
+    },
+    "binary: drag down on content at scrollTop 0 (200px)": {
+      "open": false,
+      "top": null,
+      "visible": 0,
+      "snap": null,
+      "scrollTop": null,
+      "active": "open-binary",
+      "activeInSheet": false
+    },
+    "binary: hand-off, list at 150px, one drag down 450px": {
+      "startScrollTop": 150,
+      "midScrollTop": 0,
+      "midSheetMoved": 0,
+      "after": {
+        "open": true,
+        "top": 122,
+        "visible": 85,
+        "snap": null,
+        "scrollTop": 0,
+        "active": "BUTTON",
+        "activeInSheet": true
+      }
+    },
+    "binary: tap close button in drag surface": {
+      "open": false,
+      "top": null,
+      "visible": 0,
+      "snap": null,
+      "scrollTop": null,
+      "active": "open-binary",
+      "activeInSheet": false
+    },
+    "binary: tap backdrop": {
+      "open": false,
+      "top": null,
+      "visible": 0,
+      "snap": null,
+      "scrollTop": null,
+      "active": "open-binary",
+      "activeInSheet": false
+    },
+    "keyboard: Enter opens, focus inside, Tab x12 stays inside, Escape closes, focus returns": {
+      "focusInsideOnOpen": true,
+      "tabStaysInside": false,
+      "tabReachesPageBehind": false,
+      "tabTrace": "1b11b11b11b1",
+      "escapeCloses": true,
+      "focusReturnedTo": "open-binary"
+    },
+    "a11y: dialog role, modal, name": {
+      "role": "dialog",
+      "modal": true,
+      "name": "Binary sheet",
+      "pageInert": true,
+      "bodyOverflow": "hidden"
+    },
+    "reduced motion: open animation": {
+      "at60ms": {
+        "transition": "transform, height 0.4s, 0.4s",
+        "animations": ["CSSTransition:400"],
+        "top": 458
+      },
+      "restTop": 122,
+      "movingAt60ms": true
+    },
+    "frames: 4x CPU throttle, 90-move drag on handle": {
+      "frames": 230,
+      "p50": 16.7,
+      "p95": 16.7,
+      "max": 17,
+      "over33": 0,
+      "longTasks": 0,
+      "longTaskMs": 0
+    }
+  },
+  "port": {
+    "snap: slow drag 40 -> ~65% lands on": {
+      "open": true,
+      "top": 244,
+      "visible": 70,
+      "snap": "70",
+      "scrollTop": 0,
+      "active": "BUTTON",
+      "activeInSheet": true
+    },
+    "snap: slow drag 70 -> ~52% lands on": {
+      "open": true,
+      "top": 487,
+      "visible": 40,
+      "snap": "40",
+      "scrollTop": 0,
+      "active": "BUTTON",
+      "activeInSheet": true
+    },
+    "snap: small fast flick up from 40 (60px)": {
+      "open": true,
+      "top": 487,
+      "visible": 40,
+      "snap": "40",
+      "scrollTop": 0,
+      "active": "BUTTON",
+      "activeInSheet": true,
+      "gesture": {
+        "moved": -60,
+        "ms": 136,
+        "avgV": -0.44,
+        "releaseV": -0.56,
+        "cancelled": false
+      }
+    },
+    "snap: long fast flick up from 40 (400px)": {
+      "open": true,
+      "top": 0,
+      "visible": 100,
+      "snap": "100",
+      "scrollTop": 0,
+      "active": "BUTTON",
+      "activeInSheet": true,
+      "gesture": {
+        "moved": -400,
+        "ms": 136,
+        "avgV": -2.94,
+        "releaseV": -3.38,
+        "cancelled": false
+      }
+    },
+    "snap: hard short flick up from 40 (180px, 2 moves)": {
+      "open": true,
+      "top": 244,
+      "visible": 70,
+      "snap": "70",
+      "scrollTop": 0,
+      "active": "BUTTON",
+      "activeInSheet": true,
+      "gesture": {
+        "moved": -180,
+        "ms": 100,
+        "avgV": -1.8,
+        "releaseV": -2,
+        "cancelled": false
+      }
+    },
+    "snap: hard short flick down from 70 (180px, 2 moves)": {
+      "open": true,
+      "top": 487,
+      "visible": 40,
+      "snap": "40",
+      "scrollTop": 0,
+      "active": "BUTTON",
+      "activeInSheet": true,
+      "gesture": {
+        "moved": 180,
+        "ms": 95,
+        "avgV": 1.89,
+        "releaseV": 1.96,
+        "cancelled": false
+      }
+    },
+    "snap: very hard flick down from 70 (240px, 2 moves)": {
+      "open": true,
+      "top": 487,
+      "visible": 40,
+      "snap": "40",
+      "scrollTop": 0,
+      "active": "BUTTON",
+      "activeInSheet": true,
+      "gesture": {
+        "moved": 240,
+        "ms": 97,
+        "avgV": 2.48,
+        "releaseV": 2.61,
+        "cancelled": false
+      }
+    },
+    "snap: small fast flick down from 70 (60px)": {
+      "open": true,
+      "top": 244,
+      "visible": 70,
+      "snap": "70",
+      "scrollTop": 0,
+      "active": "BUTTON",
+      "activeInSheet": true,
+      "gesture": {
+        "moved": 60,
+        "ms": 130,
+        "avgV": 0.46,
+        "releaseV": 0.53,
+        "cancelled": false
+      }
+    },
+    "snap: fast flick down from 40 (80px)": {
+      "open": true,
+      "top": 487,
+      "visible": 40,
+      "snap": "40",
+      "scrollTop": 0,
+      "active": "BUTTON",
+      "activeInSheet": true,
+      "gesture": {
+        "moved": 80,
+        "ms": 133,
+        "avgV": 0.6,
+        "releaseV": 0.66,
+        "cancelled": false
+      }
+    },
+    "snap: drag up on content at 40 (200px)": {
+      "open": true,
+      "top": 244,
+      "visible": 70,
+      "snap": "70",
+      "scrollTop": 0,
+      "active": "BUTTON",
+      "activeInSheet": true
+    },
+    "snap: rows reachable by scrolling at 40 (last row visible after scroll)": {
+      "lastRowBottom": 812,
+      "viewport": 812,
+      "reachable": true
+    },
+    "binary: slow-drag dismissal threshold (px)": {
+      "40": "stays",
+      "70": "stays",
+      "100": "stays",
+      "130": "dismissed",
+      "160": "dismissed",
+      "200": "dismissed",
+      "260": "dismissed"
+    },
+    "binary: fast flick down 50px": {
+      "open": true,
+      "top": 122,
+      "visible": 85,
+      "snap": null,
+      "scrollTop": 0,
+      "active": "BUTTON",
+      "activeInSheet": true,
+      "gesture": {
+        "moved": 50,
+        "ms": 122,
+        "avgV": 0.41,
+        "releaseV": 0.45,
+        "cancelled": false
+      }
+    },
+    "binary: flick down 90px (2 moves)": {
+      "open": false,
+      "top": null,
+      "visible": 0,
+      "snap": null,
+      "scrollTop": null,
+      "active": "open-binary",
+      "activeInSheet": false,
+      "gesture": {
+        "moved": 90,
+        "ms": 81,
+        "avgV": 1.11,
+        "releaseV": 1.61,
+        "cancelled": false
+      }
+    },
+    "binary: overdrag up 200px from handle, mid-drag rise": {
+      "rise": 14,
+      "after": {
+        "open": true,
+        "top": 122,
+        "visible": 85,
+        "snap": null,
+        "scrollTop": 0,
+        "active": "BUTTON",
+        "activeInSheet": true
+      }
+    },
+    "binary: drag down on content at scrollTop 0 (200px)": {
+      "open": false,
+      "top": null,
+      "visible": 0,
+      "snap": null,
+      "scrollTop": null,
+      "active": "open-binary",
+      "activeInSheet": false
+    },
+    "binary: hand-off, list at 150px, one drag down 450px": {
+      "startScrollTop": 150,
+      "midScrollTop": 0,
+      "midSheetMoved": 0,
+      "after": {
+        "open": true,
+        "top": 122,
+        "visible": 85,
+        "snap": null,
+        "scrollTop": 0,
+        "active": "BUTTON",
+        "activeInSheet": true
+      }
+    },
+    "binary: tap close button in drag surface": {
+      "open": false,
+      "top": null,
+      "visible": 0,
+      "snap": null,
+      "scrollTop": null,
+      "active": "open-binary",
+      "activeInSheet": false
+    },
+    "binary: tap backdrop": {
+      "open": false,
+      "top": null,
+      "visible": 0,
+      "snap": null,
+      "scrollTop": null,
+      "active": "open-binary",
+      "activeInSheet": false
+    },
+    "keyboard: Enter opens, focus inside, Tab x12 stays inside, Escape closes, focus returns": {
+      "focusInsideOnOpen": true,
+      "tabStaysInside": false,
+      "tabReachesPageBehind": false,
+      "tabTrace": "1b11b11b11b1",
+      "escapeCloses": true,
+      "focusReturnedTo": "open-binary"
+    },
+    "a11y: dialog role, modal, name": {
+      "role": "dialog",
+      "modal": true,
+      "name": "Binary sheet",
+      "pageInert": true,
+      "bodyOverflow": "hidden"
+    },
+    "reduced motion: open animation": {
+      "at60ms": {
+        "transition": "none 0s",
+        "animations": [],
+        "top": 122
+      },
+      "restTop": 122,
+      "movingAt60ms": false
+    },
+    "frames: 4x CPU throttle, 90-move drag on handle": {
+      "frames": 236,
+      "p50": 16.7,
+      "p95": 16.7,
+      "max": 17,
+      "over33": 0,
+      "longTasks": 0,
+      "longTaskMs": 0
+    }
+  },
+  "port_radix": {
+    "snap: slow drag 40 -> ~65% lands on": {
+      "open": true,
+      "top": 244,
+      "visible": 70,
+      "snap": "70",
+      "scrollTop": 0,
+      "active": "BUTTON",
+      "activeInSheet": true
+    },
+    "snap: slow drag 70 -> ~52% lands on": {
+      "open": true,
+      "top": 487,
+      "visible": 40,
+      "snap": "40",
+      "scrollTop": 0,
+      "active": "BUTTON",
+      "activeInSheet": true
+    },
+    "snap: small fast flick up from 40 (60px)": {
+      "open": true,
+      "top": 487,
+      "visible": 40,
+      "snap": "40",
+      "scrollTop": 0,
+      "active": "BUTTON",
+      "activeInSheet": true,
+      "gesture": {
+        "moved": -60,
+        "ms": 145,
+        "avgV": -0.41,
+        "releaseV": -0.44,
+        "cancelled": false
+      }
+    },
+    "snap: long fast flick up from 40 (400px)": {
+      "open": true,
+      "top": 0,
+      "visible": 100,
+      "snap": "100",
+      "scrollTop": 0,
+      "active": "BUTTON",
+      "activeInSheet": true,
+      "gesture": {
+        "moved": -400,
+        "ms": 140,
+        "avgV": -2.86,
+        "releaseV": -3.14,
+        "cancelled": false
+      }
+    },
+    "snap: hard short flick up from 40 (180px, 2 moves)": {
+      "open": true,
+      "top": 244,
+      "visible": 70,
+      "snap": "70",
+      "scrollTop": 0,
+      "active": "BUTTON",
+      "activeInSheet": true,
+      "gesture": {
+        "moved": -180,
+        "ms": 116,
+        "avgV": -1.55,
+        "releaseV": -2.31,
+        "cancelled": false
+      }
+    },
+    "snap: hard short flick down from 70 (180px, 2 moves)": {
+      "open": true,
+      "top": 244,
+      "visible": 70,
+      "snap": "70",
+      "scrollTop": 0,
+      "active": "BUTTON",
+      "activeInSheet": true,
+      "gesture": {
+        "moved": 180,
+        "ms": 130,
+        "avgV": 1.38,
+        "releaseV": 1.77,
+        "cancelled": false
+      }
+    },
+    "snap: very hard flick down from 70 (240px, 2 moves)": {
+      "open": true,
+      "top": 487,
+      "visible": 40,
+      "snap": "40",
+      "scrollTop": 0,
+      "active": "BUTTON",
+      "activeInSheet": true,
+      "gesture": {
+        "moved": 240,
+        "ms": 116,
+        "avgV": 2.07,
+        "releaseV": 2.67,
+        "cancelled": false
+      }
+    },
+    "snap: small fast flick down from 70 (60px)": {
+      "open": true,
+      "top": 244,
+      "visible": 70,
+      "snap": "70",
+      "scrollTop": 0,
+      "active": "BUTTON",
+      "activeInSheet": true,
+      "gesture": {
+        "moved": 60,
+        "ms": 155,
+        "avgV": 0.39,
+        "releaseV": 0.43,
+        "cancelled": false
+      }
+    },
+    "snap: fast flick down from 40 (80px)": {
+      "open": true,
+      "top": 487,
+      "visible": 40,
+      "snap": "40",
+      "scrollTop": 0,
+      "active": "BUTTON",
+      "activeInSheet": true,
+      "gesture": {
+        "moved": 80,
+        "ms": 193,
+        "avgV": 0.41,
+        "releaseV": 0.3,
+        "cancelled": false
+      }
+    },
+    "snap: drag up on content at 40 (200px)": {
+      "open": true,
+      "top": 244,
+      "visible": 70,
+      "snap": "70",
+      "scrollTop": 0,
+      "active": "BUTTON",
+      "activeInSheet": true
+    },
+    "snap: rows reachable by scrolling at 40 (last row visible after scroll)": {
+      "lastRowBottom": 812,
+      "viewport": 812,
+      "reachable": true
+    },
+    "binary: slow-drag dismissal threshold (px)": {
+      "40": "stays",
+      "70": "stays",
+      "100": "stays",
+      "130": "dismissed",
+      "160": "dismissed",
+      "200": "dismissed",
+      "260": "dismissed"
+    },
+    "binary: fast flick down 50px": {
+      "open": true,
+      "top": 122,
+      "visible": 85,
+      "snap": null,
+      "scrollTop": 0,
+      "active": "BUTTON",
+      "activeInSheet": true,
+      "gesture": {
+        "moved": 50,
+        "ms": 219,
+        "avgV": 0.23,
+        "releaseV": 0.32,
+        "cancelled": false
+      }
+    },
+    "binary: flick down 90px (2 moves)": {
+      "open": true,
+      "top": 122,
+      "visible": 85,
+      "snap": null,
+      "scrollTop": 0,
+      "active": "BUTTON",
+      "activeInSheet": true,
+      "gesture": {
+        "moved": 90,
+        "ms": 117,
+        "avgV": 0.77,
+        "releaseV": 1.04,
+        "cancelled": false
+      }
+    },
+    "binary: overdrag up 200px from handle, mid-drag rise": {
+      "rise": 14,
+      "after": {
+        "open": true,
+        "top": 122,
+        "visible": 85,
+        "snap": null,
+        "scrollTop": 0,
+        "active": "BUTTON",
+        "activeInSheet": true
+      }
+    },
+    "binary: drag down on content at scrollTop 0 (200px)": {
+      "open": false,
+      "top": null,
+      "visible": 0,
+      "snap": null,
+      "scrollTop": null,
+      "active": "open-binary",
+      "activeInSheet": false
+    },
+    "binary: hand-off, list at 150px, one drag down 450px": {
+      "startScrollTop": 150,
+      "midScrollTop": 0,
+      "midSheetMoved": 0,
+      "after": {
+        "open": true,
+        "top": 122,
+        "visible": 85,
+        "snap": null,
+        "scrollTop": 0,
+        "active": "BUTTON",
+        "activeInSheet": true
+      }
+    },
+    "binary: tap close button in drag surface": {
+      "open": false,
+      "top": null,
+      "visible": 0,
+      "snap": null,
+      "scrollTop": null,
+      "active": "open-binary",
+      "activeInSheet": false
+    },
+    "binary: tap backdrop": {
+      "open": false,
+      "top": null,
+      "visible": 0,
+      "snap": null,
+      "scrollTop": null,
+      "active": "open-binary",
+      "activeInSheet": false
+    },
+    "keyboard: Enter opens, focus inside, Tab x12 stays inside, Escape closes, focus returns": {
+      "focusInsideOnOpen": true,
+      "tabStaysInside": true,
+      "tabReachesPageBehind": false,
+      "tabTrace": "111111111111",
+      "escapeCloses": true,
+      "focusReturnedTo": "open-binary"
+    },
+    "a11y: dialog role, modal, name": {
+      "role": "dialog",
+      "modal": null,
+      "name": "Binary sheet",
+      "pageInert": true,
+      "bodyOverflow": "hidden"
+    },
+    "reduced motion: open animation": {
+      "at60ms": {
+        "transition": "none 0s",
+        "animations": [],
+        "top": 122
+      },
+      "restTop": 122,
+      "movingAt60ms": false
+    },
+    "frames: 4x CPU throttle, 90-move drag on handle": {
+      "frames": 314,
+      "p50": 16.7,
+      "p95": 16.8,
+      "max": 17,
+      "over33": 0,
+      "longTasks": 0,
+      "longTaskMs": 0
+    }
+  },
+  "port_base": {
+    "snap: slow drag 40 -> ~65% lands on": {
+      "open": true,
+      "top": 244,
+      "visible": 70,
+      "snap": "70",
+      "scrollTop": 0,
+      "active": "BUTTON",
+      "activeInSheet": true
+    },
+    "snap: slow drag 70 -> ~52% lands on": {
+      "open": true,
+      "top": 487,
+      "visible": 40,
+      "snap": "40",
+      "scrollTop": 0,
+      "active": "BUTTON",
+      "activeInSheet": true
+    },
+    "snap: small fast flick up from 40 (60px)": {
+      "open": true,
+      "top": 487,
+      "visible": 40,
+      "snap": "40",
+      "scrollTop": 0,
+      "active": "BUTTON",
+      "activeInSheet": true,
+      "gesture": {
+        "moved": -60,
+        "ms": 130,
+        "avgV": -0.46,
+        "releaseV": -0.51,
+        "cancelled": false
+      }
+    },
+    "snap: long fast flick up from 40 (400px)": {
+      "open": true,
+      "top": 0,
+      "visible": 100,
+      "snap": "100",
+      "scrollTop": 0,
+      "active": "BUTTON",
+      "activeInSheet": true,
+      "gesture": {
+        "moved": -400,
+        "ms": 135,
+        "avgV": -2.96,
+        "releaseV": -3.92,
+        "cancelled": false
+      }
+    },
+    "snap: hard short flick up from 40 (180px, 2 moves)": {
+      "open": true,
+      "top": 244,
+      "visible": 70,
+      "snap": "70",
+      "scrollTop": 0,
+      "active": "BUTTON",
+      "activeInSheet": true,
+      "gesture": {
+        "moved": -180,
+        "ms": 99,
+        "avgV": -1.82,
+        "releaseV": -1.83,
+        "cancelled": false
+      }
+    },
+    "snap: hard short flick down from 70 (180px, 2 moves)": {
+      "open": true,
+      "top": 487,
+      "visible": 40,
+      "snap": "40",
+      "scrollTop": 0,
+      "active": "BUTTON",
+      "activeInSheet": true,
+      "gesture": {
+        "moved": 180,
+        "ms": 99,
+        "avgV": 1.82,
+        "releaseV": 2,
+        "cancelled": false
+      }
+    },
+    "snap: very hard flick down from 70 (240px, 2 moves)": {
+      "open": true,
+      "top": 487,
+      "visible": 40,
+      "snap": "40",
+      "scrollTop": 0,
+      "active": "BUTTON",
+      "activeInSheet": true,
+      "gesture": {
+        "moved": 240,
+        "ms": 100,
+        "avgV": 2.4,
+        "releaseV": 2.61,
+        "cancelled": false
+      }
+    },
+    "snap: small fast flick down from 70 (60px)": {
+      "open": true,
+      "top": 244,
+      "visible": 70,
+      "snap": "70",
+      "scrollTop": 0,
+      "active": "BUTTON",
+      "activeInSheet": true,
+      "gesture": {
+        "moved": 60,
+        "ms": 166,
+        "avgV": 0.36,
+        "releaseV": 0.5,
+        "cancelled": false
+      }
+    },
+    "snap: fast flick down from 40 (80px)": {
+      "open": true,
+      "top": 487,
+      "visible": 40,
+      "snap": "40",
+      "scrollTop": 0,
+      "active": "BUTTON",
+      "activeInSheet": true,
+      "gesture": {
+        "moved": 80,
+        "ms": 138,
+        "avgV": 0.58,
+        "releaseV": 0.61,
+        "cancelled": false
+      }
+    },
+    "snap: drag up on content at 40 (200px)": {
+      "open": true,
+      "top": 244,
+      "visible": 70,
+      "snap": "70",
+      "scrollTop": 0,
+      "active": "BUTTON",
+      "activeInSheet": true
+    },
+    "snap: rows reachable by scrolling at 40 (last row visible after scroll)": {
+      "lastRowBottom": 812,
+      "viewport": 812,
+      "reachable": true
+    },
+    "binary: slow-drag dismissal threshold (px)": {
+      "40": "stays",
+      "70": "stays",
+      "100": "stays",
+      "130": "dismissed",
+      "160": "dismissed",
+      "200": "dismissed",
+      "260": "dismissed"
+    },
+    "binary: fast flick down 50px": {
+      "open": true,
+      "top": 122,
+      "visible": 85,
+      "snap": null,
+      "scrollTop": 0,
+      "active": "BUTTON",
+      "activeInSheet": true,
+      "gesture": {
+        "moved": 50,
+        "ms": 115,
+        "avgV": 0.43,
+        "releaseV": 0.55,
+        "cancelled": false
+      }
+    },
+    "binary: flick down 90px (2 moves)": {
+      "open": false,
+      "top": null,
+      "visible": 0,
+      "snap": null,
+      "scrollTop": null,
+      "active": "open-binary",
+      "activeInSheet": false,
+      "gesture": {
+        "moved": 90,
+        "ms": 77,
+        "avgV": 1.17,
+        "releaseV": 1.81,
+        "cancelled": false
+      }
+    },
+    "binary: overdrag up 200px from handle, mid-drag rise": {
+      "rise": 14,
+      "after": {
+        "open": true,
+        "top": 122,
+        "visible": 85,
+        "snap": null,
+        "scrollTop": 0,
+        "active": "BUTTON",
+        "activeInSheet": true
+      }
+    },
+    "binary: drag down on content at scrollTop 0 (200px)": {
+      "open": false,
+      "top": null,
+      "visible": 0,
+      "snap": null,
+      "scrollTop": null,
+      "active": "open-binary",
+      "activeInSheet": false
+    },
+    "binary: hand-off, list at 150px, one drag down 450px": {
+      "startScrollTop": 150,
+      "midScrollTop": 0,
+      "midSheetMoved": 0,
+      "after": {
+        "open": true,
+        "top": 122,
+        "visible": 85,
+        "snap": null,
+        "scrollTop": 0,
+        "active": "BUTTON",
+        "activeInSheet": true
+      }
+    },
+    "binary: tap close button in drag surface": {
+      "open": false,
+      "top": null,
+      "visible": 0,
+      "snap": null,
+      "scrollTop": null,
+      "active": "open-binary",
+      "activeInSheet": false
+    },
+    "binary: tap backdrop": {
+      "open": false,
+      "top": null,
+      "visible": 0,
+      "snap": null,
+      "scrollTop": null,
+      "active": "open-binary",
+      "activeInSheet": false
+    },
+    "keyboard: Enter opens, focus inside, Tab x12 stays inside, Escape closes, focus returns": {
+      "focusInsideOnOpen": true,
+      "tabStaysInside": true,
+      "tabReachesPageBehind": false,
+      "tabTrace": "111111111111",
+      "escapeCloses": true,
+      "focusReturnedTo": "open-binary"
+    },
+    "a11y: dialog role, modal, name": {
+      "role": "dialog",
+      "modal": null,
+      "name": "Binary sheet",
+      "pageInert": true,
+      "bodyOverflow": "hidden"
+    },
+    "reduced motion: open animation": {
+      "at60ms": {
+        "transition": "none 0s",
+        "animations": [],
+        "top": 122
+      },
+      "restTop": 122,
+      "movingAt60ms": false
+    },
+    "frames: 4x CPU throttle, 90-move drag on handle": {
+      "frames": 243,
+      "p50": 16.7,
+      "p95": 16.7,
+      "max": 17,
+      "over33": 0,
+      "longTasks": 0,
+      "longTaskMs": 0
+    }
+  },
+  "port_aria": {
+    "snap: slow drag 40 -> ~65% lands on": {
+      "open": true,
+      "top": 244,
+      "visible": 70,
+      "snap": "70",
+      "scrollTop": 0,
+      "active": "SECTION",
+      "activeInSheet": true
+    },
+    "snap: slow drag 70 -> ~52% lands on": {
+      "open": true,
+      "top": 487,
+      "visible": 40,
+      "snap": "40",
+      "scrollTop": 0,
+      "active": "SECTION",
+      "activeInSheet": true
+    },
+    "snap: small fast flick up from 40 (60px)": {
+      "open": true,
+      "top": 487,
+      "visible": 40,
+      "snap": "40",
+      "scrollTop": 0,
+      "active": "SECTION",
+      "activeInSheet": true,
+      "gesture": {
+        "moved": -60,
+        "ms": 152,
+        "avgV": -0.39,
+        "releaseV": -0.48,
+        "cancelled": false
+      }
+    },
+    "snap: long fast flick up from 40 (400px)": {
+      "open": true,
+      "top": 0,
+      "visible": 100,
+      "snap": "100",
+      "scrollTop": 0,
+      "active": "SECTION",
+      "activeInSheet": true,
+      "gesture": {
+        "moved": -400,
+        "ms": 137,
+        "avgV": -2.92,
+        "releaseV": -3.92,
+        "cancelled": false
+      }
+    },
+    "snap: hard short flick up from 40 (180px, 2 moves)": {
+      "open": true,
+      "top": 244,
+      "visible": 70,
+      "snap": "70",
+      "scrollTop": 0,
+      "active": "SECTION",
+      "activeInSheet": true,
+      "gesture": {
+        "moved": -180,
+        "ms": 119,
+        "avgV": -1.51,
+        "releaseV": -1.76,
+        "cancelled": false
+      }
+    },
+    "snap: hard short flick down from 70 (180px, 2 moves)": {
+      "open": true,
+      "top": 487,
+      "visible": 40,
+      "snap": "40",
+      "scrollTop": 0,
+      "active": "SECTION",
+      "activeInSheet": true,
+      "gesture": {
+        "moved": 180,
+        "ms": 86,
+        "avgV": 2.09,
+        "releaseV": 4.27,
+        "cancelled": false
+      }
+    },
+    "snap: very hard flick down from 70 (240px, 2 moves)": {
+      "open": true,
+      "top": 487,
+      "visible": 40,
+      "snap": "40",
+      "scrollTop": 0,
+      "active": "SECTION",
+      "activeInSheet": true,
+      "gesture": {
+        "moved": 240,
+        "ms": 103,
+        "avgV": 2.33,
+        "releaseV": 3.01,
+        "cancelled": false
+      }
+    },
+    "snap: small fast flick down from 70 (60px)": {
+      "open": true,
+      "top": 244,
+      "visible": 70,
+      "snap": "70",
+      "scrollTop": 0,
+      "active": "SECTION",
+      "activeInSheet": true,
+      "gesture": {
+        "moved": 60,
+        "ms": 141,
+        "avgV": 0.43,
+        "releaseV": 0.51,
+        "cancelled": false
+      }
+    },
+    "snap: fast flick down from 40 (80px)": {
+      "open": true,
+      "top": 487,
+      "visible": 40,
+      "snap": "40",
+      "scrollTop": 0,
+      "active": "SECTION",
+      "activeInSheet": true,
+      "gesture": {
+        "moved": 80,
+        "ms": 127,
+        "avgV": 0.63,
+        "releaseV": 0.71,
+        "cancelled": false
+      }
+    },
+    "snap: drag up on content at 40 (200px)": {
+      "open": true,
+      "top": 244,
+      "visible": 70,
+      "snap": "70",
+      "scrollTop": 0,
+      "active": "SECTION",
+      "activeInSheet": true
+    },
+    "snap: rows reachable by scrolling at 40 (last row visible after scroll)": {
+      "lastRowBottom": 812,
+      "viewport": 812,
+      "reachable": true
+    },
+    "binary: slow-drag dismissal threshold (px)": {
+      "40": "stays",
+      "70": "stays",
+      "100": "stays",
+      "130": "dismissed",
+      "160": "dismissed",
+      "200": "dismissed",
+      "260": "dismissed"
+    },
+    "binary: fast flick down 50px": {
+      "open": true,
+      "top": 122,
+      "visible": 85,
+      "snap": null,
+      "scrollTop": 0,
+      "active": "SECTION",
+      "activeInSheet": true,
+      "gesture": {
+        "moved": 50,
+        "ms": 146,
+        "avgV": 0.34,
+        "releaseV": 0.37,
+        "cancelled": false
+      }
+    },
+    "binary: flick down 90px (2 moves)": {
+      "open": false,
+      "top": null,
+      "visible": 0,
+      "snap": null,
+      "scrollTop": null,
+      "active": "open-binary",
+      "activeInSheet": false,
+      "gesture": {
+        "moved": 90,
+        "ms": 105,
+        "avgV": 0.86,
+        "releaseV": 1,
+        "cancelled": false
+      }
+    },
+    "binary: overdrag up 200px from handle, mid-drag rise": {
+      "rise": 14,
+      "after": {
+        "open": true,
+        "top": 122,
+        "visible": 85,
+        "snap": null,
+        "scrollTop": 0,
+        "active": "SECTION",
+        "activeInSheet": true
+      }
+    },
+    "binary: drag down on content at scrollTop 0 (200px)": {
+      "open": false,
+      "top": null,
+      "visible": 0,
+      "snap": null,
+      "scrollTop": null,
+      "active": "open-binary",
+      "activeInSheet": false
+    },
+    "binary: hand-off, list at 150px, one drag down 450px": {
+      "startScrollTop": 150,
+      "midScrollTop": 0,
+      "midSheetMoved": 0,
+      "after": {
+        "open": true,
+        "top": 122,
+        "visible": 85,
+        "snap": null,
+        "scrollTop": 0,
+        "active": "SECTION",
+        "activeInSheet": true
+      }
+    },
+    "binary: tap close button in drag surface": {
+      "open": false,
+      "top": null,
+      "visible": 0,
+      "snap": null,
+      "scrollTop": null,
+      "active": "open-binary",
+      "activeInSheet": false
+    },
+    "binary: tap backdrop": {
+      "open": false,
+      "top": null,
+      "visible": 0,
+      "snap": null,
+      "scrollTop": null,
+      "active": "open-binary",
+      "activeInSheet": false
+    },
+    "keyboard: Enter opens, focus inside, Tab x12 stays inside, Escape closes, focus returns": {
+      "focusInsideOnOpen": true,
+      "tabStaysInside": true,
+      "tabReachesPageBehind": false,
+      "tabTrace": "111111111111",
+      "escapeCloses": true,
+      "focusReturnedTo": "open-binary"
+    },
+    "a11y: dialog role, modal, name": {
+      "role": "dialog",
+      "modal": null,
+      "name": "Binary sheet",
+      "pageInert": true,
+      "bodyOverflow": "hidden"
+    },
+    "reduced motion: open animation": {
+      "at60ms": {
+        "transition": "none 0s",
+        "animations": [],
+        "top": 122
+      },
+      "restTop": 122,
+      "movingAt60ms": false
+    },
+    "frames: 4x CPU throttle, 90-move drag on handle": {
+      "frames": 241,
+      "p50": 16.7,
+      "p95": 16.7,
+      "max": 17,
+      "over33": 0,
+      "longTasks": 0,
+      "longTaskMs": 0
+    }
+  },
+  "vaul": {
+    "snap: slow drag 40 -> ~65% lands on": {
+      "open": true,
+      "top": 244,
+      "visible": 70,
+      "snap": "70",
+      "scrollTop": 0,
+      "active": "open-snap",
+      "activeInSheet": false
+    },
+    "snap: slow drag 70 -> ~52% lands on": {
+      "open": true,
+      "top": 487,
+      "visible": 40,
+      "snap": "40",
+      "scrollTop": 0,
+      "active": "open-snap",
+      "activeInSheet": false
+    },
+    "snap: small fast flick up from 40 (60px)": {
+      "open": true,
+      "top": 487,
+      "visible": 40,
+      "snap": "40",
+      "scrollTop": 0,
+      "active": "open-snap",
+      "activeInSheet": false,
+      "gesture": {
+        "moved": -60,
+        "ms": 158,
+        "avgV": -0.38,
+        "releaseV": -0.46,
+        "cancelled": false
+      }
+    },
+    "snap: long fast flick up from 40 (400px)": {
+      "open": true,
+      "top": 0,
+      "visible": 100,
+      "snap": "100",
+      "scrollTop": 0,
+      "active": "open-snap",
+      "activeInSheet": false,
+      "gesture": {
+        "moved": -400,
+        "ms": 154,
+        "avgV": -2.6,
+        "releaseV": -2.78,
+        "cancelled": false
+      }
+    },
+    "snap: hard short flick up from 40 (180px, 2 moves)": {
+      "open": true,
+      "top": 244,
+      "visible": 70,
+      "snap": "70",
+      "scrollTop": 0,
+      "active": "open-snap",
+      "activeInSheet": false,
+      "gesture": {
+        "moved": -180,
+        "ms": 137,
+        "avgV": -1.31,
+        "releaseV": -2.25,
+        "cancelled": false
+      }
+    },
+    "snap: hard short flick down from 70 (180px, 2 moves)": {
+      "open": true,
+      "top": 487,
+      "visible": 40,
+      "snap": "40",
+      "scrollTop": 0,
+      "active": "open-snap",
+      "activeInSheet": false,
+      "gesture": {
+        "moved": 180,
+        "ms": 120,
+        "avgV": 1.5,
+        "releaseV": 1.88,
+        "cancelled": false
+      }
+    },
+    "snap: very hard flick down from 70 (240px, 2 moves)": {
+      "open": false,
+      "top": null,
+      "visible": 0,
+      "snap": null,
+      "scrollTop": null,
+      "active": "open-snap",
+      "activeInSheet": false,
+      "gesture": {
+        "moved": 240,
+        "ms": 105,
+        "avgV": 2.29,
+        "releaseV": 3.64,
+        "cancelled": false
+      }
+    },
+    "snap: small fast flick down from 70 (60px)": {
+      "open": true,
+      "top": 244,
+      "visible": 70,
+      "snap": "70",
+      "scrollTop": 0,
+      "active": "open-snap",
+      "activeInSheet": false,
+      "gesture": {
+        "moved": 60,
+        "ms": 155,
+        "avgV": 0.39,
+        "releaseV": 0.47,
+        "cancelled": false
+      }
+    },
+    "snap: fast flick down from 40 (80px)": {
+      "open": false,
+      "top": null,
+      "visible": 0,
+      "snap": null,
+      "scrollTop": null,
+      "active": "open-snap",
+      "activeInSheet": false,
+      "gesture": {
+        "moved": 80,
+        "ms": 149,
+        "avgV": 0.54,
+        "releaseV": 0.59,
+        "cancelled": false
+      }
+    },
+    "snap: drag up on content at 40 (200px)": {
+      "open": true,
+      "top": 487,
+      "visible": 40,
+      "snap": "40",
+      "scrollTop": 185,
+      "active": "open-snap",
+      "activeInSheet": false
+    },
+    "snap: rows reachable by scrolling at 40 (last row visible after scroll)": {
+      "lastRowBottom": 1299,
+      "viewport": 812,
+      "reachable": false
+    },
+    "binary: slow-drag dismissal threshold (px)": {
+      "40": "stays",
+      "70": "stays",
+      "100": "stays",
+      "130": "stays",
+      "160": "stays",
+      "200": "dismissed",
+      "260": "dismissed"
+    },
+    "binary: fast flick down 50px": {
+      "open": true,
+      "top": 162,
+      "visible": 80,
+      "snap": null,
+      "scrollTop": 0,
+      "active": "open-binary",
+      "activeInSheet": false,
+      "gesture": {
+        "moved": 50,
+        "ms": 132,
+        "avgV": 0.38,
+        "releaseV": 0.43,
+        "cancelled": false
+      }
+    },
+    "binary: flick down 90px (2 moves)": {
+      "open": false,
+      "top": null,
+      "visible": 0,
+      "snap": null,
+      "scrollTop": null,
+      "active": "open-binary",
+      "activeInSheet": false,
+      "gesture": {
+        "moved": 90,
+        "ms": 136,
+        "avgV": 0.66,
+        "releaseV": 0.98,
+        "cancelled": false
+      }
+    },
+    "binary: overdrag up 200px from handle, mid-drag rise": {
+      "rise": 0,
+      "after": {
+        "open": true,
+        "top": 162,
+        "visible": 80,
+        "snap": null,
+        "scrollTop": 0,
+        "active": "open-binary",
+        "activeInSheet": false
+      }
+    },
+    "binary: drag down on content at scrollTop 0 (200px)": {
+      "open": false,
+      "top": null,
+      "visible": 0,
+      "snap": null,
+      "scrollTop": null,
+      "active": "open-binary",
+      "activeInSheet": false
+    },
+    "binary: hand-off, list at 150px, one drag down 450px": {
+      "startScrollTop": 150,
+      "midScrollTop": 0,
+      "midSheetMoved": 0,
+      "after": {
+        "open": true,
+        "top": 162,
+        "visible": 80,
+        "snap": null,
+        "scrollTop": 0,
+        "active": "open-binary",
+        "activeInSheet": false
+      }
+    },
+    "binary: tap close button in drag surface": {
+      "open": false,
+      "top": null,
+      "visible": 0,
+      "snap": null,
+      "scrollTop": null,
+      "active": "open-binary",
+      "activeInSheet": false
+    },
+    "binary: tap backdrop": {
+      "open": false,
+      "top": null,
+      "visible": 0,
+      "snap": null,
+      "scrollTop": null,
+      "active": "open-binary",
+      "activeInSheet": false
+    },
+    "keyboard: Enter opens, focus inside, Tab x12 stays inside, Escape closes, focus returns": {
+      "focusInsideOnOpen": false,
+      "tabStaysInside": true,
+      "tabReachesPageBehind": false,
+      "tabTrace": "111111111111",
+      "escapeCloses": true,
+      "focusReturnedTo": "open-binary"
+    },
+    "a11y: dialog role, modal, name": {
+      "role": "dialog",
+      "modal": null,
+      "name": "Binary sheet",
+      "pageInert": true,
+      "bodyOverflow": "hidden"
+    },
+    "reduced motion: open animation": {
+      "at60ms": {
+        "transition": "transform 0.5s",
+        "animations": ["CSSAnimation:500"],
+        "top": 559
+      },
+      "restTop": 162,
+      "movingAt60ms": true
+    },
+    "frames: 4x CPU throttle, 90-move drag on handle": {
+      "frames": 319,
+      "p50": 16.7,
+      "p95": 16.7,
+      "max": 17,
+      "over33": 0,
+      "longTasks": 0,
+      "longTaskMs": 0
+    }
+  }
+}
