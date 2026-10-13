@@ -1,0 +1,126 @@
+{
+  "$schema": "https://labs.designfrom.com/schemas/meta.schema.json",
+  "schemaVersion": 1,
+  "name": "virtual-list",
+  "kind": "component",
+  "title": "Virtual List",
+  "description": "A virtualized list that renders only the rows in view, for thousands of items of any height, with list semantics and a named, keyboard-reachable scroll region, as a React wrapper over React Virtuoso.",
+  "status": "beta",
+  "category": "data-display",
+  "label": "React Virtuoso",
+  "variants": [
+    {
+      "name": "virtual-list",
+      "primitive": "none",
+      "iconSet": "none",
+      "status": "beta"
+    }
+  ],
+  "defaultVariant": "virtual-list",
+  "demo": "demo.tsx",
+  "preview": "preview.webp",
+  "source": {
+    "repo": "https://github.com/petyosi/react-virtuoso",
+    "commit": "6650ec4a4397cc2670d3e1f77ddba1ddcfc0d731",
+    "path": "packages/react-virtuoso/src"
+  },
+  "author": "Petyo Ivanov <https://github.com/petyosi>",
+  "license": "MIT",
+  "attribution": "Copyright (c) 2020 Petyo Ivanov. MIT License.",
+  "credits": [
+    "S-436",
+    "S-441",
+    "S-003",
+    "S-004",
+    "S-014",
+    "S-015",
+    "S-152",
+    "S-153",
+    "S-157",
+    "S-184",
+    "S-158",
+    "S-444"
+  ],
+  "date": "2026-10-13",
+  "tile": {
+    "span": 1,
+    "rows": 2
+  },
+  "loop": {
+    "hydrate": true,
+    "script": "wait",
+    "duration": 5600
+  },
+  "tags": [
+    "virtualization",
+    "list",
+    "infinite",
+    "scroll",
+    "performance"
+  ],
+  "props": [
+    {
+      "name": "totalCount / data",
+      "type": "number / Data[]",
+      "description": "How many rows there are, or the items themselves (then `itemContent` receives each one)."
+    },
+    {
+      "name": "itemContent",
+      "type": "(index, item, context) => ReactNode",
+      "description": "Renders one row. Rows may have any height; Virtuoso measures them."
+    },
+    {
+      "name": "aria-label / aria-labelledby",
+      "type": "string",
+      "description": "Names the scroll region (it becomes a labelled region). Name every list."
+    },
+    {
+      "name": "style / className",
+      "type": "CSSProperties / string",
+      "description": "Give the list a height (`style={{ height: 320 }}` or a class), or use `useWindowScroll`. The class goes on the scroll region."
+    },
+    {
+      "name": "initialItemCount",
+      "type": "number",
+      "description": "Rows rendered on the server and before the first measure, so the list is not empty before hydration."
+    },
+    {
+      "name": "computeItemKey",
+      "type": "(index, item, context) => Key",
+      "description": "A stable key per row (by default the index)."
+    },
+    {
+      "name": "followOutput",
+      "type": "boolean | \"auto\" | \"smooth\" | (atBottom) => ...",
+      "description": "Keeps a chat-like list at the bottom as rows are added. \"smooth\" becomes a jump under reduced motion."
+    },
+    {
+      "name": "endReached / startReached / rangeChanged",
+      "type": "callbacks",
+      "description": "Load more at either end, or follow which rows are visible."
+    },
+    {
+      "name": "components",
+      "type": "Components",
+      "description": "Replace Virtuoso's parts (Header, Footer, EmptyPlaceholder, Item, List, Scroller). Replacing List or Item drops the wrapper's list semantics: add role list and listitem yourself."
+    },
+    {
+      "name": "ref",
+      "type": "VirtuosoHandle",
+      "description": "scrollToIndex, scrollIntoView, scrollTo, scrollBy, autoscrollToBottom and getState; a `behavior: \"smooth\"` scroll becomes a jump under reduced motion."
+    },
+    {
+      "name": "...Virtuoso props",
+      "type": "VirtuosoProps",
+      "description": "Every other Virtuoso prop passes through (overscan, increaseViewportBy, firstItemIndex, initialTopMostItemIndex, alignToBottom, horizontalDirection, useWindowScroll, customScrollParent, context, and more)."
+    }
+  ],
+  "a11y": [
+    "The rows are a list: the list element has role list and each rendered row role listitem with aria-setsize (the whole list's size) and aria-posinset (its position), so a screen reader reports \"item 5,001 of 10,000\" although only a window of rows is in the page.",
+    "The scroll region is keyboard reachable (Virtuoso gives it tabindex 0; arrow keys, Page Up and Down, Home and End scroll it) and, when named with aria-label or aria-labelledby, is a labelled region. Virtuoso removes its focus outline; the wrapper draws a focus ring (focus-visible) instead.",
+    "Rows outside the window are not in the page, so the browser's find-in-page and a screen reader's browse mode see only rendered rows; give long lists a search or filter.",
+    "Under prefers-reduced-motion: reduce, smooth scrolls requested through the handle or followOutput jump instead.",
+    "Right to left: the vertical list follows the page direction; for a horizontal list (horizontalDirection) Virtuoso reads the scroll direction itself."
+  ],
+  "usage": "<VirtualList\n  aria-label=\"Messages\"\n  style={{ height: 400 }}\n  totalCount={10000}\n  itemContent={(index) => <div className=\"px-4 py-2\">Row {index + 1}</div>}\n/>"
+}

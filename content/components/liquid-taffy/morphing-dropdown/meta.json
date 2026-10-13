@@ -1,0 +1,164 @@
+{
+  "$schema": "https://labs.designfrom.com/schemas/meta.schema.json",
+  "schemaVersion": 1,
+  "name": "morphing-dropdown",
+  "kind": "component",
+  "title": "Morphing Dropdown",
+  "description": "A plus button that becomes a multi-select dropdown: the circle stretches upward into the panel, and closing gathers it back into the circle. Gooey SVG liquid, springs and a glyph that spins into a tick.",
+  "status": "beta",
+  "category": "overlays",
+  "label": "liquid-taffy",
+  "variants": [
+    {
+      "name": "morphing-dropdown",
+      "primitive": "none",
+      "iconSet": "none",
+      "status": "beta"
+    },
+    {
+      "name": "morphing-dropdown-radix",
+      "primitive": "radix",
+      "iconSet": "none",
+      "status": "beta"
+    },
+    {
+      "name": "morphing-dropdown-base",
+      "primitive": "base",
+      "iconSet": "none",
+      "status": "beta"
+    },
+    {
+      "name": "morphing-dropdown-aria",
+      "primitive": "aria",
+      "iconSet": "none",
+      "status": "beta"
+    },
+    {
+      "name": "morphing-dropdown-icons-lucide",
+      "style": "icons",
+      "label": "Icon library",
+      "primitive": "none",
+      "iconSet": "lucide",
+      "status": "beta"
+    },
+    {
+      "name": "morphing-dropdown-icons-phosphor",
+      "style": "icons",
+      "label": "Icon library",
+      "primitive": "none",
+      "iconSet": "phosphor",
+      "status": "beta"
+    }
+  ],
+  "defaultVariant": "morphing-dropdown",
+  "demo": "demo.tsx",
+  "preview": "preview.webp",
+  "source": {
+    "repo": "https://github.com/arknow91/liquid-taffy",
+    "commit": "4bcf4005f857c371bf53d60b2cee14abcecedf6a",
+    "path": "src/components/LiquidMorph"
+  },
+  "author": "arknow91 <https://github.com/arknow91>",
+  "license": "MIT",
+  "attribution": "Copyright (c) 2026 arknow91. MIT License.",
+  "credits": [
+    "S-420",
+    "S-421",
+    "S-422",
+    "S-423",
+    "S-425",
+    "S-426",
+    "S-104",
+    "S-003",
+    "S-004",
+    "S-014",
+    "S-015",
+    "S-152",
+    "S-153",
+    "S-157",
+    "S-158",
+    "S-184",
+    "S-444",
+    "S-424"
+  ],
+  "date": "2026-10-13",
+  "tile": {
+    "span": 1,
+    "rows": 2,
+    "surface": "light"
+  },
+  "loop": {
+    "script": "click[4] → click[0] → click[1] → click[4] → wait → click[4] → click[0] → click[1] → click[4]",
+    "duration": 9000,
+    "hydrate": true
+  },
+  "tags": [
+    "dropdown",
+    "menu",
+    "multi-select",
+    "gooey",
+    "liquid",
+    "morph"
+  ],
+  "props": [
+    {
+      "name": "items",
+      "type": "readonly { id: string; label: string; shape: \"circle\" | \"cross\" | \"triangle\" | \"square\" }[]",
+      "default": "the four glyphs",
+      "description": "The rows. The panel's height follows the count; up to about eight fit."
+    },
+    {
+      "name": "value / defaultValue",
+      "type": "readonly string[]",
+      "description": "The ticked rows by id, controlled or uncontrolled. Multi-select: a row keeps the menu open, and a tick persists across open and close."
+    },
+    {
+      "name": "onValueChange",
+      "type": "(value: string[]) => void",
+      "description": "Called with the ticked ids after a row is toggled."
+    },
+    {
+      "name": "open / defaultOpen / onOpenChange",
+      "type": "boolean / (open: boolean) => void",
+      "default": "false",
+      "description": "Whether the panel is out, controlled or uncontrolled."
+    },
+    {
+      "name": "label",
+      "type": "string",
+      "default": "\"Add shape\"",
+      "description": "The trigger button's accessible name."
+    },
+    {
+      "name": "menuLabel",
+      "type": "string",
+      "default": "\"Shapes menu\"",
+      "description": "The menu's accessible name."
+    },
+    {
+      "name": "theme",
+      "type": "\"light\" | \"dark\"",
+      "description": "The frame. By default the page's: dark inside a `.dark` ancestor, light elsewhere, followed live."
+    },
+    {
+      "name": "sound",
+      "type": "boolean",
+      "default": "false",
+      "description": "Synthesized liquid sounds on open, close, tick, grab and release (Web Audio, no samples). Off by default; it plays only inside a user gesture."
+    },
+    {
+      "name": "className",
+      "type": "string",
+      "description": "Added to the 32px anchor element, so you can position it; the panel opens out of it."
+    }
+  ],
+  "a11y": [
+    "The trigger is a button with aria-haspopup=\"menu\", aria-expanded and aria-controls, named by `label`. The panel is a role=menu named by `menuLabel` whose rows are menuitemcheckbox with aria-checked. Enter, Space and ArrowDown on the trigger open it on the first row, ArrowUp on the last; the arrow keys move and wrap, Home and End jump, a letter jumps to the next row that starts with it, Enter and Space toggle a row and keep the menu open, Escape closes and returns focus to the trigger, Tab closes and moves on.",
+    "The press-and-drag gesture is pointer-only and decorative: the liquid finger never changes state, so keyboard and screen reader use is complete without it. The goo, the seam light and the glyph burst are aria-hidden, and a ticked row is announced by aria-checked, not by its shape.",
+    "Reduced motion: no goo choreography, stretch or springs; the panel and the ticks switch state in place.",
+    "Contrast on request: under prefers-contrast: more the rim and the selection wash darken; under forced colors the liquid picture steps aside for system-colour borders and a Highlight selection. The default keeps upstream's pale rim and ink.",
+    "Right to left: the panel is centered over the trigger, so it does not move; each row's glyph and label follow the page direction.",
+    "Primitive variants: the `-radix`, `-base` and `-aria` items put the same surface on Radix's DropdownMenu, Base UI's Menu or React Aria's Menu, which then supply the roles, the roving focus and the typeahead. The panel is never portalled (the liquid is drawn as one mass with its button), so the primitive's overlay positioning is switched off and the surface places the panel. Tab closes the menu in every variant; in the Radix variant focus goes back to the button first. The React Aria rows are `div` elements with the menu roles, the others are buttons."
+  ],
+  "usage": "<MorphingDropdown onValueChange={(ids) => console.log(ids)} />"
+}

@@ -1,0 +1,136 @@
+{
+  "$schema": "https://labs.designfrom.com/schemas/meta.schema.json",
+  "schemaVersion": 1,
+  "name": "financial-chart",
+  "kind": "component",
+  "title": "Financial Chart",
+  "description": "A canvas price chart with candlesticks, area or line and a volume histogram, themed with tokens for light and dark, resizing with its container, with a keyboard cursor and a spoken summary, over Lightweight Charts.",
+  "status": "beta",
+  "category": "data-display",
+  "label": "Lightweight Charts",
+  "variants": [
+    {
+      "name": "financial-chart",
+      "primitive": "none",
+      "iconSet": "none",
+      "status": "beta"
+    }
+  ],
+  "defaultVariant": "financial-chart",
+  "demo": "demo.tsx",
+  "preview": "preview.webp",
+  "source": {
+    "repo": "https://github.com/tradingview/lightweight-charts",
+    "commit": "b2ce010e4ad59f6556c9ed60e2b2b30feccdd2d1",
+    "path": "src"
+  },
+  "author": "TradingView, Inc. <https://www.tradingview.com/>",
+  "license": "Apache-2.0",
+  "attribution": "TradingView Lightweight Charts™ Copyright (с) 2025 TradingView, Inc. https://www.tradingview.com/ (NOTICE). Apache License 2.0.",
+  "credits": [
+    "S-435",
+    "S-438",
+    "S-439",
+    "S-440",
+    "S-003",
+    "S-004",
+    "S-014",
+    "S-015",
+    "S-152",
+    "S-153",
+    "S-157",
+    "S-184",
+    "S-158",
+    "S-444"
+  ],
+  "date": "2026-10-13",
+  "tile": {
+    "span": 2,
+    "rows": 2
+  },
+  "loop": {
+    "hydrate": true,
+    "script": "wait",
+    "duration": 4000
+  },
+  "tags": [
+    "chart",
+    "candlestick",
+    "finance",
+    "canvas",
+    "volume"
+  ],
+  "props": [
+    {
+      "name": "data",
+      "type": "{ time, open, high, low, close, volume? }[]",
+      "description": "One entry per period, in time order. `time` is a \"YYYY-MM-DD\" string, a UNIX timestamp in seconds or a business day object. Area and line draw the close."
+    },
+    {
+      "name": "series",
+      "type": "\"candlestick\" | \"area\" | \"line\"",
+      "default": "\"candlestick\"",
+      "description": "How the price is drawn."
+    },
+    {
+      "name": "volume",
+      "type": "boolean",
+      "default": "true when any datum has a volume",
+      "description": "A volume histogram under the price (bottom 30%; price in the top 60%), each bar colored by its period's direction."
+    },
+    {
+      "name": "volumeScale",
+      "type": "\"auto\" | \"zero\"",
+      "default": "\"auto\"",
+      "description": "\"auto\" is the library's default: the volume scale fits the bars' own range, so small differences look large. \"zero\" starts it at zero so bar heights are proportional to volume (the demo uses it)."
+    },
+    {
+      "name": "height",
+      "type": "number",
+      "default": "300",
+      "description": "Height in pixels; the width follows the container and the chart resizes with it."
+    },
+    {
+      "name": "label",
+      "type": "string",
+      "description": "The chart's accessible name (required)."
+    },
+    {
+      "name": "summary",
+      "type": "string",
+      "default": "generated",
+      "description": "The description read after the name. By default: the period range, first and last close with the change, the high and the low."
+    },
+    {
+      "name": "dataTable",
+      "type": "boolean",
+      "default": "false",
+      "description": "Also renders every point in a visually hidden table."
+    },
+    {
+      "name": "options",
+      "type": "DeepPartial<ChartOptions>",
+      "description": "Any lightweight-charts chart option (scales, crosshair, localization, handleScroll), applied over the token colors. Keep `layout.attributionLogo` on (see a11y and docs)."
+    },
+    {
+      "name": "seriesOptions",
+      "type": "DeepPartial<series style options>",
+      "description": "Style options for the price series (for example `priceFormat`, `lineWidth`), applied over the token colors."
+    },
+    {
+      "name": "ref",
+      "type": "FinancialChartHandle",
+      "description": "`getChart()`, `getSeries()`, `getVolumeSeries()` (the library's own APIs, for markers, price lines or live `update()`), and `showPoint(index | null)` to place the crosshair."
+    }
+  ],
+  "a11y": [
+    "The chart is a figure named by `label` and described by a generated summary (range, first and last close with the change, high and low), or by `summary`. `dataTable` adds every point as a visually hidden table.",
+    "Keyboard: the chart is one Tab stop, a slider over the points. Left and Right (or Down and Up) move the crosshair one point, Page Up and Page Down ten, Home and End to the ends; each point is read out (time, open, high, low, close, volume) as the slider's value text. The focus ring is drawn over the chart; pointer input goes straight to the chart.",
+    "The library lays its panes out in an HTML table; the wrapper marks it as presentation, so it is not announced as a data table. The canvases carry no text of their own.",
+    "Attribution: the library's license asks for a visible link to its author's website. The chart keeps lightweight-charts' attribution logo on (`layout.attributionLogo`, the default): a small logo link at the bottom left, named by its title (\"Charting by TradingView\"), opening in a new tab. Do not turn it off unless the same link is shown elsewhere on the page.",
+    "Reduced motion: touch kinetic scrolling is off under prefers-reduced-motion: reduce. The chart has no other animation.",
+    "Right to left: the plot stays left to right (time runs left to right in every language); the summary and labels follow the page.",
+    "Colors: up and down are also told apart by shape (a candle's open and close, the summary's signed change), not by color alone. The default text #191919 on white is 17:1."
+  ],
+  "usage": "<FinancialChart\n  label=\"Sample asset, daily prices\"\n  data={candles}\n  series=\"candlestick\"\n/>"
+}

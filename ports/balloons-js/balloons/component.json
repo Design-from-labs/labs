@@ -1,0 +1,86 @@
+{
+  "title": "Balloons",
+  "description": "A celebration effect: glossy balloons float up and away, or a few words rise as letter balloons, over the page or contained in one element.",
+  "category": "feedback",
+  "type": "registry:ui",
+  "status": "beta",
+  "upstreamPath": "src",
+  "iconSets": ["none"],
+  "variants": [
+    {
+      "primitive": "none",
+      "roots": ["src"],
+      "status": "beta"
+    }
+  ],
+  "defaultVariant": "balloons",
+  "demo": "demo.tsx",
+  "tile": {
+    "span": 2,
+    "rows": 2
+  },
+  "loop": {
+    "script": "click[0] → wait → wait → wait → click[1] → wait → wait → wait",
+    "duration": 16000,
+    "hydrate": true
+  },
+  "credits": [
+    "S-003",
+    "S-004",
+    "S-014",
+    "S-015",
+    "S-152",
+    "S-153",
+    "S-157",
+    "S-158",
+    "S-161",
+    "S-184",
+    "S-238",
+    "S-430",
+    "S-432",
+    "S-444"
+  ],
+  "tags": [
+    "celebration",
+    "confetti",
+    "animation",
+    "svg",
+    "web-animations",
+    "reduced-motion"
+  ],
+  "docs": "Installed `balloons`, `textBalloons` and the `useBalloons` hook (`@/components/ui/balloons`, with three helper files beside it).\n\n```tsx\nimport { balloons, textBalloons, useBalloons } from \"@/components/ui/balloons\";\n\n// Anywhere in the browser: over the whole page.\nballoons();\ntextBalloons([{ text: \"HAPPY\", color: \"#FA4616EE\", fontSize: 120 }]);\n\n// In a component: contained in an element, stopped on unmount.\nconst stage = useRef<HTMLDivElement>(null);\nconst { release, releaseText, stop } = useBalloons({ containerRef: stage });\n```\n\nBoth functions return a promise that resolves when the effect ends, and take `{ container, signal, reducedMotion }`. Under reduced motion nothing flies: one still frame fades in and out (`reducedMotion: \"skip\"` does nothing instead). The layers are `aria-hidden`; announce the event itself in your UI.\n\nText balloons draw each letter as an SVG image, which cannot see your page's fonts. The family comes from `--balloons-font-family` (default `ui-rounded, system-ui, sans-serif`). Upstream uses the Sniglet typeface (SIL Open Font License), which is not bundled here: to use it, download it (Google Fonts or `@fontsource/sniglet`), serve the file, then `const fontFace = await balloonFontFace(\"Sniglet\", \"/fonts/sniglet-800.woff2\")`, set `--balloons-font-family: Sniglet, system-ui` and pass `{ fontFace }`; keep the font's license with it.\n\nPorted from arturbien/balloons-js (MIT, copyright 2024 Artur Bień); the license notice is at the end of every file.",
+  "props": [
+    {
+      "name": "balloons(options?)",
+      "type": "(options?: { container?: HTMLElement | null; signal?: AbortSignal; reducedMotion?: \"fade\" | \"skip\" }) => Promise<void>",
+      "description": "Releases a bunch of balloons sized to the viewport (or the container). Resolves when the last one has floated away, about 30 s later."
+    },
+    {
+      "name": "textBalloons(lines, options?)",
+      "type": "(lines: { text: string; color: string; fontSize: number }[], options?: { container?, signal?, reducedMotion?, fontFace?: string }) => Promise<void>",
+      "description": "Floats each line up as one balloon per character (emoji included), a second apart. fontFace is an @font-face rule with a data: URL."
+    },
+    {
+      "name": "useBalloons(options?)",
+      "type": "(options?: { containerRef?: RefObject<HTMLElement | null>; reducedMotion?; fontFace? }) => { release, releaseText, stop }",
+      "description": "The same functions bound to a component: contained in containerRef when given, and stopped when the component unmounts. Each call can pass its own signal."
+    },
+    {
+      "name": "balloonFontFace(family, url)",
+      "type": "(family: string, url: string, descriptors?: string) => Promise<string>",
+      "description": "Fetches a font file and returns the @font-face rule (as a data: URL) that textBalloons embeds in each letter."
+    },
+    {
+      "name": "--balloons-font-family",
+      "type": "CSS custom property",
+      "default": "ui-rounded, system-ui, sans-serif",
+      "description": "The text balloons' font family, read from the container (or the root element) when they are released."
+    }
+  ],
+  "a11y": [
+    "Decorative: every layer is aria-hidden and pointer-events: none, so the page stays usable while balloons fly. Announce the success itself in text.",
+    "Reduced motion (WCAG 2.3.3): no balloon moves. By default one still frame of the effect fades in and out over 2.4 s (opacity only); reducedMotion: \"skip\" does nothing.",
+    "The effect runs once per call and is over in seconds on screen (2.2.2 needs no pause control); the wall's looping tile honours the gallery's pause and reduced motion."
+  ],
+  "usage": "const { release } = useBalloons();\n\n<button onClick={() => release()}>Celebrate</button>"
+}

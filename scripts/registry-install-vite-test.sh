@@ -25,19 +25,23 @@ APP="$WORK/vite-app"
 export CI=1
 
 # Representative multi-file ports: the data-table trio (two items pull the
-# first through a cross-item registry dependency) and a nested, non-shadcn
-# port. The demo of each is the code its gallery page renders.
+# first through a cross-item registry dependency), a nested, non-shadcn
+# port, and a component that pulls a shared `lib` item and imports it as
+# `@/lib/...` (decision 0034). The demo of each is the code its gallery page
+# renders.
 ITEMS=(
   data-table-radix-lucide
   data-table-sheet-radix-lucide
   data-table-filter-command-radix-lucide
   liveline
+  anchored-dropdown
 )
 DEMOS=(
   data-table-filters/data-table
   data-table-filters/data-table-sheet
   data-table-filters/data-table-filter-command
   liveline/liveline
+  liquid-taffy/anchored-dropdown
 )
 
 mkdir -p "$WORK"

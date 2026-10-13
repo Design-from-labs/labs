@@ -135,3 +135,9 @@ paths (pitfall P-044); until then they are reviewed on preview deployments.
 | `creativeocean-scroll-map` | `scroll-map` | CodePen pen creativeocean/myOVZYO, pinned by the snapshot in `upstream/` (the snapshot-pinning decision; GSAP, DrawSVG, MotionPath and ScrollTrigger rewritten with Motion and plain SVG, map photo generated, reduced motion draws the whole route) |
 | `nomanijaz-glimm` | `glimm` | glimm 0.3.1 by Noman Ijaz, `dist/index.js` and `dist/react.js` (npm only, pinned by its gitHead; core and React entry, render-loop, a container scope, reduced-motion crossfade, focus handoff, RTL) |
 | `pshihn-rough-notation` | `rough-annotation` | rough-stuff/rough-notation, `src` (merged into one core file plus a React wrapper; depends on roughjs 4.3.1) |
+| `segmented-pill` | `segmented-pill` | danielwh2/segmented-pill, `src` (core, React adapter, stylesheet; variants shape, primitives; beside the stock toggle group) |
+| `balloons-js` | `balloons` | arturbien/balloons-js, `src` (its embedded font is not shipped) |
+| `number-flow` | `number-flow` | barvian/number-flow 0.6.2 (a wrapper over npm `@number-flow/react`) |
+| `lightweight-charts` | `financial-chart` | tradingview/lightweight-charts 5.2.1 (a wrapper over npm `lightweight-charts`; Apache-2.0 with a NOTICE, attribution logo kept) |
+| `react-virtuoso` | `virtual-list` | petyosi/react-virtuoso 4.18.16 (a wrapper over npm `react-virtuoso`) |
+| `liquid-taffy` | `anchored-dropdown`, `morphing-dropdown`, `speed-dial`, `liquid-taffy-engine` | arknow91/liquid-taffy, `src/components` (variants shape: primitives and an `icons` style; the choreography rewritten on Motion; the engine is a `lib` foundation item the three share) |

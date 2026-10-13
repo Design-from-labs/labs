@@ -1998,3 +1998,214 @@ sources:
     visibility: public
     note: "Not ported and not a dependency: the panel's starting values are the component's defaults, and its collapsed title bar is hidden on the upstream side of the fidelity diff."
     used-in: [ports/sabosugi-aura, docs/evidence/ports/aura]
+  - id: S-434
+    title: "NumberFlow: an animated number component (@number-flow/react)"
+    author: "Maxwell Barvian"
+    kind: library
+    url: "https://github.com/barvian/number-flow"
+    license: "MIT"
+    accessed: 2026-10-13
+    visibility: public
+    used-in: [sources.yaml, package.json, ports/number-flow, content/components/number-flow/number-flow, docs/evidence/ports/number-flow]
+    note: "The item depends on npm @number-flow/react 0.6.2 (and its number-flow 0.6.2), tag @number-flow/react@0.6.2, commit a7b78f5d4d4b1e2cd4cb53d09d7158461bad493a, and wraps it. Fidelity ran against the repository's React 19 test app (packages/react/test/apps/react-19)."
+  - id: S-435
+    title: "Lightweight Charts: canvas financial charts (TradingView Lightweight Charts)"
+    author: "TradingView, Inc."
+    kind: library
+    url: "https://github.com/tradingview/lightweight-charts"
+    license: "Apache-2.0"
+    accessed: 2026-10-13
+    visibility: public
+    used-in: [sources.yaml, package.json, ports/lightweight-charts, content/components/lightweight-charts/financial-chart, docs/evidence/ports/financial-chart]
+    note: "The item depends on npm lightweight-charts 5.2.1 (tag v5.2.1, commit b2ce010e4ad59f6556c9ed60e2b2b30feccdd2d1) and wraps it. Its NOTICE ships verbatim in ports/lightweight-charts/NOTICE and in every item file; its license asks for a visible link to https://www.tradingview.com/, which the chart's attributionLogo option (kept on) provides. The npm build incorporates parts of tslib (0BSD), per its README."
+  - id: S-436
+    title: "React Virtuoso: virtualized lists for React (react-virtuoso)"
+    author: "Petyo Ivanov"
+    kind: library
+    url: "https://github.com/petyosi/react-virtuoso"
+    license: "MIT"
+    accessed: 2026-10-13
+    visibility: public
+    used-in: [sources.yaml, package.json, ports/react-virtuoso, content/components/react-virtuoso/virtual-list, docs/evidence/ports/virtual-list]
+    note: "The item depends on npm react-virtuoso 4.18.16 (tag react-virtuoso@4.18.16, commit 6650ec4a4397cc2670d3e1f77ddba1ddcfc0d731), MIT (packages/react-virtuoso/LICENSE), and wraps it. No other package from the same repository or author is used."
+  - id: S-437
+    title: "esm-env: environment conditions for ES modules (a dependency of @number-flow/react)"
+    author: "Ben McCann"
+    kind: library
+    url: "https://github.com/benmccann/esm-env"
+    license: "MIT"
+    accessed: 2026-10-13
+    visibility: public
+    used-in: [pnpm-lock.yaml, content/components/number-flow/number-flow]
+    note: "Installed transitively (1.2.2); decides whether NumberFlow renders its server markup."
+  - id: S-438
+    title: "fancy-canvas: canvas size and pixel ratio helpers (a dependency of lightweight-charts)"
+    author: "TradingView, Inc."
+    kind: library
+    url: "https://www.npmjs.com/package/fancy-canvas"
+    license: "MIT"
+    accessed: 2026-10-13
+    visibility: public
+    used-in: [pnpm-lock.yaml, content/components/lightweight-charts/financial-chart]
+    note: "Installed transitively (2.1.0)."
+  - id: S-439
+    title: "WAI-ARIA Authoring Practices: Slider pattern (the chart's keyboard cursor)"
+    author: "W3C"
+    kind: doc
+    url: "https://www.w3.org/WAI/ARIA/apg/patterns/slider/"
+    license: "W3C Software and Document License"
+    accessed: 2026-10-13
+    visibility: public
+    used-in: [content/components/lightweight-charts/financial-chart, docs/evidence/ports/financial-chart]
+  - id: S-440
+    title: "Apache License 2.0 (section 4(d): NOTICE attribution in derivative works)"
+    author: "The Apache Software Foundation"
+    kind: doc
+    url: "https://www.apache.org/licenses/LICENSE-2.0"
+    license: "Apache-2.0"
+    accessed: 2026-10-13
+    visibility: public
+    used-in: [ports/lightweight-charts, scripts/export-ports.mjs, docs/evidence/ports/financial-chart]
+  - id: S-441
+    title: "WAI-ARIA 1.2: list, listitem, aria-setsize and aria-posinset"
+    author: "W3C"
+    kind: doc
+    url: "https://www.w3.org/TR/wai-aria-1.2/#aria-setsize"
+    license: "W3C Software and Document License"
+    accessed: 2026-10-13
+    visibility: public
+    used-in: [content/components/react-virtuoso/virtual-list, docs/evidence/ports/virtual-list]
+  - id: S-442
+    title: "ElementInternals: role and ARIA properties of custom elements (MDN)"
+    author: "MDN contributors"
+    kind: doc
+    url: "https://developer.mozilla.org/en-US/docs/Web/API/ElementInternals"
+    license: "CC-BY-SA-2.5"
+    accessed: 2026-10-13
+    visibility: public
+    used-in: [content/components/number-flow/number-flow, docs/evidence/ports/number-flow]
+    note: "How NumberFlow names itself (role img, aria-label = the formatted value); read for the accessibility notes only."
+  - id: S-444
+    title: "Owner brief: port batch K (anchored dropdown, morphing dropdown, speed dial, balloons, number flow, segmented pill, financial chart, virtual list)"
+    author: "Owner"
+    kind: brief
+    private-file: "Owner instructions relayed to port pod K; not in the repository"
+    license: "All rights reserved (owner)"
+    accessed: 2026-10-13
+    visibility: private-cited-only
+    used-in: [docs/evidence/ports, content/components]
+  - id: S-428
+    title: "Segmented Pill: an accessible segmented control with a sliding pill (core, React adapter, stylesheet)"
+    author: "Daniel Belyi"
+    kind: library
+    url: "https://github.com/danielwh2/segmented-pill"
+    license: "MIT"
+    accessed: 2026-10-13
+    visibility: public
+    used-in: [sources.yaml, ports/segmented-pill, content/components/segmented-pill/segmented-pill, docs/evidence/ports/segmented-pill]
+    note: "Ported at commit 489bdf7374868d40bc2aa4adc3e03ebfe8a90e99 (npm 0.1.3): src/index.js, src/react.js, src/react.d.ts and src/style.css. The Vue adapter and the registry wrapper are not ported."
+  - id: S-429
+    title: "balloons-js: an animated balloons effect for the web"
+    author: "Artur Bień"
+    kind: library
+    url: "https://github.com/arturbien/balloons-js"
+    license: "MIT"
+    accessed: 2026-10-13
+    visibility: public
+    used-in: [sources.yaml, ports/balloons-js, content/components/balloons-js/balloons, docs/evidence/ports/balloons]
+    note: "Ported at commit b27dbf3e80340549854a348ff2d94118f53bdd38 (src). The embedded font (src/balloonFont.ts) and the demo's og-image are not shipped."
+  - id: S-430
+    title: "Sniglet typeface (the font upstream balloons-js embeds for its text balloons)"
+    author: "Haley Fiege"
+    kind: library
+    url: "https://fonts.google.com/specimen/Sniglet"
+    license: "OFL-1.1"
+    accessed: 2026-10-13
+    visibility: public
+    used-in: [content/components/balloons-js/balloons, docs/evidence/ports/balloons]
+    note: "Not shipped: OFL-1.1 is not on the component license allowlist. The item's docs explain how to load it; the fidelity harness loaded upstream's embedded copy on both sides, outside the repository."
+  - id: S-431
+    title: "WAI-ARIA Authoring Practices: Radio Group pattern"
+    author: "W3C"
+    kind: doc
+    url: "https://www.w3.org/WAI/ARIA/apg/patterns/radio/"
+    license: "W3C Software and Document License"
+    accessed: 2026-10-13
+    visibility: public
+    used-in: [content/components/segmented-pill/segmented-pill, docs/evidence/ports/segmented-pill]
+  - id: S-432
+    title: "Understanding WCAG 2.2: Success Criterion 2.3.3 Animation from Interactions"
+    author: "W3C"
+    kind: doc
+    url: "https://www.w3.org/WAI/WCAG22/Understanding/animation-from-interactions.html"
+    license: "W3C Software and Document License"
+    accessed: 2026-10-13
+    visibility: public
+    used-in: [content/components/balloons-js/balloons, docs/evidence/ports/balloons]
+  - id: S-420
+    title: "liquid-taffy: anchored dropdown, morphing dropdown and speed dial (a gooey interaction study)"
+    author: "arknow91"
+    kind: library
+    url: "https://github.com/arknow91/liquid-taffy"
+    license: "MIT"
+    accessed: 2026-10-13
+    visibility: public
+    used-in: [sources.yaml, ports/liquid-taffy, content/components/liquid-taffy, docs/evidence/ports/anchored-dropdown, docs/evidence/ports/morphing-dropdown, docs/evidence/ports/speed-dial]
+    note: "Ported at commit 4bcf4005f857c371bf53d60b2cee14abcecedf6a (src/components/liquid, LiquidAdd, LiquidMorph, LiquidMenu). The stage, theme switch and console mark are not ported; the choreography is rewritten on Motion's frame loop."
+  - id: S-421
+    title: "GSAP (the tween library upstream's choreography is written for; replaced, not shipped)"
+    author: "GreenSock"
+    kind: library
+    url: "https://gsap.com/docs/v3/"
+    license: "GreenSock Standard License (proprietary)"
+    accessed: 2026-10-13
+    visibility: public
+    used-in: [docs/evidence/ports/anchored-dropdown, docs/evidence/ports/morphing-dropdown, docs/evidence/ports/speed-dial]
+    note: "Run only in the upstream demo for the fidelity comparison, never shipped or listed as a dependency. Its documented tween semantics (positions, overwrite, autoAlpha, eases) were reproduced in the item's own engine on Motion's frame loop."
+  - id: S-422
+    title: "MDN: Web Audio API"
+    author: "Mozilla contributors"
+    kind: doc
+    url: "https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API"
+    license: "CC-BY-SA-2.5"
+    accessed: 2026-10-13
+    visibility: public
+    used-in: [content/components/liquid-taffy/liquid-taffy-engine, docs/evidence/ports/anchored-dropdown]
+    note: "Reference for upstream's synthesized sound (oscillators, filters, envelopes) and for the autoplay policy that gates it."
+  - id: S-423
+    title: "WAI-ARIA Authoring Practices: Menu Button pattern"
+    author: "W3C"
+    kind: doc
+    url: "https://www.w3.org/WAI/ARIA/apg/patterns/menu-button/"
+    license: "W3C Software and Document License"
+    accessed: 2026-10-13
+    visibility: public
+    used-in: [content/components/liquid-taffy/anchored-dropdown, content/components/liquid-taffy/morphing-dropdown, content/components/liquid-taffy/speed-dial]
+  - id: S-424
+    title: "WAI-ARIA Authoring Practices: Editor Menubar (menuitemcheckbox)"
+    author: "W3C"
+    kind: doc
+    url: "https://www.w3.org/WAI/ARIA/apg/patterns/menubar/examples/menubar-editor/"
+    license: "W3C Software and Document License"
+    accessed: 2026-10-13
+    visibility: public
+    used-in: [content/components/liquid-taffy/anchored-dropdown, content/components/liquid-taffy/morphing-dropdown]
+  - id: S-425
+    title: "MDN: SVG filter primitives (feGaussianBlur, feColorMatrix, feComposite)"
+    author: "Mozilla contributors"
+    kind: doc
+    url: "https://developer.mozilla.org/en-US/docs/Web/SVG/Reference/Element/filter"
+    license: "CC-BY-SA-2.5"
+    accessed: 2026-10-13
+    visibility: public
+    used-in: [content/components/liquid-taffy/liquid-taffy-engine, docs/evidence/ports/anchored-dropdown]
+  - id: S-426
+    title: "MDN: User activation (navigator.userActivation)"
+    author: "Mozilla contributors"
+    kind: doc
+    url: "https://developer.mozilla.org/en-US/docs/Web/API/UserActivation"
+    license: "CC-BY-SA-2.5"
+    accessed: 2026-10-13
+    visibility: public
+    used-in: [content/components/liquid-taffy/liquid-taffy-engine]
+    note: "The engine plays sound only inside a user gesture."

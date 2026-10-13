@@ -1,0 +1,125 @@
+{
+  "$schema": "https://labs.designfrom.com/schemas/meta.schema.json",
+  "schemaVersion": 1,
+  "name": "segmented-pill",
+  "kind": "component",
+  "title": "Segmented Pill",
+  "description": "A segmented control whose white pill slides to the selected item with a small squash, keyboard ready, as a motion variant beside the stock toggle group.",
+  "status": "beta",
+  "category": "inputs",
+  "label": "Segmented Pill",
+  "variants": [
+    {
+      "name": "segmented-pill",
+      "primitive": "none",
+      "iconSet": "none",
+      "status": "beta"
+    },
+    {
+      "name": "segmented-pill-radix",
+      "primitive": "radix",
+      "iconSet": "none",
+      "status": "beta"
+    },
+    {
+      "name": "segmented-pill-base",
+      "primitive": "base",
+      "iconSet": "none",
+      "status": "beta"
+    },
+    {
+      "name": "segmented-pill-aria",
+      "primitive": "aria",
+      "iconSet": "none",
+      "status": "beta"
+    }
+  ],
+  "defaultVariant": "segmented-pill",
+  "demo": "demo.tsx",
+  "preview": "preview.webp",
+  "source": {
+    "repo": "https://github.com/danielwh2/segmented-pill",
+    "commit": "489bdf7374868d40bc2aa4adc3e03ebfe8a90e99",
+    "path": "src"
+  },
+  "author": "Daniel Belyi <https://github.com/danielwh2>",
+  "license": "MIT",
+  "attribution": "Copyright (c) 2026 Daniel Belyi. MIT License.",
+  "credits": [
+    "S-428",
+    "S-003",
+    "S-004",
+    "S-007",
+    "S-014",
+    "S-015",
+    "S-032",
+    "S-033",
+    "S-034",
+    "S-152",
+    "S-153",
+    "S-156",
+    "S-157",
+    "S-158",
+    "S-184",
+    "S-237",
+    "S-238",
+    "S-239",
+    "S-431",
+    "S-444"
+  ],
+  "date": "2026-10-13",
+  "tile": {
+    "span": 1,
+    "rows": 1
+  },
+  "loop": {
+    "script": "click[1] → wait → click[2] → wait → click[0] → wait",
+    "duration": 5400,
+    "hydrate": true
+  },
+  "tags": [
+    "segmented-control",
+    "toggle-group",
+    "tabs",
+    "motion",
+    "keyboard",
+    "reduced-motion"
+  ],
+  "props": [
+    {
+      "name": "items",
+      "type": "readonly { value: string; label: React.ReactNode; disabled?: boolean }[]",
+      "description": "The segments. Values must be unique; at least one must be enabled."
+    },
+    {
+      "name": "value / defaultValue",
+      "type": "string",
+      "description": "The selected value (controlled) or the initial one. Without either, the first enabled item is selected."
+    },
+    {
+      "name": "onValueChange",
+      "type": "(value: string) => void",
+      "description": "Called when the visitor selects another item."
+    },
+    {
+      "name": "animated",
+      "type": "boolean",
+      "default": "false",
+      "description": "Slide the pill (260 ms) with a small squash. Reduced motion always turns both off."
+    },
+    {
+      "name": "...attributes",
+      "type": "React.HTMLAttributes<HTMLDivElement>",
+      "description": "Other attributes go on the root: aria-label or aria-labelledby (required), className and style (where the --segmented-pill-* variables can be set)."
+    }
+  ],
+  "a11y": [
+    "Default variant (upstream's model): role=tablist with role=tab items, aria-selected, one tab stop; the arrow keys (mirrored in right to left), Home and End move and select, Enter and Space select. Disabled items are skipped. There are no tab panels: the control switches content the app renders.",
+    "Radix and Base UI variants: a radio group of toggle buttons (Radix: role=radio, aria-checked) or a group of pressed buttons (Base UI: aria-pressed); the arrows move focus in the reading direction and Space or Enter selects. React Aria variant: a radio group (APG radio pattern) whose arrows select.",
+    "Every variant needs aria-label or aria-labelledby on the root.",
+    "Focus is a 2px #2563eb outline inside the item (5.2:1 on the white pill). Inactive labels are #52525b on the track (6.8:1).",
+    "Fidelity default, contrast on request: the white pill on the 5% track is 1.1:1, so the selected item also darkens its label; under prefers-contrast: more every label takes the active color and the pill gets a 1px outline in it, and under forced colors the pill is Highlight with HighlightText.",
+    "Reduced motion: the pill moves without sliding or squashing."
+  ],
+  "usage": "<SegmentedPill aria-label=\"Section\" items={items} value={value} onValueChange={setValue} animated />"
+}

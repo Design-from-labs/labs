@@ -1,0 +1,151 @@
+{
+  "title": "Financial Chart",
+  "description": "A canvas price chart with candlesticks, area or line and a volume histogram, themed with tokens for light and dark, resizing with its container, with a keyboard cursor and a spoken summary, over Lightweight Charts.",
+  "category": "data-display",
+  "type": "registry:ui",
+  "status": "beta",
+  "upstreamPath": "src",
+  "iconSets": ["none"],
+  "dependencies": ["lightweight-charts@^5.2.1"],
+  "registryDependencies": ["utils"],
+  "files": [
+    {
+      "file": "financial-chart.tsx",
+      "type": "registry:ui"
+    }
+  ],
+  "cssVars": {
+    "light": {
+      "financial-chart-background": "#FFFFFF",
+      "financial-chart-foreground": "#191919",
+      "financial-chart-grid": "#D6DCDE",
+      "financial-chart-border": "#2B2B43",
+      "financial-chart-crosshair": "#9598A1",
+      "financial-chart-crosshair-label": "#131722",
+      "financial-chart-up": "#26a69a",
+      "financial-chart-down": "#ef5350",
+      "financial-chart-line": "#2196f3",
+      "financial-chart-area-line": "#33D778",
+      "financial-chart-area-top": "rgba(46, 220, 135, 0.4)",
+      "financial-chart-area-bottom": "rgba(40, 221, 100, 0)",
+      "financial-chart-volume-up": "#26a69a",
+      "financial-chart-volume-down": "#ef5350"
+    },
+    "dark": {
+      "financial-chart-background": "#0a0a0a",
+      "financial-chart-foreground": "#d1d4dc",
+      "financial-chart-grid": "#262a33",
+      "financial-chart-border": "#4a4e59",
+      "financial-chart-crosshair": "#787b86",
+      "financial-chart-crosshair-label": "#363a45",
+      "financial-chart-up": "#26a69a",
+      "financial-chart-down": "#ef5350",
+      "financial-chart-line": "#42a5f5",
+      "financial-chart-area-line": "#33D778",
+      "financial-chart-area-top": "rgba(46, 220, 135, 0.3)",
+      "financial-chart-area-bottom": "rgba(40, 221, 100, 0)",
+      "financial-chart-volume-up": "rgba(38, 166, 154, 0.6)",
+      "financial-chart-volume-down": "rgba(239, 83, 80, 0.6)"
+    }
+  },
+  "demo": "demo.tsx",
+  "tile": {
+    "span": 2,
+    "rows": 2
+  },
+  "loop": {
+    "hydrate": true,
+    "script": "wait",
+    "duration": 4000
+  },
+  "credits": [
+    "S-438",
+    "S-439",
+    "S-440",
+    "S-003",
+    "S-004",
+    "S-014",
+    "S-015",
+    "S-152",
+    "S-153",
+    "S-157",
+    "S-184",
+    "S-158",
+    "S-444"
+  ],
+  "tags": ["chart", "candlestick", "finance", "canvas", "volume"],
+  "props": [
+    {
+      "name": "data",
+      "type": "{ time, open, high, low, close, volume? }[]",
+      "description": "One entry per period, in time order. `time` is a \"YYYY-MM-DD\" string, a UNIX timestamp in seconds or a business day object. Area and line draw the close."
+    },
+    {
+      "name": "series",
+      "type": "\"candlestick\" | \"area\" | \"line\"",
+      "default": "\"candlestick\"",
+      "description": "How the price is drawn."
+    },
+    {
+      "name": "volume",
+      "type": "boolean",
+      "default": "true when any datum has a volume",
+      "description": "A volume histogram under the price (bottom 30%; price in the top 60%), each bar colored by its period's direction."
+    },
+    {
+      "name": "volumeScale",
+      "type": "\"auto\" | \"zero\"",
+      "default": "\"auto\"",
+      "description": "\"auto\" is the library's default: the volume scale fits the bars' own range, so small differences look large. \"zero\" starts it at zero so bar heights are proportional to volume (the demo uses it)."
+    },
+    {
+      "name": "height",
+      "type": "number",
+      "default": "300",
+      "description": "Height in pixels; the width follows the container and the chart resizes with it."
+    },
+    {
+      "name": "label",
+      "type": "string",
+      "description": "The chart's accessible name (required)."
+    },
+    {
+      "name": "summary",
+      "type": "string",
+      "default": "generated",
+      "description": "The description read after the name. By default: the period range, first and last close with the change, the high and the low."
+    },
+    {
+      "name": "dataTable",
+      "type": "boolean",
+      "default": "false",
+      "description": "Also renders every point in a visually hidden table."
+    },
+    {
+      "name": "options",
+      "type": "DeepPartial<ChartOptions>",
+      "description": "Any lightweight-charts chart option (scales, crosshair, localization, handleScroll), applied over the token colors. Keep `layout.attributionLogo` on (see a11y and docs)."
+    },
+    {
+      "name": "seriesOptions",
+      "type": "DeepPartial<series style options>",
+      "description": "Style options for the price series (for example `priceFormat`, `lineWidth`), applied over the token colors."
+    },
+    {
+      "name": "ref",
+      "type": "FinancialChartHandle",
+      "description": "`getChart()`, `getSeries()`, `getVolumeSeries()` (the library's own APIs, for markers, price lines or live `update()`), and `showPoint(index | null)` to place the crosshair."
+    }
+  ],
+  "a11y": [
+    "The chart is a figure named by `label` and described by a generated summary (range, first and last close with the change, high and low), or by `summary`. `dataTable` adds every point as a visually hidden table.",
+    "Keyboard: the chart is one Tab stop, a slider over the points. Left and Right (or Down and Up) move the crosshair one point, Page Up and Page Down ten, Home and End to the ends; each point is read out (time, open, high, low, close, volume) as the slider's value text. The focus ring is drawn over the chart; pointer input goes straight to the chart.",
+    "The library lays its panes out in an HTML table; the wrapper marks it as presentation, so it is not announced as a data table. The canvases carry no text of their own.",
+    "Attribution: the library's license asks for a visible link to its author's website. The chart keeps lightweight-charts' attribution logo on (`layout.attributionLogo`, the default): a small logo link at the bottom left, named by its title (\"Charting by TradingView\"), opening in a new tab. Do not turn it off unless the same link is shown elsewhere on the page.",
+    "Reduced motion: touch kinetic scrolling is off under prefers-reduced-motion: reduce. The chart has no other animation.",
+    "Right to left: the plot stays left to right (time runs left to right in every language); the summary and labels follow the page.",
+    "Colors: up and down are also told apart by shape (a candle's open and close, the summary's signed change), not by color alone. The default text #191919 on white is 17:1."
+  ],
+  "usage": "<FinancialChart\n  label=\"Sample asset, daily prices\"\n  data={candles}\n  series=\"candlestick\"\n/>",
+  "docs": "Installed `FinancialChart` (`@/components/ui/financial-chart`), a React wrapper over [Lightweight Charts](https://github.com/tradingview/lightweight-charts) 5.2.1 (`lightweight-charts`, Apache-2.0). Its NOTICE (\"TradingView Lightweight Charts™, Copyright (с) 2025 TradingView, Inc. https://www.tradingview.com/\") and license are at the end of the file; keep them.\n\n```tsx\nimport { FinancialChart, type FinancialChartDatum } from \"@/components/ui/financial-chart\";\n\nconst candles: FinancialChartDatum[] = [\n  { time: \"2026-01-05\", open: 100, high: 102.4, low: 99.1, close: 101.8, volume: 812000 },\n  // ...\n];\n\n<FinancialChart label=\"Sample asset, daily prices\" data={candles} series=\"area\" height={320} />\n```\n\nThe chart is created once per `series` and `volume` choice; new `data` is set in place (the view refits when the first time changes, so appended points keep the visitor's zoom). For live updates, use `ref.current.getSeries()?.update(point)`.\n\nAttribution: the license asks you to show the NOTICE's attribution and a link to https://www.tradingview.com/ on the page that uses the chart. The chart's attribution logo (on by default, `options.layout.attributionLogo`) is that link; leave it on, or show the link yourself if you turn it off.\n\nTheme it with the `--financial-chart-*` tokens: background, foreground (axis text), grid, border (scale borders), crosshair, crosshair-label, up, down, line, area-line, area-top, area-bottom, volume-up and volume-down. The light values are the library's defaults; the chart reads them again when the page's theme or color scheme changes. Tokens may use any CSS color (oklch included)."
+}

@@ -232,6 +232,23 @@ Design From and Design From Labs (the guards enforce this).
 | [P-219](#p-219) | Site (beta build) | A variant's direct npm import failed the beta site build |
 | [P-220](#p-220) | Registry (Vite installs) | Stock `aria-nova` `ui/label` fails a fresh Vite app's build |
 | [P-221](#p-221) | CI (registry-install) | A second `astro preview` in the same job never started |
+| [P-222](#p-222) | Site (variant switcher) | The Primitive switcher had no option for a primitive-free default |
+| [P-223](#p-223) | Components (measurement) | An indicator sized from getBoundingClientRect is wrong under a scaled ancestor |
+| [P-224](#p-224) | Fidelity harness | Byte-different screenshots with zero pixel differences |
+| [P-225](#p-225) | Components (NumberFlow) | NumberFlow renders nothing for non-Latin numbering systems |
+| [P-226](#p-226) | Components (canvas charts) | A canvas chart has no keyboard or screen reader story of its own |
+| [P-227](#p-227) | Tests (wall) | A beta wall-tile check failed instead of skipping on a normal build |
+| [P-228](#p-228) | Tests (variant switcher) | A click on a newly shown variant is lost before it hydrates |
+| [P-229](#p-229) | Site (wall) | A lib item with many exports is cropped on its wall tile |
+| [P-230](#p-230) | Site (component page) | Twelve items per component made the page axe check time out |
+| [P-231](#p-231) | Ports (exporter) | A shared engine copied into each component item |
+| [P-232](#p-232) | Components (menus) | Typeahead took the Space that ticks a row as a search character |
+| [P-233](#p-233) | Components (Base UI menus) | Base UI rows carry aria-disabled="false" and mount after the open state |
+| [P-234](#p-234) | Components (primitive overlays) | Primitive positioners write inline styles over a same-layer panel |
+| [P-235](#p-235) | Components (React Aria menus) | React Aria Menu renders nothing with a non-item child |
+| [P-236](#p-236) | Tests (wall) | Role queries skip the aria-hidden wall specimens |
+| [P-237](#p-237) | Fidelity harness | One frame flips between two stable text rasterizations |
+| [P-238](#p-238) | Ports (type checking) | Port sources are never type-checked until a user app compiles them |
 
 ---
 
@@ -3524,3 +3541,257 @@ Design From and Design From Labs (the guards enforce this).
   job or machine with another one, and end every wait loop with a check that
   fails loudly. Local runs on a fresh port do not reproduce this.
 - Links: `.github/workflows/ci.yml`
+
+### P-222
+
+- Date: 2026-10-13
+- Area: Site (variant switcher)
+- Symptom: On a component whose variants are a primitive-free default beside
+  Radix, Base UI and React Aria variants (Segmented Pill, Bottom Sheet), the
+  Primitive switcher offered no option for the default, so after picking a
+  primitive the default came back only on reload.
+- Cause: `scripts/lib/publish.mjs` built the primitive dimension from
+  `PRIMITIVE_ORDER` (Radix, Base UI, React Aria) only; `none` was not a choice.
+- Fix: The dimension adds "None" first when a `none` variant sits beside
+  primitive variants; it is checked initially and round-trips.
+- Prevention: When an entry mixes `none` with primitives, open its page and
+  round-trip every switcher option; `scripts/publish-visibility.test.mjs`
+  covers the dimension.
+- Links: `scripts/lib/publish.mjs`, `scripts/publish-visibility.test.mjs`
+
+### P-223
+
+- Date: 2026-10-13
+- Area: Components (measurement)
+- Symptom: Segmented Pill drew its sliding indicator too large and offset in
+  the gallery stills and the scaled wall tiles.
+- Cause: `getBoundingClientRect()` is in screen pixels, but the indicator is
+  placed in the control's own, scaled, coordinate space.
+- Fix: Divide the rects by the scale (rect size over computed layout size,
+  snapped to 1 without a transform).
+- Prevention: Check every component that measures with rects inside a scaled
+  ancestor (`/preview/<item>` is scaled 1.6); `e2e/segmented-pill-balloons.spec.ts`
+  does it for every pill variant.
+- Links: `ports/segmented-pill/segmented-pill`
+
+### P-224
+
+- Date: 2026-10-13
+- Area: Fidelity harness
+- Symptom: Screenshots differed byte for byte with 0 pixelmatch differences,
+  in an upstream against itself too (right-to-left text).
+- Cause: Text anti-aliasing varies slightly between fresh browser contexts.
+- Fix: Read pixelmatch counts, not byte equality, and capture an
+  upstream-against-itself control for every state (right to left and reduced
+  motion included).
+- Prevention: Report each frame with its noise control before calling a
+  difference a regression.
+- Links: `docs/evidence/ports/segmented-pill/fidelity.md`
+
+### P-225
+
+- Date: 2026-10-13
+- Area: Components (NumberFlow)
+- Symptom: `<NumberFlow>` with `locales="ar-EG"` (or `fa-IR`) rendered an
+  empty number.
+- Cause: NumberFlow 0.6.2 draws only the digits 0 to 9; those locales default
+  to their own numbering system, whose digits have no glyph in its markup.
+  Measured in Chromium, upstream included.
+- Fix: The wrapper renders the formatted text without animation when
+  `Intl.NumberFormat(...).resolvedOptions().numberingSystem` is not `latn`;
+  `format={{ numberingSystem: "latn" }}` animates.
+- Prevention: Render every wrapped number component with a right-to-left
+  locale and a non-Latin numbering system before calling it done.
+- Links: `ports/number-flow/number-flow`, `docs/evidence/ports/number-flow/fidelity.md`
+
+### P-226
+
+- Date: 2026-10-13
+- Area: Components (canvas charts)
+- Symptom: A canvas chart has no keyboard or screen reader story of its own,
+  and a chart that grows after mount keeps its bar spacing and shows a wider
+  time range than its data.
+- Cause: The library's canvases carry no text, it lays its panes out in a
+  `<table>`, and `lockVisibleTimeRangeOnResize` defaults to `false` (the
+  resize symptom follows that option's documented meaning; it was not
+  re-measured).
+- Fix: The wrapper sets `lockVisibleTimeRangeOnResize: true`, marks the table
+  `role="presentation"`, names the chart (`figure`), generates a summary and
+  adds one keyboard slider over the points.
+- Prevention: Give every canvas chart a name, a text summary and a keyboard
+  cursor, and keep a library's required attribution link visible.
+- Links: `ports/lightweight-charts/financial-chart`, `e2e/data-wrappers.spec.ts`
+
+### P-227
+
+- Date: 2026-10-13
+- Area: Tests (wall)
+- Symptom: A wall-tile check failed on a normal build, where its beta
+  component is not published, instead of skipping.
+- Cause: `/ui` exists on every build, but a beta item's tile and page exist
+  only with `LABS_INCLUDE_BETA=1`; only the page tests skipped on the 404.
+- Fix: The check requests the component page first and skips on its 404.
+- Prevention: A beta-gated spec skips every test, wall tiles included, on the
+  component page's 404.
+- Links: `e2e/data-wrappers.spec.ts`
+
+### P-228
+
+- Date: 2026-10-13
+- Area: Tests (variant switcher)
+- Symptom: After switching Segmented Pill to its Radix or Base UI variant, a
+  click on an item did not select it in about half the runs.
+- Cause: A variant's demo island hydrates once it is shown; the click landed
+  on the server markup first.
+- Fix: Wait for `astro-island:not([ssr])` in the shown variant before
+  interacting, as `e2e/ai-states.spec.ts` does.
+- Prevention: Every test that switches variants and then interacts waits for
+  the new island to hydrate.
+- Links: `e2e/segmented-pill-balloons.spec.ts`
+
+### P-229
+
+- Date: 2026-10-13
+- Area: Site (wall)
+- Symptom: The `liquid-taffy-engine` tile on the wall cropped its export list
+  at 375px ("no tile crops its specimen" failed).
+- Cause: A `lib` foundation item has no demo, so its tile prints its export
+  list, and the engine has about fifty exports.
+- Fix: `tile: { span: 2, rows: 2 }` in its `component.json`.
+- Prevention: Give a `lib` item with many exports a 2x2 tile and run the wall
+  spec at 375px.
+- Links: `ports/liquid-taffy/liquid-taffy-engine/component.json`
+
+### P-230
+
+- Date: 2026-10-13
+- Area: Site (component page)
+- Symptom: With twelve items per component (four primitives times three icon
+  configurations), the component page's axe check passed 120 s and timed out.
+- Cause: The page renders every item's source highlighted token by token, and
+  axe walks all of it (the P-064 class).
+- Fix: Six items per component: the icon-library style ships on the
+  primitive-free variant only.
+- Prevention: Count the items a new variant axis adds before adding it; keep a
+  page near six items.
+- Links: `ports/liquid-taffy/anchored-dropdown/component.json`
+
+### P-231
+
+- Date: 2026-10-13
+- Area: Ports (exporter)
+- Symptom: Three components of one upstream share about 4,000 lines of engine;
+  exported as components, each item carried its own copy, and installing two
+  of them prompted about identical files.
+- Cause: The exporter wrote only `kind: "component"` items, each with a demo
+  and a preview.
+- Fix: A `component.json` may set `"kind": "lib"` (with `"type":
+  "registry:lib"`): no demo, no preview. The three components list
+  `liquid-taffy-engine` in `registryDependencies` and import `@/lib/taffy-*`.
+- Prevention: Put code that several ports of one source share in a `lib`
+  item; `scripts/export-ports.test.mjs` covers it.
+- Links: `scripts/export-ports.mjs`, `ports/liquid-taffy/liquid-taffy-engine`
+
+### P-232
+
+- Date: 2026-10-13
+- Area: Components (menus)
+- Symptom: Pressing Space to tick a row and then a letter within 500 ms
+  matched nothing; intermittent in end-to-end runs.
+- Cause: Typeahead took the Space as the first search character.
+- Fix: A Space that starts no search is the row's key.
+- Prevention: A keyboard test presses Space and then a letter without waiting.
+- Links: `ports/liquid-taffy/shared/src/menu/none/taffy-menu.tsx`
+
+### P-233
+
+- Date: 2026-10-13
+- Area: Components (Base UI menus)
+- Symptom: Opening the Base UI menu from the keyboard never focused a row.
+- Cause: A row filter `!hasAttribute("aria-disabled")` dropped every row
+  (Base UI writes `aria-disabled="false"`), and the popup content mounts after
+  the open state, so a one-shot focus hand-over found no row.
+- Fix: `getAttribute("aria-disabled") !== "true"`, and the hand-over retries
+  while the row does not exist yet.
+- Prevention: Every primitive's end-to-end test asserts focus on the first
+  row after a keyboard open.
+- Links: `ports/liquid-taffy/shared/src/menu/base/taffy-menu.tsx`
+
+### P-234
+
+- Date: 2026-10-13
+- Area: Components (primitive overlays)
+- Symptom: A panel drawn in the same layer as its trigger was moved by the
+  primitive, and in the Speed Dial the Base UI popup covered the button and
+  swallowed its clicks.
+- Cause: Radix and Base UI write position styles inline on their positioner
+  box; Base UI's portal is appended after the trigger.
+- Fix: A stylesheet rule with `!important` neutralises the positioner; Base
+  UI's gets `z-index: 1` below the trigger; the panel's `pointer-events: auto`
+  rule is wrapped in `:where()` so the surface's own `pointer-events: none`
+  wins.
+- Prevention: When a primitive's popup must stay in the component's own layer,
+  check its inline styles and stacking order before styling it.
+- Links: `ports/liquid-taffy/shared/src/menu/radix`, `ports/liquid-taffy/shared/src/menu/base`
+
+### P-235
+
+- Date: 2026-10-13
+- Area: Components (React Aria menus)
+- Symptom: React Aria's `Menu` rendered no items once the travelling hover pill
+  was placed inside it, and a cancelled click could not cancel a tick.
+- Cause: `Menu` renders nothing when any child is not an item, and selection
+  runs on press, before `click`.
+- Fix: The hover pill sits beside the `Menu`; the tick follows React Aria's
+  press order.
+- Prevention: Keep decorative children outside React Aria collections.
+- Links: `ports/liquid-taffy/shared/src/menu/aria/taffy-menu.tsx`
+
+### P-236
+
+- Date: 2026-10-13
+- Area: Tests (wall)
+- Symptom: `getByRole` found no controls in the wall tiles.
+- Cause: Wall specimens are `aria-hidden`, so role queries skip them.
+- Fix: Use CSS locators such as `button[aria-label=...]` for wall tiles.
+- Prevention: Query wall specimens by CSS, component pages by role.
+- Links: `e2e/liquid-taffy.spec.ts`
+
+### P-237
+
+- Date: 2026-10-13
+- Area: Fidelity harness
+- Symptom: Anchored Dropdown's "four rows ticked" frame (dark, 375x812)
+  differed from upstream by 0% to 0.17% across runs (also in its Radix and
+  Base UI variants) while every other frame stayed within 0.1%.
+- Cause: The frame settles into one of two stable text rasterizations of its
+  four labels. Computed styles, rects, transforms and the compositor layer
+  tree are identical on both sides; over 12 runs upstream against itself
+  spans 0.007% to 0.175% in the same frame, the port against upstream 0% to
+  0.169%.
+- Fix: Accepted and documented as a deviation, with the repeated runs and the
+  upstream noise control, in the component's fidelity notes.
+- Prevention: Repeat a frame that fails once and compare against the
+  upstream's own spread before changing code for it.
+- Links: `docs/evidence/ports/anchored-dropdown/fidelity.md`
+
+### P-238
+
+- Date: 2026-10-13
+- Area: Ports (type checking)
+- Symptom: Installed into a fresh shadcn Vite app, the liquid-taffy items
+  failed `tsc -b`: a button ref passed where a div ref was typed, an
+  `Element` cast straight to `SVGElement`, Base UI items typed as buttons
+  while Base UI renders divs, and React Aria's `MenuItem` given `onKeyDown`,
+  which its props type does not list. The site build and `pnpm typecheck`
+  passed.
+- Cause: The repository's `tsconfig` excludes `ports` and `content`, so port
+  sources are only bundled, never type-checked, until a user's app compiles
+  them.
+- Fix: Widen `setRef` to button and div refs, cast through `unknown`, type
+  the Base UI items as divs, and pass `onKeyDown` to React Aria through the
+  file's untyped spread (React Aria's `useMenuItem` reads it).
+- Prevention: Run `scripts/registry-install-vite-test.sh` with a new port's
+  items before opening its pull request; variants of one component overwrite
+  each other's files there, so compile each primitive's variant on its own.
+- Links: `ports/liquid-taffy/shared/src/menu`, `scripts/registry-install-vite-test.sh`
