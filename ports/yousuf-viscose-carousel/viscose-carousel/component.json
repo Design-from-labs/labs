@@ -1,0 +1,127 @@
+{
+  "title": "Viscose Carousel",
+  "description": "A ring of project cards drawn as one WebGL shader: the cards melt into each other and string threads of honey as the ring turns, with a cursor drop, momentum and snapping.",
+  "category": "media",
+  "type": "registry:ui",
+  "status": "beta",
+  "upstreamPath": "components/Carousel.jsx",
+  "iconSets": ["none"],
+  "dependencies": ["three@^0.185.1", "motion@>=12.34.0"],
+  "devDependencies": ["@types/three@^0.185.3"],
+  "registryDependencies": ["utils", "render-loop"],
+  "files": [
+    {
+      "file": "viscose-carousel.tsx",
+      "type": "registry:ui"
+    },
+    {
+      "file": "viscose-carousel-engine.ts",
+      "type": "registry:ui"
+    },
+    {
+      "file": "viscose-carousel-motion.ts",
+      "type": "registry:ui"
+    },
+    {
+      "file": "viscose-carousel-shaders.ts",
+      "type": "registry:ui"
+    }
+  ],
+  "demo": "demo.tsx",
+  "tile": {
+    "span": 2,
+    "rows": 2,
+    "surface": "dark"
+  },
+  "credits": [
+    "S-343",
+    "S-345",
+    "S-275",
+    "S-276",
+    "S-104",
+    "S-003",
+    "S-004",
+    "S-285",
+    "S-286",
+    "S-287",
+    "S-283",
+    "S-014",
+    "S-152",
+    "S-157",
+    "S-344"
+  ],
+  "tags": [
+    "carousel",
+    "webgl",
+    "three",
+    "shader",
+    "gallery",
+    "portfolio",
+    "goo"
+  ],
+  "props": [
+    {
+      "name": "items",
+      "type": "ViscoseCarouselItem[]",
+      "required": true,
+      "description": "The cards in ring order, 3 to 18: { title, image, discipline?, year? }. Images must be same-origin or served with CORS."
+    },
+    {
+      "name": "theme",
+      "type": "\"dark\" | \"light\"",
+      "default": "\"dark\"",
+      "description": "The room: bone ink on near-black paper, or ink on warm paper."
+    },
+    {
+      "name": "heading",
+      "type": "string",
+      "default": "\"Works '26\"",
+      "description": "The intro heading drawn while the ring forms."
+    },
+    {
+      "name": "cursorLabel",
+      "type": "string",
+      "default": "\"View\"",
+      "description": "The word the cursor's drop opens to over a card."
+    },
+    {
+      "name": "onOpen",
+      "type": "(item: ViscoseCarouselItem, index: number) => void",
+      "description": "A card was opened: clicked at the front, turned to by a click on a side card, or Enter."
+    },
+    {
+      "name": "onActiveChange",
+      "type": "(index: number) => void",
+      "description": "The card at the front changed."
+    },
+    {
+      "name": "params",
+      "type": "Partial<ViscoseCarouselParams>",
+      "description": "Any of upstream's tunables (geometry, entry timing, goo, threads, glass lip, bead, fonts). Read when the ring is built; a change rebuilds it."
+    },
+    {
+      "name": "label",
+      "type": "string",
+      "default": "\"Projects\"",
+      "description": "The accessible name of the carousel."
+    },
+    {
+      "name": "maxDpr",
+      "type": "number",
+      "default": "2",
+      "description": "Device pixel ratio cap."
+    },
+    {
+      "name": "fallback",
+      "type": "React.ReactNode",
+      "description": "Replaces the static picture shown before the first frame, without WebGL 2 and under reduced motion."
+    }
+  ],
+  "a11y": [
+    "The ring is a focusable listbox: arrow keys turn it one card at a time, Home and End go to the ends, Enter or Space opens the front card; each option names the project, its discipline and year.",
+    "A polite live region announces the card that comes to rest; the canvas, the index column and the melting labels are hidden from assistive tech.",
+    "Under reduced motion, without WebGL 2 and before the first frame it shows a static arc of the cards with the front project's name; the keys still move through the projects there."
+  ],
+  "usage": "<ViscoseCarousel items={[{ title: \"Emberline\", image: \"/work/emberline.jpg\", discipline: \"Photography\", year: \"2026\" }]} onOpen={(item) => router.push(`/work/${item.title}`)} className=\"h-dvh w-full\" />",
+  "docs": "Installed `ViscoseCarousel` (with its engine, Motion tweens and shaders) in `components/ui/`, plus the `render-loop` helper in `lib/`. Render `<ViscoseCarousel items={items} onOpen={(item) => ...} className=\"h-dvh w-full\" />`; it fills its box, so size it with `className`.\n\nEach item is `{ title, image, discipline?, year? }`; images are drawn into a WebGL texture, so they must be same-origin or served with CORS. Up to 18 cards. Tune anything with `params` (for example `params={{ goo: 50 }}`). Rendering pauses off screen and in hidden tabs; under reduced motion or without WebGL 2 a static picture shows instead.\n\nNeeds `three` and `motion` (installed) and, for TypeScript, `@types/three`. Ported from Yousuf-developer/Viscose-carousel (MIT, copyright 2026 Yousuf Soomro); the license text is in each file."
+}

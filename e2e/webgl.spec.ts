@@ -10,6 +10,7 @@ const EFFECTS = [
   "holo-foil",
   "iridescent-ribbon",
   "globe",
+  "viscose-carousel",
 ] as const;
 
 async function open(page: Page, name: string) {
@@ -106,6 +107,19 @@ test("lenticular: arrow keys step through the views", async ({ page }) => {
   await expect(root).not.toHaveAttribute("aria-valuetext", before ?? "");
   await page.keyboard.press("Home");
   await expect(root).toHaveAttribute("aria-valuenow", "0");
+});
+
+test("viscose-carousel: arrow keys turn the ring", async ({ page }) => {
+  // On the static picture the front card changes at once; with WebGL it
+  // changes when the turn lands, which software GL can take seconds to draw.
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  const root = await open(page, "viscose-carousel");
+  const ring = root.getByRole("listbox");
+  await expect(ring).toHaveAttribute("aria-activedescendant", /.+/);
+  const before = await ring.getAttribute("aria-activedescendant");
+  await ring.focus();
+  await page.keyboard.press("ArrowDown");
+  await expect(ring).not.toHaveAttribute("aria-activedescendant", before ?? "");
 });
 
 // Dot Halftone is a 2D canvas: under reduced motion it draws its dots at once

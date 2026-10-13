@@ -14,6 +14,8 @@ const EFFECTS = [
   "lenticular",
   "iridescent-ribbon",
   "globe",
+  "viscose-carousel",
+  "dot-halftone",
 ];
 const items = loadComponents().flatMap((entry) =>
   [...entry.items.values()].map((item) => ({
