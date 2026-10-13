@@ -26,7 +26,10 @@
       "!ports/dmitrykurash-holocloth/holo-foil/holo-foil-scene.ts",
       "!ports/dmitrykurash-holocloth/holo-foil/holo-foil-pose.ts",
       "!ports/lisse/smooth-corners/smooth-corners*.ts*",
-      "!ports/cloudflare-kumo/flow-diagram/flow-diagram*.ts*"
+      "!ports/cloudflare-kumo/flow-diagram/flow-diagram*.ts*",
+      "!ports/shpigford-dither/vector-dither/vector-dither-core.ts",
+      "!ports/yousuf-viscose-carousel/viscose-carousel/viscose-carousel-engine.ts",
+      "!ports/yousuf-viscose-carousel/viscose-carousel/viscose-carousel-shaders.ts"
     ]
   },
   "formatter": {

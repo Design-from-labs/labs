@@ -1,0 +1,128 @@
+[
+  {
+    "viewport": "1280x800",
+    "t": 0.6,
+    "buffer": "1280x800 vs 1280x800",
+    "port": 0,
+    "staging": 0,
+    "portVsStaging": 0,
+    "floor": 0
+  },
+  {
+    "viewport": "1280x800",
+    "t": 1.2,
+    "buffer": "1280x800 vs 1280x800",
+    "port": 0,
+    "staging": 0,
+    "portVsStaging": 0,
+    "floor": 0
+  },
+  {
+    "viewport": "1280x800",
+    "t": 2,
+    "buffer": "1280x800 vs 1280x800",
+    "port": 0,
+    "staging": 0,
+    "portVsStaging": 0,
+    "floor": 0
+  },
+  {
+    "viewport": "1280x800",
+    "t": 3.1,
+    "buffer": "1280x800 vs 1280x800",
+    "port": 0,
+    "staging": 0,
+    "portVsStaging": 0,
+    "floor": 0
+  },
+  {
+    "viewport": "1280x800",
+    "t": 4.5,
+    "buffer": "1280x800 vs 1280x800",
+    "port": 0,
+    "staging": 0,
+    "portVsStaging": 0,
+    "floor": 0
+  },
+  {
+    "viewport": "1280x800",
+    "t": 6,
+    "buffer": "1280x800 vs 1280x800",
+    "port": 0,
+    "staging": 0,
+    "portVsStaging": 0,
+    "floor": 0
+  },
+  {
+    "viewport": "1280x800",
+    "t": 7.2,
+    "buffer": "1280x800 vs 1280x800",
+    "port": 0,
+    "staging": 0,
+    "portVsStaging": 0,
+    "floor": 0
+  },
+  {
+    "viewport": "375x812",
+    "t": 0.6,
+    "buffer": "375x812 vs 375x812",
+    "port": 0,
+    "staging": 0,
+    "portVsStaging": 0,
+    "floor": 0
+  },
+  {
+    "viewport": "375x812",
+    "t": 1.2,
+    "buffer": "375x812 vs 375x812",
+    "port": 0,
+    "staging": 0,
+    "portVsStaging": 0,
+    "floor": 0
+  },
+  {
+    "viewport": "375x812",
+    "t": 2,
+    "buffer": "375x812 vs 375x812",
+    "port": 0,
+    "staging": 0,
+    "portVsStaging": 0,
+    "floor": 0
+  },
+  {
+    "viewport": "375x812",
+    "t": 3.1,
+    "buffer": "375x812 vs 375x812",
+    "port": 0,
+    "staging": 0,
+    "portVsStaging": 0,
+    "floor": 0
+  },
+  {
+    "viewport": "375x812",
+    "t": 4.5,
+    "buffer": "375x812 vs 375x812",
+    "port": 0,
+    "staging": 0,
+    "portVsStaging": 0,
+    "floor": 0
+  },
+  {
+    "viewport": "375x812",
+    "t": 6,
+    "buffer": "375x812 vs 375x812",
+    "port": 0,
+    "staging": 0,
+    "portVsStaging": 0,
+    "floor": 0
+  },
+  {
+    "viewport": "375x812",
+    "t": 7.2,
+    "buffer": "375x812 vs 375x812",
+    "port": 0,
+    "staging": 0,
+    "portVsStaging": 0,
+    "floor": 0
+  }
+]

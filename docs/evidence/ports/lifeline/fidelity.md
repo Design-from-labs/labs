@@ -124,3 +124,56 @@ port policy in `ports/README.md`, the dark default keeps upstream's grays and
 therefore does not meet WCAG AA contrast for those labels; the port lifts them
 under `prefers-contrast: more` and uses the system text color under forced
 colors (`@media (forced-colors: active)`).
+
+## Fireworks on the render-loop helper (2026-10-13)
+
+The fireworks overlay (`lifeline-fireworks.tsx`, a full-screen WebGL 1
+shader) used to run its own `requestAnimationFrame` loop. It now draws
+through the shared `render-loop` helper (decision
+[0021](../../../decisions/0021-webgl-render-loop.md)); the shader, its
+uniforms, the draw call, the palette and the theme handling are unchanged.
+
+- Method: one Vite harness renders the fireworks provider three ways: the
+  upstream file at the pinned commit (with `next-themes` stubbed to an
+  already dark page), the port as it was on staging before this change
+  (its own loop), and the port on the helper. React StrictMode on all three.
+  `u_time` is pinned through a `uniform1f` hook, Playwright's clock is paused
+  so no side can end the show, and three frames are stepped per time.
+  Chromium with SwiftShader (`--use-angle=swiftshader --enable-unsafe-swiftshader`),
+  device scale 1, full-viewport screenshots of the canvas over a white page.
+  Noise floor: a second upstream load.
+- Buffers: 1280x800 and 375x812 on every side (the pixel-ratio cap of 1.5 is
+  kept as the helper's `maxDpr`).
+
+| Viewport | t = 0.6 | 1.2 | 2.0 | 3.1 | 4.5 | 6.0 | 7.2 s |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 1280x800, port on the helper vs upstream | 0.000% | 0.000% | 0.000% | 0.000% | 0.000% | 0.000% | 0.000% |
+| 1280x800, port on the helper vs staging port | 0.000% | 0.000% | 0.000% | 0.000% | 0.000% | 0.000% | 0.000% |
+| 1280x800, noise floor | 0.000% | 0.000% | 0.000% | 0.000% | 0.000% | 0.000% | 0.000% |
+| 375x812, port on the helper vs upstream | 0.000% | 0.000% | 0.000% | 0.000% | 0.000% | 0.000% | 0.000% |
+| 375x812, port on the helper vs staging port | 0.000% | 0.000% | 0.000% | 0.000% | 0.000% | 0.000% | 0.000% |
+| 375x812, noise floor | 0.000% | 0.000% | 0.000% | 0.000% | 0.000% | 0.000% | 0.000% |
+
+Strips at 1280x800 (t = 1.2, 3.1, 6.0 s): [before](fireworks-1280x800-before.webp)
+(upstream), [after](fireworks-1280x800-after.webp) (port on the helper),
+[diff](fireworks-1280x800-diff.webp); numbers in
+[fireworks.json](fireworks.json).
+
+Deviations from upstream in the fireworks (behavior, not pixels):
+
+- The show's clock is the helper's: paused time (a hidden tab) is not
+  counted, so the show resumes where it stopped instead of ending unseen, and
+  a frame advances at most 0.1 s, so a very slow device plays it slower
+  rather than skipping bursts. The first frame is drawn at t = 0 instead of
+  one frame later (the shader's envelope is 0 there either way).
+- A lost WebGL context is restored and the show continues; upstream stopped
+  drawing.
+- A failed shader link throws in `setup`, which the helper reports as
+  `unsupported`; the provider then ends the show and restores the theme, as
+  upstream's early return did. The same happens if reduced motion is turned on
+  mid-show (upstream kept playing). `launch()` still refuses under reduced
+  motion, so there is no static fallback picture: the fireworks are an
+  overlay, and without them the timeline is unchanged.
+- The program and buffer are deleted on unmount (upstream left them to the
+  context). The canvas carries `data-slot="lifeline-fireworks"` and
+  `data-status`.

@@ -165,7 +165,10 @@ export function HoloSticker({
   };
 
   const ready = status === "ready" && image !== null;
-  const showCanvas = status === "ready" || status === "pending";
+  // Keep the canvas laid out while the context is lost: a hidden canvas is
+  // off screen to the loop's IntersectionObserver, so a restored context
+  // would never draw again.
+  const showCanvas = status !== "unsupported" && status !== "reduced-motion";
   return (
     <div
       data-slot="holo-sticker"

@@ -1,0 +1,123 @@
+{
+  "$schema": "https://labs.designfrom.com/schemas/meta.schema.json",
+  "schemaVersion": 1,
+  "name": "globe",
+  "kind": "component",
+  "title": "Globe",
+  "description": "A dotted WebGL globe with markers and arcs, drawn by COBE, that turns on its own and spins with a spring and momentum when dragged.",
+  "status": "beta",
+  "category": "media",
+  "label": "COBE",
+  "variants": [
+    {
+      "name": "globe",
+      "primitive": "none",
+      "iconSet": "none",
+      "status": "beta"
+    }
+  ],
+  "defaultVariant": "globe",
+  "demo": "demo.tsx",
+  "preview": "preview.webp",
+  "source": {
+    "repo": "https://github.com/shuding/cobe",
+    "commit": "7e94076fa8c38707f4c9cd114ff4f7c5c880971e",
+    "path": "src/index.js"
+  },
+  "author": "Shu Ding <https://github.com/shuding>",
+  "license": "MIT",
+  "attribution": "Copyright (c) 2021 Shu Ding. MIT License.",
+  "credits": [
+    "S-342",
+    "S-104",
+    "S-003",
+    "S-004",
+    "S-019",
+    "S-020",
+    "S-157",
+    "S-344",
+    "S-346"
+  ],
+  "date": "2026-10-13",
+  "tile": {
+    "span": 1,
+    "rows": 1
+  },
+  "tags": [
+    "globe",
+    "map",
+    "webgl",
+    "markers",
+    "arcs",
+    "3d"
+  ],
+  "props": [
+    {
+      "name": "markers",
+      "type": "{ location: [number, number]; size: number; color?: [number, number, number]; id?: string }[]",
+      "description": "Points at [latitude, longitude] in degrees. An id exposes the anchor --cobe-<id> and the variable --cobe-visible-<id>."
+    },
+    {
+      "name": "arcs",
+      "type": "{ from: [number, number]; to: [number, number]; color?: [number, number, number]; id?: string }[]",
+      "description": "Curves between two points. An id exposes --cobe-arc-<id> and --cobe-visible-arc-<id> at the arc's top."
+    },
+    {
+      "name": "phi",
+      "type": "number",
+      "default": "0",
+      "description": "Starting longitude rotation in radians."
+    },
+    {
+      "name": "theta",
+      "type": "number",
+      "default": "0.2",
+      "description": "Tilt in radians."
+    },
+    {
+      "name": "speed",
+      "type": "number",
+      "default": "0.3",
+      "description": "Auto-rotation in radians per second (0 stops it); 0.8 times as fast under the pointer, paused while dragged or focused."
+    },
+    {
+      "name": "interactive",
+      "type": "boolean",
+      "default": "true",
+      "description": "Drag to spin, with a spring and momentum; with a label, the arrow keys turn and tilt it."
+    },
+    {
+      "name": "label",
+      "type": "string",
+      "description": "Names the globe (role=\"img\"); without it the globe is decorative and stays out of the tab order."
+    },
+    {
+      "name": "options",
+      "type": "GlobeOptions",
+      "description": "Passed to cobe: diffuse (1.2), mapSamples (16000), mapBrightness (6), mapBaseBrightness, arcWidth (0.5), arcHeight (0.3), markerElevation, scale, offset, opacity, dark and colors (which override the tokens)."
+    },
+    {
+      "name": "maxDpr",
+      "type": "number",
+      "default": "2",
+      "description": "Device pixel ratio cap."
+    },
+    {
+      "name": "fallback",
+      "type": "React.ReactNode",
+      "description": "Replaces the static SVG globe shown without WebGL 2 or under reduced motion."
+    },
+    {
+      "name": "children",
+      "type": "React.ReactNode",
+      "description": "Laid over the globe, for labels anchored to marker and arc ids."
+    }
+  ],
+  "a11y": [
+    "With label it is role=\"img\" with that name; without one it is decorative (aria-hidden) and not focusable.",
+    "A labelled, interactive globe is focusable with a visible focus ring: Left and Right turn it 15 degrees, Up and Down tilt it, Home returns to the starting view. The arrows follow the physical direction in right-to-left pages too. Rotation pauses while it has focus.",
+    "Under reduced motion, without WebGL 2 and before the land map has loaded it shows a static SVG globe with the same colors, markers and arcs; nothing moves.",
+    "On touch screens a vertical swipe still scrolls the page; a horizontal one spins the globe."
+  ],
+  "usage": "<Globe markers={[{ location: [37.78, -122.44], size: 0.03 }]} label=\"Where we work\" className=\"max-w-md\" />"
+}

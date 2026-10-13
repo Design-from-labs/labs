@@ -31,3 +31,4 @@ record has a `- Sources:` line (registry ids, or `none: <reason>`).
 | [0023](0023-stock-shadcn-for-demos.md) | Render demos with vendored stock shadcn components for the names an item lists | Accepted |
 | [0024](0024-keep-bottom-sheet-beside-drawer.md) | Keep the ported Bottom Sheet next to the stock shadcn Drawer | Accepted |
 | [0025](0025-upstream-glyphs-default-with-icon-style.md) | Keep upstream's own glyphs as the default variant and offer icon libraries as a style | Accepted |
+| [0026](0026-canvas-and-3d-ports.md) | Every canvas loop on render-loop, GSAP rewritten with Motion, library contexts from the loop | Accepted |

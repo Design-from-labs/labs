@@ -1,0 +1,146 @@
+{
+  "title": "Vector Dither",
+  "description": "A gradient or an image turned into an ordered or pattern dither and rendered as inline SVG: one shape per cell, grouped by color, crisp at any size.",
+  "category": "media",
+  "type": "registry:ui",
+  "status": "beta",
+  "upstreamPath": "packages/core",
+  "iconSets": ["none"],
+  "registryDependencies": ["utils"],
+  "files": [
+    {
+      "file": "vector-dither.tsx",
+      "type": "registry:ui"
+    },
+    {
+      "file": "vector-dither-core.ts",
+      "type": "registry:ui"
+    }
+  ],
+  "demo": "demo.tsx",
+  "tile": {
+    "span": 1,
+    "rows": 1
+  },
+  "loop": {
+    "hydrate": true,
+    "script": "click[2] → wait → click[3] → wait → click[0] → wait → click[1] → wait",
+    "duration": 6400
+  },
+  "credits": ["S-003", "S-004", "S-019", "S-020", "S-157", "S-344"],
+  "tags": [
+    "dither",
+    "bayer",
+    "halftone",
+    "svg",
+    "gradient",
+    "pattern",
+    "retro"
+  ],
+  "props": [
+    {
+      "name": "src",
+      "type": "string",
+      "description": "An image to dither, read once with a 2D canvas (same origin, CORS or a data URL). Without it a generated gradient is dithered. The image shows until it is read."
+    },
+    {
+      "name": "gradient",
+      "type": "\"linear\" | \"radial\" | \"conic\" | \"noise\"",
+      "default": "\"linear\"",
+      "description": "The generated source."
+    },
+    {
+      "name": "gradientAngle",
+      "type": "number",
+      "default": "45",
+      "description": "Angle of a linear or conic source, in degrees."
+    },
+    {
+      "name": "width",
+      "type": "number",
+      "default": "1024",
+      "description": "Width of the generated source in pixels (the SVG's viewBox); cells = width / cellSize."
+    },
+    {
+      "name": "height",
+      "type": "number",
+      "description": "Height of the generated source in pixels. Default: the width (1:1)."
+    },
+    {
+      "name": "pattern",
+      "type": "\"bayer2\" | \"bayer4\" | \"bayer8\" | \"halftone\" | \"lines\" | \"crosses\" | \"dots\" | \"grid\" | \"scales\"",
+      "default": "\"bayer4\"",
+      "description": "Threshold pattern."
+    },
+    {
+      "name": "mode",
+      "type": "\"image\" | \"linear\" | \"radial\"",
+      "default": "\"image\"",
+      "description": "Blends a linear or radial ramp into the brightness (30%)."
+    },
+    {
+      "name": "ditherStyle",
+      "type": "\"threshold\" | \"scaled\"",
+      "default": "\"threshold\"",
+      "description": "Full cells, or cells sized by darkness (upstream's `style` setting; renamed because `style` is React's)."
+    },
+    {
+      "name": "shape",
+      "type": "\"circle\" | \"square\" | \"diamond\"",
+      "default": "\"square\"",
+      "description": "Cell shape."
+    },
+    {
+      "name": "cellSize",
+      "type": "number",
+      "default": "8",
+      "description": "Cell size in source pixels."
+    },
+    {
+      "name": "angle",
+      "type": "number",
+      "default": "45",
+      "description": "Angle of the linear mode ramp, in degrees."
+    },
+    {
+      "name": "scale",
+      "type": "number",
+      "default": "100",
+      "description": "Size of the radial mode ramp, in percent."
+    },
+    {
+      "name": "offsetX / offsetY",
+      "type": "number",
+      "default": "0",
+      "description": "Center of the radial mode ramp, -100 to 100."
+    },
+    {
+      "name": "palette",
+      "type": "\"bw\" | \"green\" | \"neon\" | \"sepia\" | readonly string[]",
+      "default": "\"green\"",
+      "description": "A preset or colors from darkest to lightest; the last color is the background."
+    },
+    {
+      "name": "percentages",
+      "type": "readonly number[]",
+      "description": "Share of the brightness range per color; the last is adjusted so they sum to 100. Default: the preset's, or equal shares."
+    },
+    {
+      "name": "alt",
+      "type": "string",
+      "description": "Describes the picture; without it the dither is decorative (aria-hidden)."
+    },
+    {
+      "name": "fallback",
+      "type": "React.ReactNode",
+      "description": "Shown while an image loads or when it cannot be read."
+    }
+  ],
+  "a11y": [
+    "With alt it is role=\"img\" with that name; without it the dither is decorative. The SVG itself is aria-hidden.",
+    "A gradient source renders on the server: the static page already shows the real SVG. Nothing moves, so reduced motion needs no change.",
+    "An image source shows the plain image until its pixels are read, and keeps showing it (data-status=\"unsupported\") if a cross-origin image cannot be read."
+  ],
+  "usage": "<VectorDither palette=\"sepia\" pattern=\"halftone\" shape=\"circle\" alt=\"A sepia halftone ramp\" />",
+  "docs": "Installed `VectorDither` in `components/ui/` and its dither core (`vector-dither-core.ts`). Render `<VectorDither palette=\"green\" pattern=\"bayer4\" />` for a dithered 45 degree gradient, or `<VectorDither src=\"/photo.jpg\" cellSize={6} alt=\"...\" />` to dither an image (same origin or CORS). The SVG fills the container's width.\n\nThe defaults draw 128 x 128 cells; for a lighter page use a smaller `width` or a larger `cellSize`. For an SVG file, call `ditherGenerateSvg(grid, cols, rows, settings)` from the core with a grid from `ditherGradientGrid` or `vectorDitherImageGrid`.\n\nPorted from Shpigford/dither (MIT, copyright 2026 Josh Pigford); the license text is in each file."
+}
