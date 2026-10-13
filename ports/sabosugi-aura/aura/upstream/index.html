@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aura</title>
+<style>
+  html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: #000;
+  }
+  canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+  .lil-gui.root {
+    position: fixed;
+    top: 0;
+    right: 0;
+  }
+</style>
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/",
+    "lil-gui": "https://cdn.jsdelivr.net/npm/lil-gui@0.20.0/dist/lil-gui.esm.min.js"
+  }
+}
+</script>
+</head>
+<body>
+<script type="module">
+import * as THREE from 'three';
+import GUI from 'lil-gui';
+  
+// ============================================================
+// Scene parameters
+// ============================================================
+const params = {
+  // Camera
+  focalLength: 0.09,
+  cameraX: 0.0,
+  cameraY: 0.0,
+  cameraZ: 0.0,
+  yaw: 0.0,
+  pitch: 0.0,
+  roll: 0.0,
+
+  // Animation
+  speed: 0.65,
+  paused: false,
+
+  // Geometry
+  startDistance: 0.45,
+  epsilon: 0.0097,
+  lineWidth: 0.0086,
+  lineCore: 0.0001,
+  lineHeight: 1.84,
+  warpSmoothness: 2.32,
+  warpFrequency: 2.42,
+  centerWarpAmount: 0.18,
+  centerRadius: 0.57,
+  warpSteps: 7,
+
+  // Colors
+  tint: '#ffffff',
+  exposure: 2000.0,
+  backgroundCutoff: 0.093,
+
+  // Post Processing (anti-banding)
+  jitterStrength: 0.0,
+  ditherStrength: 1.6,
+  noiseReferenceHeight: 1080.0,
+
+  // Performance
+  dpr: 1.0,
+  raySteps: 50
+};
+
+const MAX_DPR = 3.0;
+const MAX_DELTA = 0.1;
+const defaults = structuredClone(params);
+
+// Keep colors raw, identical to Shadertoy output
+THREE.ColorManagement.enabled = false;
+
+// ============================================================
+// Renderer, scene, camera
+// ============================================================
+const renderer = new THREE.WebGLRenderer({
+  antialias: false,
+  alpha: false,
+  powerPreference: 'high-performance'
+});
+renderer.setPixelRatio(Math.min(params.dpr, MAX_DPR));
+renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.setClearColor(0x000000, 1);
+renderer.toneMapping = THREE.NoToneMapping;
+document.body.appendChild(renderer.domElement);
+
+const scene = new THREE.Scene();
+const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
+
+// ============================================================
+// Shaders
+// ============================================================
+const vertexShader = /* glsl */`
+  void main() {
+    gl_Position = vec4(position.xy, 0.0, 1.0);
+  }
+`;
+
+const fragmentShader = /* glsl */`
+  uniform vec2  uResolution;
+  uniform float uTime;
+
+  uniform float uFocalLength;
+  uniform vec3  uCameraPosition;
+  uniform mat3  uCameraRotation;
+
+  uniform int   uRaySteps;
+  uniform int   uWarpSteps;
+
+  uniform float uStartDistance;
+  uniform float uEpsilon;
+  uniform float uLineWidth;
+  uniform float uLineCore;
+  uniform float uLineHeight;
+  uniform float uWarpSmoothness;
+  uniform float uWarpFrequency;
+  uniform float uCenterWarpAmount;
+  uniform float uCenterRadius;
+
+  uniform vec3  uTint;
+  uniform float uExposure;
+  uniform float uBackgroundCutoff;
+
+  uniform float uJitterStrength;
+  uniform float uDitherStrength;
+  uniform float uNoiseReferenceHeight;
+
+  // Interleaved gradient noise, deterministic, range [0, 1)
+  float gradientNoise(vec2 p) {
+    return fract(52.9829189 * fract(dot(p, vec2(0.06711056, 0.00583715))));
+  }
+
+  // Triangular distributed dither, range (-1, 1)
+  float triangularDither(vec2 p) {
+    return gradientNoise(p) + gradientNoise(p + vec2(47.3, 13.9)) - 1.0;
+  }
+
+  void main() {
+    vec2 fragCoord = gl_FragCoord.xy;
+    vec2 resolution = max(uResolution, vec2(1.0));
+
+    // Centered coordinates with correct aspect ratio
+    vec2 screenPosition = (2.0 * fragCoord - resolution) / resolution.y;
+
+    // Deformation mask: weak at center, full at center radius and beyond
+    float centerDistance = length(screenPosition);
+    float warpMask = mix(
+      uCenterWarpAmount,
+      1.0,
+      smoothstep(0.0, max(uCenterRadius, 0.001), centerDistance)
+    );
+
+    // Vertical stretch: taller lines, same horizontal width
+    screenPosition.y /= max(uLineHeight, 0.05);
+
+    vec3 rayDirection = uCameraRotation * normalize(vec3(screenPosition, max(uFocalLength, 0.001)));
+
+    // Noise grain size in physical pixels, stays visible on high-DPI screens
+    float pixelScale = max(1.0, floor(resolution.y / uNoiseReferenceHeight + 0.5));
+    vec2 noiseCoord = floor(fragCoord / pixelScale);
+
+    vec3 color = vec3(0.0);
+
+    // Per-pixel start offset breaks up ray marching bands
+    float rayDistance = uStartDistance + uJitterStrength * gradientNoise(noiseCoord);
+    float stepDistance = 0.1;
+
+    // Glow level at cutoff distance, subtracted to keep background black
+    float backgroundGlow = 1.0 / (uBackgroundCutoff * uBackgroundCutoff + uLineCore);
+
+    for (int stepIndex = 20; stepIndex < uRaySteps; ++stepIndex) {
+      float iteration = float(stepIndex) + 2.0;
+
+      vec3 position = uCameraPosition + rayDistance * rayDirection;
+
+      // Phase is invariant for all warp octaves of this step
+      float phase = uTime + iteration - rayDistance;
+
+      for (int warpIndex = 1; warpIndex <= uWarpSteps; ++warpIndex) {
+        float frequency = float(warpIndex);
+
+        // High octaves damped stronger, center mask reduces deformation
+        float amplitude = 0.52 * warpMask * pow(frequency, -uWarpSmoothness);
+
+        position += amplitude * sin(position.yzx * (frequency * uWarpFrequency) + phase) - 0.12;
+      }
+
+      vec4 distanceVector = vec4(
+        abs(position.y + position.z * 0.20),
+        sin(position - rayDistance) / 3.99
+      );
+
+      stepDistance = length(distanceVector) / (4.73 + rayDistance * rayDistance * 0.14);
+      stepDistance = max(stepDistance, uEpsilon);
+
+      vec3 palette = 0.9 + sin(iteration * 1.3 - vec3(4.8, -0.4, 1.2));
+
+      float safeRayDistance = max(rayDistance, uStartDistance);
+
+      // Glow distance shrunk by line width: widens the bright core
+      float glowDistance = max(stepDistance - uLineWidth, 0.0);
+      float glowFalloff = glowDistance * glowDistance + uLineCore;
+
+      // Glow tail beyond the cutoff is removed
+      float glow = max(1.0 / glowFalloff - backgroundGlow, 0.0);
+
+      color += palette * glow / safeRayDistance;
+
+      rayDistance += stepDistance;
+    }
+
+    color *= uTint;
+
+    // Stable approximation of tanh tone mapping
+    color /= max(uExposure, 1.0);
+    vec3 e = exp(2.0 * clamp(color, -10.0, 10.0));
+    color = (e - 1.0) / (e + 1.0);
+    color = clamp(color, 0.0, 1.0);
+
+    // Output dithering, disabled on pure black
+    vec3 ditherMask = clamp(color * 255.0, 0.0, 1.0);
+    color += ditherMask * triangularDither(fragCoord) * uDitherStrength / 255.0;
+    color = clamp(color, 0.0, 1.0);
+
+    gl_FragColor = vec4(color, 1.0);
+  }
+`;
+
+// ============================================================
+// Fullscreen triangle
+// ============================================================
+const geometry = new THREE.BufferGeometry();
+geometry.setAttribute('position', new THREE.Float32BufferAttribute([
+  -1, -1, 0,
+   3, -1, 0,
+  -1,  3, 0
+], 3));
+
+const uniforms = {
+  uResolution: { value: new THREE.Vector2(1, 1) },
+  uTime: { value: 0 },
+
+  uFocalLength: { value: params.focalLength },
+  uCameraPosition: { value: new THREE.Vector3(params.cameraX, params.cameraY, params.cameraZ) },
+  uCameraRotation: { value: new THREE.Matrix3() },
+
+  uRaySteps: { value: params.raySteps },
+  uWarpSteps: { value: params.warpSteps },
+
+  uStartDistance: { value: params.startDistance },
+  uEpsilon: { value: params.epsilon },
+  uLineWidth: { value: params.lineWidth },
+  uLineCore: { value: params.lineCore },
+  uLineHeight: { value: params.lineHeight },
+  uWarpSmoothness: { value: params.warpSmoothness },
+  uWarpFrequency: { value: params.warpFrequency },
+  uCenterWarpAmount: { value: params.centerWarpAmount },
+  uCenterRadius: { value: params.centerRadius },
+
+  uTint: { value: new THREE.Color(params.tint) },
+  uExposure: { value: params.exposure },
+  uBackgroundCutoff: { value: params.backgroundCutoff },
+
+  uJitterStrength: { value: params.jitterStrength },
+  uDitherStrength: { value: params.ditherStrength },
+  uNoiseReferenceHeight: { value: params.noiseReferenceHeight }
+};
+
+const material = new THREE.ShaderMaterial({
+  vertexShader,
+  fragmentShader,
+  uniforms,
+  depthTest: false,
+  depthWrite: false
+});
+
+const quad = new THREE.Mesh(geometry, material);
+quad.frustumCulled = false;
+scene.add(quad);
+
+// ============================================================
+// Helpers
+// ============================================================
+const drawingBufferSize = new THREE.Vector2();
+const cameraEuler = new THREE.Euler();
+const cameraMatrix4 = new THREE.Matrix4();
+
+function updateResolution() {
+  renderer.getDrawingBufferSize(drawingBufferSize);
+  uniforms.uResolution.value.copy(drawingBufferSize);
+}
+
+function updateCameraRotation() {
+  cameraEuler.set(
+    THREE.MathUtils.degToRad(params.pitch),
+    THREE.MathUtils.degToRad(params.yaw),
+    THREE.MathUtils.degToRad(params.roll),
+    'YXZ'
+  );
+  cameraMatrix4.makeRotationFromEuler(cameraEuler);
+  uniforms.uCameraRotation.value.setFromMatrix4(cameraMatrix4);
+}
+
+function updateCameraPosition() {
+  uniforms.uCameraPosition.value.set(params.cameraX, params.cameraY, params.cameraZ);
+}
+
+function applyDpr() {
+  renderer.setPixelRatio(Math.min(params.dpr, MAX_DPR));
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  updateResolution();
+}
+
+function syncAllUniforms() {
+  uniforms.uFocalLength.value = params.focalLength;
+  updateCameraPosition();
+  updateCameraRotation();
+  uniforms.uRaySteps.value = params.raySteps;
+  uniforms.uWarpSteps.value = params.warpSteps;
+  uniforms.uStartDistance.value = params.startDistance;
+  uniforms.uEpsilon.value = params.epsilon;
+  uniforms.uLineWidth.value = params.lineWidth;
+  uniforms.uLineCore.value = params.lineCore;
+  uniforms.uLineHeight.value = params.lineHeight;
+  uniforms.uWarpSmoothness.value = params.warpSmoothness;
+  uniforms.uWarpFrequency.value = params.warpFrequency;
+  uniforms.uCenterWarpAmount.value = params.centerWarpAmount;
+  uniforms.uCenterRadius.value = params.centerRadius;
+  uniforms.uTint.value.set(params.tint);
+  uniforms.uExposure.value = params.exposure;
+  uniforms.uBackgroundCutoff.value = params.backgroundCutoff;
+  uniforms.uJitterStrength.value = params.jitterStrength;
+  uniforms.uDitherStrength.value = params.ditherStrength;
+  uniforms.uNoiseReferenceHeight.value = params.noiseReferenceHeight;
+  applyDpr();
+}
+
+updateCameraRotation();
+updateResolution();
+
+// ============================================================
+// GUI
+// ============================================================
+const gui = new GUI({ title: 'Settings' });
+
+function bindUniform(folder, key, uniformName, min, max, step) {
+  return folder.add(params, key, min, max, step).onChange((v) => {
+    uniforms[uniformName].value = v;
+  });
+}
+
+function refreshGui() {
+  gui.controllersRecursive().forEach((c) => c.updateDisplay());
+}
+
+// Camera
+const cameraFolder = gui.addFolder('Camera');
+bindUniform(cameraFolder, 'focalLength', 'uFocalLength', 0.01, 1.0, 0.001).name('Focal Length');
+cameraFolder.add(params, 'cameraX', -3, 3, 0.01).name('Position X').onChange(updateCameraPosition);
+cameraFolder.add(params, 'cameraY', -3, 3, 0.01).name('Position Y').onChange(updateCameraPosition);
+cameraFolder.add(params, 'cameraZ', -3, 3, 0.01).name('Position Z').onChange(updateCameraPosition);
+cameraFolder.add(params, 'yaw', -180, 180, 0.5).name('Yaw').onChange(updateCameraRotation);
+cameraFolder.add(params, 'pitch', -90, 90, 0.5).name('Pitch').onChange(updateCameraRotation);
+cameraFolder.add(params, 'roll', -180, 180, 0.5).name('Roll').onChange(updateCameraRotation);
+cameraFolder.add({
+  resetCamera() {
+    ['focalLength', 'cameraX', 'cameraY', 'cameraZ', 'yaw', 'pitch', 'roll']
+      .forEach((k) => { params[k] = defaults[k]; });
+    uniforms.uFocalLength.value = params.focalLength;
+    updateCameraPosition();
+    updateCameraRotation();
+    refreshGui();
+  }
+}, 'resetCamera').name('Reset Camera');
+
+// Animation
+const animationFolder = gui.addFolder('Animation');
+animationFolder.add(params, 'speed', 0, 5, 0.01).name('Speed');
+animationFolder.add(params, 'paused').name('Paused');
+animationFolder.add({
+  resetTime() { animationTime = 0; }
+}, 'resetTime').name('Reset Time');
+
+// Geometry
+const geometryFolder = gui.addFolder('Geometry');
+bindUniform(geometryFolder, 'startDistance', 'uStartDistance', 0.05, 2.0, 0.01).name('Start Distance');
+bindUniform(geometryFolder, 'epsilon', 'uEpsilon', 0.001, 0.05, 0.0001).name('Epsilon');
+bindUniform(geometryFolder, 'lineWidth', 'uLineWidth', 0.0, 0.05, 0.0001).name('Line Width');
+bindUniform(geometryFolder, 'lineCore', 'uLineCore', 0.00001, 0.005, 0.00001).name('Line Core');
+bindUniform(geometryFolder, 'lineHeight', 'uLineHeight', 0.1, 5.0, 0.01).name('Line Height');
+bindUniform(geometryFolder, 'warpSmoothness', 'uWarpSmoothness', 0.0, 5.0, 0.01).name('Warp Smoothness');
+bindUniform(geometryFolder, 'warpFrequency', 'uWarpFrequency', 0.1, 6.0, 0.01).name('Warp Frequency');
+bindUniform(geometryFolder, 'centerWarpAmount', 'uCenterWarpAmount', 0.0, 1.0, 0.01).name('Center Warp');
+bindUniform(geometryFolder, 'centerRadius', 'uCenterRadius', 0.001, 2.0, 0.01).name('Center Radius');
+bindUniform(geometryFolder, 'warpSteps', 'uWarpSteps', 1, 12, 1).name('Warp Steps');
+
+// Colors
+const colorsFolder = gui.addFolder('Colors');
+colorsFolder.addColor(params, 'tint').name('Tint').onChange((v) => uniforms.uTint.value.set(v));
+bindUniform(colorsFolder, 'exposure', 'uExposure', 200, 8000, 10).name('Exposure Divisor');
+bindUniform(colorsFolder, 'backgroundCutoff', 'uBackgroundCutoff', 0.005, 0.5, 0.001).name('Background Cutoff');
+
+// Post Processing
+const postFolder = gui.addFolder('Post Processing');
+bindUniform(postFolder, 'jitterStrength', 'uJitterStrength', 0.0, 0.1, 0.001).name('Jitter Strength');
+bindUniform(postFolder, 'ditherStrength', 'uDitherStrength', 0.0, 5.0, 0.05).name('Dither Strength');
+bindUniform(postFolder, 'noiseReferenceHeight', 'uNoiseReferenceHeight', 360, 4320, 1).name('Noise Ref Height');
+
+// Performance
+const performanceFolder = gui.addFolder('Performance');
+performanceFolder.add(params, 'dpr', 0.5, MAX_DPR, 0.25).name('DPR').onChange(applyDpr);
+bindUniform(performanceFolder, 'raySteps', 'uRaySteps', 21, 150, 1).name('Ray Steps');
+
+gui.add({
+  resetAll() {
+    Object.assign(params, structuredClone(defaults));
+    syncAllUniforms();
+    refreshGui();
+  }
+}, 'resetAll').name('Reset All');
+
+gui.close();
+
+// ============================================================
+// Resize & visibility
+// ============================================================
+window.addEventListener('resize', () => {
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  updateResolution();
+});
+
+const clock = new THREE.Clock();
+let animationTime = 0;
+
+document.addEventListener('visibilitychange', () => {
+  // Drop accumulated delta so the animation does not jump after returning
+  if (!document.hidden) clock.getDelta();
+});
+
+// ============================================================
+// Animation loop
+// ============================================================
+renderer.setAnimationLoop(() => {
+  const delta = Math.min(clock.getDelta(), MAX_DELTA);
+  if (!params.paused) animationTime += delta * params.speed;
+  uniforms.uTime.value = animationTime;
+  renderer.render(scene, camera);
+});
+</script>
+</body>
+</html>

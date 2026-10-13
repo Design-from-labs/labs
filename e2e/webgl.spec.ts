@@ -11,6 +11,7 @@ const EFFECTS = [
   "iridescent-ribbon",
   "globe",
   "viscose-carousel",
+  "aura",
 ] as const;
 
 async function open(page: Page, name: string) {
@@ -94,6 +95,48 @@ for (const name of EFFECTS) {
     await expect(root).toHaveAttribute("data-status", "ready");
   });
 
+  // Aura shows one still frame under reduced motion (the shader's own picture
+  // at a fixed moment) instead of the CSS fallback, as Dot Halftone draws its
+  // dots: the canvas takes over and then stops changing.
+  if (name === "aura") {
+    test("aura: draws one still frame under reduced motion", async ({
+      page,
+    }) => {
+      await page.emulateMedia({ reducedMotion: "reduce" });
+      await page.addInitScript(() => {
+        const w = window as unknown as { __draws: number };
+        w.__draws = 0;
+        const original = WebGL2RenderingContext.prototype.drawArrays;
+        WebGL2RenderingContext.prototype.drawArrays = function (
+          this: WebGL2RenderingContext,
+          ...args: Parameters<typeof original>
+        ) {
+          w.__draws += 1;
+          return original.apply(this, args);
+        };
+      });
+      const root = await open(page, name);
+      const webgl2 = await page.evaluate(
+        () => !!document.createElement("canvas").getContext("webgl2"),
+      );
+      test.skip(!webgl2, "no WebGL 2 in this browser");
+      await expect(root).toHaveAttribute("data-status", "ready");
+      await expect(root.locator('[data-slot="aura-fallback"]')).toHaveClass(
+        /\bopacity-0\b/,
+      );
+      // A still: no more draws while time passes (a canvas read back outside
+      // its frame is blank, so count the draw calls instead).
+      const draws = () =>
+        page.evaluate(() => (window as unknown as { __draws: number }).__draws);
+      await page.waitForTimeout(400); // let on-demand redraws from effects settle
+      const first = await draws();
+      expect(first).toBeGreaterThan(0);
+      await page.waitForTimeout(600);
+      expect(await draws()).toBe(first);
+    });
+    continue;
+  }
+
   test(`${name}: shows its fallback under reduced motion`, async ({ page }) => {
     await page.emulateMedia({ reducedMotion: "reduce" });
     const root = await open(page, name);
@@ -175,6 +218,64 @@ test("dot-halftone: draws still dots under reduced motion", async ({
   await expect(root).toHaveAttribute("data-status", "ready");
 });
 
+// Surface Field is a 2D canvas that always draws, even under reduced motion
+// (one still frame); it fades its dot-grid fallback out once the loop runs.
+test("surface-field: draws on its canvases", async ({ page }) => {
+  const root = await open(page, "surface-field");
+  await expect(root).toHaveAttribute("data-status", "ready");
+  await expect(
+    root.locator('[data-slot="surface-field-fallback"]'),
+  ).toHaveClass(/\bopacity-0\b/);
+  // Some dot is drawn: the field is not an empty canvas.
+  const drawn = await root
+    .locator('[data-slot="surface-field-canvas"]')
+    .evaluate((canvas) => {
+      const c = canvas as HTMLCanvasElement;
+      const data = c
+        .getContext("2d")
+        ?.getImageData(0, 0, c.width, c.height).data;
+      return data ? data.some((value, i) => i % 4 === 3 && value > 0) : false;
+    });
+  expect(drawn).toBe(true);
+});
+
+test("surface-field: shows its fallback without a 2D canvas", async ({
+  page,
+}) => {
+  await page.addInitScript(() => {
+    const original = HTMLCanvasElement.prototype.getContext;
+    HTMLCanvasElement.prototype.getContext = function (
+      this: HTMLCanvasElement,
+      type: string,
+      ...rest: unknown[]
+    ) {
+      // The colour probe is detached and has no slot; block the drawn ones.
+      if (type === "2d" && this.dataset.slot?.startsWith("surface-field")) {
+        return null;
+      }
+      return (original as (...args: unknown[]) => unknown).call(
+        this,
+        type,
+        ...rest,
+      );
+    } as typeof original;
+  });
+  const root = await open(page, "surface-field");
+  await expect(root).toHaveAttribute("data-status", "unsupported");
+  await expect(root.locator('[data-slot="surface-field-fallback"]')).toHaveCSS(
+    "opacity",
+    "1",
+  );
+});
+
+test("surface-field: draws one still frame under reduced motion", async ({
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  const root = await open(page, "surface-field");
+  await expect(root).toHaveAttribute("data-status", "ready");
+});
+
 test.describe("without JavaScript", () => {
   test.use({ javaScriptEnabled: false });
 
@@ -193,6 +294,7 @@ for (const name of [
   "lenticular",
   "glass",
   "dot-halftone",
+  "surface-field",
   "vector-dither",
 ]) {
   test(`${name}: hydrates without page errors`, async ({ page }) => {

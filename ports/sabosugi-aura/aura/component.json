@@ -1,0 +1,121 @@
+{
+  "title": "Aura",
+  "description": "A raymarched field of glowing, winding light lines in one WebGL 2 shader: a spectral fan rising from a point, with tint, speed and exposure props.",
+  "category": "media",
+  "type": "registry:ui",
+  "status": "beta",
+  "upstreamPath": "upstream/index.html",
+  "iconSets": ["none"],
+  "registryDependencies": ["utils", "render-loop", "use-reduced-motion"],
+  "files": [
+    {
+      "file": "aura.tsx",
+      "type": "registry:ui"
+    }
+  ],
+  "demo": "demo.tsx",
+  "tile": {
+    "span": 2,
+    "rows": 2,
+    "surface": "dark"
+  },
+  "cssVars": {
+    "light": {
+      "aura-background": "#000000"
+    },
+    "dark": {
+      "aura-background": "#000000"
+    }
+  },
+  "credits": [
+    "S-003",
+    "S-004",
+    "S-019",
+    "S-020",
+    "S-157",
+    "S-450",
+    "S-451",
+    "S-524",
+    "S-525",
+    "S-526",
+    "S-528"
+  ],
+  "tags": ["shader", "webgl", "glsl", "raymarching", "glow", "background"],
+  "props": [
+    {
+      "name": "playing",
+      "type": "boolean",
+      "default": "true",
+      "description": "Plays the animation; false holds the current frame."
+    },
+    {
+      "name": "speed",
+      "type": "number",
+      "default": "0.65",
+      "description": "Animation speed, 0 to 5 (upstream's default)."
+    },
+    {
+      "name": "time",
+      "type": "number",
+      "description": "Shows one moment (seconds of animation) and stops the clock, for stills."
+    },
+    {
+      "name": "tint",
+      "type": "string",
+      "default": "\"#ffffff\"",
+      "description": "Multiplies the light, as #rgb or #rrggbb."
+    },
+    {
+      "name": "exposure",
+      "type": "number",
+      "default": "2000",
+      "description": "Divides the light before tone mapping, 200 to 8000: lower is brighter."
+    },
+    {
+      "name": "lineWidth",
+      "type": "number",
+      "default": "0.0086",
+      "description": "Width of the bright line cores, 0 to 0.05."
+    },
+    {
+      "name": "lineHeight",
+      "type": "number",
+      "default": "1.84",
+      "description": "Vertical stretch of the lines, 0.1 to 5."
+    },
+    {
+      "name": "warpFrequency | warpSmoothness",
+      "type": "number",
+      "default": "2.42 | 2.32",
+      "description": "How tightly the lines wind (0.1 to 6) and how quickly the winding fades at fine detail (0 to 5)."
+    },
+    {
+      "name": "raySteps",
+      "type": "number",
+      "default": "50",
+      "description": "Ray marching steps, 21 to 150: more is smoother and slower."
+    },
+    {
+      "name": "dpr",
+      "type": "number",
+      "default": "1",
+      "description": "The exact pixel ratio of the drawing buffer, 0.5 to 3. Upstream draws at 1 on every screen."
+    },
+    {
+      "name": "fallback",
+      "type": "React.ReactNode",
+      "description": "Replaces the static picture shown without WebGL 2 and before the first frame."
+    },
+    {
+      "name": "onStatusChange",
+      "type": "(status: RenderLoopStatus) => void",
+      "description": "Reports the loop status, for example to hide playback controls without WebGL 2."
+    }
+  ],
+  "a11y": [
+    "Decorative by default (aria-hidden); with aria-label it is role=\"img\" with that name.",
+    "Reduced motion: the field stops on one still frame (the shader's picture at 12 s); nothing moves. Without WebGL 2 a CSS picture of the fan shows instead."
+  ],
+  "usage": "<Aura aria-label=\"A fan of glowing light lines\" className=\"rounded-lg\" />",
+  "docs": "Installed `Aura` in `components/ui/`, plus the `render-loop` helper in `lib/`. Render `<Aura className=\"rounded-lg\" />`: a 16:9 stage whose background is `--aura-background` (black). Give it a height with `className=\"aspect-auto h-96\"` or lay it behind content with `absolute inset-0`; the picture scales with the box.\n\nThe tint multiplies the light (`tint=\"#7fe3ff\"`), `exposure` brightens it (lower values), `speed` and `playing` control the motion, and `time={12}` shows one frame. The shader is analytic (no textures); it draws at a pixel ratio of exactly 1 as the original does (raise `dpr` for crisper lines at a higher cost), pauses off screen and in hidden tabs, shows a still frame under reduced motion and a CSS picture without WebGL 2.\n\nPorted from Sabo Sugi's Aura pen (MIT, copyright 2026 Sabo Sugi): the shader is the pen's, unchanged, drawn with WebGL 2 directly instead of three.js, with the debug panel left out and its starting values as the defaults; the license text is in the file."
+}

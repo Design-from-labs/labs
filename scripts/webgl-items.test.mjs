@@ -16,6 +16,9 @@ const EFFECTS = [
   "globe",
   "viscose-carousel",
   "dot-halftone",
+  "aura",
+  "surface-field",
+  "glimm",
 ];
 const items = loadComponents().flatMap((entry) =>
   [...entry.items.values()].map((item) => ({
@@ -82,5 +85,17 @@ test("lifeline: the fireworks draw through the render-loop helper", () => {
     assert.match(fireworks.content, /from "@\/lib\/render-loop"/);
     assert.match(fireworks.content, /useRenderLoop<FireworksState>/);
     assert.doesNotMatch(fireworks.content, /requestAnimationFrame/);
+  }
+});
+
+// Surface Field's engine schedules its own frames through an environment
+// object; the port hands it the render loop's frames, so no file of the item
+// may reach for requestAnimationFrame itself (decision 0026).
+test("surface-field: no file schedules frames with requestAnimationFrame", () => {
+  const found = items.filter((i) => i.component === "surface-field");
+  assert.ok(found.length > 0);
+  for (const { item, source } of found) {
+    assert.doesNotMatch(source, /requestAnimationFrame\(/, item.name);
+    assert.match(source, /useRenderLoop<FrameQueue>/, item.name);
   }
 });

@@ -128,3 +128,10 @@ paths (pitfall P-044); until then they are reviewed on preview deployments.
 | `jh3y-scroll-carousel` | `scroll-carousel` | CodePen pen jh3y/PovoorJ, pinned by the snapshot in `upstream/` (decision 0030; GSAP fallback rewritten as a scroll listener, photos replaced, a flat strip under reduced motion) |
 | `jh3y-text-shimmer` | `shimmer-lines` | Jhey's CodePen "Text Shimmer Lines" (a snapshot of the pen's debug view; tweakpane left out, defaults pinned) |
 | `devongovett-text-shimmer` | `text-shimmer` | Devon Govett's CodePen 2.0 "GPU accelerated text shimmer" (a snapshot of its files) |
+| `raphaelsalaja-audio` | `ui-sounds` | raphaelsalaja/audio, `packages/audio/src` (engine, effects, patch, sequence, analyser, offline and the React hooks; the command-line tool is left out) and the Core sound pack as data, renamed; Labs adds a sound switch and volume slider (flat files, no dependencies) |
+| `sabosugi-aura` | `aura` | Sabo Sugi's Aura pen (CodePen 2.0, pinned by the tree hash of a verbatim snapshot; the shader unchanged, drawn with raw WebGL 2 on render-loop instead of three.js) |
+| `hiaaryan-sileo` | `pill-toast` | hiaaryan/sileo, `packages/sileo/src` (pinned to the gitHead of npm sileo@0.1.6; license from the npm package, the repository has none; variants shape, an `icons` style) |
+| `angelolibero-surface-field` | `surface-field` | angelolibero/surface-field, `src` (engine, host, controller and viewport merged as flat files; render-loop frames, no worker prop) |
+| `creativeocean-scroll-map` | `scroll-map` | CodePen pen creativeocean/myOVZYO, pinned by the snapshot in `upstream/` (the snapshot-pinning decision; GSAP, DrawSVG, MotionPath and ScrollTrigger rewritten with Motion and plain SVG, map photo generated, reduced motion draws the whole route) |
+| `nomanijaz-glimm` | `glimm` | glimm 0.3.1 by Noman Ijaz, `dist/index.js` and `dist/react.js` (npm only, pinned by its gitHead; core and React entry, render-loop, a container scope, reduced-motion crossfade, focus handoff, RTL) |
+| `pshihn-rough-notation` | `rough-annotation` | rough-stuff/rough-notation, `src` (merged into one core file plus a React wrapper; depends on roughjs 4.3.1) |

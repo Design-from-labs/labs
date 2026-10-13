@@ -152,6 +152,7 @@
     "react": "^19.0.0",
     "react-aria-components": "^1.22.1",
     "react-dom": "^19.0.0",
+    "roughjs": "4.3.1",
     "sonner": "^2.0.7",
     "tegaki": "^1.1.0",
     "three": "^0.185.1",
@@ -190,6 +191,9 @@
       "optional": true
     },
     "react-aria-components": {
+      "optional": true
+    },
+    "roughjs": {
       "optional": true
     },
     "sonner": {

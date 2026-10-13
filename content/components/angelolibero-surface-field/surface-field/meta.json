@@ -1,0 +1,245 @@
+{
+  "$schema": "https://labs.designfrom.com/schemas/meta.schema.json",
+  "schemaVersion": 1,
+  "name": "surface-field",
+  "kind": "component",
+  "title": "Surface Field",
+  "description": "A themeable field of dots and lines that makes room around surfaces, bends as they move, and is lit by a light that follows the pointer.",
+  "status": "beta",
+  "category": "media",
+  "label": "Surface Field by Angelo Libero",
+  "variants": [
+    {
+      "name": "surface-field",
+      "primitive": "none",
+      "iconSet": "none",
+      "status": "beta"
+    }
+  ],
+  "defaultVariant": "surface-field",
+  "demo": "demo.tsx",
+  "preview": "preview.webp",
+  "source": {
+    "repo": "https://github.com/angelolibero/surface-field",
+    "commit": "1674954a249b2e76aac1a83c8bfa1c3a4e5d543f",
+    "path": "src"
+  },
+  "author": "Angelo Libero <https://github.com/angelolibero>",
+  "license": "MIT",
+  "attribution": "Copyright (c) 2026 Angelo Libero. MIT License.",
+  "credits": [
+    "S-512",
+    "S-513",
+    "S-514",
+    "S-515",
+    "S-003",
+    "S-004",
+    "S-157",
+    "S-286",
+    "S-287",
+    "S-528"
+  ],
+  "date": "2026-10-13",
+  "tile": {
+    "span": 2,
+    "rows": 2
+  },
+  "loop": {
+    "hydrate": true,
+    "script": "click[2] → wait → click[3] → wait → click[4] → wait → click[1] → wait",
+    "duration": 8000
+  },
+  "tags": [
+    "background",
+    "dots",
+    "grid",
+    "canvas",
+    "pointer",
+    "light",
+    "texture",
+    "effect"
+  ],
+  "props": [
+    {
+      "name": "gap",
+      "type": "number",
+      "default": "22",
+      "description": "Grid spacing in px."
+    },
+    {
+      "name": "focusRadius",
+      "type": "number",
+      "default": "250",
+      "description": "Radius of the moving spotlight in px."
+    },
+    {
+      "name": "lineRadius",
+      "type": "number",
+      "default": "focusRadius * 0.25",
+      "description": "Independent reach of the connected lines, in px."
+    },
+    {
+      "name": "maxOpacity",
+      "type": "number",
+      "default": "0.26",
+      "description": "Dot opacity at the focal centre."
+    },
+    {
+      "name": "baseOpacity",
+      "type": "number",
+      "default": "0.05",
+      "description": "Faint dot opacity far from the focal."
+    },
+    {
+      "name": "tint",
+      "type": "number",
+      "default": "0.22",
+      "description": "Maximum blend toward the tint colour at the focal centre. 0 disables it."
+    },
+    {
+      "name": "tintVar",
+      "type": "string",
+      "default": "\"--surface-field-tint\"",
+      "description": "CSS custom property read for the colour of the light. It is read from the field's own element, so a value on the root or on any ancestor applies."
+    },
+    {
+      "name": "tintHueVar",
+      "type": "string",
+      "description": "A registered <angle> property the light's hue follows (read from the field's element); when set, tintVar is ignored."
+    },
+    {
+      "name": "tintHue",
+      "type": "number",
+      "default": "293",
+      "description": "The hue the light rests at, in degrees, before the angle from tintHueVar is added."
+    },
+    {
+      "name": "rippleSpeed",
+      "type": "number",
+      "default": "0.6",
+      "description": "Speed of a press ripple's crest, in px per millisecond."
+    },
+    {
+      "name": "rippleWidth",
+      "type": "number",
+      "default": "38",
+      "description": "Thickness of the ripple's crest in px."
+    },
+    {
+      "name": "surfacePadding",
+      "type": "number",
+      "default": "0",
+      "description": "Signed px added to the empty fade around surfaces. The surface itself stays clear at every value."
+    },
+    {
+      "name": "rippleBoost",
+      "type": "number",
+      "default": "0.14",
+      "description": "Maximum extra opacity a passing crest adds. 0 disables the lift."
+    },
+    {
+      "name": "rippleGrow",
+      "type": "number",
+      "default": "0.3",
+      "description": "Maximum extra dot radius, in px, a passing crest adds."
+    },
+    {
+      "name": "ripplePush",
+      "type": "number",
+      "default": "6",
+      "description": "Maximum outward displacement of a dot at the crest, in px. 0 keeps the grid rigid."
+    },
+    {
+      "name": "cursorPush",
+      "type": "number",
+      "default": "0",
+      "description": "Peak displacement, in px, of the resting mouse pointer's local field."
+    },
+    {
+      "name": "cursorPushRadius",
+      "type": "number",
+      "default": "110",
+      "description": "Reach of the pointer's local displacement in px; its light keeps focusRadius."
+    },
+    {
+      "name": "ripple",
+      "type": "{ x: number; y: number; at: number } | null",
+      "default": "null",
+      "description": "Drops one ring at (x, y), in px from the field's own box, for each new value of at. null never fires."
+    },
+    {
+      "name": "interactionRoot",
+      "type": "React.RefObject<HTMLElement | null>",
+      "description": "When set, a primary press inside it holds its ripple until release; presses outside it do not start one."
+    },
+    {
+      "name": "controller",
+      "type": "SurfaceFieldController",
+      "description": "The instance-owned input channel from createSurfaceFieldController(): setScene, setFootprint, setPreview, setViewport, setLinks and refreshTheme, none of which render React."
+    },
+    {
+      "name": "containerRef",
+      "type": "React.RefObject<HTMLDivElement | null>",
+      "description": "The field's outer element."
+    },
+    {
+      "name": "connected",
+      "type": "boolean",
+      "default": "false",
+      "description": "Draw a fine orthogonal fabric of lines between the displaced dots, on a second canvas."
+    },
+    {
+      "name": "breathe",
+      "type": "number",
+      "default": "1",
+      "description": "Share of dots (0 to 1) that slowly fade out and back, so the grid has grain. 0 turns it off."
+    },
+    {
+      "name": "breatheRate",
+      "type": "number",
+      "default": "1",
+      "description": "Speed multiplier for the breathing dots."
+    },
+    {
+      "name": "still",
+      "type": "boolean",
+      "default": "false",
+      "description": "Render a texture: every dot at maxOpacity, no light and no pointer listeners. It can still breathe."
+    },
+    {
+      "name": "wander",
+      "type": "boolean",
+      "default": "true",
+      "description": "Let the light drift on its own while the window has focus; false makes it follow the pointer only and lets the loop sleep."
+    },
+    {
+      "name": "viewport",
+      "type": "{ x: number; y: number; zoom: number }",
+      "default": "{ x: 0, y: 0, zoom: 1 }",
+      "description": "The host's camera, React Flow semantics: the grid pans 1:1 with it and scales with parallax. controller.setViewport is the per-frame path and wins once used."
+    },
+    {
+      "name": "className",
+      "type": "string",
+      "description": "Class names for the outer element, which sets the field's size and position (the field fills it)."
+    },
+    {
+      "name": "style",
+      "type": "React.CSSProperties",
+      "description": "Inline styles for the outer element. Its colour is the dots' ink; the field forces pointer-events: none and overflow: hidden."
+    },
+    {
+      "name": "fallback",
+      "type": "React.ReactNode",
+      "description": "Replaces the faint dot grid shown before the first frame, in the server render and where there is no 2D canvas. It fades out once the field is drawing."
+    }
+  ],
+  "a11y": [
+    "Decorative: the root is aria-hidden, holds no text and is never focusable, and it never intercepts the pointer, so the content above it keeps every event.",
+    "Reduced motion: the field is drawn once, centred, with no light, drift, breathing or pointer following (it follows a change of the system setting while mounted).",
+    "Touch and pen: a press drops the ring and moves the light to the contact point; mouse-only effects (cursorPush) ignore other pointer types. The field never captures a touch, so scrolling and pinch zoom are unaffected.",
+    "Drawing stops while the field is off screen or the tab is hidden, and the field gives its canvas memory back after four idle seconds.",
+    "The dots are ink at low opacity by design and carry no information. Under forced colors they take the system text color; raise maxOpacity or baseOpacity if a stronger texture is wanted."
+  ],
+  "usage": "<SurfaceField connected className=\"absolute inset-0\" />"
+}

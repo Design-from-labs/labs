@@ -1,0 +1,196 @@
+{
+  "title": "Scroll Map",
+  "description": "A map beside the text that draws a route as you scroll: the line is drawn, a dot rides its end and the camera follows it, zooming in and back out; a button opens the map to full width.",
+  "category": "media",
+  "type": "registry:ui",
+  "status": "beta",
+  "upstreamPath": "upstream/debug.html",
+  "iconSets": ["none"],
+  "dependencies": ["motion@>=12.34.0"],
+  "registryDependencies": ["utils", "use-reduced-motion", "compose-refs"],
+  "files": [
+    {
+      "file": "scroll-map.tsx",
+      "type": "registry:ui"
+    },
+    {
+      "file": "scroll-map-art.tsx",
+      "type": "registry:ui"
+    },
+    {
+      "file": "scroll-map-motion.ts",
+      "type": "registry:ui"
+    },
+    {
+      "file": "scroll-map-styles.tsx",
+      "type": "registry:ui"
+    }
+  ],
+  "demo": "demo.tsx",
+  "cssVars": {
+    "light": {
+      "scroll-map-surface": "#ffffff",
+      "scroll-map-ink": "#000000",
+      "scroll-map-callout": "#223e6b",
+      "scroll-map-callout-ink": "#ffffff",
+      "scroll-map-route": "#223e6b",
+      "scroll-map-dot": "#ffffff",
+      "scroll-map-close": "#000000"
+    },
+    "dark": {
+      "scroll-map-surface": "#0e1420",
+      "scroll-map-ink": "#e8edf5",
+      "scroll-map-callout": "#223e6b",
+      "scroll-map-callout-ink": "#ffffff",
+      "scroll-map-route": "#223e6b",
+      "scroll-map-dot": "#ffffff",
+      "scroll-map-close": "#000000"
+    }
+  },
+  "tile": {
+    "span": 2,
+    "rows": 2,
+    "surface": "light"
+  },
+  "loop": {
+    "script": "wait",
+    "duration": 12000,
+    "hydrate": true
+  },
+  "credits": [
+    "S-520",
+    "S-521",
+    "S-522",
+    "S-523",
+    "S-345",
+    "S-104",
+    "S-003",
+    "S-004",
+    "S-008",
+    "S-014",
+    "S-152",
+    "S-153",
+    "S-157",
+    "S-237",
+    "S-240",
+    "S-450",
+    "S-451",
+    "S-528"
+  ],
+  "tags": [
+    "map",
+    "scroll",
+    "scroll-driven",
+    "svg",
+    "route",
+    "split-screen",
+    "expandable",
+    "motion-path"
+  ],
+  "props": [
+    {
+      "name": "children",
+      "type": "React.ReactNode",
+      "description": "The text beside the map. Headings, paragraphs, lists and a div with the class shaded are styled like the pen's."
+    },
+    {
+      "name": "route",
+      "type": "string",
+      "default": "the pen's route",
+      "description": "The route, as an SVG path (d) in the map's 1500 x 1500 space. Any path works; it is measured with getTotalLength."
+    },
+    {
+      "name": "art",
+      "type": "React.ReactNode",
+      "default": "a generated street map",
+      "description": "What lies under the route, in the same space: SVG content such as your own <image> of a map. The default is generated, not a photograph."
+    },
+    {
+      "name": "size",
+      "type": "number",
+      "default": "1500",
+      "description": "The side of the map's square viewBox."
+    },
+    {
+      "name": "zoom",
+      "type": "[number, number]",
+      "default": "[2, 4]",
+      "description": "The scale at the start and at its deepest, half way along the route."
+    },
+    {
+      "name": "scrub",
+      "type": "number",
+      "default": "1",
+      "description": "Seconds the drawing takes to catch up with the scroll (an expo-out glide, restarted on every change); 0 follows the scroll directly."
+    },
+    {
+      "name": "split",
+      "type": "number",
+      "default": "50",
+      "description": "The closed width of the map, in percent of the component's box."
+    },
+    {
+      "name": "container",
+      "type": "React.RefObject<HTMLElement | null>",
+      "description": "The scrolling element the map follows, for a map inside a scroll container (give it position: relative and container-type: size). The window by default."
+    },
+    {
+      "name": "label",
+      "type": "string",
+      "default": "\"Route map\"",
+      "description": "The accessible name of the map."
+    },
+    {
+      "name": "description",
+      "type": "string",
+      "description": "What the map shows, read after its name."
+    },
+    {
+      "name": "expandLabel",
+      "type": "React.ReactNode",
+      "default": "\"Expand map\"",
+      "description": "The text of the button that opens the map (shown in capitals)."
+    },
+    {
+      "name": "closeLabel",
+      "type": "string",
+      "default": "\"Close map\"",
+      "description": "The accessible name of the close button."
+    },
+    {
+      "name": "expandIcon",
+      "type": "React.ReactNode",
+      "description": "Replaces the glyph before the expand text."
+    },
+    {
+      "name": "closeIcon",
+      "type": "React.ReactNode",
+      "description": "Replaces the close button's glyph."
+    },
+    {
+      "name": "expanded",
+      "type": "boolean",
+      "description": "Controls whether the map is open."
+    },
+    {
+      "name": "defaultExpanded",
+      "type": "boolean",
+      "default": "false",
+      "description": "Whether the map starts open, when uncontrolled."
+    },
+    {
+      "name": "onExpandedChange",
+      "type": "(expanded: boolean) => void",
+      "description": "Called when the map opens or closes."
+    }
+  ],
+  "a11y": [
+    "The map is an image named by label and described by description (an SVG title and desc); the route, dot and street art inside it are not announced separately.",
+    "The expand button is a native button with aria-expanded: Enter and Space open the map. Opening moves focus to the close button and makes the text beside the map inert; Escape or the close button closes it and returns focus to the expand button.",
+    "Reduced motion: nothing is tied to the scroll position. The whole route is drawn at once with the dot at its end, and the map opens and closes without a tween.",
+    "Right to left: the map takes the inline start side and the text the other; the map picture itself is not mirrored.",
+    "Colours are --scroll-map-* variables with light and dark values; under forced colors the callout gets an outline."
+  ],
+  "usage": "<ScrollMap label=\"Ride route\" description=\"The ride from the garden to the hall.\">\n  <h1>Bike to Work Day</h1>\n  <p>...</p>\n</ScrollMap>",
+  "docs": "Installed `ScrollMap` (with its generated street map, Motion engine and styles) in `components/ui/`, plus the `use-reduced-motion` hook in `hooks/` and `composeRefs` in `lib/`.\n\n```tsx\nimport { ScrollMap } from \"@/components/ui/scroll-map\";\n\n<ScrollMap label=\"Ride route\" description=\"The ride from the garden to the hall.\">\n  <h1>Bike to Work Day</h1>\n  <p>Meet at the garden at nine.</p>\n</ScrollMap>\n```\n\nThe map is pinned to the left half while the text scrolls on the right; the route is drawn as you scroll, the dot rides its end and the camera follows it, zooming in and back out. Give it a route (`route`, an SVG path in a 1500 x 1500 space) and the picture under it (`art`; the default is a generated street map, replace it with your own SVG or an `<image>`). To scroll a box instead of the page, pass its ref as `container` (the box needs `position: relative`, a fixed height and `container-type: size`).\n\nNeeds `motion` (installed). Under reduced motion the whole route is drawn and nothing is scrubbed. Ported from Tom Miller's pen (MIT, copyright 2026 by Tom Miller); the pen's GSAP, map photograph and web font are not part of it. The license text is in each file."
+}
