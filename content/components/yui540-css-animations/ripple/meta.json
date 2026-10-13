@@ -67,8 +67,5 @@
     "Loops forever: pass paused from a visible control (WCAG 2.2.2 Pause, Stop, Hide). The demo's toggle is a native button with aria-pressed.",
     "Reduced motion: opacity only. The waves keep their full size and only pulse."
   ],
-  "usage": "<Ripple paused={paused} aria-label=\"Listening\" />",
-  "tile": {
-    "surface": "dark"
-  }
+  "usage": "<Ripple paused={paused} aria-label=\"Listening\" />"
 }

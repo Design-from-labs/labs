@@ -64,6 +64,9 @@ Design From and Design From Labs (the guards enforce this).
 | [P-051](#p-051) | Site (view transitions) | Unpartnered named tiles lingered through the morph |
 | [P-052](#p-052) | Site (header) | A no-wrap brand pushed the header past 320px |
 | [P-053](#p-053) | Tests | A check that passed on the CI build failed on a beta build |
+| [P-054](#p-054) | Site (wall) | A full-width demo collapsed to zero width in a centring grid |
+| [P-055](#p-055) | Site (wall) | Fixed zoom steps cropped tall and wide specimens |
+| [P-056](#p-056) | Site (wall) | A ResizeObserver on an Astro island never fires |
 
 ---
 
@@ -853,3 +856,47 @@ Design From and Design From Labs (the guards enforce this).
 - Prevention: Run e2e on a beta build too before merging a change to the
   wall: `LABS_INCLUDE_BETA=1 pnpm build:site && pnpm e2e`.
 - Links: `e2e/site.spec.ts`
+
+### P-054
+
+- Date: 2026-10-12
+- Area: Site (specimen wall)
+- Symptom: The ThiingsGrid tile was blank, although its island hydrated and
+  rendered cells.
+- Cause: The specimen wrapper was a grid with `place-items: center` and an
+  automatic column. The demo's root is `w-full` and its cells are absolutely
+  positioned, so the root had no content width: its column, and the root
+  with it, resolved to 0px. The opposite case (the Lifeline rail) sized its
+  column to 5,600px of content and spilled out of the tile.
+- Fix: `grid-template-columns: minmax(0, 1fr)` on a wrapper as wide as the
+  tile's padding box: a full-width demo fills the tile, a fixed-size one is
+  centred.
+- Prevention: `e2e/wall.spec.ts` checks that a full-width demo fills its
+  tile and that no specimen leaves its tile.
+- Links: `src/styles/global.css`
+
+### P-055
+
+- Date: 2026-10-12
+- Area: Site (specimen wall)
+- Symptom: The Lifeline tile was cropped at the right on desktop and became
+  a tall text list on phones; small tiles shrank some demos too much.
+- Cause: Two fixed `zoom` steps by tile width cannot know a demo's real size,
+  and tiles on phones could be three rows tall.
+- Fix: One measured, contain-style scale per specimen (a transform), padding
+  relative to the tile, and at most two rows per tile on phones.
+- Prevention: `e2e/wall.spec.ts`: no specimen outside its tile at 1440 and
+  375px; no phone tile taller than two rows.
+- Links: `src/scripts/specimens.ts`, `src/styles/global.css`
+
+### P-056
+
+- Date: 2026-10-12
+- Area: Site (specimen wall)
+- Symptom: A specimen that grew after hydration was not re-fitted.
+- Cause: An `astro-island` element is `display: contents`, so it has no box
+  and a ResizeObserver on it never reports.
+- Fix: Observe the island's rendered children (`astro-island > *`) as well as
+  the wrapper and the tile.
+- Prevention: Never observe an island element itself.
+- Links: `src/scripts/specimens.ts`
