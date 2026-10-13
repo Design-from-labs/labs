@@ -30,15 +30,15 @@
       "neumorphic-panel-focus": "#3a56d6"
     },
     "dark": {
-      "neumorphic-panel-surface": "#26292d",
-      "neumorphic-panel-foreground": "#3b4047",
-      "neumorphic-panel-highlight": "rgba(255, 255, 255, 0.07)",
-      "neumorphic-panel-shade": "rgba(0, 0, 0, 0.45)",
-      "neumorphic-panel-inner-highlight": "rgba(255, 255, 255, 0.04)",
-      "neumorphic-panel-inner-shade": "rgba(0, 0, 0, 0.5)",
-      "neumorphic-panel-contrast-foreground": "#c5cad2",
-      "neumorphic-panel-contrast-edge": "#c5cad2",
-      "neumorphic-panel-focus": "#8fa4ff"
+      "neumorphic-panel-surface": "#e8eae9",
+      "neumorphic-panel-foreground": "#ced3d9",
+      "neumorphic-panel-highlight": "rgba(255, 255, 255, 1)",
+      "neumorphic-panel-shade": "rgba(13, 39, 80, 0.04)",
+      "neumorphic-panel-inner-highlight": "rgba(255, 255, 255, 0.64)",
+      "neumorphic-panel-inner-shade": "rgba(13, 39, 80, 0.16)",
+      "neumorphic-panel-contrast-foreground": "#4b525c",
+      "neumorphic-panel-contrast-edge": "#4b525c",
+      "neumorphic-panel-focus": "#3a56d6"
     }
   },
   "demo": "demo.tsx",
@@ -65,7 +65,7 @@
     "S-464"
   ],
   "tags": ["neumorphism", "shadow", "squircle", "surface", "toggle"],
-  "docs": "Installed `NeumorphicPanel`. Import it from `@/components/ui/neumorphic-panel` and put it on a surface of the same color: `<NeumorphicPanel state=\"raised\">Label</NeumorphicPanel>`. The effect is a light highlight toward the top start and a faint shadow toward the bottom end; `state=\"pressed\"` adds inner shadows. With `pressable` it is a toggle button whose `aria-pressed` state is the pressed look.\n\nThe page behind it must be `--neumorphic-panel-surface` (#e8eae9 by default) for the illusion to read. The colors are the `--neumorphic-panel-*` variables (light and dark); `--neumorphic-panel-size` sets the width (300px). The default text is faint by design: under `prefers-contrast: more` it and the edge are lifted, and you can set `--neumorphic-panel-foreground` to make that the default.\n\nPorted from the CodePen \"Neumorphic shadows\" by Una Kravets (MIT, copyright 2026 Una Kravets); the license text is in the file.",
+  "docs": "Installed `NeumorphicPanel`. Import it from `@/components/ui/neumorphic-panel` and put it on a surface of the same color: `<NeumorphicPanel state=\"raised\">Label</NeumorphicPanel>`. The effect is a light highlight toward the top start and a faint shadow toward the bottom end; `state=\"pressed\"` adds inner shadows. With `pressable` it is a toggle button whose `aria-pressed` state is the pressed look.\n\nThe page behind it must be `--neumorphic-panel-surface` (#e8eae9 by default) for the illusion to read. The colors are the `--neumorphic-panel-*` variables (light and dark); `--neumorphic-panel-size` sets the width (300px). The default text is faint by design: under `prefers-contrast: more` it and the edge are lifted, and you can set `--neumorphic-panel-foreground` to make that the default.\n\nPorted from the CodePen \"Neumorphic shadows\" by Una Kravets (MIT, copyright 2026 Una Kravets); the license text is in the file.\n\nThe pen has one palette, so the dark theme uses the same light panel (it paints its own surface); set the `--neumorphic-panel-*` variables under `.dark` for a dark treatment.",
   "props": [
     {
       "name": "state",
