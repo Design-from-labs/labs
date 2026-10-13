@@ -292,7 +292,7 @@ const installTabs = (v: Variant) => [
     entry.usage && (
       <section class="mt-12">
         <h2 class="font-medium text-lg">Usage</h2>
-        <pre class="mt-3 overflow-x-auto rounded-lg border bg-muted/30 p-4 font-mono text-[13px]"><code>{entry.usage}</code></pre>
+        <pre class="mt-3 overflow-x-auto rounded-lg border bg-muted/30 p-4 font-mono text-[13px]" tabindex="0" role="region" aria-label="Usage example"><code>{entry.usage}</code></pre>
       </section>
     )
   }
@@ -301,7 +301,7 @@ const installTabs = (v: Variant) => [
     entry.props.length > 0 && (
       <section class="mt-12">
         <h2 class="font-medium text-lg">Props</h2>
-        <div class="mt-3 overflow-x-auto rounded-lg border">
+        <div class="mt-3 overflow-x-auto rounded-lg border" tabindex="0" role="region" aria-label="Props table">
           <table class="w-full text-start text-sm">
             <thead class="bg-muted/40 text-muted-foreground">
               <tr>

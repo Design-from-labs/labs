@@ -85,6 +85,9 @@ Design From and Design From Labs (the guards enforce this).
 | [P-072](#p-072) | Tests (axe) | Text on an SVG surface reads as low contrast |
 | [P-073](#p-073) | Registry (shadcn CLI) | A base-style project rewrites `asChild` in Radix items |
 | [P-074](#p-074) | Tests (Playwright) | Parallel local e2e runs reuse each other's preview server on a fixed port |
+| [P-075](#p-075) | Site (accessibility) | A sideways-scrolling block was not keyboard reachable at 375px |
+| [P-076](#p-076) | Site (accessibility) | A bare preview page had no level-one heading |
+| [P-077](#p-077) | Site (previews) | A preview of a hydrated demo showed its server markup, with unreadable text |
 
 ---
 
@@ -1155,7 +1158,8 @@ Design From and Design From Labs (the guards enforce this).
   `pointer-events: none`, which axe's background lookup does not see, so it
   measured the dark label against the dark root (the real contrast is about
   17:1). The component page (`/ui/morphing-tabs`) reports no violation.
-- Fix: None in the component; recorded in its fidelity notes.
+- Fix: None in the component; recorded in its fidelity notes. The cause
+  recorded here was wrong: see [P-077](#p-077).
 - Prevention: Check contrast by hand where text sits on an SVG or canvas
   surface.
 - Links: `docs/evidence/ports/morphing-tabs/fidelity.md`
@@ -1197,3 +1201,60 @@ Design From and Design From Labs (the guards enforce this).
 - Prevention: Give every concurrent local e2e run its own `E2E_PORT` and its
   own built `dist/`; keep any new e2e server URL derived from that variable.
 - Links: `playwright.config.ts`, `docs/CICD.md`
+
+### P-075
+
+- Date: 2026-10-13
+- Area: Site (accessibility)
+- Symptom: At 375px wide, axe failed `scrollable-region-focusable` on the
+  install command of every `/ui/<component>` page, and on the usage block
+  and the props table of a component that has them.
+- Cause: Each is `overflow-x: auto` and scrolls sideways on a narrow screen,
+  but none could take keyboard focus, so a keyboard user could not scroll it.
+  The wide default viewport hides the problem because nothing overflows.
+- Fix: Each scroll region is focusable (`tabindex="0"`) and named: the command
+  is a labeled group (`Command` unless a label is given), the usage block and
+  the props table are regions (`Usage example`, `Props table`), as the source
+  view already was. The rule stays on.
+- Prevention: `e2e/a11y.spec.ts` runs axe on `/ui/badge` and `/ui/button` at
+  375px in both color schemes and asserts the command scrolls and takes focus.
+  Give any new `overflow-auto` block a tabindex and a name.
+- Links: `src/components/Command.astro`, `src/pages/ui/[component].astro`
+
+### P-076
+
+- Date: 2026-10-13
+- Area: Site (accessibility)
+- Symptom: axe reported `page-has-heading-one` on a bare `/preview/<item>`
+  page.
+- Cause: The page is only the demo inside a `<main>`; a staged item gets its
+  `h1` from the framed document, but a plain demo had none.
+- Fix: A visually hidden `h1` ("<title> preview") is the first child of the
+  `<main>`, for items without a stage. The page stays a bare render for the
+  still.
+- Prevention: `e2e/a11y.spec.ts` runs axe on a plain and a staged preview and
+  asserts the heading text.
+- Links: `src/pages/preview/[item].astro`
+
+### P-077
+
+- Date: 2026-10-13
+- Area: Site (previews)
+- Symptom: On `/preview/morphing-tabs-*`, axe reported low contrast on the
+  active tab's label, and the page (and the gallery still taken from it)
+  showed the label dark on dark with no white tab surface.
+- Cause: The preview rendered the demo as server markup only. Morphing Tabs
+  draws its surface in an SVG that it portals in after mounting, so the
+  unhydrated page never had it; the contrast hit was real for that page, not
+  a gap in axe (this corrects P-072). Entries whose tile needs JavaScript
+  (meta `loop.hydrate`) are hydrated on the wall, but not on the preview.
+- Fix: The preview hydrates the demo when the entry has `loop.hydrate`, the
+  same flag the wall uses, so it renders as a user sees it. The component is
+  unchanged. With the surface drawn, axe no longer fails the label (it marks
+  the check incomplete, since it cannot read an SVG background); the test
+  measures the label against the surface's own fill instead (17.0:1,
+  `#181818` on `#fafaf8`) and requires at least 7:1.
+- Prevention: `e2e/a11y.spec.ts` waits for hydration and checks the Morphing
+  Tabs previews on a beta build (`LABS_INCLUDE_BETA=1`). Regenerate a still
+  of a `loop.hydrate` entry from the hydrated preview.
+- Links: `src/pages/preview/[item].astro`, `e2e/a11y.spec.ts`
