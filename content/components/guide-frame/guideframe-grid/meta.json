@@ -31,11 +31,15 @@
     "S-175",
     "S-003"
   ],
-  "date": "2026-10-12",
+  "date": "2026-10-13",
   "stage": {
     "device": "laptop",
     "slot": "inline",
     "shell": "app"
+  },
+  "tile": {
+    "span": 2,
+    "rows": 2
   },
   "tags": [
     "grid",

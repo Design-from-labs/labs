@@ -47,11 +47,15 @@
     "S-003",
     "S-008"
   ],
-  "date": "2026-10-12",
+  "date": "2026-10-13",
   "stage": {
     "device": "laptop",
     "slot": "inline",
     "shell": "app"
+  },
+  "tile": {
+    "span": 2,
+    "rows": 2
   },
   "tags": [
     "table",

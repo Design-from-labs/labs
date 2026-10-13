@@ -94,6 +94,9 @@ Design From and Design From Labs (the guards enforce this).
 | [P-081](#p-081) | Vendoring | The shadcn CLI writes `"use client"` on some installs of a file only |
 | [P-082](#p-082) | Vendoring | The shadcn CLI's install request omits a style's base packages |
 | [P-083](#p-083) | Dependencies | `shadcn add calendar` installs a major the item's range excludes |
+| [P-084](#p-084) | Fidelity harness | Playwright's fake clock keeps running in real time after `install` |
+| [P-085](#p-085) | Tests (Web Audio) | `page.evaluate` grants user activation, hiding a gesture gate |
+| [P-086](#p-086) | Components (NODE_ENV) | A `typeof process` guard reports development in a Vite production build |
 | [P-087](#p-087) | CI (links) | An external citation host outage failed every pull request's link check |
 
 ---
@@ -1355,6 +1358,49 @@ Design From and Design From Labs (the guards enforce this).
 - Prevention: Check an item's npm ranges against what its stock
   dependencies install.
 - Links: `package.json`
+
+### P-084
+
+- Date: 2026-10-13
+- Area: Fidelity harness
+- Symptom: Liveline compared against itself with `--clock` and `--advance`
+  differed by 0.22%; ThiingsGrid momentum frames differed 4% to 15% run to run.
+- Cause: `page.clock.install()` alone lets fake time flow in real time, so the
+  variable page-load time leaks into timers, `requestAnimationFrame` and
+  `Date.now`.
+- Fix: The shared fidelity tool pauses the clock (`pauseAt`) right after
+  `install`, before navigating, then steps it with `runFor`.
+- Prevention: Pause the fake clock before navigation in every frame-matching
+  diff; compare an upstream against itself first to measure the noise floor.
+- Links: `docs/evidence/ports/liveline/fidelity.md`, `docs/evidence/ports/thiings-grid/fidelity.md`
+
+### P-085
+
+- Date: 2026-10-13
+- Area: Tests (Web Audio)
+- Symptom: TableOfContents' check that no AudioContext exists before a user
+  gesture failed after a hover alone.
+- Cause: Playwright's `page.evaluate` and locator helpers run with
+  `userGesture: true`, which grants the page user activation.
+- Fix: Record activation in an init script, drive the page with raw mouse
+  input at known coordinates, and evaluate only afterwards.
+- Prevention: Never call `evaluate` before a gesture-gated assertion.
+- Links: `docs/evidence/ports/table-of-contents/fidelity.md`
+
+### P-086
+
+- Date: 2026-10-13
+- Area: Components (NODE_ENV)
+- Symptom: A `typeof process !== "undefined"` guard around
+  `process.env.NODE_ENV` made GuideframeGrid report development, and show its
+  overlay, in a Vite production build.
+- Cause: Vite replaces the `process.env.NODE_ENV` literal but defines no
+  runtime `process`; also `process.env?.NODE_ENV` is not the literal and fails
+  the decision 0018 check.
+- Fix: A plain `process.env.NODE_ENV` read inside a `try`/`catch` that falls
+  back to development.
+- Prevention: Decision 0018 spells out the safe form.
+- Links: `docs/decisions/0018-node-env-in-items.md`, `ports/guide-frame/guideframe-grid/`
 
 ### P-087
 
