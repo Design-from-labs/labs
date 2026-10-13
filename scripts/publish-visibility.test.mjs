@@ -81,3 +81,25 @@ test("siteData: a beta entry appears, labeled, only on a beta build", () => {
   assert.equal(on.published.length, 1);
   assert.equal(on.published[0].item.meta.status, "beta");
 });
+
+test("siteData: a primitive-free default beside primitive variants is a choice", () => {
+  const mixed = meta("beta");
+  mixed.variants = [
+    { name: "thing", primitive: "none", iconSet: "none", status: "beta" },
+    {
+      name: "thing-radix",
+      primitive: "radix",
+      iconSet: "none",
+      status: "beta",
+    },
+  ];
+  const on = siteData([entry(mixed)], new Map(), [], true);
+  assert.deepEqual(on.entries[0].dimensions.primitives, [
+    "none",
+    "radix",
+    "base",
+    "aria",
+  ]);
+  const plain = siteData([entry(meta("beta"))], new Map(), [], true);
+  assert.deepEqual(plain.entries[0].dimensions.primitives, []);
+});

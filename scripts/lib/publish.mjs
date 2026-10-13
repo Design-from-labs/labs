@@ -347,6 +347,16 @@ export function siteData(components, credits, projects, beta = includeBeta()) {
       ).entries(),
     ].map(([value, label]) => ({ value, label }));
     const usesPrimitives = meta.variants.some((v) => v.primitive !== "none");
+    // An entry that mixes a primitive-free default with primitive variants
+    // offers "none" too, so the default can be chosen again (P-KB1).
+    const primitives = usesPrimitives
+      ? [
+          ...(meta.variants.some((v) => v.primitive === "none")
+            ? ["none"]
+            : []),
+          ...PRIMITIVE_ORDER,
+        ]
+      : [];
     const usesIcons = meta.variants.some((v) => v.iconSet !== "none");
     entries.push({
       name: meta.name,
@@ -374,7 +384,7 @@ export function siteData(components, credits, projects, beta = includeBeta()) {
       defaultVariant: meta.defaultVariant,
       dimensions: {
         styles,
-        primitives: usesPrimitives ? PRIMITIVE_ORDER : [],
+        primitives,
         iconSets: usesIcons ? ICON_ORDER : [],
       },
       variants,
