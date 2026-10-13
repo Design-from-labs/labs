@@ -9,6 +9,10 @@ interface Props {
 }
 const { id, path, content } = Astro.props;
 const lang = path.endsWith(".css") ? "css" : path.endsWith(".ts") ? "ts" : "tsx";
+// A very large file (data such as an emoji table) is shown as plain text:
+// highlighting it adds a span per token, which made one page 7 MB and stalled
+// axe for over 30 seconds (docs/pitfalls.md, P-123).
+const plain = content.length > 50_000;
 ---
 <figure class="overflow-hidden rounded-lg border">
   <figcaption class="flex items-center justify-between gap-3 border-b bg-muted/40 py-1.5 ps-3 pe-1.5">
@@ -16,6 +20,10 @@ const lang = path.endsWith(".css") ? "css" : path.endsWith(".ts") ? "ts" : "tsx"
     <CopyButton target={id} label="Copy source" />
   </figcaption>
   <div id={id} class="max-h-[32rem] overflow-auto" data-source={path} tabindex="0" role="region" aria-label={`Source of ${path}`}>
-    <Code code={content} lang={lang} themes={{ light: "github-light", dark: "github-dark-default" }} wrap={false} />
+    {plain ? (
+      <pre class="m-0 p-4 font-mono text-xs leading-relaxed"><code>{content}</code></pre>
+    ) : (
+      <Code code={content} lang={lang} themes={{ light: "github-light", dark: "github-dark-default" }} wrap={false} />
+    )}
   </div>
 </figure>

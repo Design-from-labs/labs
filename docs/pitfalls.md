@@ -118,6 +118,23 @@ Design From and Design From Labs (the guards enforce this).
 | [P-105](#p-105) | Components (Motion) | A custom `animateValue` driver is not honoured by pause or start time |
 | [P-106](#p-106) | Components (GSAP rewrite) | A delayed call created during a tick ran in that tick |
 | [P-107](#p-107) | Fidelity harness (Vite) | Harnesses sharing `node_modules` shared Vite's dependency cache |
+| [P-108](#p-108) | Components (React Aria) | A disclosure panel hides before an inner exit animation ends |
+| [P-109](#p-109) | Components (Radix) | A tooltip closes when its trigger is pressed |
+| [P-110](#p-110) | Fidelity harness (React Aria) | A tooltip never opens on Playwright's first hover |
+| [P-111](#p-111) | Components (portals) | A popup moved into a portal loses the row's font, theme and direction |
+| [P-112](#p-112) | Components (focus return) | A tooltip pops up after a popup closes under the mouse |
+| [P-113](#p-113) | Icons (Lucide 1.x) | Lucide's Smile is a different drawing from the one upstreams copied |
+| [P-114](#p-114) | Components (React Aria) | A tooltip cannot hang off a non-interactive element |
+| [P-115](#p-115) | Fidelity (screenshot diffs) | pixelmatch at threshold 0.1 misses a low-contrast layer |
+| [P-116](#p-116) | Components (Motion clip-path) | A clip-path animation jumps when its two values use different units |
+| [P-117](#p-117) | Components (right to left) | `dir="auto"` with no letters resolves to left to right |
+| [P-118](#p-118) | Components (right to left) | A loader figure reverses in a right-to-left page while its timing does not |
+| [P-119](#p-119) | Accessibility (live regions) | A `role="status"` inside an aria-hidden container is never announced |
+| [P-120](#p-120) | Components (Motion SSR) | Motion renders `initial` on the server |
+| [P-121](#p-121) | Tooling (export-ports) | One port without its demo stops the whole export |
+| [P-122](#p-122) | Fidelity harness (Motion) | Motion mid-animation frames differ between identical runs |
+| [P-123](#p-123) | Site (source view) | Highlighting a very large source file stalls the component page |
+| [P-124](#p-124) | Components (React Aria and Motion) | Enter toggles a React Aria disclosure twice through Motion's `whileTap` |
 
 ---
 
@@ -1750,3 +1767,226 @@ Design From and Design From Labs (the guards enforce this).
 - Prevention: Set `cacheDir` whenever a harness reuses another's
   `node_modules`.
 - Links: `docs/evidence/ports/globe/fidelity.md`
+
+### P-108
+
+- Date: 2026-10-12
+- Area: Components (React Aria Disclosure)
+- Symptom: Found while porting ReasoningSteps to React Aria: a collapsing
+  `DisclosurePanel` would go blank at once while its Motion height animation
+  was still shrinking the box.
+- Cause: `useDisclosure` sets `hidden="until-found"` on the panel as soon as
+  `panel.getAnimations()` settles. That lists the panel's own animations only;
+  Motion animates an inner element's height on the main thread, so the list is
+  empty and the content is hidden (`content-visibility: hidden`) immediately.
+- Fix: while the collapse runs, the panel gets `content-visibility: visible`
+  (it beats the user-agent rule); Motion's `onAnimationComplete` ends it.
+- Prevention: when a primitive manages `hidden`, check which element it
+  watches for animations before animating a child.
+- Links: `ports/iconiq/reasoning-steps/aria/reasoning-steps.tsx`
+
+### P-109
+
+- Date: 2026-10-12
+- Area: Components (Radix Tooltip)
+- Symptom: The Radix MessageActions lost its tooltip on every click, so
+  "Copy message" never turned into "Copied" in place (1,133 differing pixels
+  against upstream on the vote frame).
+- Cause: Radix's tooltip trigger calls `onClose` on `pointerdown` and again
+  on `click`.
+- Fix: the trigger flags a press from `pointerdown` until just after `click`,
+  and the controlled `onOpenChange` ignores closes during it; leaving the
+  button still closes it.
+- Prevention: diff a pressed state, not only hover, when a tooltip's label
+  changes on press.
+- Links: `ports/aicss/message-actions/radix/message-actions.tsx`
+
+### P-110
+
+- Date: 2026-10-12
+- Area: Fidelity harness (React Aria hover)
+- Symptom: React Aria tooltips never opened in Playwright when the first
+  action was `page.hover()`, then opened fine after any other mouse move.
+- Cause: React Aria counts a hover as a pointer hover only once its global
+  modality tracker has seen the pointer; the single move that `hover()` sends
+  arrives too late for the first hover start.
+- Fix: the harness moves the mouse twice before hovering, on both sides.
+- Prevention: start every hover scenario with a real pointer move.
+- Links: `docs/evidence/ports/message-actions/fidelity.md`
+
+### P-111
+
+- Date: 2026-10-12
+- Area: Components (portaled popups)
+- Symptom: The ported "More actions" menu drew its labels in a different
+  font from upstream, and would have stayed light inside a `.dark` wrapper.
+- Cause: upstream rendered the menu and reaction bar inside the row, so they
+  inherited its font, CSS variables and direction; the primitives portal them
+  to `<body>`.
+- Fix: popup surfaces carry the theme variables themselves
+  (`.message-actions-surface`) and get the row's font, direction and theme
+  (`messageActionsSurface`); upstream's emoji picker, already portaled
+  upstream, keeps the page font.
+- Prevention: when a port moves an element into a portal, list what it
+  inherited in place and pass it on.
+- Links: `ports/aicss/message-actions/shared/message-actions-shared.tsx`
+
+### P-112
+
+- Date: 2026-10-12
+- Area: Components (focus return and tooltips)
+- Symptom: After picking a reaction with the mouse and leaving the row, the
+  Base UI port showed the "Reaction 🎉" tooltip and the timestamp, where
+  upstream showed neither (917 differing pixels).
+- Cause: the primitives return focus to the trigger when a popup closes; the
+  tooltip opens on focus, the row shows its timestamp on `:focus-within`, and a
+  tooltip suppressed while its popup was open kept its own open state.
+- Fix: after a pointer close focus stays where it fell, as upstream
+  (`finalFocus` in Base UI, `onCloseAutoFocus` in Radix); keyboard closes still
+  return focus. A button's tooltip state resets when its popup opens. React
+  Aria's tooltips ignore focus that follows a pointer, so only its timestamp
+  stays visible until focus moves (noted in the fidelity report).
+- Prevention: diff the state after a popup closes, with the pointer away.
+- Links: `ports/aicss/message-actions/base/message-actions.tsx`
+
+### P-113
+
+- Date: 2026-10-12
+- Area: Icons (Lucide 1.x)
+- Symptom: The ported reaction button's smile differed from upstream's by a
+  few pixels at rest.
+- Cause: in lucide-react 1.x `Smile` and `SmilePlus` are aliases of the
+  redrawn `face-slightly-smiling` icons; upstream copied the older drawing.
+- Fix: none needed (under 0.01% of the frame); the wink animation targets
+  Lucide's own right eye.
+- Prevention: compare an icon's nodes, not its name, when replacing inline SVG
+  with a library icon.
+- Links: `ports/aicss/message-actions/shared/message-actions-icons.tsx`
+
+### P-114
+
+- Date: 2026-10-12
+- Area: Components (React Aria tooltips)
+- Symptom: Giving MessageActions' timestamp a React Aria tooltip logged
+  "<Focusable> child must have an interactive ARIA role", and making the
+  `<time>` focusable failed Biome's `noNoninteractiveTabindex`.
+- Cause: `TooltipTrigger` needs a focusable, interactive trigger.
+- Fix: the timestamp keeps upstream's hover-only tooltip (React Aria's
+  `Tooltip` with `triggerRef` and a controlled `isOpen`), and screen readers get
+  the full date as visually hidden text in every variant.
+- Prevention: give tooltips to interactive elements; put information on
+  static text in the text itself.
+- Links: `ports/aicss/message-actions/aria/message-actions.tsx`
+
+### P-115
+
+- Date: 2026-10-12
+- Area: Fidelity (screenshot diffs)
+- Symptom: A loader port with its shimmer sweep removed scored 0 differing pixels against upstream.
+- Cause: pixelmatch's default 0.1 threshold treats small color differences as equal; a translucent highlight on a light block falls under it.
+- Fix: The loader and skeleton ports were measured at threshold 0, with a known-different control (the sweep removed: 19.03%).
+- Prevention: For translucent or low-contrast effects, diff at threshold 0 and include a control that must fail.
+- Links: `docs/evidence/ports/shimmer-trace/fidelity.md`
+
+### P-116
+
+- Date: 2026-10-12
+- Area: Components (Motion clip-path)
+- Symptom: The right-to-left wipe of StreamedTextLoader stayed fully clipped and then appeared at the end.
+- Cause: Motion interpolates `inset()` only when both values use the same units per side: `inset(0 0 0 100%)` to `inset(0 0% 0 0)` mixes `0` and percentages.
+- Fix: `inset(0 0% 0 100%)` to `inset(0 0% 0 0%)`.
+- Prevention: Write both clip-path values with matching units; check the right-to-left frame mid-animation.
+- Links: `ports/generative-loaders/streamed-text-loader/streamed-text-loader.tsx`
+
+### P-117
+
+- Date: 2026-10-12
+- Area: Components (right to left)
+- Symptom: In a right-to-left page the text loader's empty skeleton sat at the left edge.
+- Cause: `dir="auto"` takes the direction of the first strong character; with none it falls back to left to right instead of inheriting.
+- Fix: The attribute is omitted until there is text, so an empty loader follows the page.
+- Prevention: Test `dir="auto"` elements empty as well as filled, in a right-to-left page.
+- Links: `ports/generative-loaders/streamed-text-loader/streamed-text-loader.tsx`
+
+### P-118
+
+- Date: 2026-10-12
+- Area: Components (right to left)
+- Symptom: The domino loader rendered right to left differed from its own left-to-right frame by 12.4%: the pieces reversed but their per-index delays did not.
+- Cause: Flex rows and grids reverse in a right-to-left context; the per-piece delays and offsets are tied to source order.
+- Fix: The inline and image loaders draw their figures with `direction: ltr` (P-021).
+- Prevention: Draw decorative figures left to right; mirror deliberately, never by inheritance.
+- Links: `ports/generative-loaders/inline-activity-loader/inline-activity-loader.tsx`
+
+### P-119
+
+- Date: 2026-10-12
+- Area: Accessibility (live regions)
+- Symptom: Upstream ShimmerTrace's "Loading content" status showed 0 reachable statuses in the accessibility tree.
+- Cause: The status sat inside the master container, which is `aria-hidden` while loading, so the whole subtree is removed from the tree.
+- Fix: The port adds a sibling polite live region with visually hidden text (`loadingLabel`).
+- Prevention: Check the accessibility tree, not the markup, for every loader status.
+- Links: `ports/shimmer-trace/shimmer-trace/shimmer-trace.tsx`
+
+### P-120
+
+- Date: 2026-10-12
+- Area: Components (Motion SSR)
+- Symptom: The server-rendered StreamedTextLoader tile showed every character at 18% opacity.
+- Cause: Motion writes the `initial` values into the server markup; the reveal only runs after hydration, and gallery tiles may never hydrate (P-037).
+- Fix: The demo renders paused until it mounts, so the server markup is the settled text.
+- Prevention: Look at the server-rendered tile of every Motion demo.
+- Links: `ports/generative-loaders/streamed-text-loader/demo.tsx`
+
+### P-121
+
+- Date: 2026-10-12
+- Area: Tooling (export-ports)
+- Symptom: While the ReasoningSteps port had no `demo.tsx` yet, `node scripts/export-ports.mjs` threw ENOENT and wrote nothing for any port.
+- Cause: The exporter reads every port's demo file without checking that it exists.
+- Fix: Create the demo before running the export; the missing file is named in the stack trace.
+- Prevention: Add `demo.tsx` with `component.json`; a follow-up could report the port as incomplete instead of throwing.
+- Links: `scripts/export-ports.mjs`
+
+### P-122
+
+- Date: 2026-10-12
+- Area: Fidelity harness (Motion)
+- Symptom: Upstream against itself differed by up to 2.3% on single captures of a Motion reveal 64 ms in.
+- Cause: Motion runs some values through the Web Animations API on real time and others on `requestAnimationFrame`, so a paused clock does not freeze both.
+- Fix: For mid frames: remove `Element.prototype.animate` so Motion stays on the frame loop, keep the clock paused, apply the change with `flushSync`, wait 150 ms of real time, then take the best of five; report an upstream-against-upstream control.
+- Prevention: Use that recipe for Motion mid frames, and report the control (P-034, P-035).
+- Links: `docs/evidence/ports/streamed-text-loader/fidelity.md`
+
+### P-123
+
+- Date: 2026-10-13
+- Area: Site (component page source view)
+- Symptom: With the beta ports shown, `/ui/message-actions` was a 7 MB page
+  with about 115,000 spans, and axe ran for over 30 seconds without finishing
+  (three e2e timeouts).
+- Cause: the source view highlights every file of every variant with Shiki,
+  a span per token; MessageActions ships a 1,960-line emoji table in each of
+  its six items.
+- Fix: `SourceView.astro` shows a file over 50,000 characters as plain text
+  (7.2 MB to 3.8 MB); axe still needs about 20 seconds there, so
+  `e2e/ai-states.spec.ts` gives its tests 90 seconds.
+- Prevention: check the built page size (`curl -s <page> | wc -c`) when an
+  item ships data files; the e2e axe run times out on oversized pages.
+- Links: `src/components/SourceView.astro`
+
+### P-124
+
+- Date: 2026-10-13
+- Area: Components (React Aria with Motion)
+- Symptom: In the built site, Enter on the React Aria ReasoningSteps trigger
+  left it collapsed (`aria-expanded` stayed false) under Playwright's
+  "Desktop Chrome" device, while a click worked.
+- Cause: the trigger was React Aria's `Button` rendered as a `motion.button`
+  with `whileTap`. Motion's own keyboard press handling adds a second press
+  after React Aria's keyboard press, and the disclosure toggled twice.
+- Fix: the scale follows React Aria's `isPressed` render state
+  (`animate={{ scale: isPressed ? 0.96 : 1 }}`) instead of `whileTap`.
+- Prevention: when a primitive owns presses, drive Motion from the
+  primitive's state; test keyboard activation on the built site.
+- Links: `ports/iconiq/reasoning-steps/aria/reasoning-steps.tsx`

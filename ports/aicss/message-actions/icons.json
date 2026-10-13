@@ -1,0 +1,14 @@
+{
+  "Check": "CheckIcon",
+  "Copy": "CopyIcon",
+  "Ellipsis": "DotsThreeIcon",
+  "Flag": "FlagIcon",
+  "GitFork": "GitForkIcon",
+  "Reply": "ArrowBendUpLeftIcon",
+  "Search": "MagnifyingGlassIcon",
+  "Smile": "SmileyIcon",
+  "SmilePlus": "SmileyStickerIcon",
+  "ThumbsDown": "ThumbsDownIcon",
+  "ThumbsUp": "ThumbsUpIcon",
+  "Volume2": "SpeakerHighIcon"
+}

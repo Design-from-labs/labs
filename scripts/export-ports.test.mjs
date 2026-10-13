@@ -179,3 +179,50 @@ test("exportPort (variants): a style with its own icon sets beside an icon-free 
   assert.equal(lucide.title, "Video Player (Icon library, Lucide)");
   assert.ok(lucide.dependencies.includes("lucide-react@^1"));
 });
+
+test("exportPort: MessageActions keeps upstream's glyphs by default and offers an icon-library style", () => {
+  const files = exportPort("aicss", "message-actions", source("aicss"));
+  const meta = JSON.parse(files["meta.json"]);
+  assert.equal(meta.defaultVariant, "message-actions-base");
+  assert.deepEqual(meta.variants.map((v) => v.name).sort(), [
+    "message-actions-aria",
+    "message-actions-base",
+    "message-actions-icons-aria-lucide",
+    "message-actions-icons-aria-phosphor",
+    "message-actions-icons-base-lucide",
+    "message-actions-icons-base-phosphor",
+    "message-actions-icons-radix-lucide",
+    "message-actions-icons-radix-phosphor",
+    "message-actions-radix",
+  ]);
+  for (const variant of meta.variants) {
+    const item = JSON.parse(files[`items/${variant.name}.json`]);
+    // The variant's own file plus the shared ones, flattened.
+    assert.deepEqual(item.files.map((f) => f.path.split("/").pop()).sort(), [
+      "message-actions-emojis.ts",
+      "message-actions-icons.tsx",
+      "message-actions-shared.tsx",
+      "message-actions-styles.ts",
+      "message-actions.tsx",
+    ]);
+    const pkg = {
+      radix: "radix-ui",
+      base: "@base-ui/react",
+      aria: "react-aria-components",
+    }[variant.primitive];
+    assert.ok(item.dependencies.some((d) => d.startsWith(pkg)));
+    const icons = item.files.find((f) => f.path.endsWith("-icons.tsx"));
+    if (variant.iconSet === "none") {
+      assert.doesNotMatch(
+        icons.content,
+        /from "(lucide-react|@phosphor-icons)/,
+      );
+      assert.match(icons.content, /mouthHappy/);
+    } else if (variant.iconSet === "phosphor") {
+      assert.match(icons.content, /from "@phosphor-icons\/react\/ssr"/);
+      assert.doesNotMatch(icons.content, /lucide-react/);
+    } else {
+      assert.match(icons.content, /from "lucide-react"/);
+    }
+  }
+});

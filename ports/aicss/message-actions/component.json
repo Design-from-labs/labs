@@ -1,0 +1,137 @@
+{
+  "title": "Message Actions",
+  "description": "The action row under an AI reply: vote, copy with a drawn check, react with an emoji bar and a searchable picker, reply, a more menu and a rolling timestamp, with one tooltip that follows the pointer.",
+  "category": "actions",
+  "type": "registry:ui",
+  "status": "beta",
+  "upstreamPath": "packages/react/src/message-actions",
+  "iconSets": ["none"],
+  "variants": [
+    {
+      "primitive": "radix",
+      "roots": ["shared", "glyphs", "radix"],
+      "dependencies": ["radix-ui@^1"],
+      "iconSets": ["none"],
+      "status": "beta"
+    },
+    {
+      "primitive": "base",
+      "roots": ["shared", "glyphs", "base"],
+      "dependencies": ["@base-ui/react@^1"],
+      "iconSets": ["none"],
+      "status": "beta"
+    },
+    {
+      "primitive": "aria",
+      "roots": ["shared", "glyphs", "aria"],
+      "dependencies": ["react-aria-components@^1"],
+      "iconSets": ["none"],
+      "status": "beta"
+    },
+    {
+      "style": "icons",
+      "label": "Icon library",
+      "primitive": "radix",
+      "roots": ["shared", "icons", "radix"],
+      "dependencies": ["radix-ui@^1"],
+      "iconSets": ["lucide", "phosphor"],
+      "status": "beta"
+    },
+    {
+      "style": "icons",
+      "label": "Icon library",
+      "primitive": "base",
+      "roots": ["shared", "icons", "base"],
+      "dependencies": ["@base-ui/react@^1"],
+      "iconSets": ["lucide", "phosphor"],
+      "status": "beta"
+    },
+    {
+      "style": "icons",
+      "label": "Icon library",
+      "primitive": "aria",
+      "roots": ["shared", "icons", "aria"],
+      "dependencies": ["react-aria-components@^1"],
+      "iconSets": ["lucide", "phosphor"],
+      "status": "beta"
+    }
+  ],
+  "defaultVariant": "message-actions-base",
+  "demo": "demo.tsx",
+  "credits": [
+    "S-003",
+    "S-004",
+    "S-005",
+    "S-006",
+    "S-032",
+    "S-033",
+    "S-034",
+    "S-152",
+    "S-156",
+    "S-157",
+    "S-325"
+  ],
+  "tags": [
+    "ai",
+    "chat",
+    "message",
+    "actions",
+    "reactions",
+    "emoji",
+    "tooltip",
+    "menu"
+  ],
+  "props": [
+    {
+      "name": "text",
+      "type": "string",
+      "default": "\"Thanks, that answered it.\"",
+      "description": "The message text that Copy writes to the clipboard."
+    },
+    {
+      "name": "sentAt",
+      "type": "Date",
+      "default": "three minutes before mount",
+      "description": "When the message was sent: the row shows \"3m ago\" (rolling each minute) and the full date in a tooltip."
+    },
+    {
+      "name": "density",
+      "type": "\"compact\" | \"comfortable\"",
+      "default": "\"compact\"",
+      "description": "\"compact\" is upstream's 20px buttons. \"comfortable\" gives each button a 24px target (WCAG 2.2 target size) with the same look inside; the demo uses it."
+    },
+    {
+      "name": "onCopy / onVote / onReact",
+      "type": "(text: string) => void / (vote: \"up\" | \"down\" | null) => void / (emoji: string | null) => void",
+      "description": "Called after a copy, a vote (null when undone) and a reaction (null when removed)."
+    },
+    {
+      "name": "onReply / onFork",
+      "type": "() => void",
+      "description": "Called by Reply and by Fork chat in the more menu."
+    },
+    {
+      "name": "icons",
+      "type": "Partial<MessageActionIcons>",
+      "description": "Replace any icon of the set with your own render function (good, bad, copy, copied, smile, reply, more, aloud, fork, report, search, addEmoji)."
+    }
+  ],
+  "a11y": [
+    "Every action is a labelled button; the votes are toggle buttons (aria-pressed) and the reaction and more buttons say whether their popup is open.",
+    "At the default compact density the 20px buttons sit closer than WCAG 2.2's 24px target size, as upstream's do; density=\"comfortable\" meets it without changing the pill or icons (a Labs addition).",
+    "Tooltips open on hover and on keyboard focus, and are linked to their button with aria-describedby; the timestamp is focusable so its full date is reachable from the keyboard (a Labs addition).",
+    "The reactions open in a popover with a toolbar (arrow keys move between emoji, Escape closes and returns focus); the more actions are a real menu with arrow keys and typeahead.",
+    "A polite live region says \"Copied\" after a copy (a Labs addition).",
+    "Under prefers-reduced-motion the bumps, wink, draw-in, tooltip glide and popup scale are off."
+  ],
+  "usage": "<MessageActions text={message.text} sentAt={message.createdAt} onVote={saveVote} />",
+  "docs": "Installed `MessageActions` (`@/components/ui/message-actions`) with its styles, upstream's own icon glyphs and emoji data. The \"icons\" style (`message-actions-icons-*`) draws the same icons from Lucide or Phosphor instead.\n\n```tsx\nimport { MessageActions } from \"@/components/ui/message-actions\";\n\n<MessageActions\n  text={message.text}\n  sentAt={message.createdAt}\n  onVote={(vote) => saveVote(message.id, vote)}\n  onReact={(emoji) => saveReaction(message.id, emoji)}\n/>\n```\n\nPass `density=\"comfortable\"` for 24px touch and pointer targets (WCAG 2.2 target size); the default keeps upstream's tighter 20px buttons.\n\nThe row renders its own stylesheet (hoisted into `<head>` once by React 19); its colors are `--message-actions-*` variables on `.message-actions-root` and on the popups (`.message-actions-surface`), with a dark set under `.dark`, `[data-theme=\"dark\"]` or the system dark scheme.\n\nPorted from Message Actions in AICSS by Kevin (kvnkld) (MIT); the license notice is at the end of every file.",
+  "tile": {
+    "span": 1,
+    "rows": 1
+  },
+  "loop": {
+    "script": "hover[0] → press[0] → release[0] → hover[2] → hover[3] → hover[4] → idle",
+    "duration": 5600
+  }
+}
