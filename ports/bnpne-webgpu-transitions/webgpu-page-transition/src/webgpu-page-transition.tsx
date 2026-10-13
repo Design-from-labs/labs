@@ -461,6 +461,7 @@ export function WebGPUPageTransition({
   const [tier, setTier] = React.useState<Tier>("dom");
   // Bumped when a transition ends, so a view chosen meanwhile still applies.
   const [settled, setSettled] = React.useState(0);
+  const [transitioning, setTransitioning] = React.useState(false);
   const setHost = React.useCallback(
     (el: HTMLDivElement | null) => {
       host.current = el;
@@ -830,6 +831,7 @@ export function WebGPUPageTransition({
       const key = nextKey.current++;
       const toState: PageEntry = { key, view: next };
       c.mutating = true;
+      setTransitioning(true);
       setActive(next);
       onViewChange?.(next);
 
@@ -849,6 +851,7 @@ export function WebGPUPageTransition({
       const toEl = pageEls.current.get(key);
       if (!fromEl || !toEl) {
         c.mutating = false;
+        setTransitioning(false);
         return;
       }
       fromEl.style.pointerEvents = "none";
@@ -896,6 +899,7 @@ export function WebGPUPageTransition({
       snapLayout(next);
       enterPage(toState);
       c.mutating = false;
+      setTransitioning(false);
       setSettled((n) => n + 1);
     },
     // biome-ignore lint/correctness/useExhaustiveDependencies: planeTransition and textOf read refs.
@@ -1068,6 +1072,7 @@ export function WebGPUPageTransition({
       data-slot="webgpu-page-transition"
       data-tier={tier}
       data-view={active.page}
+      data-transitioning={transitioning ? "" : undefined}
       className={cn("h-svh w-full", className)}
       onKeyDown={onKeyDown}
       {...props}

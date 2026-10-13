@@ -2322,3 +2322,18 @@ Design From and Design From Labs (the guards enforce this).
 - Prevention: Compute a port's file closure from the sources, not from a
   bundler's output.
 - Links: `ports/paperlab/paper/src`
+
+### P-116
+
+- Date: 2026-10-13
+- Area: Site (component pages, e2e)
+- Symptom: axe on `/ui/paper` ran for over two minutes and timed out, while
+  the same checks on other pages take seconds.
+- Cause: The component page renders every file of every variant as
+  highlighted source; Paper's 75 files make a 5.7 MB page with about 87,000
+  spans.
+- Fix: Paper's axe tests exclude the source listings (`[data-source]`),
+  which are the site's own SourceView, checked on every other page.
+- Prevention: Before promoting an item of many files, consider loading its
+  source listings on demand; check `dist/ui/<name>.html`'s size.
+- Links: `e2e/scroll-3d.spec.ts`
