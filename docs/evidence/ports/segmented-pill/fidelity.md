@@ -1,6 +1,6 @@
 # Segmented Pill: port fidelity
 
-- Upstream: Danilaa1/segmented-pill @ 489bdf7374868d40bc2aa4adc3e03ebfe8a90e99 (npm `segmented-pill` 0.1.3): `src/index.js` (core), `src/react.js` (React adapter), `src/react.d.ts` and `src/style.css`
+- Upstream: danielwh2/segmented-pill @ 489bdf7374868d40bc2aa4adc3e03ebfe8a90e99 (npm `segmented-pill` 0.1.3): `src/index.js` (core), `src/react.js` (React adapter), `src/react.d.ts` and `src/style.css`
 - Upstream demo: the repository has no demo page, so the harness renders upstream's own React adapter and stylesheet, imported from the clone at the pinned commit (outside this repository), on a blank page with the README's markup: `<SegmentedPill aria-label="Section" items={...} value onValueChange animated />`
 - Port page: the same page with the same props and the same stage, rendering each port variant (`none`, `radix`, `base`, `aria`) in place of upstream's component; the upstream stylesheet is removed from the port side (the port ships its own)
 - Harness: React 19.3.0, Radix UI 1.6.7, Base UI 1.9.0, React Aria Components 1.22.1, Chromium 156 (Playwright 1.64.0), device scale 1, light scheme

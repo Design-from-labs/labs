@@ -2098,7 +2098,7 @@ sources:
     title: "Segmented Pill: an accessible segmented control with a sliding pill (core, React adapter, stylesheet)"
     author: "Daniel Belyi"
     kind: library
-    url: "https://github.com/Danilaa1/segmented-pill"
+    url: "https://github.com/danielwh2/segmented-pill"
     license: "MIT"
     accessed: 2026-10-13
     visibility: public

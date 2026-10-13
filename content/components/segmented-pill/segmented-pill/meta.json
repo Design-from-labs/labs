@@ -38,11 +38,11 @@
   "demo": "demo.tsx",
   "preview": "preview.webp",
   "source": {
-    "repo": "https://github.com/Danilaa1/segmented-pill",
+    "repo": "https://github.com/danielwh2/segmented-pill",
     "commit": "489bdf7374868d40bc2aa4adc3e03ebfe8a90e99",
     "path": "src"
   },
-  "author": "Daniel Belyi <https://github.com/Danilaa1>",
+  "author": "Daniel Belyi <https://github.com/danielwh2>",
   "license": "MIT",
   "attribution": "Copyright (c) 2026 Daniel Belyi. MIT License.",
   "credits": [
