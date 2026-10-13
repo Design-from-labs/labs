@@ -256,11 +256,16 @@ own. Everything else is on the component page, which the tile expands into.
 | Field | Default | Values |
 | --- | --- | --- |
 | `span` | 1 (2 for a staged layout part) | columns: `1` or `2`. The wall has 4 columns on desktop, 3 on tablets, 2 on phones (where `2` is full width) and 1 below 360px. |
-| `rows` | 1 (2 for a staged layout part) | row units, `1` to `3`; a unit is four fifths of a column's width. On phones a full-width tile is at least two units tall. |
+| `rows` | 1 (2 for a staged layout part) | row units, `1` to `3`; a unit is four fifths of a column's width. On phones every tile is at most two units tall, and a full-width tile exactly two. |
 | `surface` | `light` | `light` (soft gray) or `dark`; `dark` also renders the specimen with the dark theme tokens. The component page's hero uses the same surface. |
 
-- Size the tile so the demo fits with padding: a wide demo spans 2. Small
-  tiles show the demo smaller (CSS `zoom`), never scrolled.
+- The demo is laid out at the tile's inner width (a `w-full` demo fills it,
+  a fixed-size one is centred) and scaled down to fit when it is larger:
+  contained, never cropped. Size the tile so it reads well: a wide demo
+  spans 2.
+- A component that paints its own stage with its prefixed `--<name>-surface`
+  variable gets `transparent` on the wall, so it sits directly on the tile
+  (one surface, not two). The component page is unchanged.
 - The tile is a link named "Title: first sentence of the description"; the
   specimen is `aria-hidden` and `inert`, so a demo's own controls are never
   reachable from the wall.

@@ -331,6 +331,61 @@ class Loop {
   }
 }
 
+/**
+ * Contain, never crop (decision 0019): scale a specimen down until it fits
+ * its tile's padding box. Reads every size first, then writes, and runs again
+ * whenever a tile or a specimen changes size (a hydrated island, a font).
+ */
+function fitSpecimens() {
+  const wrappers = [
+    ...document.querySelectorAll<HTMLElement>("[data-specimen-fit]"),
+  ];
+  const fit = () => {
+    const scales = wrappers.map((wrapper) => {
+      const surface = wrapper.parentElement;
+      if (!surface) {
+        return 1;
+      }
+      const pad = Number.parseFloat(getComputedStyle(surface).paddingTop) || 0;
+      const availWidth = surface.clientWidth - 2 * pad;
+      const availHeight = surface.clientHeight - 2 * pad;
+      const width = Math.max(wrapper.scrollWidth, wrapper.offsetWidth);
+      const height = Math.max(wrapper.scrollHeight, wrapper.offsetHeight);
+      if (width === 0 || height === 0) {
+        return 1;
+      }
+      return Math.min(1, availWidth / width, availHeight / height);
+    });
+    for (const [index, wrapper] of wrappers.entries()) {
+      const scale = Math.max(0.2, scales[index]);
+      wrapper.style.setProperty("--fit", scale.toFixed(4));
+      wrapper.dataset.fit = scale < 0.999 ? "scaled" : "natural";
+    }
+  };
+  let frame = 0;
+  const schedule = () => {
+    cancelAnimationFrame(frame);
+    frame = requestAnimationFrame(fit);
+  };
+  const observer = new ResizeObserver(schedule);
+  for (const wrapper of wrappers) {
+    observer.observe(wrapper);
+    if (wrapper.parentElement) {
+      observer.observe(wrapper.parentElement);
+    }
+    // A specimen whose content grows inside a fixed box (a hydrated demo).
+    // An Astro island is display: contents, so watch what it renders.
+    for (const child of wrapper.querySelectorAll(
+      ":scope > :not(astro-island), :scope > astro-island > *",
+    )) {
+      observer.observe(child);
+    }
+  }
+  document.fonts?.ready.then(schedule);
+  fit();
+}
+fitSpecimens();
+
 const surfaces = [...document.querySelectorAll<HTMLElement>("[data-specimen]")];
 if (surfaces.length > 0) {
   const loops = surfaces.map((surface, order) => new Loop(surface, order));

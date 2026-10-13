@@ -227,11 +227,12 @@
   grid-column: span min(var(--span), var(--wall-cols));
   grid-row: span var(--rows);
 }
-/* Two columns (phones): a full-width tile is at least as tall as it is
-   wide in units, so a wide specimen is not squeezed into a strip. */
+/* Two columns (phones): a full-width tile is two units tall, so a wide
+   specimen is not squeezed into a strip and a tall one does not turn the
+   wall into a column. */
 @container (22.5rem <= width < 40rem) {
   .specimen-cell {
-    grid-row: span max(var(--rows), var(--span));
+    grid-row: span min(max(var(--rows), var(--span)), 2);
   }
 }
 /* One column: every tile is one row of the full width, two at most. */
@@ -244,6 +245,7 @@
 .specimen-tile {
   position: relative;
   display: block;
+  container-type: size;
   block-size: 100%;
   border-radius: var(--tile-radius);
   background: var(--tile-surface);
@@ -274,28 +276,35 @@
   inset: 0;
   display: grid;
   place-items: center;
-  padding: clamp(1rem, 6cqi, 2.5rem);
+  /* Generous on large tiles, modest on small ones (the tile is the
+     container). */
+  --specimen-pad: clamp(0.75rem, 8cqmin, 2.5rem);
+  padding: var(--specimen-pad);
   container-type: size;
   color: var(--foreground);
-  --stage-fit-h: calc(100cqh - 2 * clamp(1rem, 6cqi, 2.5rem));
+  --stage-fit-h: calc(100cqh - 2 * var(--specimen-pad));
 }
 .specimen-surface[data-surface="dark"] {
   background: var(--tile-surface-dark);
 }
-/* Small tiles show the specimen smaller rather than cropping it. */
-.specimen-zoom {
+/*
+ * Contain, never crop: the specimen is laid out at the tile's inner width
+ * (so a full-width demo fills it and a fixed-size one is centred), then
+ * scaled down by --fit when it is still larger than the tile. The driver
+ * (src/scripts/specimens.ts) measures it; without script it is centred at
+ * its natural size and clipped. A transform, so no layout shifts.
+ */
+.specimen-fit {
+  position: absolute;
+  top: 50%;
+  left: 50%;
   display: grid;
+  /* A fixed track: a full-width demo must not size its own column. */
+  grid-template-columns: minmax(0, 1fr);
   place-items: center;
-}
-@container (width < 17rem) {
-  .specimen-zoom {
-    zoom: 0.8;
-  }
-}
-@container (width < 13rem) {
-  .specimen-zoom {
-    zoom: 0.65;
-  }
+  inline-size: calc(100% - 2 * var(--specimen-pad));
+  transform: translate(-50%, -50%) scale(var(--fit, 1));
+  transform-origin: center;
 }
 
 /* Paused specimens (offscreen, hidden tab, the visitor's pause, reduced

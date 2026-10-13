@@ -18,7 +18,11 @@ const staged = Boolean(entry.stage && variant?.demo);
 const surfaceClass = ["specimen-surface", tile.surface === "dark" ? "dark" : null]
   .filter(Boolean)
   .join(" ");
+// A component that paints its own stage does so with its prefixed
+// `--<name>-surface` (contract section 2); on the wall it sits directly on
+// the tile instead, so there is one surface, not two.
 const specimen = {
+  style: `--${entry.name}-surface: transparent;`,
   "data-specimen": entry.name,
   "data-loop": loopAttr(entry),
   "data-loop-paused": "",
@@ -52,11 +56,13 @@ const specimen = {
       ) : (
         <div class={`${surfaceClass} vt-tile-preview`} transition:name={previewName(entry.name)} transition:animate="initial" {...specimen}>
           {variant?.demo ? (
-            <div class="specimen-zoom">
+            <div class="specimen-fit" data-specimen-fit>
               <Demos item={variant.name} hydrate={hydrate} />
             </div>
           ) : (
-            <code class="max-w-full break-all text-center font-mono text-base text-muted-foreground sm:text-lg">{exportsText || entry.title}</code>
+            <div class="specimen-fit" data-specimen-fit>
+              <code class="max-w-full break-all text-center font-mono text-base text-muted-foreground sm:text-lg">{exportsText || entry.title}</code>
+            </div>
           )}
         </div>
       )

@@ -55,6 +55,16 @@ The other requirements were these:
   sentence of the description" (`aria-label`, plus "(beta)" on preview
   builds), and it draws a 2px focus ring. The specimen is `aria-hidden` and
   `inert`, so the demo's own controls never take focus from the wall.
+- **Contain, never crop:** the demo is laid out at the tile's inner width in
+  a fixed grid track (so a `w-full` demo fills the tile instead of collapsing
+  to zero, P-054) and scaled down to fit with a transform. The wall's script
+  measures it, and re-measures with a ResizeObserver when a tile or a
+  hydrated demo changes size; a transform moves nothing, so CLS is
+  unaffected. Padding scales with the tile (`clamp(0.75rem, 8cqmin,
+  2.5rem)`). On phones every tile is at most two rows tall.
+- **One surface:** a component that paints its own stage (`--<name>-surface`)
+  gets `transparent` on the wall, so it sits on the tile; the component page
+  keeps it.
 - **Static-first:** the specimen is the server-rendered demo. Only a
   specimen whose loop needs JavaScript is an island (decision 0020).
 - **Morph:** the specimen surface (or a staged entry's device frame) keeps
@@ -71,7 +81,8 @@ The other requirements were these:
 | A script-packed masonry (the owner's grid measures natural heights and places each item in the shortest column) | Tile heights here are declared in meta, so CSS can reserve every box and pack with `dense`; measuring would add JavaScript and a frame of unplaced tiles. |
 | A pannable, infinite canvas, as in the owner's grid | Hides the catalogue from keyboard and screen-reader users behind a pointer interaction, and costs a runtime; the wall is a list of links. |
 | Title on hover (the owner's grid reveals metadata over the tile) | The brief says no text on unexpanded tiles; the name is in the link's label for assistive technology. |
-| Measuring each demo to scale it to fit | Needs a script per tile; two CSS `zoom` steps on small tiles and a sensible `span` keep demos inside. |
+| Two CSS `zoom` steps on small tiles (the first version) | Could not know a demo's size: tall or wide demos (a 640px timeline, a full-width chart) were cropped. Replaced by one measured scale per tile (below). |
+| Clipping tall specimens with a fade | Hides part of the component; scaling keeps the whole object, as a specimen should be. |
 | Naming only the clicked tile at click time | Would need script on both pages; static names with the `:only-child` fade look right and keep the morph working without JavaScript. Re-test below. |
 
 ## Evidence

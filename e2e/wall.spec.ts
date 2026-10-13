@@ -192,3 +192,81 @@ test("pressing a tile freezes its frame for the morph", async ({ page }) => {
   // The frame holds: whatever state was on screen stays there.
   expect((await sampleStates(page, button, 1500)).size).toBe(1);
 });
+
+test("no tile crops its specimen, at desktop and phone widths", async ({
+  page,
+}) => {
+  for (const width of [1440, 375]) {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto("/ui");
+    // Bring every tile into view once, so lazy islands render and are fitted.
+    await page.evaluate(async () => {
+      for (let y = 0; y < document.body.scrollHeight; y += 500) {
+        window.scrollTo(0, y);
+        await new Promise((resolve) => setTimeout(resolve, 150));
+      }
+    });
+    await page.waitForTimeout(800);
+    const cropped = await page
+      .locator("[data-specimen-fit]")
+      .evaluateAll((wrappers) =>
+        wrappers.flatMap((wrapper) => {
+          const surface = wrapper.parentElement?.getBoundingClientRect();
+          const box = wrapper.getBoundingClientRect();
+          if (!surface) {
+            return [];
+          }
+          const out =
+            box.left < surface.left - 1 ||
+            box.right > surface.right + 1 ||
+            box.top < surface.top - 1 ||
+            box.bottom > surface.bottom + 1;
+          return out
+            ? [`${wrapper.parentElement?.getAttribute("data-specimen")}`]
+            : [];
+        }),
+      );
+    expect(cropped, `${width}px`).toEqual([]);
+  }
+});
+
+test("phones: no tile is taller than two rows", async ({ page }) => {
+  await page.setViewportSize({ width: 375, height: 812 });
+  await page.goto("/ui");
+  const tall = await page.locator(".specimen-cell").evaluateAll((cells) => {
+    const wall = cells[0]?.parentElement;
+    const row = wall
+      ? Number.parseFloat(getComputedStyle(wall).gridAutoRows)
+      : 0;
+    return cells
+      .filter((cell) => cell.getBoundingClientRect().height > 2 * row + 6)
+      .map((cell) =>
+        cell.querySelector("[data-tile]")?.getAttribute("data-tile"),
+      );
+  });
+  expect(tall).toEqual([]);
+});
+
+test("a component's own stage surface is transparent on the wall", async ({
+  page,
+}) => {
+  await page.goto("/ui");
+  const surfaces = await page.locator("[data-specimen]").evaluateAll((els) =>
+    els.map((el) => {
+      const name = el.getAttribute("data-specimen");
+      return getComputedStyle(el).getPropertyValue(`--${name}-surface`).trim();
+    }),
+  );
+  expect(surfaces.every((value) => value === "transparent")).toBe(true);
+});
+
+test("full-width demos fill their tile (beta ports)", async ({ page }) => {
+  await page.goto("/ui");
+  const grid = page.locator('[data-specimen="thiings-grid"]');
+  test.skip((await grid.count()) === 0, "beta ports are not published here");
+  await grid.scrollIntoViewIfNeeded();
+  const width = await grid
+    .locator('[aria-label="Sample grid"]')
+    .evaluate((el) => el.getBoundingClientRect().width);
+  expect(width).toBeGreaterThan(200);
+});
