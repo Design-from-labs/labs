@@ -183,6 +183,8 @@ test("exportPort (variants): a style with its own icon sets beside an icon-free 
   const lucide = JSON.parse(files["items/video-player-icons-lucide.json"]);
   assert.equal(lucide.title, "Video Player (Icon library, Lucide)");
   assert.ok(lucide.dependencies.includes("lucide-react@^1"));
+});
+
 test("portFooters: an upstream NOTICE and change notice travel; licenseFile carries the full text once", () => {
   const source = {
     attribution: "Copyright 2026 Noor Mtir. Apache License 2.0.",
