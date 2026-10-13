@@ -199,6 +199,12 @@ with a "not yet available" note.
   way an installed user would: `import { Button } from "@/components/ui/button"`.
   The site resolves that import to the variant being shown, so one demo can
   serve every variant of a primitive.
+- A shadcn built-in the item lists by bare name in `registryDependencies`
+  (`button`, `command`) renders as shadcn's own component, from the style
+  family of the variant's primitive (`radix-nova`, `base-nova`, `aria-nova`)
+  and its icon set, as `shadcn add` installs it (decision
+  [0023](decisions/0023-stock-shadcn-for-demos.md)). Import a Labs component
+  by listing its item (`@designfrom/<item>`) instead.
 - Primitives differ in API (for example `onClick` versus `onPress`), so a
   demo may be keyed by primitive (`"aria": "demo.aria.tsx"`) or by variant.
 - A demo shared across icon sets must not import an icon library; one that

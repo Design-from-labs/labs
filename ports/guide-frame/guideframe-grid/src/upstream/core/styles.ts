@@ -19,9 +19,9 @@ export const OVERLAY_STYLES = `
 }
 
 .gf-root {
-  position: var(--gf-position, fixed);
+  position: var(--guideframe-grid-position, fixed);
   inset: 0;
-  z-index: var(--gf-z-index, 2147483647);
+  z-index: var(--guideframe-grid-z-index, 2147483647);
   pointer-events: none;
   overflow: hidden;
   font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
@@ -62,13 +62,13 @@ export const OVERLAY_STYLES = `
 }
 
 .gf-column {
-  background: var(--gf-color, rgb(255 0 84));
+  background: var(--guideframe-grid-color, rgb(255 0 84));
   clip-path: inset(0 0 0 0);
-  animation: gf-reveal 620ms ease-in-out both;
-  animation-delay: var(--gf-delay, 0ms);
+  animation: guideframe-grid-reveal 620ms ease-in-out both;
+  animation-delay: var(--guideframe-grid-delay, 0ms);
 }
 
-@keyframes gf-reveal {
+@keyframes guideframe-grid-reveal {
   from { clip-path: inset(0 0 100% 0); }
   to { clip-path: inset(0 0 0 0); }
 }
@@ -94,7 +94,7 @@ export const OVERLAY_STYLES = `
   top: 0;
   left: 0;
   right: 0;
-  height: var(--gf-ruler-size, 20px);
+  height: var(--guideframe-grid-ruler-size, 20px);
   cursor: ns-resize;
   border-bottom: 1px solid rgba(255, 255, 255, 0.18);
 }
@@ -103,7 +103,7 @@ export const OVERLAY_STYLES = `
   top: 0;
   left: 0;
   bottom: 0;
-  width: var(--gf-ruler-size, 20px);
+  width: var(--guideframe-grid-ruler-size, 20px);
   cursor: ew-resize;
   border-right: 1px solid rgba(255, 255, 255, 0.18);
 }
@@ -112,8 +112,8 @@ export const OVERLAY_STYLES = `
   position: absolute;
   top: 0;
   left: 0;
-  width: var(--gf-ruler-size, 20px);
-  height: var(--gf-ruler-size, 20px);
+  width: var(--guideframe-grid-ruler-size, 20px);
+  height: var(--guideframe-grid-ruler-size, 20px);
   background: rgba(24, 24, 27, 0.98);
   border-right: 1px solid rgba(255, 255, 255, 0.18);
   border-bottom: 1px solid rgba(255, 255, 255, 0.18);
@@ -130,7 +130,7 @@ export const OVERLAY_STYLES = `
 .gf-ruler-y .gf-tick { right: 0; height: 1px; }
 
 .gf-tick-column {
-  background: var(--gf-color, rgb(255 0 84));
+  background: var(--guideframe-grid-color, rgb(255 0 84));
   opacity: 0.9;
 }
 
@@ -158,7 +158,7 @@ export const OVERLAY_STYLES = `
 
 .gf-guide-line {
   position: absolute;
-  background: var(--gf-guide-color, var(--guideframe-grid-guide, rgb(0 138 255)));
+  background: var(--guideframe-grid-guide-color, var(--guideframe-grid-guide, rgb(0 138 255)));
   pointer-events: none;
 }
 
@@ -231,7 +231,7 @@ export const OVERLAY_STYLES = `
 /* A selected guide can be deleted with Backspace/Delete, so it needs to be
  * obvious which one has focus. */
 .gf-guide-selected .gf-guide-line {
-  background: var(--gf-guide-selected-color, var(--guideframe-grid-guide-selected, rgb(255 0 84)));
+  background: var(--guideframe-grid-guide-selected-color, var(--guideframe-grid-guide-selected, rgb(255 0 84)));
   box-shadow: 0 0 0 2px color-mix(in srgb, var(--guideframe-grid-guide-selected, rgb(255 0 84)) 25%, transparent);
 }
 
@@ -241,18 +241,18 @@ export const OVERLAY_STYLES = `
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background: var(--gf-guide-selected-color, var(--guideframe-grid-guide-selected, rgb(255 0 84)));
+  background: var(--guideframe-grid-guide-selected-color, var(--guideframe-grid-guide-selected, rgb(255 0 84)));
   pointer-events: none;
   opacity: 0;
 }
 
 .gf-guide-x .gf-guide-handle {
-  top: calc(var(--gf-ruler-size, 20px) + 4px);
+  top: calc(var(--guideframe-grid-ruler-size, 20px) + 4px);
   left: -3px;
 }
 
 .gf-guide-y .gf-guide-handle {
-  left: calc(var(--gf-ruler-size, 20px) + 4px);
+  left: calc(var(--guideframe-grid-ruler-size, 20px) + 4px);
   top: -3px;
 }
 
@@ -337,7 +337,7 @@ export const OVERLAY_STYLES = `
 }
 
 .gf-inspector-pinned {
-  border-color: var(--gf-color, rgb(255 0 84));
+  border-color: var(--guideframe-grid-color, rgb(255 0 84));
   background: rgba(255, 0, 84, 0.06);
 }
 
@@ -688,7 +688,7 @@ export const OVERLAY_STYLES = `
   transition: transform 140ms ease;
 }
 
-.gf-panel-row-on .gf-panel-toggle { background: var(--gf-color, rgb(255 0 84)); }
+.gf-panel-row-on .gf-panel-toggle { background: var(--guideframe-grid-color, rgb(255 0 84)); }
 .gf-panel-row-on .gf-panel-toggle::after { transform: translateX(10px); background: #fff; }
 .gf-panel-row-on .gf-panel-toggle:dir(rtl)::after { transform: translateX(-10px); }
 
@@ -761,7 +761,7 @@ export const OVERLAY_STYLES = `
 .gf-panel:focus { outline: none; }
 
 .gf-panel button:focus-visible {
-  outline: 2px solid var(--gf-color, rgb(255 0 84));
+  outline: 2px solid var(--guideframe-grid-color, rgb(255 0 84));
   outline-offset: -2px;
 }
 

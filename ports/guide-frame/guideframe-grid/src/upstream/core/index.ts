@@ -544,10 +544,10 @@ export function createGuideframe(initialOptions: GuideframeOptions = {}): Guidef
     // default is upstream's color.
     const color = options.color ?? `var(--guideframe-grid-color, ${DEFAULT_COLOR})`;
 
-    root.style.setProperty("--gf-color", color);
+    root.style.setProperty("--guideframe-grid-color", color);
     root.classList.toggle("gf-root-scoped", Boolean(options.container));
-    root.style.setProperty("--gf-z-index", String(options.zIndex ?? DEFAULT_Z_INDEX));
-    root.style.setProperty("--gf-position", effectivePosition());
+    root.style.setProperty("--guideframe-grid-z-index", String(options.zIndex ?? DEFAULT_Z_INDEX));
+    root.style.setProperty("--guideframe-grid-position", effectivePosition());
 
     grid.style.maxWidth = `${geometry.width}px`;
     grid.style.gridTemplateColumns = `repeat(${geometry.columnCount}, minmax(0, 1fr))`;
@@ -563,7 +563,7 @@ export function createGuideframe(initialOptions: GuideframeOptions = {}): Guidef
       for (let index = 0; index < geometry.columnCount; index += 1) {
         const column = document.createElement("div");
         column.className = "gf-column";
-        column.style.setProperty("--gf-delay", `${index * 80}ms`);
+        column.style.setProperty("--guideframe-grid-delay", `${index * 80}ms`);
         grid.append(column);
       }
     }
@@ -582,7 +582,7 @@ export function createGuideframe(initialOptions: GuideframeOptions = {}): Guidef
     rulerCorner.classList.toggle("gf-hidden", !enabled);
     if (!config || !enabled || !geometry) return;
 
-    root.style.setProperty("--gf-ruler-size", `${config.size}px`);
+    root.style.setProperty("--guideframe-grid-ruler-size", `${config.size}px`);
 
     const origin = renderOffset();
     const width = options.container ? root.clientWidth : getViewportWidth();

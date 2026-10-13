@@ -64,5 +64,9 @@
     "The list does not pop in, and the loading spinner stays still, under prefers-reduced-motion."
   ],
   "usage": "<DataTableFilterCommand schema={filterSchema.definition} tableId=\"checks\" />",
-  "tags": ["table", "filters", "command", "search"]
+  "tags": ["table", "filters", "command", "search"],
+  "tile": {
+    "span": 2,
+    "rows": 2
+  }
 }

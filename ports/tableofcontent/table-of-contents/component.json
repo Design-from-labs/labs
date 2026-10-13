@@ -127,5 +127,9 @@
     "Under forced-colors: active the lines and preview dots keep their marks in system colors (GrayText, Highlight for the active or hovered entry) instead of disappearing, the tooltip gets a border, and active entries stay distinguishable by line length as well as color.",
     "Target size: the default rowHeight of 20px (upstream's spacing, kept for fidelity) fails WCAG 2.2 SC 2.5.8, which needs 24px targets or the spacing exception, and 20px rows do not meet the spacing exception. Pass rowHeight={24} (the demo does) or set --table-of-contents-item-height: 24px."
   ],
-  "usage": "<TableOfContents\n  items={[\n    { id: \"overview\", title: \"Overview\", description: \"What it does.\", images: [\"/shots/overview.png\"] },\n    { id: \"usage\", title: \"Usage\", description: \"How to use it.\" },\n  ]}\n/>"
+  "usage": "<TableOfContents\n  items={[\n    { id: \"overview\", title: \"Overview\", description: \"What it does.\", images: [\"/shots/overview.png\"] },\n    { id: \"usage\", title: \"Usage\", description: \"How to use it.\" },\n  ]}\n/>",
+  "tile": {
+    "span": 2,
+    "rows": 2
+  }
 }

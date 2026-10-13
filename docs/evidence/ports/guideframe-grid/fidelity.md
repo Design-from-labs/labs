@@ -122,3 +122,13 @@ component, and are not shipped. The axe runs that gate the port use harness
 pages with neutral content (`demo.html`, the gallery demo, and `panel.html`,
 a page-level overlay with the panel open, shortcuts on and two guides) in
 light, dark, right-to-left and 375px: 0 violations.
+
+## Later change: prefixed CSS names
+
+The Labs keyframe guard (`scripts/keyframe-items.test.mjs`) requires an item's
+keyframes and custom properties to carry the component name, so upstream's
+`--gf-*` properties and `gf-reveal` keyframes are now `--guideframe-grid-*`
+and `guideframe-grid-reveal`, in the stylesheet and in the engine's
+`setProperty` calls alike. It is a rename inside the overlay's shadow root
+with the same values, so it does not change pixels; the matrix above was not
+re-run for it.

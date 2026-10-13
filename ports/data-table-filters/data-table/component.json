@@ -16,7 +16,7 @@
     "@dnd-kit/sortable@^10.0.0",
     "@dnd-kit/utilities@^3.2.2",
     "date-fns@^4.1.0",
-    "react-day-picker@^9.14.0",
+    "react-day-picker@^9.14.0||^10.0.0",
     "zod@^4.3.6"
   ],
   "registryDependencies": [
@@ -167,5 +167,9 @@
     "Right-to-left: layout uses logical properties; tooltips, the filter rail, the column resize handle and the slider mirror with dir=\"rtl\" on <html>."
   ],
   "usage": "const adapter = useMemoryAdapter(schema.definition);\n\n<DataTableStoreProvider adapter={adapter}>\n  <DataTableInfinite\n    columns={columns}\n    data={rows}\n    filterFields={filterFields}\n    fetchNextPage={async () => {}}\n  />\n</DataTableStoreProvider>",
-  "tags": ["table", "filters", "tanstack-table", "faceted-search"]
+  "tags": ["table", "filters", "tanstack-table", "faceted-search"],
+  "tile": {
+    "span": 2,
+    "rows": 2
+  }
 }

@@ -17,14 +17,8 @@
         "totalPixels": 1024000,
         "percent": 0,
         "sizes": {
-          "upstream": [
-            1280,
-            800
-          ],
-          "port": [
-            1280,
-            800
-          ]
+          "upstream": [1280, 800],
+          "port": [1280, 800]
         },
         "pass": true
       },
@@ -33,14 +27,8 @@
         "totalPixels": 304500,
         "percent": 0,
         "sizes": {
-          "upstream": [
-            375,
-            812
-          ],
-          "port": [
-            375,
-            812
-          ]
+          "upstream": [375, 812],
+          "port": [375, 812]
         },
         "pass": true
       }

@@ -192,5 +192,9 @@
     "Right-to-left: the panel mirrors (it opens on the left, its content uses logical properties, and the switch thumb and chevron follow the direction). The rulers, grid, guides and readouts stay left-to-right because they measure physical CSS pixels, so the vertical ruler stays on the left."
   ],
   "usage": "const [frame, setFrame] = useState<HTMLDivElement | null>(null);\n\n<div ref={setFrame} className=\"relative\">\n  {frame ? (\n    <GuideframeGrid\n      container={frame}\n      rulers\n      storageKey=\"preview:visible\"\n      guidesStorageKey=\"preview:guides\"\n      panelStorageKey=\"preview:panel\"\n    />\n  ) : null}\n  {/* your layout */}\n</div>",
-  "tags": ["grid", "rulers", "guides", "overlay", "layout", "developer-tools"]
+  "tags": ["grid", "rulers", "guides", "overlay", "layout", "developer-tools"],
+  "tile": {
+    "span": 2,
+    "rows": 2
+  }
 }
