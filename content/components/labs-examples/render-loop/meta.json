@@ -19,7 +19,7 @@
   "defaultVariant": "render-loop",
   "source": {
     "repo": "https://github.com/Design-from-labs/labs",
-    "commit": "c9e9dcedaa8303704d2fb3f02b3102ba3051e9cb",
+    "commit": "8a542973119e20ea7702dc84bc13a5d4186c77ca",
     "path": "examples/render-loop"
   },
   "author": "Design From Labs <https://labs.designfrom.com>",
@@ -32,7 +32,7 @@
     "S-287",
     "S-288"
   ],
-  "date": "2026-10-12",
+  "date": "2026-10-13",
   "props": [
     {
       "name": "canvasRef",

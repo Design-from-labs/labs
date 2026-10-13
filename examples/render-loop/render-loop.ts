@@ -83,7 +83,8 @@ export interface RenderLoopOptions<Handle> {
   /**
    * Draw one frame. Return `false` when nothing was drawn yet (an
    * asynchronous renderer still initializing): the status stays "pending",
-   * so the fallback stays up, and the loop asks for another frame.
+   * so the fallback stays up, and the loop asks for another frame. Throwing
+   * releases the drawing state and reports "unsupported".
    */
   render: (handle: Handle, frame: RenderLoopFrame) => undefined | boolean;
   /** Release the drawing state (on unmount and before a context restore). */
@@ -259,11 +260,21 @@ export function useRenderLoop<Handle>(
       last = now;
       elapsed += delta;
       dirty = false;
-      const drawn = optionsRef.current.render(current, {
-        ...size,
-        time: elapsed,
-        delta,
-      });
+      let drawn: undefined | boolean;
+      try {
+        drawn = optionsRef.current.render(current, {
+          ...size,
+          time: elapsed,
+          delta,
+        });
+      } catch (error) {
+        // A renderer that fails after setup (an asynchronous one whose
+        // initialization rejected): stop and show the fallback.
+        console.warn("render-loop: render failed", error);
+        release();
+        setStatus("unsupported");
+        return;
+      }
       if (drawn === false) {
         // Not drawn yet (an asynchronous renderer): try again next frame.
         dirty = true;

@@ -1,0 +1,104 @@
+{
+  "title": "Paper",
+  "description": "Physical paper as a 3D sheet: a receipt that unrolls, a letter that folds, a corner that peels, a page that turns, with stocks, printed content and interaction states.",
+  "category": "media",
+  "type": "registry:ui",
+  "status": "beta",
+  "upstreamPath": "packages/paperlab/src/Paper.tsx",
+  "iconSets": ["none"],
+  "licenseFile": "paper.tsx",
+  "changeNotice": "Modified by Design From Labs: the modules of Paperlab's <Paper> are one file each with flat names (paper-*), imports follow; GSAP tweens are rewritten with Motion (paper-ease.ts); the canvas is drawn through render-loop with the flat fallback layered over it until the first frame. Every change is listed in docs/evidence/ports/paper/fidelity.md of github.com/Design-from-labs/labs.",
+  "dependencies": [
+    "three@^0.185.1",
+    "@react-three/fiber@^9.8.1",
+    "@react-three/drei@^10.7.9",
+    "three-custom-shader-material@^6.4.0",
+    "zod@^4.6.5",
+    "motion@^14"
+  ],
+  "devDependencies": ["@types/three@^0.185.3"],
+  "registryDependencies": ["render-loop"],
+  "variants": [
+    {
+      "primitive": "none",
+      "roots": ["src"],
+      "status": "beta"
+    }
+  ],
+  "defaultVariant": "paper",
+  "demo": "demo.tsx",
+  "tile": {
+    "span": 1,
+    "rows": 2
+  },
+  "loop": {
+    "duration": 8000,
+    "hydrate": true
+  },
+  "credits": [
+    "S-265",
+    "S-260",
+    "S-157",
+    "S-104",
+    "S-267",
+    "S-268",
+    "S-269",
+    "S-181",
+    "S-275",
+    "S-276",
+    "S-283",
+    "S-286",
+    "S-287",
+    "S-003",
+    "S-004",
+    "S-014",
+    "S-152",
+    "S-240"
+  ],
+  "tags": ["paper", "three", "webgl", "react-three-fiber", "3d", "receipt"],
+  "props": [
+    {
+      "name": "preset",
+      "type": "string | PaperConfigInput",
+      "description": "A named preset (receipt-unroll, paper-roll, letter-fold, washed-letter, vintage-note, hero-peel, page-flip, hanging-poster, pinned-sheet, flying-note, blank-sheet, postage-stamp, photo-print, crumpled-note, paper-ribbon, settled-sheet, typed-note, peeling-sticker...) or a full config."
+    },
+    {
+      "name": "sheet / stock / content",
+      "type": "{ width, height } / StockName / ContentConfig",
+      "description": "The sheet's size, its paper stock (thermal, kraft, vellum...), and what is printed on it (receipt, card, typed text, an image, a wash); each overrides the preset."
+    },
+    {
+      "name": "behavior",
+      "type": "{ type: \"unroll\" | \"letter-fold\" | \"peel\" | \"flip\" | \"crumple\" | ...; progress?: number; ... }",
+      "description": "What the sheet does, with its progress (0 to 1) and parameters; a fixed progress gives a still."
+    },
+    {
+      "name": "autoplay",
+      "type": "boolean",
+      "default": "false",
+      "description": "Plays the behavior on a loop (not under reduced motion)."
+    },
+    {
+      "name": "interactive",
+      "type": "boolean",
+      "description": "Lets the pointer drag the behavior's handles (peel a corner, pull the receipt)."
+    },
+    {
+      "name": "surface / states / onProgress / reducedMotion",
+      "type": "SurfaceConfig / PaperStatesConfig / (p: number) => void / boolean",
+      "description": "Deckle edges, creases and damage; hover and press states with transitions; progress callbacks; a reduced-motion override."
+    },
+    {
+      "name": "ref",
+      "type": "React.Ref<PaperHandle>",
+      "description": "play(), pause(), playing, set(param, value), getProgress(), snapshot(), toJSON()."
+    }
+  ],
+  "a11y": [
+    "The sheet's text is mirrored in hidden DOM for assistive technology (PaperMirror), and the static fallback is role=\"img\" with that text as its name.",
+    "Without WebGL, and until the first frame is drawn (the server render), a flat picture of the sheet shows instead of the canvas.",
+    "Under prefers-reduced-motion the sheet stays still: no autoplay, as upstream; drawing stops off screen and in hidden tabs (render-loop), with the pixel ratio capped at 2."
+  ],
+  "usage": "<div className=\"h-96\"><Paper preset=\"receipt-unroll\" autoplay /></div>",
+  "docs": "Installed `Paper` in `components/ui/` (seventy-five files, all prefixed `paper`), with the `render-loop` helper in `lib/` and `use-reduced-motion` in `hooks/`. It fills its parent, so give the parent a height: `<div className=\"h-96\"><Paper preset=\"receipt-unroll\" autoplay /></div>`.\n\nPick a preset (receipt-unroll, letter-fold, hero-peel, page-flip, crumpled-note...) and override `content`, `stock`, `sheet` or `behavior`; a fixed `behavior.progress` gives a still. Needs `three`, `@react-three/fiber`, `@react-three/drei`, `three-custom-shader-material`, `zod` and `motion` (installed) and, for TypeScript, `@types/three`.\n\nPorted from NourMtir0722/Paperlab (Apache-2.0, copyright 2026 Noor Mtir). The full license and the upstream NOTICE are at the end of `paper.tsx`; every file says it was modified."
+}
