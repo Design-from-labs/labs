@@ -1,6 +1,9 @@
 import { defineConfig, devices } from "@playwright/test";
 
 // Smoke tests against the built static site (pnpm build:site first).
+// E2E_PORT picks the preview port so parallel local runs do not share a server.
+const port = Number(process.env.E2E_PORT ?? 4321);
+
 export default defineConfig({
   testDir: "e2e",
   fullyParallel: true,
@@ -8,7 +11,7 @@ export default defineConfig({
   retries: process.env.CI ? 1 : 0,
   reporter: process.env.CI ? [["github"], ["list"]] : "list",
   use: {
-    baseURL: "http://localhost:4321",
+    baseURL: `http://localhost:${port}`,
     trace: "retain-on-failure",
   },
   projects: [
@@ -34,8 +37,8 @@ export default defineConfig({
     },
   ],
   webServer: {
-    command: "pnpm exec astro preview --port 4321",
-    url: "http://localhost:4321/ui",
+    command: `pnpm exec astro preview --ignore-lock --port ${port}`,
+    url: `http://localhost:${port}/ui`,
     reuseExistingServer: !process.env.CI,
     timeout: 60_000,
   },

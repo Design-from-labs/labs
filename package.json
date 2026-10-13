@@ -17,7 +17,7 @@
     "dev": "pnpm prepare:content && astro dev",
     "build": "pnpm prepare:content && astro build && pnpm --filter @designfrom/react --filter designfrom build",
     "build:site": "pnpm prepare:content && astro build",
-    "preview": "astro preview --port 4321",
+    "preview": "astro preview --port ${E2E_PORT:-4321}",
     "previews": "node scripts/previews.mjs",
     "validate:content": "node scripts/validate-content.mjs",
     "check:licenses": "node scripts/check-licenses.mjs",
