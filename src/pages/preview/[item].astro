@@ -27,13 +27,15 @@ const { entry } = Astro.props;
   </head>
   <body class="m-0 bg-background">
     <main class="flex h-[750px] w-[1200px] items-center justify-center" data-preview>
+      {/* Stage previews already carry an sr-only h1 in the framed document. */}
+      {!entry.stage && <h1 class="sr-only">{entry.title} preview</h1>}
       {
         entry.stage ? (
           <div class="w-[1040px] [--stage-fit-h:620px]">
             <Stage item={item} title={entry.title} stage={entry.stage} mode="still" />
           </div>
         ) : (
-          <div class="scale-[1.6]"><Demos item={item} /></div>
+          <div class="scale-[1.6]"><Demos item={item} hydrate={entry.loop?.hydrate === true} /></div>
         )
       }
     </main>
