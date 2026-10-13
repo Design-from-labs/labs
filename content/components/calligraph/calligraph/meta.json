@@ -1,0 +1,128 @@
+{
+  "$schema": "https://labs.designfrom.com/schemas/meta.schema.json",
+  "schemaVersion": 1,
+  "name": "calligraph",
+  "kind": "component",
+  "title": "Calligraph",
+  "description": "Fluid text and number transitions on Motion: shared letters stay while the rest blur in and out, digits roll by place, or spin like a slot machine. The wrapper animates its width to fit.",
+  "status": "beta",
+  "category": "typography",
+  "label": "Calligraph by Raphael Salaja",
+  "variants": [
+    {
+      "name": "calligraph",
+      "primitive": "none",
+      "iconSet": "none",
+      "status": "beta"
+    }
+  ],
+  "defaultVariant": "calligraph",
+  "demo": "demo.tsx",
+  "preview": "preview.webp",
+  "source": {
+    "repo": "https://github.com/raphaelsalaja/calligraph",
+    "commit": "c99497a440e280e8471f084db1173197ba0e255c",
+    "path": "packages/calligraph/src"
+  },
+  "author": "Raphael Salaja <https://www.raphaelsalaja.com>",
+  "license": "MIT",
+  "attribution": "Calligraph, Copyright (c) 2026 Raphael Salaja. MIT License.",
+  "credits": [
+    "S-381",
+    "S-104",
+    "S-003",
+    "S-004",
+    "S-152",
+    "S-157",
+    "S-387"
+  ],
+  "date": "2026-10-13",
+  "tile": {
+    "span": 2,
+    "rows": 1
+  },
+  "loop": {
+    "hydrate": true,
+    "duration": 9600
+  },
+  "tags": [
+    "animation",
+    "text",
+    "numbers",
+    "slot-machine",
+    "motion"
+  ],
+  "props": [
+    {
+      "name": "children",
+      "type": "string | number",
+      "description": "The text or number to show. Change it to animate."
+    },
+    {
+      "name": "variant",
+      "type": "\"text\" | \"number\" | \"slots\"",
+      "default": "\"text\"",
+      "description": "`text` keeps the letters two strings share (longest common subsequence) and blurs the rest in and out; `number` rolls each digit column up or down by the change's sign; `slots` spins each digit through 0 to 9."
+    },
+    {
+      "name": "animation",
+      "type": "\"default\" | \"smooth\" | \"snappy\" | \"bouncy\"",
+      "default": "\"default\" (text, slots), \"snappy\" (number)",
+      "description": "The transition preset: `default` is a 380 ms ease-out curve; the others are springs."
+    },
+    {
+      "name": "as",
+      "type": "React.ElementType",
+      "default": "\"span\"",
+      "description": "The wrapper element."
+    },
+    {
+      "name": "drift",
+      "type": "{ x?: number; y?: number }",
+      "default": "{ x: 15, y: 0 }",
+      "description": "Text only: the most, in pixels, that entering and leaving letters spread, scaled by how much of the text changed."
+    },
+    {
+      "name": "trend",
+      "type": "1 | -1 | 0",
+      "default": "0",
+      "description": "Text only: 1 enters from below, -1 from above, 0 has no vertical trend."
+    },
+    {
+      "name": "stagger",
+      "type": "number",
+      "default": "0.02",
+      "description": "Seconds of delay between digits (number and slots)."
+    },
+    {
+      "name": "initial",
+      "type": "boolean",
+      "default": "false",
+      "description": "Animate the first value in on mount."
+    },
+    {
+      "name": "onComplete",
+      "type": "() => void",
+      "description": "Called when the last glyph finishes animating (text and number)."
+    },
+    {
+      "name": "autoSize",
+      "type": "boolean",
+      "default": "true",
+      "description": "Animate the wrapper's width to fit the new content."
+    },
+    {
+      "name": "respectReducedMotion",
+      "type": "boolean",
+      "default": "true",
+      "description": "Show each change at once when the user prefers reduced motion."
+    }
+  ],
+  "a11y": [
+    "The value is kept once as visually hidden text for screen readers; every animated glyph is aria-hidden, so a change is read as one value, not letter by letter.",
+    "It renders inline text with no role of its own; to announce changes, wrap it in a live region (for example aria-live=\"polite\").",
+    "With the default respectReducedMotion, every change is instant when the user prefers reduced motion.",
+    "The text variant sets dir=\"auto\" so Latin letters stay in order inside a right-to-left page; the number and slots variants are always left to right, as digits are."
+  ],
+  "usage": "<Calligraph>{label}</Calligraph>"
+}

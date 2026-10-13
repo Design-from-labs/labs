@@ -104,3 +104,10 @@ paths (pitfall P-044); until then they are reviewed on preview deployments.
 | `simpleplayer` | `video-player` | grizzshutsdown/simpleplayer, `src/player` (web component rewritten as React; variants shape, an `icons` style) |
 | `cloudflare-kumo` | `flow-diagram` | cloudflare/kumo, `packages/kumo/src/components/flow` (de-branded) |
 | `lisse` | `smooth-corners` | JaceThings/Lisse, `packages/core/src` and `packages/react/src` |
+| `slot-text` | `slot-text` | danielwh2/slot-text, `src` (core and React adapter) |
+| `calligraph` | `calligraph` | raphaelsalaja/calligraph, `packages/calligraph/src` |
+| `griffo` | `split-text` | dimicx/griffo, `src/core`, `src/internal` and `src/motion` (variants shape, flat) |
+| `kugiri` | `split-lines` | edoardolunardi/kugiri, `src/index.ts` (verbatim, plus a Labs React wrapper in `labs/`) |
+| `componentry` | `annotated-text` | harshjdhv/componentry, `packages/ui/src/components/annotated-text.tsx` |
+| `morphicons` | `morph-icon` | guillermolg00/morphicons, `src` (core, DOM driver and React adapter) |
+| `libraries-dev` | `image-fx` | Jakubantalik/Libraries.dev, `packages/img-fx/src` (engine, presets and shaders merged into three files; renamed from ImageGeneration) |

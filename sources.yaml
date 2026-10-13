@@ -355,6 +355,11 @@ oss:
         category: actions
         upstream: packages/liquid-gooey
         port: ports/libraries-dev/liquid-gooey
+      - name: image-fx
+        status: beta
+        category: media
+        upstream: packages/img-fx
+        port: ports/libraries-dev/image-fx
 
   - id: magicui
     name: Magic UI
@@ -783,3 +788,112 @@ oss:
         upstream: src
         status: beta
         category: feedback
+
+  # Batch H (text, annotation and icon motion): sources in ports/<id>/
+  # (decisions 0016 and 0017); fidelity in docs/evidence/ports/<component>/.
+  - id: slot-text
+    name: slot-text by Daniel Belyi
+    repo: https://github.com/danielwh2/slot-text
+    visibility: public
+    status: active
+    fetch: in-repo
+    ref: daa93fd34d39db981c9ecd9dc48118b6ec5dbb9e
+    author: "Daniel Belyi <https://github.com/danielwh2>"
+    license: MIT
+    attribution: "slot-text, Copyright (c) 2026 Daniel Belyi. MIT License."
+    credit: S-380
+    components:
+      - name: slot-text
+        status: beta
+        category: typography
+        upstream: src
+
+  - id: calligraph
+    name: Calligraph by Raphael Salaja
+    repo: https://github.com/raphaelsalaja/calligraph
+    visibility: public
+    status: active
+    fetch: in-repo
+    ref: c99497a440e280e8471f084db1173197ba0e255c
+    author: "Raphael Salaja <https://www.raphaelsalaja.com>"
+    license: MIT
+    attribution: "Calligraph, Copyright (c) 2026 Raphael Salaja. MIT License."
+    credit: S-381
+    components:
+      - name: calligraph
+        status: beta
+        category: typography
+        upstream: packages/calligraph/src
+
+  # The upstream LICENSE names no copyright holder ("Copyright (c) 2025"); the
+  # package author is dimi (dimicx). The notice is kept verbatim.
+  - id: griffo
+    name: Griffo by dimi
+    repo: https://github.com/dimicx/griffo
+    visibility: public
+    status: active
+    fetch: in-repo
+    ref: 79689ab086a4628eb449b54b721e9872b5e98ab1
+    author: "dimi (dimicx) <https://github.com/dimicx>"
+    license: MIT
+    attribution: "Griffo by dimi (dimicx), Copyright (c) 2025. MIT License."
+    credit: S-382
+    components:
+      - name: split-text
+        status: beta
+        category: typography
+        upstream: src
+
+  - id: componentry
+    name: Componentry by Harsh Jadhav
+    repo: https://github.com/harshjdhv/componentry
+    visibility: public
+    status: active
+    fetch: in-repo
+    ref: b602c2872fea85c9f2464016ce3bbe0af17b51b4
+    author: "Harsh Jadhav <https://harshjdhv.com>"
+    license: MIT
+    attribution: "Componentry, Copyright (c) 2026 Harsh Jadhav. MIT License."
+    credit: S-384
+    components:
+      - name: annotated-text
+        status: beta
+        category: typography
+        upstream: packages/ui/src/components/annotated-text.tsx
+
+  - id: morphicons
+    name: Morphicons by Guillermo López
+    repo: https://github.com/guillermolg00/morphicons
+    visibility: public
+    status: active
+    fetch: in-repo
+    ref: 38d2a7221633a453eeafebd872ee3649b9274b22
+    author: "Guillermo López <https://guillermolg.com>"
+    license: MIT
+    attribution: "Morphicons, Copyright (c) 2026 Guillermo. MIT License."
+    credit: S-385
+    components:
+      - name: morph-icon
+        status: beta
+        category: media
+        upstream: src
+
+  # Evaluated as an alternative splitter to Griffo and ported as its own item:
+  # it keeps the browser's painted lines where Griffo re-wraps (hyphenation,
+  # spaceless scripts, long URLs); docs/evidence/ports/split-text/fidelity.md.
+  - id: kugiri
+    name: kugiri by Edoardo Lunardi
+    repo: https://github.com/edoardolunardi/kugiri
+    visibility: public
+    status: active
+    fetch: in-repo
+    ref: 9274367572a5bf2d218e119eb4f92907763643a4
+    author: "Edoardo Lunardi <https://www.edoardolunardi.dev>"
+    license: MIT
+    attribution: "kugiri, Copyright (c) 2026 Edoardo Lunardi. MIT License."
+    credit: S-383
+    components:
+      - name: split-lines
+        status: beta
+        category: typography
+        upstream: src/index.ts

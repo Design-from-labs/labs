@@ -1,0 +1,106 @@
+{
+  "$schema": "https://labs.designfrom.com/schemas/meta.schema.json",
+  "schemaVersion": 1,
+  "name": "annotated-text",
+  "kind": "component",
+  "title": "Annotated Text",
+  "description": "Inline words marked up by hand: wavy and double underlines, a highlighter, a circle, a box, brackets, an arrow and cross-outs, with slightly irregular strokes that draw themselves when they scroll into view.",
+  "status": "beta",
+  "category": "typography",
+  "label": "Componentry by Harsh Jadhav",
+  "variants": [
+    {
+      "name": "annotated-text",
+      "primitive": "none",
+      "iconSet": "none",
+      "status": "beta"
+    }
+  ],
+  "defaultVariant": "annotated-text",
+  "demo": "demo.tsx",
+  "preview": "preview.webp",
+  "source": {
+    "repo": "https://github.com/harshjdhv/componentry",
+    "commit": "b602c2872fea85c9f2464016ce3bbe0af17b51b4",
+    "path": "packages/ui/src/components/annotated-text.tsx"
+  },
+  "author": "Harsh Jadhav <https://harshjdhv.com>",
+  "license": "MIT",
+  "attribution": "Componentry, Copyright (c) 2026 Harsh Jadhav. MIT License.",
+  "credits": [
+    "S-384",
+    "S-003",
+    "S-004",
+    "S-014",
+    "S-152",
+    "S-153",
+    "S-157",
+    "S-284",
+    "S-387"
+  ],
+  "date": "2026-10-13",
+  "tile": {
+    "span": 1,
+    "rows": 2
+  },
+  "loop": {
+    "hydrate": true,
+    "duration": 9600
+  },
+  "tags": [
+    "text",
+    "annotation",
+    "highlight",
+    "underline",
+    "hand-drawn",
+    "animation"
+  ],
+  "props": [
+    {
+      "name": "children",
+      "type": "React.ReactNode",
+      "description": "The words to annotate. Kept on one line (no wrapping) so the drawing lines up; keep it to a short phrase."
+    },
+    {
+      "name": "variant",
+      "type": "\"wavy\" | \"underline\" | \"doubleUnderline\" | \"dottedUnderline\" | \"line\" | \"arrow\" | \"highlight\" | \"circle\" | \"box\" | \"bracket\" | \"strikethrough\" | \"crossOut\"",
+      "default": "\"wavy\"",
+      "description": "Which hand-drawn mark to draw."
+    },
+    {
+      "name": "color",
+      "type": "string",
+      "description": "A Tailwind text color class for the mark, for example \"text-rose-400\". Each variant has its own default."
+    },
+    {
+      "name": "animate",
+      "type": "boolean",
+      "default": "true",
+      "description": "Draw the mark once when a quarter of it enters the viewport. Off, or under reduced motion, the mark is simply there."
+    },
+    {
+      "name": "delay",
+      "type": "number",
+      "default": "0",
+      "description": "Seconds before drawing starts. A mark with two strokes draws the second 160 ms later."
+    },
+    {
+      "name": "duration",
+      "type": "number",
+      "default": "0.65",
+      "description": "Seconds each stroke takes to draw."
+    },
+    {
+      "name": "className",
+      "type": "string",
+      "description": "Classes for the wrapper span."
+    }
+  ],
+  "a11y": [
+    "The marks are decoration: every drawing is aria-hidden and ignores the pointer, and the words stay plain text for screen readers and selection.",
+    "A mark carries no meaning for assistive technology. When it means something (deleted text, a key term), wrap the words in the right element as well, for example <del> inside a strikethrough or <mark> inside a highlight.",
+    "Under prefers-reduced-motion the marks are drawn from the start, with no animation.",
+    "Right to left: the marks are mirrored and drawn from the inline start, so an arrow points along the reading direction."
+  ],
+  "usage": "<p>Ship it <AnnotatedText variant=\"circle\">today</AnnotatedText>.</p>"
+}

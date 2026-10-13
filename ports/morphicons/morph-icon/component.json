@@ -1,0 +1,108 @@
+{
+  "title": "Morph Icon",
+  "description": "A stroke icon that morphs into the next one on a spring when its icon changes: matched strokes rotate and glide, the rest split or merge. Takes any 24x24 stroke icon data. No dependencies.",
+  "category": "media",
+  "type": "registry:ui",
+  "status": "beta",
+  "upstreamPath": "src",
+  "iconSets": ["none"],
+  "files": [
+    {
+      "file": "morph-icon.tsx",
+      "type": "registry:ui"
+    },
+    {
+      "file": "morph-icon-dom.ts",
+      "type": "registry:ui"
+    },
+    {
+      "file": "morph-icon-core.ts",
+      "type": "registry:ui"
+    }
+  ],
+  "demo": "demo.tsx",
+  "credits": [
+    "S-003",
+    "S-005",
+    "S-014",
+    "S-152",
+    "S-153",
+    "S-157",
+    "S-284",
+    "S-387"
+  ],
+  "tags": ["icon", "morph", "animation", "spring", "svg"],
+  "props": [
+    {
+      "name": "icon",
+      "type": "IconNode | string",
+      "description": "The icon to show: a `[tag, attrs][]` node list (path, line, circle, ellipse, rect, polyline, polygon on a 24x24 grid, like Lucide's) or a raw path `d`. Change it to morph."
+    },
+    {
+      "name": "from / to / progress",
+      "type": "IconInput, IconInput, number",
+      "description": "Controlled mode: the pair frozen at `progress` (0 to 1), no spring. For scrubbing, gestures and scroll. Wins over `icon` while both ends are set."
+    },
+    {
+      "name": "spring",
+      "type": "\"smooth\" | \"snappy\" | \"bouncy\" | { stiffness?: number; damping?: number }",
+      "default": "\"snappy\"",
+      "description": "The spring for `icon` changes and `ref.morphTo`."
+    },
+    {
+      "name": "reducedMotion",
+      "type": "\"user\" | \"never\" | \"always\"",
+      "default": "\"user\"",
+      "description": "\"user\" swaps without motion while the visitor prefers reduced motion; \"never\" always animates (upstream's default); \"always\" always swaps."
+    },
+    {
+      "name": "size",
+      "type": "number | string",
+      "default": "24",
+      "description": "Width and height of the SVG."
+    },
+    {
+      "name": "color",
+      "type": "string",
+      "default": "\"currentColor\"",
+      "description": "Stroke color."
+    },
+    {
+      "name": "strokeWidth",
+      "type": "number | string",
+      "default": "2",
+      "description": "Stroke width in the 24-unit grid."
+    },
+    {
+      "name": "absoluteStrokeWidth",
+      "type": "boolean",
+      "default": "false",
+      "description": "Keep the stroke width constant in pixels when `size` changes, as in lucide-react."
+    },
+    {
+      "name": "label",
+      "type": "string",
+      "description": "Accessible name. With it the SVG is `role=\"img\"` with a `<title>`; without it the SVG is hidden from assistive technology."
+    },
+    {
+      "name": "ref",
+      "type": "{ morphTo(icon, spring?): void; set(icon): void }",
+      "description": "Imperative control: morph or jump to an icon without changing props."
+    }
+  ],
+  "a11y": [
+    "Decorative by default: without `label` the SVG is aria-hidden, so put the accessible name on the control around it (the demo's toggles are native buttons with aria-label and aria-pressed).",
+    "With `label` it is role=\"img\" with a <title>.",
+    "Honors prefers-reduced-motion by default (`reducedMotion=\"user\"`): the icon swaps without the morph. Upstream animates regardless unless asked."
+  ],
+  "usage": "<MorphIcon icon={open ? closeIcon : menuIcon} />",
+  "docs": "Installed `MorphIcon` (`@/components/ui/morph-icon`) with its driver (`morph-icon-dom`) and its geometry core (`morph-icon-core`). No dependencies.\n\n```tsx\nimport { MorphIcon, type IconNode } from \"@/components/ui/morph-icon\";\n\nconst menu: IconNode = [[\"path\", { d: \"M4 5h16\" }], [\"path\", { d: \"M4 12h16\" }], [\"path\", { d: \"M4 19h16\" }]];\nconst close: IconNode = [[\"path\", { d: \"M18 6 6 18\" }], [\"path\", { d: \"m6 6 12 12\" }]];\n\n<button type=\"button\" aria-label=\"Menu\" aria-pressed={open} onClick={() => setOpen(!open)}>\n  <MorphIcon icon={open ? close : menu} />\n</button>\n```\n\nChange `icon` to morph. Icons are data, not components: pass a `[tag, attrs]` node list or a path `d` for any stroke-drawn icon on a 24x24 grid (Lucide's icon nodes, or your own). Filled glyphs do not morph cleanly. `from`, `to` and `progress` freeze a morph for scrubbing. Motion follows `prefers-reduced-motion` by default.\n\nPorted from morphicons by Guillermo López (MIT); the license notice is at the end of every file.",
+  "tile": {
+    "span": 1,
+    "rows": 1
+  },
+  "loop": {
+    "hydrate": true,
+    "duration": 6600
+  }
+}

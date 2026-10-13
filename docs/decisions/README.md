@@ -33,3 +33,4 @@ record has a `- Sources:` line (registry ids, or `none: <reason>`).
 | [0025](0025-upstream-glyphs-default-with-icon-style.md) | Keep upstream's own glyphs as the default variant and offer icon libraries as a style | Accepted |
 | [0026](0026-canvas-and-3d-ports.md) | Every canvas loop on render-loop, GSAP rewritten with Motion, library contexts from the loop | Accepted |
 | [0027](0027-message-actions-primitive-default.md) | Default a primitive-free port to the primitive that keeps its behavior | Accepted |
+| [0028](0028-text-splitters-and-icon-agnostic-morph.md) | Two text splitters (Griffo and kugiri); Morph Icon ships without icon-set items | Accepted |

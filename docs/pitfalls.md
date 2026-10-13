@@ -135,6 +135,20 @@ Design From and Design From Labs (the guards enforce this).
 | [P-122](#p-122) | Fidelity harness (Motion) | Motion mid-animation frames differ between identical runs |
 | [P-123](#p-123) | Site (source view) | Highlighting a very large source file stalls the component page |
 | [P-124](#p-124) | Components (React Aria and Motion) | Enter toggles a React Aria disclosure twice through Motion's `whileTap` |
+| [P-125](#p-125) | Fidelity harness (Vite) | Capture output inside the Vite root reloaded the page mid-run |
+| [P-126](#p-126) | Fidelity harness (fake clock) | A state change under the fake clock rendered on React's real-time scheduler |
+| [P-127](#p-127) | Fidelity harness (Motion) | The fake clock did not drive Motion's hardware-accelerated values |
+| [P-128](#p-128) | Fidelity harness (fake clock) | Waiting on a timer inside the page hung while the clock was paused |
+| [P-129](#p-129) | Fidelity harness (dependencies) | Upstream source imported from its clone picked up the clone's own peers |
+| [P-130](#p-130) | Ports (flat layout) | Flattened upstream files differed only by letter case |
+| [P-131](#p-131) | Components (right to left) | Split and rolled glyphs reversed Latin text in a right-to-left page |
+| [P-132](#p-132) | Toolchain (TypeScript 6) | A `@ts-expect-error` above a multi-line expression stopped covering it |
+| [P-133](#p-133) | Lint (Biome) | A hand-written wrapper under a port's `src/` was never linted |
+| [P-134](#p-134) | Components (server rendering) | A split heading was invisible on the server render |
+| [P-135](#p-135) | Components (render-loop) | An upstream that shares one offscreen WebGL renderer did not fit one context per canvas |
+| [P-136](#p-136) | Accessibility (forced colors) | Decorative marks drawn with backgrounds vanished in forced colors |
+| [P-137](#p-137) | Accessibility (axe) | axe passed on a page whose scene had not rendered yet |
+| [P-138](#p-138) | Machine (shared lock) | Many small fidelity runs starved behind other pods |
 
 ---
 
@@ -1990,3 +2004,208 @@ Design From and Design From Labs (the guards enforce this).
 - Prevention: when a primitive owns presses, drive Motion from the
   primitive's state; test keyboard activation on the built site.
 - Links: `ports/iconiq/reasoning-steps/aria/reasoning-steps.tsx`
+
+### P-125
+
+- Date: 2026-10-13
+- Area: Fidelity harness (Vite)
+- Symptom: A capture run failed with "Execution context was destroyed", or a
+  frame showed a half-reloaded page.
+- Cause: The harness wrote its screenshots (and, once, a scratch copy of the
+  worktree) inside the folder the Vite dev server watches, so every write
+  triggered a full reload.
+- Fix: Write results and scratch copies outside the served root, or list them
+  in `server.watch.ignored`.
+- Prevention: Keep a harness's output folder outside its Vite root.
+- Links: `docs/evidence/ports/morph-icon/fidelity.md`,
+  `docs/evidence/ports/split-text/fidelity.md`
+
+### P-126
+
+- Date: 2026-10-13
+- Area: Fidelity harness (fake clock)
+- Symptom: Morph Icon frames differed by 0.47% to 1.6% even upstream against
+  itself.
+- Cause: With Playwright's fake clock, a `setState` fired from a fake timer is
+  still rendered by React's scheduler on real time, so the commit landed a
+  different number of fake frames after the change on each load. The scene was
+  also imported after `load`, so `runFor` sometimes started before it mounted.
+- Fix: Commit the change with `flushSync` inside the fake timer, and wait for
+  a ready flag set by the mounted scene before advancing the clock.
+- Prevention: Drive React state changes synchronously in fidelity scenes, and
+  gate the clock on a mount flag.
+- Links: `docs/evidence/ports/morph-icon/fidelity.md`
+
+### P-127
+
+- Date: 2026-10-13
+- Area: Fidelity harness (Motion)
+- Symptom: Mid-animation frames of Split Text and Calligraph showed opacity at
+  its end value on one load and mid-way on another.
+- Cause: Motion hands opacity and transforms to the Web Animations API, which
+  runs on the real document timeline, not on Playwright's fake clock.
+- Fix: Delete `Element.prototype.animate` on both sides in an init script, so
+  Motion takes its JavaScript path for every value; settle after the ready
+  flag, then advance both sides by the same time. Capture end frames
+  separately in real time.
+- Prevention: Remove `Element.prototype.animate` in any Motion fidelity
+  harness that uses the fake clock.
+- Links: `docs/evidence/ports/split-text/fidelity.md`,
+  `docs/evidence/ports/calligraph/fidelity.md`
+
+### P-128
+
+- Date: 2026-10-13
+- Area: Fidelity harness (fake clock)
+- Symptom: A fidelity script hung forever after `page.clock.pauseAt`.
+- Cause: A `page.evaluate` that awaited `setTimeout` or
+  `requestAnimationFrame` waited on the faked, paused timer, which never
+  fires.
+- Fix: Advance time from the test with `page.clock.runFor`, then screenshot;
+  never wait on timers or frames inside the page while the clock is paused.
+- Prevention: Keep every wait in the test runner when the fake clock is
+  installed (see also P-103).
+- Links: `docs/evidence/ports/image-fx/fidelity.md`
+
+### P-129
+
+- Date: 2026-10-13
+- Area: Fidelity harness (dependencies)
+- Symptom: Image FX's upstream rendered with React 18 and three 0.149 from the
+  clone's `node_modules`, and an idle frame moved 7.8% between three.js
+  versions.
+- Cause: Bare imports resolve next to the importing file. three.js also draws
+  on `Math.random` for object ids, which shifts the seeded sequence the effect
+  uses for its clock.
+- Fix: Alias or dedupe `react`, `react-dom` and `three` in the harness, give
+  each three.js version its own Vite `cacheDir`, and hold `Math.random`
+  constant for cross-version checks.
+- Prevention: Alias every peer dependency when a harness imports upstream
+  source from a clone.
+- Links: `docs/evidence/ports/image-fx/fidelity.md`
+
+### P-130
+
+- Date: 2026-10-13
+- Area: Ports (flat layout)
+- Symptom: After flattening Griffo, an import resolved to the wrong module on
+  macOS.
+- Cause: Upstream has `core/splitText.ts` and `motion/SplitText.tsx`; side by
+  side in one folder they differ only by case, which a case-insensitive file
+  system treats as one name.
+- Fix: Prefix and kebab-case every flattened file (`split-text-core.ts`,
+  `split-text.tsx`).
+- Prevention: Rename flattened modules to unique kebab-case names, as the
+  export's other ports do.
+- Links: `ports/griffo/split-text`
+
+### P-131
+
+- Date: 2026-10-13
+- Area: Components (right to left)
+- Symptom: In a right-to-left page, Split Text, Split Lines, Slot Text and
+  Calligraph showed Latin words letter by letter backwards (Split Lines also
+  dropped the spaces).
+- Cause: Each glyph or word is an inline block or flex item, and the page
+  direction lays those out right to left; the browser's bidi algorithm never
+  sees a run of text.
+- Fix: Set `dir="auto"` on the component root (`dir="ltr"` for numbers), so
+  the text's own direction wins.
+- Prevention: Test every text-splitting or per-glyph component in a
+  right-to-left page with Latin text.
+- Links: `ports/griffo/split-text`, `ports/kugiri/split-lines`,
+  `ports/slot-text/slot-text`, `ports/calligraph/calligraph`
+
+### P-132
+
+- Date: 2026-10-13
+- Area: Toolchain (TypeScript 6)
+- Symptom: Two upstream `@ts-expect-error` comments failed as unused, and the
+  error they suppressed reappeared one line lower.
+- Cause: TypeScript 6 reports some errors in multi-line expressions on a later
+  line; the directive only covers the line right below it.
+- Fix: Move the directive onto the reported line (recorded as a deviation).
+- Prevention: Typecheck ports under the site's TypeScript before exporting
+  them.
+- Links: `ports/griffo/split-text`
+
+### P-133
+
+- Date: 2026-10-13
+- Area: Lint (Biome)
+- Symptom: Split Lines' React wrapper passed CI without Biome ever reading it.
+- Cause: `biome.json` skips `ports/*/*/src` entirely, because that folder
+  holds verbatim upstream code.
+- Fix: Keep Labs-written files of a variants-shape port in a second root
+  (`labs/`) listed after `src/...` in `roots`.
+- Prevention: Put only upstream code under `src/`.
+- Links: `ports/kugiri/split-lines`
+
+### P-134
+
+- Date: 2026-10-13
+- Area: Components (server rendering)
+- Symptom: Split Text's tile and preview would have been blank.
+- Cause: Upstream's Motion wrapper renders `visibility: hidden` until fonts
+  load and the split runs, which never happens on a static tile.
+- Fix: The demo renders the plain heading until it mounts, then hands it to
+  the component.
+- Prevention: Check every hydrate-only component's server render on the wall
+  and in the preview.
+- Links: `ports/griffo/split-text/demo.tsx`
+
+### P-135
+
+- Date: 2026-10-13
+- Area: Components (render-loop)
+- Symptom: Image FX painted nothing, and the default resize cleared the
+  visible canvas.
+- Cause: Upstream draws every card with one offscreen three.js renderer and
+  copies frames into a 2D canvas per card; `useRenderLoop` creates the
+  canvas's own context and its default resize sets `canvas.width`.
+- Fix: Use a `2d` context on the visible canvas, call a per-instance tick from
+  `render`, pass a no-op `resize`, and report the shared WebGL context's loss
+  through a subscription.
+- Prevention: Before adapting a WebGL upstream to render-loop, check whether
+  it owns one context per canvas or shares one.
+- Links: `ports/libraries-dev/image-fx`, decision 0021
+
+### P-136
+
+- Date: 2026-10-13
+- Area: Accessibility (forced colors)
+- Symptom: Annotated Text's dotted underline and line marks disappeared, and
+  its highlight lost the letters' ascenders.
+- Cause: Forced colors drop background colors and images.
+- Fix: Draw the marks in `CanvasText` with `forced-color-adjust: none`, and
+  show the highlight with `Mark` / `MarkText`.
+- Prevention: Screenshot decorative marks with `forcedColors: "active"`.
+- Links: `ports/componentry/annotated-text`
+
+### P-137
+
+- Date: 2026-10-13
+- Area: Accessibility (axe)
+- Symptom: An axe run reported no violations with far fewer passes than the
+  previous run.
+- Cause: The harness imported its scene after `load`, so axe sometimes
+  analyzed an empty page.
+- Fix: Wait for the rendered scene before running axe.
+- Prevention: Compare the passes count between runs; a sudden drop means
+  nothing was tested.
+- Links: `docs/evidence/ports/annotated-text/fidelity.md`
+
+### P-138
+
+- Date: 2026-10-13
+- Area: Machine (shared lock)
+- Symptom: 36 separate `fidelity.mjs` calls each waited for the shared
+  Playwright lock, and a cleanup removed a lock directory another pod may have
+  held.
+- Cause: Each call takes and releases the lock; a helper deleted the lock
+  folder after killing its own run.
+- Fix: Batch every frame of a component into one run under one `heavy.sh`
+  slot. Never remove a lock directory you do not own: stop your own process
+  and let the stale-owner check clear it.
+- Prevention: One heavy run per component; only the owner releases a lock.
+- Links: the shared port tools (outside the repository)

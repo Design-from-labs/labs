@@ -1,0 +1,72 @@
+{
+  "title": "Split Lines",
+  "description": "Splits text into the lines the browser painted, and the words and characters inside them, for reveals that keep hyphenation, Japanese and other spaceless scripts, long URLs and balanced wraps exactly as set.",
+  "category": "typography",
+  "type": "registry:ui",
+  "status": "beta",
+  "sourcePath": "src/index.ts",
+  "iconSets": ["none"],
+  "variants": [
+    {
+      "primitive": "none",
+      "roots": ["src/split-lines", "labs"],
+      "status": "beta"
+    }
+  ],
+  "defaultVariant": "split-lines",
+  "demo": "demo.tsx",
+  "credits": ["S-003", "S-152", "S-157", "S-387", "S-382", "S-037"],
+  "tags": ["animation", "text", "split", "lines", "reveal", "i18n"],
+  "props": [
+    {
+      "name": "children",
+      "type": "React.ReactNode",
+      "description": "The text, with any inline markup (links, emphasis, a drop cap). The split owns the element's content while it is mounted; give the component a new `key` to replace the text."
+    },
+    {
+      "name": "as",
+      "type": "React.ElementType",
+      "default": "\"p\"",
+      "description": "The element to render. Other props pass through to it."
+    },
+    {
+      "name": "options",
+      "type": "{ type?: (\"lines\" | \"words\" | \"chars\")[]; mask?: SplitLevel | SplitLevel[] | Partial<Record<SplitLevel, string>>; ignore?: string; classes?: Partial<Record<SplitLevel | \"mask\", string>> }",
+      "default": "{ type: [\"lines\"] }",
+      "description": "The units to produce, clipping masks (with an optional reach past the line box, such as `{ lines: \"0.25em\" }`), a selector for elements to leave whole, and extra classes."
+    },
+    {
+      "name": "onSplit",
+      "type": "(split: { lines, words, chars, masks, revert }, info: { resplit: boolean }) => void",
+      "description": "Called after every split with the units. Animate them here (Web Animations, Motion or CSS through the `--line`, `--word` and `--char` index properties)."
+    },
+    {
+      "name": "resplit",
+      "type": "boolean",
+      "default": "true",
+      "description": "Split again when the element's width changes, so the lines follow the new wrap (`info.resplit` is true then)."
+    },
+    {
+      "name": "waitForFonts",
+      "type": "boolean",
+      "default": "true",
+      "description": "Wait for `document.fonts.ready` before the first split, so lines are read in the final font."
+    }
+  ],
+  "a11y": [
+    "Lines are read off the paint, so right-to-left text, Japanese and other scripts without spaces keep their order and breaks.",
+    "With word or character units and nothing focusable inside, the units are aria-hidden and the text is kept once in a visually hidden copy, so screen readers read it as words. A line-only split, or text with links, is left as it reads.",
+    "It does not animate by itself; the demo's reveal is skipped when the visitor prefers reduced motion, and so should yours.",
+    "Every line carries translate=\"no\" (upstream), since a page translator would rewrite each unit on its own; put the source text back and split again after translating."
+  ],
+  "usage": "<SplitLines options={{ type: [\"lines\"], mask: \"lines\" }} onSplit={({ lines }) => lines.forEach((line, i) => line.animate([{ transform: \"translateY(100%)\" }, { transform: \"none\" }], { duration: 900, delay: i * 100, fill: \"backwards\" }))}>\n  Long text that wraps.\n</SplitLines>",
+  "docs": "Installed `SplitLines` (`@/components/ui/split-lines`) and the splitter it uses (`splitText` in `@/components/ui/split-lines-core`). No dependencies beyond React.\n\n```tsx\nimport { SplitLines } from \"@/components/ui/split-lines\";\n\n<SplitLines\n  as=\"h2\"\n  options={{ type: [\"lines\"], mask: { lines: \"0.25em\" } }}\n  onSplit={({ lines }, { resplit }) => {\n    if (resplit) return;\n    lines.forEach((line, i) =>\n      line.animate(\n        [{ transform: \"translateY(100%)\" }, { transform: \"none\" }],\n        { duration: 900, delay: i * 100, easing: \"cubic-bezier(0.23, 1, 0.32, 1)\", fill: \"backwards\" },\n      ),\n    );\n  }}\n>\n  Text that wraps\n</SplitLines>\n```\n\n- Lines are the ones the browser painted (read with `Range.getClientRects()`), so hyphenation, `overflow-wrap`, `text-wrap: balance`, right-to-left text and Japanese or Thai come out as set. Words and characters sit inside those lines and keep their painted widths.\n- It splits and stops: animate the units in `onSplit`, and skip the motion when the user prefers reduced motion. Each unit also carries `data-line` / `data-word` / `data-char` and a `--line` / `--word` / `--char` index for CSS staggers.\n- A mask clips with `clip-path: inset(0)`; give it a reach (`{ lines: \"0.25em\" }`) for descenders, or clear the clip after the reveal.\n- Without React, call `splitText(element, { type: [\"lines\", \"words\"] })` from `@/components/ui/split-lines-core`; it returns `{ lines, words, chars, masks, revert }`.\n- For Motion variants and kerning-compensated character staggers, see Split Text.\n\nPorted from kugiri by Edoardo Lunardi (MIT); the license notice is at the end of every file.",
+  "tile": {
+    "span": 2,
+    "rows": 1
+  },
+  "loop": {
+    "hydrate": true,
+    "duration": 8400
+  }
+}

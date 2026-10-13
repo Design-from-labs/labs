@@ -1,0 +1,92 @@
+{
+  "title": "Annotated Text",
+  "description": "Inline words marked up by hand: wavy and double underlines, a highlighter, a circle, a box, brackets, an arrow and cross-outs, with slightly irregular strokes that draw themselves when they scroll into view.",
+  "category": "typography",
+  "type": "registry:ui",
+  "status": "beta",
+  "upstreamPath": "packages/ui/src/components/annotated-text.tsx",
+  "iconSets": ["none"],
+  "registryDependencies": ["utils"],
+  "files": [
+    {
+      "file": "annotated-text.tsx",
+      "type": "registry:ui"
+    }
+  ],
+  "demo": "demo.tsx",
+  "credits": [
+    "S-003",
+    "S-004",
+    "S-014",
+    "S-152",
+    "S-153",
+    "S-157",
+    "S-284",
+    "S-387"
+  ],
+  "tags": [
+    "text",
+    "annotation",
+    "highlight",
+    "underline",
+    "hand-drawn",
+    "animation"
+  ],
+  "props": [
+    {
+      "name": "children",
+      "type": "React.ReactNode",
+      "description": "The words to annotate. Kept on one line (no wrapping) so the drawing lines up; keep it to a short phrase."
+    },
+    {
+      "name": "variant",
+      "type": "\"wavy\" | \"underline\" | \"doubleUnderline\" | \"dottedUnderline\" | \"line\" | \"arrow\" | \"highlight\" | \"circle\" | \"box\" | \"bracket\" | \"strikethrough\" | \"crossOut\"",
+      "default": "\"wavy\"",
+      "description": "Which hand-drawn mark to draw."
+    },
+    {
+      "name": "color",
+      "type": "string",
+      "description": "A Tailwind text color class for the mark, for example \"text-rose-400\". Each variant has its own default."
+    },
+    {
+      "name": "animate",
+      "type": "boolean",
+      "default": "true",
+      "description": "Draw the mark once when a quarter of it enters the viewport. Off, or under reduced motion, the mark is simply there."
+    },
+    {
+      "name": "delay",
+      "type": "number",
+      "default": "0",
+      "description": "Seconds before drawing starts. A mark with two strokes draws the second 160 ms later."
+    },
+    {
+      "name": "duration",
+      "type": "number",
+      "default": "0.65",
+      "description": "Seconds each stroke takes to draw."
+    },
+    {
+      "name": "className",
+      "type": "string",
+      "description": "Classes for the wrapper span."
+    }
+  ],
+  "a11y": [
+    "The marks are decoration: every drawing is aria-hidden and ignores the pointer, and the words stay plain text for screen readers and selection.",
+    "A mark carries no meaning for assistive technology. When it means something (deleted text, a key term), wrap the words in the right element as well, for example <del> inside a strikethrough or <mark> inside a highlight.",
+    "Under prefers-reduced-motion the marks are drawn from the start, with no animation.",
+    "Right to left: the marks are mirrored and drawn from the inline start, so an arrow points along the reading direction."
+  ],
+  "usage": "<p>Ship it <AnnotatedText variant=\"circle\">today</AnnotatedText>.</p>",
+  "docs": "Installed `AnnotatedText` (`@/components/ui/annotated-text`). It uses `cn` from `@/lib/utils` and nothing else.\n\n```tsx\nimport { AnnotatedText } from \"@/components/ui/annotated-text\";\n\n<p>\n  Write it <AnnotatedText variant=\"underline\">once</AnnotatedText>, then\n  <AnnotatedText variant=\"highlight\" delay={0.3}>ship it</AnnotatedText>.\n</p>\n```\n\nPick a mark with `variant`, recolor it with a Tailwind text class in `color`. Each mark draws once when it scrolls into view; `animate={false}` shows it drawn. Keep the annotated words short: they do not wrap. The strokes are generated from fixed seeds, so the server and the browser render the same shapes.\n\nPorted from Componentry by Harsh Jadhav (MIT); the license notice is at the end of the file.",
+  "tile": {
+    "span": 1,
+    "rows": 2
+  },
+  "loop": {
+    "hydrate": true,
+    "duration": 9600
+  }
+}

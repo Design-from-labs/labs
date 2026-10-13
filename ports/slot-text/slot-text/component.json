@@ -1,0 +1,67 @@
+{
+  "title": "Slot Text",
+  "description": "A dependency-free text roll for small labels: each letter rolls out of a clipped slot while the next rolls in, with a springy settle and an optional hue sweep. The classic Copy to Copied button.",
+  "category": "typography",
+  "type": "registry:ui",
+  "status": "beta",
+  "upstreamPath": "src",
+  "iconSets": ["none"],
+  "files": [
+    {
+      "file": "slot-text.tsx",
+      "type": "registry:ui"
+    },
+    {
+      "file": "slot-text-engine.ts",
+      "type": "registry:lib"
+    },
+    {
+      "file": "slot-text-core.ts",
+      "type": "registry:lib"
+    }
+  ],
+  "demo": "demo.tsx",
+  "credits": ["S-003", "S-004", "S-152", "S-157", "S-387"],
+  "tags": ["animation", "text", "roll", "slot-machine", "copy-button"],
+  "props": [
+    {
+      "name": "text",
+      "type": "string",
+      "description": "The text to show. Change it to roll the changed letters to the new text."
+    },
+    {
+      "name": "options",
+      "type": "SlotOptions",
+      "description": "Roll options, read when the text changes: `direction` (\"down\" | \"up\", default \"down\"), `rollBy` (\"character\" | \"word\"), `stagger` (45 ms), `duration` (300 ms), `exitOffset` (50 ms), `easing` (an overshooting back curve), `bounce` (0.6: per-letter timing and tilt), `color` (a CSS color or `(index, count) => color`, such as `chromatic()`), `colorFade` (280 ms), `skipUnchanged` (true) and `interrupt` (true)."
+    },
+    {
+      "name": "respectReducedMotion",
+      "type": "boolean",
+      "default": "true",
+      "description": "Swap the text without the roll when the user prefers reduced motion."
+    },
+    {
+      "name": "aria-label",
+      "type": "string",
+      "description": "Text for assistive technology when it should differ from `text`."
+    }
+  ],
+  "a11y": [
+    "The text is kept once as visually hidden text for screen readers; the rolling letter cells are aria-hidden, so a roll is never read letter by letter.",
+    "Inside a button the label is the button's name. A roll is not announced on its own: pair a change such as Copy to Copied with a polite status message, as the demo does.",
+    "With the default respectReducedMotion, the text swaps without the roll when the user prefers reduced motion.",
+    "dir=\"auto\" keeps the letters of Latin text in order inside a right-to-left page; each grapheme is its own cell, so scripts whose letters join (Arabic) lose their joining while they roll."
+  ],
+  "usage": "<SlotText text={copied ? \"Copied\" : \"Copy\"} options={{ direction: copied ? \"up\" : \"down\" }} />",
+  "docs": "Installed `SlotText` (`@/components/ui/slot-text`) and its dependency-free engine (`@/lib/slot-text-engine`, `@/lib/slot-text-core`).\n\n```tsx\nimport { SlotText } from \"@/components/ui/slot-text\";\nimport { chromatic } from \"@/lib/slot-text-engine\";\n\n<button type=\"button\" onClick={copy}>\n  <SlotText\n    text={copied ? \"Copied\" : \"Copy\"}\n    options={{\n      direction: copied ? \"up\" : \"down\",\n      skipUnchanged: false,\n      color: copied ? chromatic({ from: 190 }) : undefined,\n    }}\n  />\n</button>\n```\n\nChange `text` to roll. The component renders its stylesheet once (React 19 hoists it), so there is nothing to import. The letter cells use the global classes `slot-text`, `char-slot`, `char-sizer` and `char-face`, as upstream does; style `.char-face` to color the letters.\n\nWithout React, use the engine on any element and add `slotTextCss` to the page once:\n\n```ts\nimport { slotText, slotTextCss } from \"@/lib/slot-text-engine\";\n\nconst label = slotText(element, \"Copy\");\nlabel.flash(\"Copied\"); // rolls back to Copy after 1.4 s\n```\n\nThe vanilla API does not check `prefers-reduced-motion`; check it before calling `set` or `flash`.\n\nPorted from slot-text by Daniel Belyi (MIT); the license notice is at the end of every file.",
+  "tile": {
+    "span": 1,
+    "rows": 1,
+    "surface": "dark"
+  },
+  "loop": {
+    "script": "click → wait → wait → wait",
+    "duration": 4000,
+    "hydrate": true
+  }
+}

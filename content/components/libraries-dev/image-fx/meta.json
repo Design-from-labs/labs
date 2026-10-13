@@ -1,0 +1,157 @@
+{
+  "$schema": "https://labs.designfrom.com/schemas/meta.schema.json",
+  "schemaVersion": 1,
+  "name": "image-fx",
+  "kind": "component",
+  "title": "Image FX",
+  "description": "An animated WebGL loader for image cards: a drifting pixel mosaic that dissolves into your image, then churns back into pixels to regenerate it.",
+  "status": "beta",
+  "category": "media",
+  "label": "Libraries.dev",
+  "variants": [
+    {
+      "name": "image-fx",
+      "primitive": "none",
+      "iconSet": "none",
+      "status": "beta"
+    }
+  ],
+  "defaultVariant": "image-fx",
+  "demo": "demo.tsx",
+  "preview": "preview.webp",
+  "source": {
+    "repo": "https://github.com/Jakubantalik/Libraries.dev",
+    "commit": "bcaf88f8a16a75fd95bf21e0747193ee3380a927",
+    "path": "packages/img-fx/src/ImageGeneration.tsx"
+  },
+  "author": "Jakub Antalik <https://github.com/Jakubantalik>",
+  "license": "MIT",
+  "attribution": "Copyright (c) 2026 Jakub Antalik. MIT License.",
+  "credits": [
+    "S-230",
+    "S-386",
+    "S-275",
+    "S-276",
+    "S-397",
+    "S-398",
+    "S-283",
+    "S-285",
+    "S-286",
+    "S-287",
+    "S-003",
+    "S-004",
+    "S-019",
+    "S-020",
+    "S-014",
+    "S-152",
+    "S-157",
+    "S-288",
+    "S-387"
+  ],
+  "date": "2026-10-13",
+  "tile": {
+    "span": 1,
+    "rows": 1
+  },
+  "tags": [
+    "loader",
+    "image",
+    "shader",
+    "webgl",
+    "three",
+    "pixel",
+    "reveal",
+    "effect"
+  ],
+  "props": [
+    {
+      "name": "images",
+      "type": "string | string[]",
+      "default": "[]",
+      "description": "The reveal pool: one URL, or several picked at random (never the same twice in a row). Same-origin or CORS-enabled, so regenerate can sample its colors."
+    },
+    {
+      "name": "preset",
+      "type": "\"pixels-organic\" | \"pixels-mechanic\" | \"sweep-gradient\"",
+      "default": "\"pixels-organic\"",
+      "description": "The effect: a flowing mosaic, a cloudier mosaic with flicker, or a fast diagonal sweep."
+    },
+    {
+      "name": "autoReveal",
+      "type": "boolean",
+      "default": "false",
+      "description": "Loop on its own: shader, reveal, hold, hide, repeat."
+    },
+    {
+      "name": "theme",
+      "type": "\"auto\" | \"dark\" | \"light\"",
+      "default": "\"auto\"",
+      "description": "Palette; auto follows <html data-theme>, the dark/light class, color-scheme, then the system."
+    },
+    {
+      "name": "strength | speed | pixelScale",
+      "type": "number",
+      "default": "1",
+      "description": "Effect opacity (above 1 boosts intensity), clock speed and cell size."
+    },
+    {
+      "name": "cardBg | colors",
+      "type": "string | (string | null)[]",
+      "description": "The card surface color, and per-slot palette overrides (up to 7)."
+    },
+    {
+      "name": "revealDelayRange | revealInitialDelay | revealHoldMs | revealFadeOutMs",
+      "type": "number | [number, number]",
+      "default": "[2, 4] s | random 0-1.5 s | 2000 ms | 300 ms",
+      "description": "Auto-loop timing."
+    },
+    {
+      "name": "paused",
+      "type": "boolean",
+      "default": "false",
+      "description": "Freezes the shader and the scheduler."
+    },
+    {
+      "name": "ref",
+      "type": "React.Ref<ImageFxHandle>",
+      "description": "triggerReveal({ hold }), triggerHide(), triggerRegenerate({ durationMs, tintFromImage, autoReveal }), isImageActive(), element."
+    },
+    {
+      "name": "onCycle",
+      "type": "(event: { phase, src }) => void",
+      "description": "Each phase change: idle, reveal, visible, hide."
+    },
+    {
+      "name": "excludeSrcs",
+      "type": "() => string[] | Set<string> | null",
+      "description": "Images to skip on the next pick, to keep several cards from showing the same one."
+    },
+    {
+      "name": "fragmentShader",
+      "type": "string",
+      "description": "Replaces the shared fragment shader (page-wide while set)."
+    },
+    {
+      "name": "fallback",
+      "type": "React.ReactNode",
+      "description": "Replaces the static mosaic shown under reduced motion, without WebGL 2, while the context is lost and before the first frame."
+    },
+    {
+      "name": "allowSoftwareRenderer",
+      "type": "boolean",
+      "default": "false",
+      "description": "Run the effect on a software WebGL renderer (no GPU) too. Off by default, because the shader then costs seconds per frame; the static picture shows instead."
+    },
+    {
+      "name": "onStatusChange",
+      "type": "(status: RenderLoopStatus) => void",
+      "description": "Reports the render loop status."
+    }
+  ],
+  "a11y": [
+    "The effect is decorative: both canvases and the fallback are aria-hidden, and the wrapped children keep their own semantics. Give the card an accessible name or aria-busy where the loader means something.",
+    "Reduced motion: nothing animates; a static mosaic in the preset's palette shows instead (also without WebGL 2, while the context is lost, before the first frame and on the server). The ref handle still shows and hides the image, without animation.",
+    "Drawing pauses off screen and in hidden tabs."
+  ],
+  "usage": "<ImageFx images={[\"/a.jpg\", \"/b.jpg\"]} autoReveal className=\"h-72 w-80 rounded-2xl\" />"
+}
