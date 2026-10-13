@@ -39,6 +39,7 @@
     "seed": "7",
     "clock": null,
     "reducedMotion": false,
+    "pause": null,
     "results": {
       "1280x800": {
         "differingPixels": 0,
