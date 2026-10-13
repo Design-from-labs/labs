@@ -8,11 +8,7 @@
   "entry": "data-table-filter-command/index.tsx",
   "target": "components/data-table",
   "sourcePath": "packages/registry/src/components/data-table/data-table-filter-command",
-  "dependencies": [
-    "@tanstack/react-table@^9.2.3",
-    "cmdk@^1.0.4",
-    "date-fns@^4.1.0"
-  ],
+  "dependencies": ["@tanstack/react-table@^9.2.3", "date-fns@^4.1.0"],
   "registryDependencies": [
     "@designfrom/data-table-{primitive}-{iconSet}",
     "utils",
@@ -26,13 +22,14 @@
     {
       "primitive": "radix",
       "roots": ["src/shared", "src/radix"],
-      "dependencies": ["radix-ui@^1.4.3"],
+      "dependencies": ["radix-ui@^1.4.3", "cmdk@^1.0.4"],
       "status": "beta"
     },
     {
       "primitive": "base",
       "roots": ["src/shared", "src/base"],
-      "status": "beta"
+      "status": "beta",
+      "dependencies": ["cmdk@^1.0.4"]
     },
     {
       "primitive": "aria",

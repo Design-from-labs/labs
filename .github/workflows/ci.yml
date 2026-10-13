@@ -1,9 +1,10 @@
 name: CI
 
 # Build, typecheck, lint, registry validation, npm pack dry runs, the
-# Playwright smoke and axe checks, and a real `shadcn add` / `shadcn init`
-# into fresh Next.js apps. Job names `verify`, `e2e` and `registry-install`
-# are required status checks; keep them stable.
+# Playwright smoke and axe checks, a real `shadcn add` / `shadcn init` into
+# fresh Next.js apps, and beta port items added to a fresh Vite app. Job
+# names `verify`, `e2e` and `registry-install` are required status checks;
+# keep them stable.
 #
 # Runners: GitHub-hosted (docs/decisions/0006-github-hosted-runners.md).
 on:
@@ -157,3 +158,23 @@ jobs:
             sleep 1
           done
           scripts/registry-install-test.sh http://localhost:4321 "$RUNNER_TEMP/registry-install"
+
+      # Beta items publish only to previews (decision 0014), and their
+      # multi-file ports are what a `verbatimModuleSyntax` project breaks on.
+      # A second local build includes them, on its own port (decision 0027).
+      - name: Build the site with beta items for a second local registry
+        env:
+          LABS_INCLUDE_BETA: "1"
+          LABS_SITE_URL: http://localhost:4322
+        run: pnpm build:site
+
+      - name: shadcn add beta port items into a fresh Vite app (tsc -b and vite build)
+        shell: bash
+        run: |
+          set -euo pipefail
+          pnpm exec astro preview --port 4322 > "$RUNNER_TEMP/preview-beta.log" 2>&1 &
+          for _ in $(seq 1 60); do
+            curl -sf http://localhost:4322/r/registry.json >/dev/null && break
+            sleep 1
+          done
+          scripts/registry-install-vite-test.sh http://localhost:4322 "$RUNNER_TEMP/registry-install-vite"

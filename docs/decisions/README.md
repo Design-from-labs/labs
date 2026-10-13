@@ -35,3 +35,4 @@ record has a `- Sources:` line (registry ids, or `none: <reason>`).
 | [0027](0027-message-actions-primitive-default.md) | Default a primitive-free port to the primitive that keeps its behavior | Accepted |
 | [0028](0028-text-splitters-and-icon-agnostic-morph.md) | Two text splitters (Griffo and kugiri); Morph Icon ships without icon-set items | Accepted |
 | [0029](0029-scroll-transition-and-3d-ports.md) | Scroll effects in scroll containers, render-loop for renderers that own their context, Apache notices once | Accepted |
+| [0027](0027-vite-install-check-on-beta-items.md) | Install beta port items into a fresh Vite app in CI and run its own build | Accepted |

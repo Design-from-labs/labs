@@ -12,7 +12,7 @@ export function drawTimeAxis(
   ctx: CanvasRenderingContext2D,
   layout: ChartLayout,
   palette: LivelinePalette,
-  windowSecs: number,
+  _windowSecs: number,
   targetWindowSecs: number,
   formatTime: (t: number) => string,
   state: TimeAxisState,

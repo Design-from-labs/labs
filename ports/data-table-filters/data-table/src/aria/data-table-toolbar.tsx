@@ -19,7 +19,7 @@ interface DataTableToolbarProps {
 }
 
 export function DataTableToolbar({ renderActions }: DataTableToolbarProps) {
-  const { table, isLoading, columnFilters, totalRows, filterRows } =
+  const { table, columnFilters, totalRows, filterRows } =
     useDataTable();
   const { open, setOpen } = useControls();
   const isRtl = useIsRtl();

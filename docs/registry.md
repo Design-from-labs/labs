@@ -46,6 +46,15 @@ npx shadcn@latest search @designfrom
 CI proves this on every pull request: `scripts/registry-install-test.sh`
 creates a fresh Next.js app, adds the namespace, installs items by namespace
 and by URL, initializes a second app from the base item, and builds both.
+`scripts/registry-install-vite-test.sh` then serves a second local build that
+includes beta items (decision 0014), creates a Vite app with the pinned
+`shadcn init -t vite -b radix -p nova`, adds
+`@designfrom/data-table-radix-lucide`, `@designfrom/data-table-sheet-radix-lucide`,
+`@designfrom/data-table-filter-command-radix-lucide` and `@designfrom/liveline`
+by namespace, renders each item's demo, and runs the app's own
+`tsc -b && vite build`. The Vite template sets `verbatimModuleSyntax` (the
+Next.js template does not), so a type imported without `import type` fails
+there: TS1484 in `tsc`, a missing export in the bundle (decision 0027).
 
 ## With Claude Code (shadcn MCP server)
 

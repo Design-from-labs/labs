@@ -140,7 +140,6 @@ export function DataTableInfinite<TData extends RowData>({
   isLoading,
   fetchNextPage,
   hasNextPage,
-  fetchPreviousPage,
   totalRows,
   filterRows,
   totalRowsFetched = 0,
@@ -154,7 +153,6 @@ export function DataTableInfinite<TData extends RowData>({
   chartSlot,
   footerSlot,
   floatingBarSlot,
-  className,
 }: DataTableInfiniteProps<TData>) {
   const [columnFilters, setColumnFilters] =
     React.useState<ColumnFiltersState>(defaultColumnFilters);

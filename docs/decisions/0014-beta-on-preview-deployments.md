@@ -1,6 +1,6 @@
 # 0014: Show beta components on preview deployments, labeled, never in production
 
-- Status: Accepted
+- Status: Accepted, amended by [0027](0027-vite-install-check-on-beta-items.md) (CI's local registry-install build includes beta items)
 - Date: 2026-10-12
 - Deciders: Port pod B (css-keyframes), under the owner's port brief
 - Sources: S-157, S-001, S-009
@@ -21,9 +21,11 @@ the components it added: there was nothing to review.
   pages, `/r` items and `llms.txt` of that preview.
 - They are labeled: "Beta" on the tile, "Beta preview" on the page.
 - The npm library never takes them (`prepare-content.mjs` builds it from
-  ready variants only), and production and CI builds set neither variable,
-  so decision 0005 holds for everything users install from
-  `labs.designfrom.com` and npm.
+  ready variants only), and production builds set neither variable, so
+  decision 0005 holds for everything users install from
+  `labs.designfrom.com` and npm. CI sets `LABS_INCLUDE_BETA=1` only for the
+  throwaway local registry the `registry-install` job serves to itself
+  (decision 0027).
 
 ## Alternatives
 

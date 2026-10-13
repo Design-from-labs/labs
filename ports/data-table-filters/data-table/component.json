@@ -16,7 +16,6 @@
     "@dnd-kit/sortable@^10.0.0",
     "@dnd-kit/utilities@^3.2.2",
     "date-fns@^4.1.0",
-    "react-day-picker@^9.14.0||^10.0.0",
     "zod@^4.3.6"
   ],
   "registryDependencies": [
@@ -41,13 +40,14 @@
     {
       "primitive": "radix",
       "roots": ["src/shared", "src/radix"],
-      "dependencies": ["radix-ui@^1.4.3"],
+      "dependencies": ["radix-ui@^1.4.3", "react-day-picker@^9.14.0||^10.0.0"],
       "status": "beta"
     },
     {
       "primitive": "base",
       "roots": ["src/shared", "src/base"],
-      "status": "beta"
+      "status": "beta",
+      "dependencies": ["react-day-picker@^9.14.0||^10.0.0"]
     },
     {
       "primitive": "aria",

@@ -8,19 +8,24 @@
 set -euo pipefail
 
 BASE="${1:-http://localhost:4321}"
+# Pinned tools, so a run is reproducible (decision 0010): the repository's
+# own shadcn CLI and a fixed create-next-app release.
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+SHADCN="$ROOT/node_modules/.bin/shadcn"
+CREATE_NEXT_APP="create-next-app@16.4.0"
 WORK="${2:-$(mktemp -d)}"
 APP="$WORK/app"
 export CI=1 NEXT_TELEMETRY_DISABLED=1
 
 echo "registry-install: creating a Next.js app in $APP"
 mkdir -p "$WORK"
-npx --yes create-next-app@latest "$APP" --ts --tailwind --eslint --app --src-dir \
+npx --yes "$CREATE_NEXT_APP" "$APP" --ts --tailwind --eslint --app --src-dir \
   --import-alias "@/*" --use-npm --yes --skip-install --disable-git >/dev/null
 cd "$APP"
 npm install --no-audit --no-fund --loglevel=error
 
 echo "registry-install: shadcn init"
-npx --yes shadcn@latest init --defaults --yes >/dev/null
+"$SHADCN" init --defaults --yes >/dev/null
 
 # The @designfrom namespace, exactly as docs/registry.md tells users to add it.
 node -e '
@@ -31,7 +36,7 @@ fs.writeFileSync("components.json", JSON.stringify(config, null, 2));
 ' "$BASE"
 
 echo "registry-install: add by namespace"
-npx --yes shadcn@latest add --yes --overwrite \
+"$SHADCN" add --yes --overwrite \
   @designfrom/button-radix-lucide \
   @designfrom/tooltip-aria \
   @designfrom/badge-subtle-phosphor \
@@ -40,7 +45,7 @@ npx --yes shadcn@latest add --yes --overwrite \
   @designfrom/use-reduced-motion
 
 echo "registry-install: add by URL"
-npx --yes shadcn@latest add --yes --overwrite \
+"$SHADCN" add --yes --overwrite \
   "$BASE/r/compose-refs.json" \
   "$BASE/r/sidebar-phosphor.json"
 
@@ -89,11 +94,11 @@ echo "registry-install: components ok ($APP)"
 # The base item initializes a whole project: primitive style, icon library,
 # theme, fonts, utilities and the @designfrom namespace.
 BASE_APP="$WORK/base-app"
-npx --yes create-next-app@latest "$BASE_APP" --ts --tailwind --eslint --app --src-dir \
+npx --yes "$CREATE_NEXT_APP" "$BASE_APP" --ts --tailwind --eslint --app --src-dir \
   --import-alias "@/*" --use-npm --yes --skip-install --disable-git >/dev/null
 cd "$BASE_APP"
 npm install --no-audit --no-fund --loglevel=error
-npx --yes shadcn@latest init "$BASE/r/designfrom-base-aria-phosphor.json" --yes
+"$SHADCN" init "$BASE/r/designfrom-base-aria-phosphor.json" --yes
 node -e '
 const config = JSON.parse(require("node:fs").readFileSync("components.json", "utf8"));
 const problems = [];
