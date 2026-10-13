@@ -32,3 +32,5 @@ pnpm verify
 LABS_SITE_URL=http://localhost:4321 pnpm build:site && pnpm preview &
 scripts/registry-install-test.sh http://localhost:4321 "$(mktemp -d)"
 ```
+
+Local `pnpm e2e` serves the built site on port 4321; set `E2E_PORT` to use another port so concurrent local runs do not reuse each other's preview server.

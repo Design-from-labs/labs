@@ -84,6 +84,7 @@ Design From and Design From Labs (the guards enforce this).
 | [P-071](#p-071) | Registry (validator) | Icon names in a shared comment fail the icon-pair check |
 | [P-072](#p-072) | Tests (axe) | Text on an SVG surface reads as low contrast |
 | [P-073](#p-073) | Registry (shadcn CLI) | A base-style project rewrites `asChild` in Radix items |
+| [P-074](#p-074) | Tests (Playwright) | Parallel local e2e runs reuse each other's preview server on a fixed port |
 
 ---
 
@@ -1177,3 +1178,22 @@ Design From and Design From Labs (the guards enforce this).
 - Prevention: Install a new Radix item into a `--defaults` project and
   typecheck it before publishing.
 - Links: `content/components/beui/morphing-tabs`, `content/components/sona-ui/fluid-tooltip`
+
+### P-074
+
+- Date: 2026-10-13
+- Area: Tests (Playwright)
+- Symptom: With two local `pnpm e2e` runs at once (for example from separate
+  worktrees), one run passed or failed against the other run's build, and
+  results changed with start order.
+- Cause: The Playwright config started `astro preview` on a fixed port 4321
+  with `reuseExistingServer` on outside CI. The second run found port 4321
+  already serving and reused that server instead of its own build.
+- Fix: The config reads the port from `E2E_PORT` (default 4321) for the preview
+  command, the readiness URL and `baseURL`, and starts the preview with
+  `--ignore-lock` so it stays in the foreground (Astro otherwise backgrounds
+  it under an agent and Playwright sees the process exit). Concurrent runs set
+  different values.
+- Prevention: Give every concurrent local e2e run its own `E2E_PORT` and its
+  own built `dist/`; keep any new e2e server URL derived from that variable.
+- Links: `playwright.config.ts`, `docs/CICD.md`
