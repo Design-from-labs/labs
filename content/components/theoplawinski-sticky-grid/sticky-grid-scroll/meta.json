@@ -1,0 +1,114 @@
+{
+  "$schema": "https://labs.designfrom.com/schemas/meta.schema.json",
+  "schemaVersion": 1,
+  "name": "sticky-grid-scroll",
+  "kind": "component",
+  "title": "Sticky Grid Scroll",
+  "description": "A scroll-driven image grid in a sticky section: columns slide in from above and below, the grid zooms open, and a title, description and action settle into the space.",
+  "status": "beta",
+  "category": "blocks",
+  "label": "Theo Plawinski sticky grid scroll",
+  "variants": [
+    {
+      "name": "sticky-grid-scroll",
+      "primitive": "none",
+      "iconSet": "none",
+      "status": "beta"
+    }
+  ],
+  "defaultVariant": "sticky-grid-scroll",
+  "demo": "demo.tsx",
+  "preview": "preview.webp",
+  "source": {
+    "repo": "https://github.com/theoplawinski/codrops-sticky-grid-scroll",
+    "commit": "6015d6c7e66d371618c82b5fb0126d278f88e42d",
+    "path": "src/scripts/index.js"
+  },
+  "author": "Theo Plawinski <https://github.com/theoplawinski>",
+  "license": "MIT",
+  "attribution": "Copyright (c) 2025 Theo Plawinski; copyright (c) 2009 - 2025 Codrops. MIT License.",
+  "credits": [
+    "S-261",
+    "S-260",
+    "S-157",
+    "S-104",
+    "S-266",
+    "S-003",
+    "S-004",
+    "S-014",
+    "S-152",
+    "S-240"
+  ],
+  "date": "2026-10-13",
+  "tile": {
+    "span": 2,
+    "rows": 2
+  },
+  "loop": {
+    "duration": 16400,
+    "hydrate": true
+  },
+  "tags": [
+    "scroll",
+    "sticky",
+    "grid",
+    "gallery",
+    "motion",
+    "scroll-driven"
+  ],
+  "props": [
+    {
+      "name": "images",
+      "type": "{ src: string; alt?: string }[]",
+      "required": true,
+      "description": "The grid's images, distributed over the columns in order (twelve in the original layout). An empty alt marks one decorative."
+    },
+    {
+      "name": "title",
+      "type": "React.ReactNode",
+      "required": true,
+      "description": "The heading: it fades in as the section arrives, then rises when the grid has opened."
+    },
+    {
+      "name": "description",
+      "type": "React.ReactNode",
+      "description": "Shown under the title once the grid has opened."
+    },
+    {
+      "name": "action",
+      "type": "React.ReactNode",
+      "description": "A link or button under the description, for example <a href=\"/work\">See the work</a>; not focusable until it is shown."
+    },
+    {
+      "name": "columns",
+      "type": "number",
+      "default": "3",
+      "description": "Columns in the grid. Even columns arrive from above, odd ones from below; the outer columns move out and the middle one splits as it zooms."
+    },
+    {
+      "name": "container",
+      "type": "React.RefObject<HTMLElement | null>",
+      "description": "The element that scrolls, when it is not the window. Give it container-type: size so the section's heights follow it."
+    },
+    {
+      "name": "parallax",
+      "type": "boolean",
+      "default": "true",
+      "description": "Slide the section up from under the content above it as it enters (put a positioned block with z-index 1 above it)."
+    },
+    {
+      "name": "headingLevel",
+      "type": "1 | 2 | 3 | 4 | 5 | 6",
+      "default": "2",
+      "description": "The title's heading level."
+    }
+  ],
+  "a11y": [
+    "A section with a real heading (h2 by default); the images keep their alt text, and an empty alt marks one decorative.",
+    "The description and action stay out of the accessibility tree and the tab order (inert) until they are shown, and come back when the grid opens.",
+    "Under prefers-reduced-motion nothing moves with scroll: the section is one screen tall and shows the opened grid with the title, description and action in place.",
+    "Scrolling stays native (the keyboard, find in page and assistive technology work); the effect only follows the scroll position.",
+    "Colors are prefixed tokens (--sticky-grid-scroll-surface, --sticky-grid-scroll-foreground), black on white by default, with a dark pair; under prefers-contrast: more the action is underlined."
+  ],
+  "usage": "<StickyGridScroll images={photos} title=\"Selected work\" description=\"Twelve projects from this year.\" action={<a href=\"/work\">See the work</a>} />"
+}

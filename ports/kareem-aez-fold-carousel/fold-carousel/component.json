@@ -1,0 +1,112 @@
+{
+  "title": "Fold Carousel",
+  "description": "A carousel that folds from one slide to the next like a two-panel hinge: the image stays flat while the frame folds around it, with blur and shade on the turning leaf.",
+  "category": "media",
+  "type": "registry:ui",
+  "status": "beta",
+  "upstreamPath": "src/registry/fold-carousel",
+  "iconSets": ["lucide", "phosphor"],
+  "dependencies": ["motion@^14", "class-variance-authority@^0.7.1"],
+  "registryDependencies": ["utils"],
+  "variants": [
+    {
+      "primitive": "base",
+      "roots": ["src/shared", "src/base"],
+      "dependencies": ["@base-ui/react@^1.9.0"],
+      "status": "beta"
+    },
+    {
+      "primitive": "radix",
+      "roots": ["src/shared", "src/radix"],
+      "dependencies": ["radix-ui@^1.6.7"],
+      "status": "beta"
+    },
+    {
+      "primitive": "aria",
+      "roots": ["src/shared", "src/aria"],
+      "dependencies": ["react-aria-components@^1.22.1"],
+      "status": "beta"
+    }
+  ],
+  "defaultVariant": "fold-carousel-base-lucide",
+  "demo": "demo.tsx",
+  "tile": {
+    "span": 2,
+    "rows": 1
+  },
+  "loop": {
+    "script": "hover[1] → click[1] → wait → wait → click[1] → wait → wait",
+    "duration": 7000,
+    "hydrate": true
+  },
+  "credits": [
+    "S-264",
+    "S-260",
+    "S-157",
+    "S-104",
+    "S-003",
+    "S-004",
+    "S-014",
+    "S-152",
+    "S-240",
+    "S-018",
+    "S-034"
+  ],
+  "tags": ["carousel", "fold", "slider", "gallery", "motion", "3d"],
+  "props": [
+    {
+      "name": "FoldCarousel slides",
+      "type": "React.ReactNode[]",
+      "required": true,
+      "description": "One slide per item; anything that fills a box works, like <img> or next/image with fill."
+    },
+    {
+      "name": "FoldCarousel loop",
+      "type": "boolean",
+      "default": "true",
+      "description": "Whether the last slide folds on to the first."
+    },
+    {
+      "name": "FoldCarousel duration",
+      "type": "number",
+      "default": "0.8",
+      "description": "Seconds a turn takes to settle onto a slide (a spring with no bounce)."
+    },
+    {
+      "name": "FoldCarousel defaultIndex / onIndexChange",
+      "type": "number / (index: number) => void",
+      "description": "The slide shown first; called with the slide a turn is heading for as soon as it starts."
+    },
+    {
+      "name": "FoldCarouselFrame variant",
+      "type": "\"door\" | \"book\"",
+      "default": "\"door\"",
+      "description": "door swings the next slide in behind the current one; book lays it underneath, like a page."
+    },
+    {
+      "name": "FoldCarouselFrame panelWidth / depth / bezelColor",
+      "type": "string / number / string",
+      "default": "\"min(23rem, 42vw)\" / 3.83 / \"black\"",
+      "description": "Width of one square panel (the frame is two wide); perspective distance in panel widths (above 1); the colour on a leaf's edge mid-turn and in place of an unloaded slide."
+    },
+    {
+      "name": "FoldCarouselPrevious / FoldCarouselNext",
+      "type": "Button props",
+      "description": "Fold back or on one slide; children replace the chevron. At an end without a loop they stay focusable and do nothing."
+    },
+    {
+      "name": "useFoldCarousel()",
+      "type": "{ index, count, canPrev, canNext, prev, next, goTo }",
+      "description": "Reads the surrounding carousel, for your own dots or counter."
+    }
+  ],
+  "a11y": [
+    "A region with aria-roledescription=\"carousel\" (label it with aria-label); the frame is a group with aria-roledescription=\"slide\" and an \"n of m\" label, and a polite live region announces the slide on change.",
+    "Screen readers and Tab reach one copy of each slide; the other copies a fold paints are inert.",
+    "Arrow keys change slides while focus is inside, also after clicking a slide; in right-to-left the keys follow the reading direction and the chevrons mirror.",
+    "Previous and next stay focusable at the ends when loop is off (aria-disabled), on every primitive.",
+    "Under prefers-reduced-motion slides cut instead of folding."
+  ],
+  "usage": "<FoldCarousel slides={photos} aria-label=\"Landscapes\"><FoldCarouselFrame /><FoldCarouselPrevious /><FoldCarouselNext /></FoldCarousel>",
+  "docs": "Installed the fold carousel in `components/ui/` (nineteen files, all prefixed `fold-carousel`). Import from `@/components/ui/fold-carousel`: `<FoldCarousel slides={photos} aria-label=\"Landscapes\"><FoldCarouselFrame /><FoldCarouselPrevious /><FoldCarouselNext /></FoldCarousel>`, where `photos` are elements that fill a box (`<img>`, or next/image with `fill`).\n\nSize it with `FoldCarouselFrame`'s `panelWidth` (the frame is two panels wide), and pick `variant=\"book\"` for a page turn. Leave room around the frame: a leaf reaches past it mid-turn. Build your own controls with `useFoldCarousel()`.\n\nPorted from Kareem-AEz's fold carousel (MIT, copyright 2026 Kareem Ahmed); the license text is in each file."
+}

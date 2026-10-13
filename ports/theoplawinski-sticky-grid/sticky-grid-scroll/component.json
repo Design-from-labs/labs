@@ -1,0 +1,105 @@
+{
+  "title": "Sticky Grid Scroll",
+  "description": "A scroll-driven image grid in a sticky section: columns slide in from above and below, the grid zooms open, and a title, description and action settle into the space.",
+  "category": "blocks",
+  "type": "registry:ui",
+  "status": "beta",
+  "upstreamPath": "src/scripts/index.js",
+  "iconSets": ["none"],
+  "dependencies": ["motion@^14"],
+  "registryDependencies": ["utils"],
+  "cssVars": {
+    "light": {
+      "sticky-grid-scroll-surface": "#ffffff",
+      "sticky-grid-scroll-foreground": "#000000"
+    },
+    "dark": {
+      "sticky-grid-scroll-surface": "#0a0a0a",
+      "sticky-grid-scroll-foreground": "#ffffff"
+    }
+  },
+  "files": [
+    {
+      "file": "sticky-grid-scroll.tsx",
+      "type": "registry:ui"
+    }
+  ],
+  "demo": "demo.tsx",
+  "tile": {
+    "span": 2,
+    "rows": 2
+  },
+  "loop": {
+    "duration": 16400,
+    "hydrate": true
+  },
+  "credits": [
+    "S-261",
+    "S-260",
+    "S-157",
+    "S-104",
+    "S-266",
+    "S-003",
+    "S-004",
+    "S-014",
+    "S-152",
+    "S-240"
+  ],
+  "tags": ["scroll", "sticky", "grid", "gallery", "motion", "scroll-driven"],
+  "props": [
+    {
+      "name": "images",
+      "type": "{ src: string; alt?: string }[]",
+      "required": true,
+      "description": "The grid's images, distributed over the columns in order (twelve in the original layout). An empty alt marks one decorative."
+    },
+    {
+      "name": "title",
+      "type": "React.ReactNode",
+      "required": true,
+      "description": "The heading: it fades in as the section arrives, then rises when the grid has opened."
+    },
+    {
+      "name": "description",
+      "type": "React.ReactNode",
+      "description": "Shown under the title once the grid has opened."
+    },
+    {
+      "name": "action",
+      "type": "React.ReactNode",
+      "description": "A link or button under the description, for example <a href=\"/work\">See the work</a>; not focusable until it is shown."
+    },
+    {
+      "name": "columns",
+      "type": "number",
+      "default": "3",
+      "description": "Columns in the grid. Even columns arrive from above, odd ones from below; the outer columns move out and the middle one splits as it zooms."
+    },
+    {
+      "name": "container",
+      "type": "React.RefObject<HTMLElement | null>",
+      "description": "The element that scrolls, when it is not the window. Give it container-type: size so the section's heights follow it."
+    },
+    {
+      "name": "parallax",
+      "type": "boolean",
+      "default": "true",
+      "description": "Slide the section up from under the content above it as it enters (put a positioned block with z-index 1 above it)."
+    },
+    {
+      "name": "headingLevel",
+      "type": "1 | 2 | 3 | 4 | 5 | 6",
+      "default": "2",
+      "description": "The title's heading level."
+    }
+  ],
+  "a11y": [
+    "A section with a real heading (h2 by default); the images keep their alt text, and an empty alt marks one decorative.",
+    "The description and action stay out of the accessibility tree and the tab order (inert) until they are shown, and come back when the grid opens.",
+    "Under prefers-reduced-motion nothing moves with scroll: the section is one screen tall and shows the opened grid with the title, description and action in place.",
+    "Scrolling stays native (the keyboard, find in page and assistive technology work); the effect only follows the scroll position.",
+    "Colors are prefixed tokens (--sticky-grid-scroll-surface, --sticky-grid-scroll-foreground), black on white by default, with a dark pair; under prefers-contrast: more the action is underlined."
+  ],
+  "usage": "<StickyGridScroll images={photos} title=\"Selected work\" description=\"Twelve projects from this year.\" action={<a href=\"/work\">See the work</a>} />",
+  "docs": "Installed `StickyGridScroll` in `components/ui/sticky-grid-scroll.tsx` (it uses `motion`). Render it in a full-width page section: `<StickyGridScroll images={photos} title=\"Selected work\" description=\"...\" action={<a href=\"/work\">See the work</a>} />`. It is 4.25 screens tall and sticks while you scroll through it.\n\nFor the original feel, wrap the page in the Labs `smooth-scroll` item (`<SmoothScroll root />`) with `options={{ lerp: 0.08, wheelMultiplier: 1.4 }}`. Inside a scroll container, pass it as `container` and give it `container-type: size`. Sizes scale with the section's width (1440 px is the design width).\n\nPorted from theoplawinski/codrops-sticky-grid-scroll (MIT; copyright 2025 Theo Plawinski, 2009 - 2025 Codrops), with its GSAP timelines rewritten in Motion; the license text is in the file."
+}
