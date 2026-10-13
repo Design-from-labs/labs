@@ -2403,8 +2403,10 @@ Design From and Design From Labs (the guards enforce this).
   its own lock when it is set; a run never removes a lock directory it does
   not own (P-138).
 - Prevention: One layer owns a lock; nested tools check for an inherited
-  slot before locking, and only the owner unlocks.
-- Links: `docs/evidence/ports/gooey-text/fidelity.md`
+  slot before locking, and only the owner unlocks. Drive many states from one
+  browser session under a single slot rather than one wait per state.
+- Links: `docs/evidence/ports/gooey-text/fidelity.md`,
+  `docs/evidence/ports/magnet-menu/fidelity.md`
 
 ### P-WEB1-A2-1
 
@@ -2521,21 +2523,6 @@ Design From and Design From Labs (the guards enforce this).
 - Prevention: Do not write `@keyframes` or `var(--` followed by an unprefixed
   name in a comment of a port that ships keyframes.
 - Links: `ports/jh3y-scroll-carousel/scroll-carousel/scroll-carousel-styles.tsx`
-
-### P-WEB1-B1-3
-
-- Date: 2026-10-13
-- Area: Fidelity harness (locks)
-- Symptom: Wrapping `fidelity.mjs` in `heavy.sh` looks like it would wait for
-  its own parent (read from the two scripts; the nesting was not run).
-- Cause: `heavy.sh` slot 0 and `fidelity.mjs` both create
-  `/private/tmp/claude-501/ports/locks/playwright`; the tool finds the lock
-  held by a live process (the wrapper) and polls for 30 minutes.
-- Fix: Run `fidelity.mjs` directly (it takes the lock itself), or drive many
-  states from one script that takes no lock of its own and wrap that in
-  `heavy.sh`: one slot for the whole batch instead of one wait per state.
-- Prevention: Never nest the two; batch states into a single browser session.
-- Links: `docs/evidence/ports/magnet-menu/fidelity.md`
 
 ### P-WEB1-B1-4
 
