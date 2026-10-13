@@ -23,8 +23,9 @@ import { cn } from "@/lib/utils";
  *   times frames with performance.now() instead of new Date().
  * - The words are compared by value, so an inline `texts` array does not
  *   restart the morph on every render.
- * - The first word is in the server render (upstream starts empty for
- *   `cooldownTime`).
+ * - `renderFirstWordOnServer` (off by default, so the default matches
+ *   upstream, which starts empty for `cooldownTime`) puts the first word in
+ *   the server render.
  * - The filter id is unique per instance (upstream: "threshold").
  * - The morphing copies are aria-hidden; screen readers get every word once,
  *   in a visually hidden span (or `label`).
@@ -45,6 +46,12 @@ export interface GooeyTextProps {
   label?: string;
   /** Stop the morph where it is. */
   paused?: boolean;
+  /**
+   * Render the first word in the server HTML, so the server render, a
+   * no-JavaScript visit and the first frame show a word instead of nothing.
+   * Off by default, as upstream: the text then appears with the first morph.
+   */
+  renderFirstWordOnServer?: boolean;
 }
 
 const SEPARATOR = "\u0000";
@@ -57,6 +64,7 @@ export function GooeyText({
   textClassName,
   label,
   paused = false,
+  renderFirstWordOnServer = false,
 }: GooeyTextProps) {
   const rootRef = React.useRef<HTMLDivElement>(null);
   const text1Ref = React.useRef<HTMLSpanElement>(null);
@@ -211,7 +219,7 @@ export function GooeyText({
             textClassName,
           )}
         >
-          {words[0]}
+          {renderFirstWordOnServer ? words[0] : null}
         </span>
       </div>
       <span className="sr-only">{label ?? texts.join(", ")}</span>

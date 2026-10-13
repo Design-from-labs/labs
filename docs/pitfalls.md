@@ -2272,6 +2272,23 @@ Design From and Design From Labs (the guards enforce this).
 - Prevention: Count `requestAnimationFrame` registrations per second in a StrictMode harness for every ported loop.
 - Links: `docs/evidence/ports/gooey-text/fidelity.md`
 
+### P-WEB1-LEAD-1
+
+- Date: 2026-10-13
+- Area: Fidelity harness (shared tools)
+- Symptom: A fidelity run wrapped in the shared heavy-run wrapper waited up
+  to 30 minutes, and a run under another slot could delete the slot-0 lock
+  that a different run held.
+- Cause: The wrapper and the fidelity script each took the machine-wide
+  slot-0 lock, so the script waited on its own wrapper; the script's unlock
+  removed the slot-0 lock directory whichever slot it actually ran under.
+- Fix: The wrapper exports `HEAVY_SLOT_HELD=1` and the fidelity script skips
+  its own lock when it is set; a run never removes a lock directory it does
+  not own (P-138).
+- Prevention: One layer owns a lock; nested tools check for an inherited
+  slot before locking, and only the owner unlocks.
+- Links: `docs/evidence/ports/gooey-text/fidelity.md`
+
 ### P-139
 
 - Date: 2026-10-13

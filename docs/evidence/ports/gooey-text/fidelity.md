@@ -7,16 +7,16 @@
 - Method: Playwright (S-014) Chromium, device scale 1, light scheme. The upstream demo (its component and demo files as saved, Tailwind loaded because the component's classes need it, Figtree on both sides) and the port's demo render in two harness pages with the same body. Playwright's fake clock is installed at a fixed epoch and **paused before the page loads**, so both sides start their loops at the same clock reading (`new Date()` upstream, `performance.now()` in the port; P-104 does not arise); each side then advances with `runFor` and a full-viewport screenshot is taken at 24 matched times from 100 ms to 9 s (the first morph, the holds, the full 5 s cycle and into the second). pixelmatch (S-152), threshold 0.1. Noise floor: a second load of upstream against the first.
 - Target: at most 0.1% differing pixels per matched frame (owner brief, S-157).
 
-## Result: pixels that differ
+## Result: pixels that differ (default props, as upstream's demo)
 
-| Viewport | Frames | Worst frame from 300 ms | The first 250 ms | Noise floor |
-| --- | --- | --- | --- | --- |
-| 1280x800 | 24 | 0.0000% | 0.6268% (see Deviations) | 0.0000% |
-| 375x812 | 24 | 0.0000% | 1.1816% (see Deviations) | 0.0000% |
+| Viewport | Matched frames (0 ms to 9 s) | Worst frame | Noise floor |
+| --- | --- | --- | --- |
+| 1280x800 | 26 | 0.0000% | 0.0000% |
+| 375x812 | 26 | 0.0177% (54 px, 850 ms, mid first morph) | 0.0000% |
 
-Every frame from 300 ms on is pixel identical at both sizes. The strips were captured on a second run of the same script: the first run measured two 375x812 frames in the middle of the first morph at 54 px (0.0177%, 850 ms) and 8 px (0.0026%, 1000 ms), which did not reproduce (the noise floor was 0 in both runs), so the cause, most likely the fractional milliseconds of `performance.now()` against whole ones of `new Date()`, is not isolated. Both runs are under the 0.1% target.
+Every frame, including the blank first 250 ms (0, 50, 100 and 250 ms), is pixel identical at 1280x800, and at 375x812 all but two: 54 px (0.0177%) at 850 ms and 8 px (0.0026%) at 1000 ms, in the middle of the first morph. These two also appeared on the first of the earlier runs and not on the second; the most likely cause, not isolated, is the fractional milliseconds of `performance.now()` against the whole ones of `new Date()`. All frames are under the 0.1% target. Re-measured by the WEB-1 lead after the first word became opt-in.
 
-Strips (1280x800, the 760x160 band of the viewport that holds the text at 300, 700, 1000, 1500, 2000, 3000 and 4500 ms): [before.webp](before.webp) (upstream), [after.webp](after.webp) (port), [diff.webp](diff.webp) (pixelmatch; red marks a differing pixel; all blank). 375x812: `-375` files.
+Strips (1280x800, the 760x160 band of the viewport that holds the text at 100, 300, 700, 1000, 1500, 2000, 3000 and 4500 ms): [before.webp](before.webp) (upstream), [after.webp](after.webp) (port), [diff.webp](diff.webp) (pixelmatch; red marks a differing pixel; all blank). 375x812: `-375` files.
 
 ## Behavior checks (port, not pixel diffs)
 
@@ -32,7 +32,7 @@ Measured in the same harness (real time):
 
 Every change from upstream. The numbers above are measured on the shipped code, with these changes in place.
 
-- **The first word is in the server render.** Upstream's two spans start empty, so the first `cooldownTime` (0.25 s) shows nothing and then the first morph starts from "Design". The port renders the first word in the second copy, so the server render, the gallery tile and a no-JavaScript visit show a word, and the word holds 0.25 s longer before the first morph. That is the only difference in the first 250 ms and the only frames over the target (above).
+- **`renderFirstWordOnServer` (opt-in, off by default).** By default the port starts empty, like upstream: the first `cooldownTime` (0.25 s) shows nothing, then the first morph starts from "Design". With the prop set, the first word is in the second copy's server render, so the server HTML, a no-JavaScript visit and the first frames show a word (the word then holds 0.25 s before the first morph). Measured with the prop set: 0.6268% (1280x800) and 1.1816% (375x812) in the first 250 ms, identical afterwards; the default, measured above, is what the demo and the wall tile use ("fidelity default", ports/README.md).
 - **The loop is cancelled on unmount** (`cancelAnimationFrame`, observer disconnected), pauses off screen (IntersectionObserver), in a paused gallery tile (`data-loop-paused`, contract 4.3) and with the new `paused` prop, and picks up where it stopped (time that passes while paused is not counted).
 - **Frame times come from `performance.now()`** instead of `new Date()` (whole milliseconds upstream, fractional here).
 - **The words are compared by value**: `texts` is keyed on its joined contents, so a parent that re-renders with an inline array does not restart the morph (upstream's effect depends on the array's identity).
@@ -44,7 +44,7 @@ Every change from upstream. The numbers above are measured on the shipped code, 
 
 ## Enhancements
 
-None to the default look: `label`, `paused`, the registry item's docs and props, `tile` (span 2) and `loop` (hydrated, so the wall tile morphs).
+None to the default look: `label`, `paused`, `renderFirstWordOnServer`, the registry item's docs and props, `tile` (span 2) and `loop` (hydrated, so the wall tile morphs).
 
 ## Credits
 

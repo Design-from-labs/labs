@@ -96,6 +96,12 @@
       "type": "boolean",
       "default": "false",
       "description": "Stop the morph where it is, for example behind a pause control."
+    },
+    {
+      "name": "renderFirstWordOnServer",
+      "type": "boolean",
+      "default": "false",
+      "description": "Put the first word in the server render, so the server HTML, a no-JavaScript visit and the first frame show a word instead of nothing. Off by default, as upstream: the text appears with the first morph."
     }
   ],
   "a11y": [
