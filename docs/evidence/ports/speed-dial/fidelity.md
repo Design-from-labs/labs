@@ -6,7 +6,7 @@
 - Diff: pixelmatch (S-152), threshold 0.1; percent of all pixels in the frame
 - Viewports: 1280x800 and 375x812, light and dark frames
 - Target: at most 0.1% of the frame, or the measured upstream-against-itself noise floor
-- Worst frame: **0.0030%**
+- Worst frame: **0.0023%** (hover, dark, 1280x800); upstream against itself reaches 0.0001% over the same frames
 - Frames: closed, open and hover (a satellite), in both frames and both sizes (12 frames)
 
 ## Method
@@ -21,8 +21,7 @@ The text of every frame is rendered by the same font file on both sides.
 The **noise floor** is the same capture of upstream against upstream: Chromium
 re-rasterizes text differently between two loads of the same page, so a
 frame can differ by a few hundred pixels with nothing changed. It is listed
-beside each port result (one sample per frame; the one frame that needed
-more samples has its own section).
+beside each port result (one sample per frame).
 
 ## Results
 
@@ -33,7 +32,7 @@ more samples has its own section).
 | open | light | 0 px (0.0000%) | 0 px (0.0000%) | 0 px (0.0000%) | 0 px (0.0000%) |
 | open | dark | 0 px (0.0000%) | 0 px (0.0000%) | 0 px (0.0000%) | 0 px (0.0000%) |
 | hover | light | 0 px (0.0000%) | 0 px (0.0000%) | 0 px (0.0000%) | 0 px (0.0000%) |
-| hover | dark | 0 px (0.0000%) | 0 px (0.0000%) | 9 px (0.0030%) | 9 px (0.0030%) |
+| hover | dark | 24 px (0.0023%) | 1 px (0.0001%) | 1 px (0.0003%) | 0 px (0.0000%) |
 
 
 
@@ -68,11 +67,11 @@ same (decision 0022). They are measured against upstream like the default item, 
 the frames that exercise the menu (open, ticked rows, reclosed, hovered satellite;
 light and dark; both sizes; 8 frames each):
 
-| Primitive | Frames | Worst frame | Frames above 0.1% |
-| --- | ---: | --- | --- |
-| Radix | 8 | 0.0010% (hover, dark, 375x812) | none |
-| Base UI | 8 | 0.0208% (hover, light, 1280x800) | none |
-| React Aria | 8 | 0.0011% (hover, dark, 1280x800) | none |
+| Primitive | Frames | Worst frame | Frames above 0.1% | Upstream against itself on the same frames |
+| --- | ---: | --- | --- | --- |
+| Radix | 8 | 0.0043% (hover, dark, 375x812) | none | 0.0000 to 0.0043% |
+| Base UI | 8 | 0.0062% (hover, dark, 375x812) | none | 0.0000 to 0.0043% |
+| React Aria | 8 | 0.0049% (hover, dark, 375x812) | none | 0.0000 to 0.0043% |
 
 No primitive frame is above 0.1%.
 
@@ -119,6 +118,15 @@ Measured facts that shaped the React Aria variant (a probe page, not shipped):
 
 ## Deviations from upstream
 
+- **Neutral hue set (owner decision).** The four shapes carry a per-shape hue on the
+  dark frame (hover, tick, seam and burst). Upstream's four hues are replaced by a
+  neutral set so the shape set does not carry a known controller's colour identity:
+  circle teal (#0d9488 light, #2dd4bf dark), cross violet (#7c3aed, #a78bfa), square
+  sky (#0284c7, #38bdf8), triangle amber (#d97706, #fbbf24). The dark value is the one
+  worn; the light value is held but not worn, as upstream's monochrome light frame
+  rule has it. Shapes, layout and labels are unchanged. The same table is applied to
+  the upstream demo used for the comparison (fidelity run only), so both sides get
+  identical inputs and every number above is a like-for-like comparison.
 - **Tween engine.** Upstream choreographs with GSAP, which is proprietary and is not
   shipped or listed as a dependency (S-421). `liquid-taffy-engine` (item
   `taffy-tween.ts`) is a small timeline on Motion's frame loop (`frame.update`,

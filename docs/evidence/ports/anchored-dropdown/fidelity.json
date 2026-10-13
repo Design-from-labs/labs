@@ -74,9 +74,9 @@
     "pause": null,
     "results": {
       "1280x800": {
-        "differingPixels": 82,
+        "differingPixels": 200,
         "totalPixels": 1024000,
-        "percent": 0.008,
+        "percent": 0.0195,
         "sizes": {
           "upstream": [1280, 800],
           "port": [1280, 800]
@@ -84,9 +84,9 @@
         "pass": true
       },
       "375x812": {
-        "differingPixels": 5,
+        "differingPixels": 80,
         "totalPixels": 304500,
-        "percent": 0.0016,
+        "percent": 0.0263,
         "sizes": {
           "upstream": [375, 812],
           "port": [375, 812]
@@ -106,9 +106,9 @@
     "pause": null,
     "results": {
       "1280x800": {
-        "differingPixels": 92,
+        "differingPixels": 4,
         "totalPixels": 1024000,
-        "percent": 0.009,
+        "percent": 0.0004,
         "sizes": {
           "upstream": [1280, 800],
           "port": [1280, 800]
@@ -116,9 +116,9 @@
         "pass": true
       },
       "375x812": {
-        "differingPixels": 176,
+        "differingPixels": 55,
         "totalPixels": 304500,
-        "percent": 0.0578,
+        "percent": 0.0181,
         "sizes": {
           "upstream": [375, 812],
           "port": [375, 812]
@@ -138,9 +138,9 @@
     "pause": null,
     "results": {
       "1280x800": {
-        "differingPixels": 405,
+        "differingPixels": 175,
         "totalPixels": 1024000,
-        "percent": 0.0396,
+        "percent": 0.0171,
         "sizes": {
           "upstream": [1280, 800],
           "port": [1280, 800]
@@ -148,9 +148,9 @@
         "pass": true
       },
       "375x812": {
-        "differingPixels": 161,
+        "differingPixels": 75,
         "totalPixels": 304500,
-        "percent": 0.0529,
+        "percent": 0.0246,
         "sizes": {
           "upstream": [375, 812],
           "port": [375, 812]
@@ -170,9 +170,9 @@
     "pause": null,
     "results": {
       "1280x800": {
-        "differingPixels": 138,
+        "differingPixels": 156,
         "totalPixels": 1024000,
-        "percent": 0.0135,
+        "percent": 0.0152,
         "sizes": {
           "upstream": [1280, 800],
           "port": [1280, 800]
@@ -180,9 +180,9 @@
         "pass": true
       },
       "375x812": {
-        "differingPixels": 54,
+        "differingPixels": 41,
         "totalPixels": 304500,
-        "percent": 0.0177,
+        "percent": 0.0135,
         "sizes": {
           "upstream": [375, 812],
           "port": [375, 812]
@@ -202,9 +202,9 @@
     "pause": null,
     "results": {
       "1280x800": {
-        "differingPixels": 143,
+        "differingPixels": 131,
         "totalPixels": 1024000,
-        "percent": 0.014,
+        "percent": 0.0128,
         "sizes": {
           "upstream": [1280, 800],
           "port": [1280, 800]
@@ -212,9 +212,9 @@
         "pass": true
       },
       "375x812": {
-        "differingPixels": 223,
+        "differingPixels": 53,
         "totalPixels": 304500,
-        "percent": 0.0732,
+        "percent": 0.0174,
         "sizes": {
           "upstream": [375, 812],
           "port": [375, 812]
@@ -234,9 +234,9 @@
     "pause": null,
     "results": {
       "1280x800": {
-        "differingPixels": 65,
+        "differingPixels": 91,
         "totalPixels": 1024000,
-        "percent": 0.0063,
+        "percent": 0.0089,
         "sizes": {
           "upstream": [1280, 800],
           "port": [1280, 800]
@@ -244,9 +244,9 @@
         "pass": true
       },
       "375x812": {
-        "differingPixels": 0,
+        "differingPixels": 145,
         "totalPixels": 304500,
-        "percent": 0,
+        "percent": 0.0476,
         "sizes": {
           "upstream": [375, 812],
           "port": [375, 812]
@@ -266,9 +266,9 @@
     "pause": null,
     "results": {
       "1280x800": {
-        "differingPixels": 132,
+        "differingPixels": 345,
         "totalPixels": 1024000,
-        "percent": 0.0129,
+        "percent": 0.0337,
         "sizes": {
           "upstream": [1280, 800],
           "port": [1280, 800]
@@ -276,9 +276,9 @@
         "pass": true
       },
       "375x812": {
-        "differingPixels": 11,
+        "differingPixels": 95,
         "totalPixels": 304500,
-        "percent": 0.0036,
+        "percent": 0.0312,
         "sizes": {
           "upstream": [375, 812],
           "port": [375, 812]
@@ -298,9 +298,9 @@
     "pause": null,
     "results": {
       "1280x800": {
-        "differingPixels": 116,
+        "differingPixels": 0,
         "totalPixels": 1024000,
-        "percent": 0.0113,
+        "percent": 0,
         "sizes": {
           "upstream": [1280, 800],
           "port": [1280, 800]
@@ -308,9 +308,9 @@
         "pass": true
       },
       "375x812": {
-        "differingPixels": 217,
+        "differingPixels": 154,
         "totalPixels": 304500,
-        "percent": 0.0713,
+        "percent": 0.0506,
         "sizes": {
           "upstream": [375, 812],
           "port": [375, 812]
@@ -330,9 +330,9 @@
     "pause": null,
     "results": {
       "1280x800": {
-        "differingPixels": 14,
+        "differingPixels": 197,
         "totalPixels": 1024000,
-        "percent": 0.0014,
+        "percent": 0.0192,
         "sizes": {
           "upstream": [1280, 800],
           "port": [1280, 800]
@@ -340,9 +340,9 @@
         "pass": true
       },
       "375x812": {
-        "differingPixels": 92,
+        "differingPixels": 63,
         "totalPixels": 304500,
-        "percent": 0.0302,
+        "percent": 0.0207,
         "sizes": {
           "upstream": [375, 812],
           "port": [375, 812]
@@ -362,9 +362,9 @@
     "pause": null,
     "results": {
       "1280x800": {
-        "differingPixels": 227,
+        "differingPixels": 298,
         "totalPixels": 1024000,
-        "percent": 0.0222,
+        "percent": 0.0291,
         "sizes": {
           "upstream": [1280, 800],
           "port": [1280, 800]
@@ -372,14 +372,14 @@
         "pass": true
       },
       "375x812": {
-        "differingPixels": 504,
+        "differingPixels": 0,
         "totalPixels": 304500,
-        "percent": 0.1655,
+        "percent": 0,
         "sizes": {
           "upstream": [375, 812],
           "port": [375, 812]
         },
-        "pass": false
+        "pass": true
       }
     }
   },

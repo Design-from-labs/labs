@@ -149,7 +149,7 @@ export const speedDialStyles: string = `
 
 /* The trigger's glyph is a PLUS while the fan is closed and an X once it is
    open — the same path, spun 135°. Only the X is one of the glyphs, so only
-   the X wears the cross's blue-violet: a plus is "open this", and colouring
+   the X wears the cross's violet: a plus is "open this", and colouring
    it would say the fan is already showing. Gated on aria-expanded, which is
    the state itself — no second flag to keep in step.
 

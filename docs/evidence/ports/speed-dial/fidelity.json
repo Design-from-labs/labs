@@ -170,9 +170,9 @@
     "pause": null,
     "results": {
       "1280x800": {
-        "differingPixels": 0,
+        "differingPixels": 24,
         "totalPixels": 1024000,
-        "percent": 0,
+        "percent": 0.0023,
         "sizes": {
           "upstream": [1280, 800],
           "port": [1280, 800]
@@ -180,9 +180,9 @@
         "pass": true
       },
       "375x812": {
-        "differingPixels": 9,
+        "differingPixels": 1,
         "totalPixels": 304500,
-        "percent": 0.003,
+        "percent": 0.0003,
         "sizes": {
           "upstream": [375, 812],
           "port": [375, 812]

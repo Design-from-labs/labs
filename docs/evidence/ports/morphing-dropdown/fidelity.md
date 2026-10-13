@@ -6,7 +6,7 @@
 - Diff: pixelmatch (S-152), threshold 0.1; percent of all pixels in the frame
 - Viewports: 1280x800 and 375x812, light and dark frames
 - Target: at most 0.1% of the frame, or the measured upstream-against-itself noise floor
-- Worst frame: **0.0989%**
+- Worst frame: **0.0801%** (sel2, dark, 375x812); upstream against itself reaches 0.1363% over the same frames
 - Frames: closed, open, hover, 1, 2 and 4 rows ticked, in both frames and both sizes (24 frames)
 
 ## Method
@@ -22,8 +22,7 @@ The text of every frame is rendered by the same font file on both sides.
 The **noise floor** is the same capture of upstream against upstream: Chromium
 re-rasterizes text differently between two loads of the same page, so a
 frame can differ by a few hundred pixels with nothing changed. It is listed
-beside each port result (one sample per frame; the one frame that needed
-more samples has its own section).
+beside each port result (one sample per frame).
 
 ## Results
 
@@ -31,16 +30,16 @@ more samples has its own section).
 | --- | --- | ---: | ---: | ---: | ---: |
 | closed | light | 0 px (0.0000%) | 0 px (0.0000%) | 0 px (0.0000%) | 0 px (0.0000%) |
 | closed | dark | 0 px (0.0000%) | 0 px (0.0000%) | 0 px (0.0000%) | 0 px (0.0000%) |
-| open | light | 202 px (0.0197%) | 139 px (0.0136%) | 157 px (0.0516%) | 9 px (0.0030%) |
-| open | dark | 15 px (0.0015%) | 180 px (0.0176%) | 153 px (0.0502%) | 44 px (0.0144%) |
-| hover | light | 40 px (0.0039%) | 21 px (0.0021%) | 43 px (0.0141%) | 9 px (0.0030%) |
-| hover | dark | 141 px (0.0138%) | 129 px (0.0126%) | 150 px (0.0493%) | 31 px (0.0102%) |
-| sel1 | light | 32 px (0.0031%) | 191 px (0.0187%) | 196 px (0.0644%) | 44 px (0.0144%) |
-| sel1 | dark | 189 px (0.0185%) | 244 px (0.0238%) | 104 px (0.0342%) | 226 px (0.0742%) |
-| sel2 | light | 20 px (0.0020%) | 29 px (0.0028%) | 61 px (0.0200%) | 56 px (0.0184%) |
-| sel2 | dark | 182 px (0.0178%) | 396 px (0.0387%) | 301 px (0.0989%) | 113 px (0.0371%) |
-| sel4 | light | 110 px (0.0107%) | 150 px (0.0146%) | 77 px (0.0253%) | 89 px (0.0292%) |
-| sel4 | dark | 299 px (0.0292%) | 0 px (0.0000%) | 0 px (0.0000%) | 0 px (0.0000%) |
+| open | light | 181 px (0.0177%) | 151 px (0.0147%) | 155 px (0.0509%) | 57 px (0.0187%) |
+| open | dark | 52 px (0.0051%) | 163 px (0.0159%) | 109 px (0.0358%) | 160 px (0.0525%) |
+| hover | light | 29 px (0.0028%) | 164 px (0.0160%) | 183 px (0.0601%) | 173 px (0.0568%) |
+| hover | dark | 39 px (0.0038%) | 136 px (0.0133%) | 57 px (0.0187%) | 87 px (0.0286%) |
+| sel1 | light | 169 px (0.0165%) | 202 px (0.0197%) | 121 px (0.0397%) | 11 px (0.0036%) |
+| sel1 | dark | 287 px (0.0280%) | 243 px (0.0237%) | 199 px (0.0654%) | 235 px (0.0772%) |
+| sel2 | light | 35 px (0.0034%) | 195 px (0.0190%) | 17 px (0.0056%) | 143 px (0.0470%) |
+| sel2 | dark | 182 px (0.0178%) | 239 px (0.0233%) | 244 px (0.0801%) | 271 px (0.0890%) |
+| sel4 | light | 7 px (0.0007%) | 192 px (0.0187%) | 11 px (0.0036%) | 4 px (0.0013%) |
+| sel4 | dark | 0 px (0.0000%) | 208 px (0.0203%) | 0 px (0.0000%) | 415 px (0.1363%) |
 
 
 
@@ -75,11 +74,11 @@ same (decision 0022). They are measured against upstream like the default item, 
 the frames that exercise the menu (open, ticked rows, reclosed, hovered satellite;
 light and dark; both sizes; 8 frames each):
 
-| Primitive | Frames | Worst frame | Frames above 0.1% |
-| --- | ---: | --- | --- |
-| Radix | 8 | 0.0765% (sel2, dark, 375x812) | none |
-| Base UI | 8 | 0.0700% (sel2, dark, 375x812) | none |
-| React Aria | 8 | 0.0877% (sel2, dark, 375x812) | none |
+| Primitive | Frames | Worst frame | Frames above 0.1% | Upstream against itself on the same frames |
+| --- | ---: | --- | --- | --- |
+| Radix | 8 | 0.0952% (sel2, dark, 375x812) | none | 0.0105 to 0.0470% |
+| Base UI | 8 | 0.0913% (sel2, dark, 375x812) | none | 0.0105 to 0.0470% |
+| React Aria | 8 | 0.0897% (sel2, dark, 375x812) | none | 0.0105 to 0.0470% |
 
 No primitive frame is above 0.1%.
 
@@ -126,6 +125,15 @@ Measured facts that shaped the React Aria variant (a probe page, not shipped):
 
 ## Deviations from upstream
 
+- **Neutral hue set (owner decision).** The four shapes carry a per-shape hue on the
+  dark frame (hover, tick, seam and burst). Upstream's four hues are replaced by a
+  neutral set so the shape set does not carry a known controller's colour identity:
+  circle teal (#0d9488 light, #2dd4bf dark), cross violet (#7c3aed, #a78bfa), square
+  sky (#0284c7, #38bdf8), triangle amber (#d97706, #fbbf24). The dark value is the one
+  worn; the light value is held but not worn, as upstream's monochrome light frame
+  rule has it. Shapes, layout and labels are unchanged. The same table is applied to
+  the upstream demo used for the comparison (fidelity run only), so both sides get
+  identical inputs and every number above is a like-for-like comparison.
 - **Tween engine.** Upstream choreographs with GSAP, which is proprietary and is not
   shipped or listed as a dependency (S-421). `liquid-taffy-engine` (item
   `taffy-tween.ts`) is a small timeline on Motion's frame loop (`frame.update`,

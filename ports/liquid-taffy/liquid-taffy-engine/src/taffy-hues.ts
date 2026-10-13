@@ -1,13 +1,17 @@
 // ---- upstream: src/components/liquid/hues.ts ----
 /* The family's joint colours — ONE table, shared.
 
-   One hue per glyph (circle red, cross blue-violet, square pink, triangle
-   green), pushed bright enough to carry on the dark frame. The speed dial
+   One hue per glyph (circle teal, cross violet, square sky, triangle amber),
+   bright enough to carry on the dark frame. The speed dial
    wears them on its satellites; the two dropdowns wear the SAME hues on
    their rows, so "which shape has the finger reached" is one language across
    every liquid surface. Bodies never change colour (see the family rule):
    these hues live only in the seam gradient and the neon a completed merge
-   puts under a glyph. */
+   puts under a glyph.
+
+   Labs: the per-shape hues are a neutral set chosen by the owner instead of
+   upstream's, so the shape set does not carry a known controller's colour
+   identity. Shapes, layout and every other value are unchanged. */
 
 import type { LiquidTheme } from "./taffy-theme";
 
@@ -19,12 +23,12 @@ import type { LiquidTheme } from "./taffy-theme";
 export type BubbleHue = Record<LiquidTheme, string>;
 
 export const SHAPE_HUES = {
-  circle: { light: "#e0344a", dark: "#ff4f5e" } satisfies BubbleHue,
-  /* The cross is pushed toward violet — kin to the family's seam violet,
-     vivid enough to stand beside the other three. */
-  cross: { light: "#4b5be0", dark: "#7a86ff" } satisfies BubbleHue,
-  square: { light: "#d936ad", dark: "#ff5fd2" } satisfies BubbleHue,
-  triangle: { light: "#0fae62", dark: "#2fe08b" } satisfies BubbleHue,
+  circle: { light: "#0d9488", dark: "#2dd4bf" } satisfies BubbleHue,
+  /* The cross is violet, kin to the family's seam violet, vivid enough to
+     stand beside the other three. */
+  cross: { light: "#7c3aed", dark: "#a78bfa" } satisfies BubbleHue,
+  square: { light: "#0284c7", dark: "#38bdf8" } satisfies BubbleHue,
+  triangle: { light: "#d97706", dark: "#fbbf24" } satisfies BubbleHue,
 } as const;
 
 export type ShapeName = keyof typeof SHAPE_HUES;

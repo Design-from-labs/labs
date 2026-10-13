@@ -46,11 +46,11 @@ const BUTTON_SIZE = 32;
 /* One hue per BODY, and only for the light. The bodies never change —
    every drop wears the fill colour at all times, in both themes, still or
    liquid — a joint announces itself ONLY as colour running through the
-   border: circle red, square pink, triangle green, cross blue-violet, pushed
-   bright enough to carry on the dark frame, so which button the finger is
+   border: circle teal, square sky, triangle amber, cross violet, bright
+   enough to carry on the dark frame, so which button the finger is
    touching is legible at a glance.
 
-   The trigger IS the cross: it wears the cross's blue-violet — on hover, in
+   The trigger IS the cross: it wears the cross's violet — on hover, in
    a joint (its side of the two-hue gradient), and in the neon a completed
    merge puts under the X. The hues themselves live in taffy-hues.ts — one
    table for the family. */
@@ -238,7 +238,7 @@ export function SpeedDial({
 
   /* Each body's light colour on the frame we are standing on, by the same
      owner names the seam engine works in. The trigger is the CROSS — its
-     side of a joint runs the cross's blue-violet. On the light frame there
+     side of a joint runs the cross's violet. On the light frame there
      is no motif: every side of every joint wears the file's own seam violet,
      so a joint still lights, it just no longer says WHICH button. */
   const hueOf = useCallback(
@@ -453,8 +453,8 @@ export function SpeedDial({
   }
   const stretch = stretchRef.current;
 
-  /* Every body paints its OWN side in its OWN hue — the X blue-violet, the
-     circle red, and so on — so a joint runs one into the other and a
+  /* Every body paints its OWN side in its OWN hue — the X violet, the
+     circle teal, and so on — so a joint runs one into the other and a
      three-body cluster still shows three colours. Reassigned every render
      (see liquidOnRef) so it follows the theme. */
   const seamPaintFnRef = useRef<(index: number, owner: string) => void>(() => {});
