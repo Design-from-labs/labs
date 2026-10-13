@@ -1,0 +1,86 @@
+{
+  "title": "Liquid Gooey",
+  "description": "Liquid effects for real UI: touching pieces merge like goo, surfaces trail with a droplet tail, images melt together, with crisp content and real shadows.",
+  "category": "actions",
+  "type": "registry:ui",
+  "status": "beta",
+  "upstreamPath": "packages/liquid-gooey",
+  "iconSets": ["none"],
+  "cssVars": {
+    "light": {
+      "liquid-gooey-fill": "#ffffff"
+    },
+    "dark": {
+      "liquid-gooey-fill": "#202020"
+    }
+  },
+  "variants": [
+    {
+      "primitive": "none",
+      "roots": ["src"],
+      "status": "beta"
+    }
+  ],
+  "defaultVariant": "liquid-gooey",
+  "demo": "demo.tsx",
+  "loop": {
+    "script": "click[4] → wait → wait → click[4] → wait",
+    "duration": 4800,
+    "hydrate": true
+  },
+  "credits": ["S-003", "S-004", "S-008", "S-152", "S-157", "S-237"],
+  "tags": ["animation", "gooey", "svg-filter", "spring", "reduced-motion"],
+  "docs": "Installed `Liquid` (twelve files in `components/ui`, all prefixed `liquid-gooey`). Import it from `@/components/ui/liquid-gooey`: a `<Liquid>` group renders the merged silhouette behind its `<Liquid.Item>` children. Give items `x`/`y` (and `transition`, `delay`) and the liquid animates with them; `effect=\"move\"`, `\"melt\"` and `\"bend\"` add the other effects.\n\nSize the group to contain its items' full travel, and keep item backgrounds transparent: the liquid is their surface. Its color is `--liquid-gooey-fill` (white, or #202020 in dark mode) unless you pass `fill`.\n\nPorted from Jakubantalik/Libraries.dev (liquid-gooey 0.2.2, MIT, copyright 2026 Jakub); the license text is in each file.",
+  "props": [
+    {
+      "name": "Liquid blur",
+      "type": "number",
+      "default": "6",
+      "description": "Goo blur sigma in px; neighbours merge once blur is about the gap between them."
+    },
+    {
+      "name": "Liquid contrast",
+      "type": "number",
+      "default": "18",
+      "description": "Alpha-contrast slope: larger is a sharper liquid edge."
+    },
+    {
+      "name": "Liquid fill",
+      "type": "string",
+      "default": "\"var(--liquid-gooey-fill, #fff)\"",
+      "description": "The liquid surface color; any CSS color or variable."
+    },
+    {
+      "name": "Liquid shadow",
+      "type": "string",
+      "description": "box-shadow syntax, rendered on the merged silhouette (inset layers too)."
+    },
+    {
+      "name": "Liquid.Item x / y / scale",
+      "type": "number",
+      "description": "Component-driven position: element and liquid move together."
+    },
+    {
+      "name": "Liquid.Item transition",
+      "type": "\"snappy\" | \"smooth\" | \"bouncy\" | { stiffness, damping, mass } | { duration, ease }",
+      "description": "How the item moves to x/y."
+    },
+    {
+      "name": "Liquid.Item effect",
+      "type": "\"morph\" | \"move\" | \"melt\" | \"bend\"",
+      "default": "\"morph\"",
+      "description": "Merge and reshape, trail the element, melt two images together, or bow with velocity."
+    },
+    {
+      "name": "Liquid.Item dissolve",
+      "type": "boolean | number | DissolveOptions",
+      "description": "Melts imagery where surfaces touch (morph items)."
+    }
+  ],
+  "a11y": [
+    "Only the silhouette is filtered: content stays live DOM, so focus rings, hit targets, roles and labels are untouched.",
+    "Reduced motion: component-driven transitions snap to their end instead of animating.",
+    "The demo's satellite buttons are out of the tab order and hidden from assistive technology while the menu is closed; the main button reports aria-expanded."
+  ],
+  "usage": "<Liquid blur={6} contrast={18} className=\"h-[140px] w-[200px]\">\n  <Liquid.Item x={open ? -54 : 0} y={open ? -34 : 0} transition=\"bouncy\">\n    <button type=\"button\" aria-label=\"New file\">…</button>\n  </Liquid.Item>\n</Liquid>"
+}

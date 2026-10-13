@@ -1,0 +1,81 @@
+{
+  "$schema": "https://labs.designfrom.com/schemas/meta.schema.json",
+  "schemaVersion": 1,
+  "name": "progressive-blur",
+  "kind": "component",
+  "title": "Progressive Blur",
+  "description": "Layered backdrop blurs that deepen toward an edge, to fade scrolling content out at the top, the bottom or both.",
+  "status": "beta",
+  "category": "layout",
+  "label": "Magic UI",
+  "variants": [
+    {
+      "name": "progressive-blur",
+      "primitive": "none",
+      "iconSet": "none",
+      "status": "beta"
+    }
+  ],
+  "defaultVariant": "progressive-blur",
+  "demo": "demo.tsx",
+  "preview": "preview.webp",
+  "source": {
+    "repo": "https://github.com/magicuidesign/magicui",
+    "commit": "85f97fd27b053339af74ba9dd4ca428ee25989fb",
+    "path": "apps/www/registry/magicui/progressive-blur.tsx"
+  },
+  "author": "Magic UI <https://magicui.design>",
+  "license": "MIT",
+  "attribution": "Copyright (c) Magic UI. MIT License.",
+  "credits": [
+    "S-231",
+    "S-003",
+    "S-004",
+    "S-008",
+    "S-019",
+    "S-020",
+    "S-152",
+    "S-157",
+    "S-237"
+  ],
+  "date": "2026-10-13",
+  "tile": {
+    "rows": 2
+  },
+  "tags": [
+    "blur",
+    "backdrop-filter",
+    "scroll",
+    "mask"
+  ],
+  "props": [
+    {
+      "name": "position",
+      "type": "\"top\" | \"bottom\" | \"both\"",
+      "default": "\"bottom\"",
+      "description": "Which edge the blur deepens toward (both covers the whole container)."
+    },
+    {
+      "name": "height",
+      "type": "string",
+      "default": "\"30%\"",
+      "description": "The blurred band's height (ignored for both)."
+    },
+    {
+      "name": "blurLevels",
+      "type": "number[]",
+      "default": "[0.5, 1, 2, 4, 8, 16, 32, 64]",
+      "description": "Blur radius per layer, in px, from the inner edge outward."
+    },
+    {
+      "name": "className",
+      "type": "string",
+      "description": "Extra classes for the root."
+    }
+  ],
+  "a11y": [
+    "Decorative: aria-hidden, pointer-events none; the content under it stays readable and scrollable.",
+    "Static: no motion. Put it beside a scroll container that is keyboard reachable (the demo's has tabindex=0 and a name)."
+  ],
+  "usage": "<div className=\"relative h-96 overflow-hidden\">\n  <div className=\"h-full overflow-y-auto\">…</div>\n  <ProgressiveBlur position=\"bottom\" height=\"40%\" />\n</div>"
+}

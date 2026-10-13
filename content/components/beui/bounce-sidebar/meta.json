@@ -1,0 +1,94 @@
+{
+  "$schema": "https://labs.designfrom.com/schemas/meta.schema.json",
+  "schemaVersion": 1,
+  "name": "bounce-sidebar",
+  "kind": "component",
+  "title": "Bounce Sidebar",
+  "description": "A vertical navigation list whose dot indicator hops to the selected item on a sideways arc with a light spring.",
+  "status": "beta",
+  "category": "navigation",
+  "label": "beUI",
+  "variants": [
+    {
+      "name": "bounce-sidebar",
+      "primitive": "none",
+      "iconSet": "none",
+      "status": "beta"
+    }
+  ],
+  "defaultVariant": "bounce-sidebar",
+  "demo": "demo.tsx",
+  "preview": "preview.webp",
+  "source": {
+    "repo": "https://github.com/starc007/ui-components",
+    "commit": "7bb802bc0123fa8944bc327060e60a5bae8c65bc",
+    "path": "components/motion/bounce-sidebar.tsx"
+  },
+  "author": "Saurabh Chauhan <https://github.com/starc007>",
+  "license": "MIT",
+  "attribution": "Copyright (c) 2026 Saurabh Chauhan. MIT License.",
+  "credits": [
+    "S-232",
+    "S-003",
+    "S-004",
+    "S-008",
+    "S-019",
+    "S-020",
+    "S-104",
+    "S-152",
+    "S-157",
+    "S-237"
+  ],
+  "date": "2026-10-13",
+  "stage": {
+    "device": "laptop",
+    "slot": "sidebar-start"
+  },
+  "loop": {
+    "script": "click[5] → wait → click[1] → wait → click[3] → wait → click[2] → wait",
+    "duration": 6400,
+    "hydrate": true
+  },
+  "tags": [
+    "sidebar",
+    "navigation",
+    "motion",
+    "spring",
+    "layout",
+    "reduced-motion"
+  ],
+  "props": [
+    {
+      "name": "items",
+      "type": "{ id: string; label: React.ReactNode; href?: string; icon?: React.ReactNode; disabled?: boolean; target?: string; rel?: string }[]",
+      "description": "The destinations."
+    },
+    {
+      "name": "value / defaultValue",
+      "type": "string",
+      "description": "The selected item (controlled or initial)."
+    },
+    {
+      "name": "onValueChange",
+      "type": "(value: string) => void",
+      "description": "Called when an item is chosen."
+    },
+    {
+      "name": "ariaLabel",
+      "type": "string",
+      "default": "\"Sidebar navigation\"",
+      "description": "The nav landmark's name."
+    },
+    {
+      "name": "className / listClassName / itemClassName / indicatorClassName",
+      "type": "string",
+      "description": "Classes per part."
+    }
+  ],
+  "a11y": [
+    "A nav landmark with a list; the selected item has aria-current=page, and links keep their native semantics.",
+    "Focus is visible on every item (ring with offset); disabled items are skipped by links and disabled as buttons.",
+    "Reduced motion: the dot jumps to the selected item instead of hopping."
+  ],
+  "usage": "<BounceSidebar\n  items={[{ id: \"overview\", label: \"Overview\" }, { id: \"motion\", label: \"Motion\" }]}\n  value={active}\n  onValueChange={setActive}\n/>"
+}

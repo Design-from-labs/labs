@@ -1,0 +1,100 @@
+{
+  "$schema": "https://labs.designfrom.com/schemas/meta.schema.json",
+  "schemaVersion": 1,
+  "name": "border-beam",
+  "kind": "component",
+  "title": "Border Beam",
+  "description": "A traveling or breathing glow around any element: rotating beams (md, sm, line) and pulse halos (inner, outside), in eight palettes.",
+  "status": "beta",
+  "category": "feedback",
+  "label": "Libraries.dev",
+  "variants": [
+    {
+      "name": "border-beam",
+      "primitive": "none",
+      "iconSet": "none",
+      "status": "beta"
+    }
+  ],
+  "defaultVariant": "border-beam",
+  "demo": "demo.tsx",
+  "preview": "preview.webp",
+  "source": {
+    "repo": "https://github.com/Jakubantalik/Libraries.dev",
+    "commit": "bcaf88f8a16a75fd95bf21e0747193ee3380a927",
+    "path": "packages/border-beam"
+  },
+  "author": "Jakub Antalik <https://github.com/Jakubantalik>",
+  "license": "MIT",
+  "attribution": "Copyright (c) 2026 Jakub Antalik. MIT License.",
+  "credits": [
+    "S-230",
+    "S-003",
+    "S-004",
+    "S-008",
+    "S-152",
+    "S-157",
+    "S-237"
+  ],
+  "date": "2026-10-13",
+  "tags": [
+    "animation",
+    "glow",
+    "border",
+    "css",
+    "reduced-motion"
+  ],
+  "props": [
+    {
+      "name": "size",
+      "type": "\"md\" | \"sm\" | \"line\" | \"pulse-inner\" | \"pulse-outside\"",
+      "default": "\"md\"",
+      "description": "The effect: a full rotating border, a compact one, a bottom-only travelling glow, or a breathing glow inside or outside the element."
+    },
+    {
+      "name": "colorVariant",
+      "type": "\"colorful\" | \"mono\" | \"ocean\" | \"sunset\" | \"forest\" | \"candy\" | \"ice\" | \"gold\"",
+      "default": "\"colorful\"",
+      "description": "The palette."
+    },
+    {
+      "name": "theme",
+      "type": "\"dark\" | \"light\" | \"auto\"",
+      "default": "\"dark\"",
+      "description": "Tunes opacity and blending for the background; auto follows the page, then the system."
+    },
+    {
+      "name": "active",
+      "type": "boolean",
+      "default": "true",
+      "description": "Fades the effect in or out; onActivate and onDeactivate fire when the fade ends."
+    },
+    {
+      "name": "duration",
+      "type": "number",
+      "description": "Seconds per loop (default 1.96, line 3.1, pulse 2.3)."
+    },
+    {
+      "name": "strength",
+      "type": "number",
+      "default": "1",
+      "description": "0 to 1, scales every layer's opacity."
+    },
+    {
+      "name": "borderRadius",
+      "type": "number",
+      "description": "Overrides the radius measured from the child."
+    },
+    {
+      "name": "children",
+      "type": "React.ReactNode",
+      "description": "The element to wrap; give it a background (pulse-outside needs an opaque one)."
+    }
+  ],
+  "a11y": [
+    "Decorative: it adds no roles or text, and the wrapped element keeps its own semantics and focus.",
+    "Reduced motion: the rotating sizes hold still and only fade in and out; the pulse sizes do not animate (upstream's rule).",
+    "Loops while active: pass active={false} from a visible control when it plays next to reading content (WCAG 2.2.2). The demo's toggle is a native button with aria-pressed."
+  ],
+  "usage": "<BorderBeam size=\"md\" theme=\"auto\">\n  <div className=\"rounded-2xl border bg-card p-4\">Working…</div>\n</BorderBeam>"
+}

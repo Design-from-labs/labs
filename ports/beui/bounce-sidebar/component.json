@@ -1,0 +1,83 @@
+{
+  "title": "Bounce Sidebar",
+  "description": "A vertical navigation list whose dot indicator hops to the selected item on a sideways arc with a light spring.",
+  "category": "navigation",
+  "type": "registry:ui",
+  "status": "beta",
+  "upstreamPath": "components/motion/bounce-sidebar.tsx",
+  "iconSets": ["none"],
+  "dependencies": ["motion@>=12.43.0"],
+  "registryDependencies": ["utils"],
+  "variants": [
+    {
+      "primitive": "none",
+      "roots": ["src"],
+      "status": "beta"
+    }
+  ],
+  "defaultVariant": "bounce-sidebar",
+  "demo": "demo.tsx",
+  "stage": {
+    "device": "laptop",
+    "slot": "sidebar-start"
+  },
+  "loop": {
+    "script": "click[5] → wait → click[1] → wait → click[3] → wait → click[2] → wait",
+    "duration": 6400,
+    "hydrate": true
+  },
+  "credits": [
+    "S-003",
+    "S-004",
+    "S-008",
+    "S-019",
+    "S-020",
+    "S-104",
+    "S-152",
+    "S-157",
+    "S-237"
+  ],
+  "tags": [
+    "sidebar",
+    "navigation",
+    "motion",
+    "spring",
+    "layout",
+    "reduced-motion"
+  ],
+  "docs": "Installed `BounceSidebar`. Import it from `@/components/ui/bounce-sidebar` and pass `items` (`id`, `label`, optional `href`, `icon`, `disabled`). Items with `href` render links (aria-current=page on the selected one); the others render buttons.\n\nUse `value`/`onValueChange` to drive it from your router. The dot follows the reading direction and jumps instead of hopping under reduced motion. The indicator color is `bg-primary`; restyle it with `indicatorClassName`.\n\nPorted from starc007/ui-components, beUI (MIT, copyright 2026 Saurabh Chauhan); the license text is in the file.",
+  "props": [
+    {
+      "name": "items",
+      "type": "{ id: string; label: React.ReactNode; href?: string; icon?: React.ReactNode; disabled?: boolean; target?: string; rel?: string }[]",
+      "description": "The destinations."
+    },
+    {
+      "name": "value / defaultValue",
+      "type": "string",
+      "description": "The selected item (controlled or initial)."
+    },
+    {
+      "name": "onValueChange",
+      "type": "(value: string) => void",
+      "description": "Called when an item is chosen."
+    },
+    {
+      "name": "ariaLabel",
+      "type": "string",
+      "default": "\"Sidebar navigation\"",
+      "description": "The nav landmark's name."
+    },
+    {
+      "name": "className / listClassName / itemClassName / indicatorClassName",
+      "type": "string",
+      "description": "Classes per part."
+    }
+  ],
+  "a11y": [
+    "A nav landmark with a list; the selected item has aria-current=page, and links keep their native semantics.",
+    "Focus is visible on every item (ring with offset); disabled items are skipped by links and disabled as buttons.",
+    "Reduced motion: the dot jumps to the selected item instead of hopping."
+  ],
+  "usage": "<BounceSidebar\n  items={[{ id: \"overview\", label: \"Overview\" }, { id: \"motion\", label: \"Motion\" }]}\n  value={active}\n  onValueChange={setActive}\n/>"
+}

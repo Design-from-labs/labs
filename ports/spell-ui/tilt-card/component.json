@@ -1,0 +1,85 @@
+{
+  "title": "Tilt Card",
+  "description": "A card that tilts in 3D toward or away from the pointer and scales up slightly, with an optional spotlight that follows it.",
+  "category": "data-display",
+  "type": "registry:ui",
+  "status": "beta",
+  "upstreamPath": "registry/spell-ui/tilt-card.tsx",
+  "iconSets": ["none"],
+  "registryDependencies": ["utils"],
+  "cssVars": {
+    "light": {
+      "tilt-card-spotlight": "rgba(255, 255, 255, 0.15)"
+    },
+    "dark": {
+      "tilt-card-spotlight": "rgba(255, 255, 255, 0.15)"
+    }
+  },
+  "variants": [
+    {
+      "primitive": "none",
+      "roots": ["src"],
+      "status": "beta"
+    }
+  ],
+  "defaultVariant": "tilt-card",
+  "demo": "demo.tsx",
+  "tile": {
+    "span": 2
+  },
+  "credits": [
+    "S-003",
+    "S-004",
+    "S-008",
+    "S-019",
+    "S-020",
+    "S-152",
+    "S-157",
+    "S-237"
+  ],
+  "tags": ["card", "3d", "pointer", "hover", "reduced-motion"],
+  "docs": "Installed `TiltCard`. Import it from `@/components/ui/tilt-card` and style it like a card: `<TiltCard className=\"rounded-2xl bg-card p-6\">…</TiltCard>`.\n\nIt tilts away from the pointer by default (`effect=\"gravitate\"` tilts toward it), up to `tiltLimit` degrees, and scales by `scale` while hovered. Under reduced motion it stays flat and only the spotlight follows the pointer. The spotlight color is `--tilt-card-spotlight`.\n\nPorted from xxtomm/spell-ui (MIT, copyright 2025 Spell UI); the license text is in the file.",
+  "props": [
+    {
+      "name": "tiltLimit",
+      "type": "number",
+      "default": "15",
+      "description": "Maximum tilt, in degrees."
+    },
+    {
+      "name": "scale",
+      "type": "number",
+      "default": "1.05",
+      "description": "Scale while hovered."
+    },
+    {
+      "name": "perspective",
+      "type": "number",
+      "default": "1200",
+      "description": "Perspective distance, in px."
+    },
+    {
+      "name": "effect",
+      "type": "\"gravitate\" | \"evade\"",
+      "default": "\"evade\"",
+      "description": "Tilt toward the pointer, or away from it."
+    },
+    {
+      "name": "spotlight",
+      "type": "boolean",
+      "default": "true",
+      "description": "A soft light that follows the pointer."
+    },
+    {
+      "name": "className / style / children",
+      "type": "string / React.CSSProperties / React.ReactNode",
+      "description": "The card's own styling and content."
+    }
+  ],
+  "a11y": [
+    "Decorative motion only: it adds no role, and the spotlight layer is aria-hidden; give interactive cards their own button or link inside.",
+    "Reduced motion: no tilt and no scale; the spotlight still fades in and follows the pointer.",
+    "Pointer driven: keyboard users see the resting card, which carries all of the content."
+  ],
+  "usage": "<TiltCard tiltLimit={10} className=\"aspect-video w-[360px] rounded-2xl bg-card p-6\">\n  …\n</TiltCard>"
+}
