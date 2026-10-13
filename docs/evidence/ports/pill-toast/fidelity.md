@@ -1,7 +1,7 @@
 # Pill Toast: port fidelity
 
 - Upstream: hiaaryan/sileo @ fea6820dd34fe00aa9d68c956f2080464c6ab3b2 (`packages/sileo/src`), the `gitHead` of the npm package sileo@0.1.6 (published 2026-10-13)
-- License basis: the repository has **no LICENSE file** (nor does the published tarball, https://registry.npmjs.org/sileo/-/sileo-0.1.6.tgz); the `license` field of the package's `package.json` says **MIT**. The port rests on that metadata (S-501), as the snapshot-pinning decision (0028) allows for npm packages whose repository lacks a LICENSE. The package has no `author` field either, so the copyright line in `ports/hiaaryan-sileo/LICENSE` ("Copyright (c) 2026 Aaryan (hiaaryan)") is taken from the repository owner and the sole commit author; replace it if upstream states its own.
+- License basis: the repository has **no LICENSE file** (nor does the published tarball, https://registry.npmjs.org/sileo/-/sileo-0.1.6.tgz); the `license` field of the package's `package.json` says **MIT**. The port rests on that metadata (S-501), as the snapshot-pinning decision (0030) allows for npm packages whose repository lacks a LICENSE. The package has no `author` field either, so the copyright line in `ports/hiaaryan-sileo/LICENSE` ("Copyright (c) 2026 Aaryan (hiaaryan)") is taken from the repository owner and the sole commit author; replace it if upstream states its own.
 - Harness: one Vite page renders either upstream's own source (`src/index.ts` of the pinned clone, with Motion 12.34.0, the version upstream declares) or the port's files (Motion 14.1.0); React 19.3.0, Tailwind 4.3.3 preflight, Figtree on both sides; Chromium (Playwright 1.64.0), device scale 1
 - Diff: pixelmatch (S-152), threshold 0.1, anti-aliased pixels excluded; percent of all pixels in the frame (a 1280x800 frame is 1,024,000 pixels, a 375x812 frame 304,500)
 - Viewports: 1280x800 (desktop) and 375x812 (mobile)
@@ -124,7 +124,7 @@ The lucide item (`pill-toast-icons-lucide`, rendered from the exported registry 
 
 ## Enhancements
 
-Primitive `none` (decision 0095): the toast is an imperative store with its own timers, geometry and hover rules; Radix, Base UI and React Aria toasts own those and would replace the behavior being ported.
+Primitive `none` (decision 0032): the toast is an imperative store with its own timers, geometry and hover rules; Radix, Base UI and React Aria toasts own those and would replace the behavior being ported.
 
 - Icons style: `pill-toast-icons-lucide` and `pill-toast-icons-phosphor` fill the six status slots from an icon library; the default draws upstream's glyphs (decision 0025).
 - Live regions: a persistent polite (`role="status"`) and assertive (`role="alert"`, errors and warnings) pair, written on every toast and update with the title, the description (text extracted from a React node) and the action label; the toasts themselves are no longer live regions (upstream marked each viewport `aria-live="polite"`), so nothing is spoken twice. Measured: `Changes Saved. Changes saved successfully to the database. Please refresh the page to see the changes.` polite, the error assertive.

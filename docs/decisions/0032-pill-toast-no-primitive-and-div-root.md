@@ -1,4 +1,4 @@
-# 0095: Port the pill toast primitive-free, with a div root and the npm license
+# 0032: Port the pill toast primitive-free, with a div root and the npm license
 
 - Status: Accepted
 - Date: 2026-10-13

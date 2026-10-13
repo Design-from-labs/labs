@@ -7,7 +7,7 @@
 - Target: bit-identical samples, or at most 1e-6 absolute difference.
 - Result: **all 62 Core sounds are within the target. 59 are bit-identical; three (complete, level-up, confetti) differ by at most 3.0e-8 (one to two float ulps at their level), exactly the difference between two renders of the unmodified upstream code (upstream against itself: up to 3.0e-8 on the same sounds).** 12 extra scenes cover every engine path the Core pack does not use (13 of the 14 effects, all but the URL-based convolver; wavetable, constant source, LFOs on detune, gain and filter frequency, IIR filter, stereo and 3D panning, play options and jitter): 12 of 12 are bit-identical. No sound is silent.
 
-## What "deterministic" means here (P-WEB2-AUDIO-2)
+## What "deterministic" means here (P-175)
 
 Rendering the same sound twice through the same unmodified upstream code is not repeatable in Chromium. The engine's `onended` cleanup disconnects nodes and stops effect LFOs, Chromium fires `ended` on the main thread while the offline render runs on the audio thread, and the cut-off lands at a different render quantum each run (plus 1-ulp noise from the summing order of connections). The table therefore has two kinds of columns:
 
@@ -120,8 +120,8 @@ Each upstream module was compared with its port file after replacing the relativ
 - Left out: the command-line tool (`src/commands`, `bin.ts`), the JSON schemas, the tests and every sound pack except Core. A documentation example in `index.ts` named the upstream package; it now shows the Labs import path.
 - The Core pack (`.web-kits/core.json`, version 3.1.0) is generated data in `ui-sounds-core-patch.ts`: one sound per line, keys in the original order, values unchanged (checked in the harness: equal to the upstream JSON apart from the dropped `$schema` key, a relative path into the upstream repository). No audio files, no samples, no network at import time.
 - Labs additions in `ui-sounds.tsx`, marked: `SoundProvider` takes `respectReducedMotion` (default `true`, upstream's behaviour); `useSoundControls()` reads the provider (appended after the upstream code). Defaults reproduce upstream exactly.
-- `useAnalyser` is unchanged and creates the audio context while rendering; use it only in a client-only subtree (P-WEB2-AUDIO-3). The demo creates its analyser inside the first button press.
-- Shape: a component, not a `kind: "hook"` item, because foundation items carry no demo and the exporter writes components only (P-WEB2-AUDIO-1).
+- `useAnalyser` is unchanged and creates the audio context while rendering; use it only in a client-only subtree (P-176). The demo creates its analyser inside the first button press.
+- Shape: a component, not a `kind: "hook"` item, because foundation items carry no demo and the exporter writes components only (P-174).
 - Not covered by the comparison: the `sample` and `stream` sources and the `convolver` effect, which need a URL or a media stream (the Core pack uses none and the port adds no network). Safari's prefixed `webkitAudioContext` is not handled, nor is it upstream.
 
 ## Enhancements (Labs, default sound unchanged)

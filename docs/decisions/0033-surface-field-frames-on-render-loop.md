@@ -1,4 +1,4 @@
-# 0099: Run an engine that schedules its own frames on the render loop, and leave out its worker prop
+# 0033: Run an engine that schedules its own frames on the render loop, and leave out its worker prop
 
 - Status: Accepted
 - Date: 2026-10-13

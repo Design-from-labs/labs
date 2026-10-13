@@ -1976,7 +1976,7 @@ sources:
     license: "MIT"
     accessed: 2026-10-13
     visibility: public
-    note: "No git commit: pinned by the tree hash of the verbatim snapshot of the pen's files (the snapshot-pinning decision, 0028). All code is in index.html (15,706 characters, SHA-256 0768ad0b16279ad1b8b98258ee8c526c60ae83ebb6254e156cb334be0809a4f8); script.js and style.css are empty and the editor does not show the .codepen file. package.json lists three ^0.186.1 and lil-gui ^0.21.0 while index.html imports three 0.170.0 and lil-gui 0.20.0 from a CDN. Its code comment mentions Shadertoy output; a search for an earlier source of the shader (distinctive constants) found none, recorded in the fidelity notes."
+    note: "No git commit: pinned by the tree hash of the verbatim snapshot of the pen's files (the snapshot-pinning decision, 0030). All code is in index.html (15,706 characters, SHA-256 0768ad0b16279ad1b8b98258ee8c526c60ae83ebb6254e156cb334be0809a4f8); script.js and style.css are empty and the editor does not show the .codepen file. package.json lists three ^0.186.1 and lil-gui ^0.21.0 while index.html imports three 0.170.0 and lil-gui 0.20.0 from a CDN. Its code comment mentions Shadertoy output; a search for an earlier source of the shader (distinctive constants) found none, recorded in the fidelity notes."
     used-in: [ports/sabosugi-aura, content/components/sabosugi-aura, sources.yaml, docs/evidence/ports/aura]
   - id: S-525
     title: "three.js 0.170.0 (the version Aura's import map pins; run locally from the npm package for the upstream side of the fidelity diff)"

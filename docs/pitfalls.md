@@ -184,12 +184,41 @@ Design From and Design From Labs (the guards enforce this).
 | [P-171](#p-171) | Pen ports (durations) | A pen's `textContent` includes the markup's indentation, so lengths and durations differ from the visible text |
 | [P-172](#p-172) | Fidelity harness (RTL check) | A mirrored-render check built a URL without a `?`, and a wide block text overflowed one direction only |
 | [P-173](#p-173) | Tests (beta tiles on the wall) | A wall test for a beta tile timed out on a production build |
-| [P-WEB2-ROUGH-1](#p-web2-rough-1) | Dependencies (roughjs) | A newer roughjs draws circles differently from the version the port was measured against |
-| [P-WEB2-ROUGH-2](#p-web2-rough-2) | Fidelity harness (seeded randomness) | A seeded comparison of a React port differs by 0.1% to 0.7% because React draws random numbers first |
-| [P-WEB2-ROUGH-3](#p-web2-rough-3) | Components (highlight color) | Upstream's default highlight color is the text color, which hides the text |
-| [P-WEB2-ROUGH-4](#p-web2-rough-4) | Accessibility (forced colors) | SVG strokes keep their authored colors under forced colors |
-| [P-WEB2-ROUGH-5](#p-web2-rough-5) | Build (Astro server build) | `roughjs` cannot be loaded by Node's resolver, so the site build failed |
-| [P-WEB2-ROUGH-6](#p-web2-rough-6) | Components (CSS transforms) | Marks drawn inside a scaled ancestor land away from their text |
+| [P-174](#p-174) | Ports (shape of a library with no UI) | A hook library with no UI has nothing to show on the wall as a hook item |
+| [P-175](#p-175) | Fidelity (Web Audio offline rendering) | Offline audio renders of the same sound differ run to run |
+| [P-176](#p-176) | Ports (server rendering, autoplay) | An analyser hook creates its audio context during render |
+| [P-177](#p-177) | Tooling (typecheck coverage) | `pnpm typecheck` does not cover files under `ports/` |
+| [P-178](#p-178) | Previews (beta entries) | The previews script skips beta entries and captures under reduced motion |
+| [P-179](#p-179) | Sources (CodePen 2.0) | Clicking a file in the new pen editor does not switch the editor |
+| [P-180](#p-180) | Components (WebGL) | A shader with a uniform loop bound compiles only on WebGL 2 |
+| [P-181](#p-181) | Fidelity harness | Pinning shader time by running the real clock needs thousands of frames |
+| [P-182](#p-182) | Components (render-loop) | render-loop clamps the pixel ratio, so an exact upstream `dpr` needs a custom resize |
+| [P-183](#p-183) | Tests (WebGL) | Reading back a non-preserved WebGL canvas cannot prove it is still |
+| [P-184](#p-184) | Components (WebGL context restore) | Deleting GL objects after a context restore logs warnings |
+| [P-185](#p-185) | Components (nested interactive controls) | A link inside a button root fails axe, and a button sizes differently from a link |
+| [P-186](#p-186) | Fidelity harness (Vite and Playwright) | Editing a served port mid-run broke fidelity runs |
+| [P-187](#p-187) | Styles (CSS filters) | Chained `drop-shadow()` filters need spaces, not commas |
+| [P-188](#p-188) | Components (forced colors) | An SVG-filtered shape vanishes under forced colors |
+| [P-189](#p-189) | Components (render-loop with a toggled second canvas) | render-loop binds to one canvas element, so it must keep its tree position |
+| [P-190](#p-190) | Components (an engine that schedules its own frames) | An engine with its own frame chain needs a frame queue on render-loop |
+| [P-191](#p-191) | Tooling (Playwright fake clock with Radix controls) | A hook on a paused clock compared the wrong preset |
+| [P-192](#p-192) | Tooling (shell) | BSD sed has no `\b`, so a rename silently changed nothing |
+| [P-193](#p-193) | Lint (Biome hook suppressions) | A Biome hook suppression placed inside the effect has no effect |
+| [P-194](#p-194) | Demos (scaled specimens) | Scaled demos mix layout and screen geometry |
+| [P-195](#p-195) | Fidelity harness (upstream selectors) | A pen selector matched a wrapper group in the swapped map art |
+| [P-196](#p-196) | Components (GSAP rewrite, ScrollTrigger scrub) | ScrollTrigger's scrub eases out and restarts from the current value |
+| [P-197](#p-197) | Components (Motion frame loop) | A self re-arming tick in Motion's frame loop doubled the frames |
+| [P-198](#p-198) | Components (CSS ports, browser defaults) | The pen relied on browser defaults and a pinned pixel width |
+| [P-199](#p-199) | Ports (a page-wide transition inside a gallery tile) | A page-wide transition inside a scaled tile needs a container scope |
+| [P-200](#p-200) | Fidelity (Playwright's fake clock, View Transitions, WebGL) | The fake clock was not repeatable for the transition, so frames are stepped by hand |
+| [P-201](#p-201) | Components (render-loop with a library that owns its animation) | Moving a self-looping library onto render-loop left two loops |
+| [P-202](#p-202) | E2E (beta pages, shared machine) | Playwright reused another checkout's preview server and skipped every test |
+| [P-203](#p-203) | Dependencies (roughjs) | A newer roughjs draws circles differently from the measured version |
+| [P-204](#p-204) | Fidelity harness (seeded randomness) | React draws random numbers first, so a seeded comparison drifts |
+| [P-205](#p-205) | Components (highlight color) | Upstream's default highlight color hides the text |
+| [P-206](#p-206) | Accessibility (forced colors) | SVG strokes keep their authored colors under forced colors |
+| [P-207](#p-207) | Build (Astro server build) | roughjs's extensionless imports fail the Astro server build |
+| [P-208](#p-208) | Components (CSS transforms) | Marks inside a scaled ancestor land away from their text |
 
 ---
 
@@ -2758,7 +2787,7 @@ Design From and Design From Labs (the guards enforce this).
   for a beta tile by its presence, not by a page status.
 - Links: `e2e/magnet-menu.spec.ts`, `e2e/scroll-carousel.spec.ts`
 
-### P-WEB2-AUDIO-1
+### P-174
 
 - Date: 2026-10-13
 - Area: Ports (shape of a library with no UI)
@@ -2775,7 +2804,7 @@ Design From and Design From Labs (the guards enforce this).
   gallery needs to show; a port that needs a demo is a component.
 - Links: `ports/raphaelsalaja-audio/ui-sounds/component.json`
 
-### P-WEB2-AUDIO-2
+### P-175
 
 - Date: 2026-10-13
 - Area: Fidelity (Web Audio offline rendering)
@@ -2796,7 +2825,7 @@ Design From and Design From Labs (the guards enforce this).
   of widening the tolerance.
 - Links: `docs/evidence/ports/ui-sounds/fidelity.md`
 
-### P-WEB2-AUDIO-3
+### P-176
 
 - Date: 2026-10-13
 - Area: Ports (server rendering, autoplay)
@@ -2813,7 +2842,7 @@ Design From and Design From Labs (the guards enforce this).
   handlers.
 - Links: `ports/raphaelsalaja-audio/ui-sounds/ui-sounds.tsx`
 
-### P-WEB2-AUDIO-4
+### P-177
 
 - Date: 2026-10-13
 - Area: Tooling (typecheck coverage)
@@ -2827,7 +2856,7 @@ Design From and Design From Labs (the guards enforce this).
   not read a green `pnpm typecheck` as a check of `ports/`.
 - Links: `tsconfig.json`
 
-### P-WEB2-AUDIO-5
+### P-178
 
 - Date: 2026-10-13
 - Area: Previews (beta entries)
@@ -2844,7 +2873,7 @@ Design From and Design From Labs (the guards enforce this).
   setting, capture its still in the default state and say so in the report.
 - Links: `scripts/previews.mjs`
 
-### P-WEB2-AURA-1
+### P-179
 
 - Date: 2026-10-13
 - Area: Sources (CodePen 2.0)
@@ -2854,7 +2883,7 @@ Design From and Design From Labs (the guards enforce this).
 - Prevention: Verify the file name (`aria-label`) and the SHA-256 of every captured file; compare the pen's `package.json` with the import map (here `three ^0.186.1` and `lil-gui ^0.21.0` versus the 0.170.0 and 0.20.0 that `index.html` actually loads) and pin what runs.
 - Links: `docs/evidence/ports/aura/fidelity.md`
 
-### P-WEB2-AURA-2
+### P-180
 
 - Date: 2026-10-13
 - Area: Components (WebGL)
@@ -2864,7 +2893,7 @@ Design From and Design From Labs (the guards enforce this).
 - Prevention: A port of a three.js `ShaderMaterial` shader is a WebGL 2 port; compile it in WebGL 1 once to know.
 - Links: `ports/sabosugi-aura/aura/aura.tsx`
 
-### P-WEB2-AURA-3
+### P-181
 
 - Date: 2026-10-13
 - Area: Fidelity harness
@@ -2874,7 +2903,7 @@ Design From and Design From Labs (the guards enforce this).
 - Prevention: Pin at the GL boundary, and log the value that actually reached the GPU on both sides in the evidence.
 - Links: `docs/evidence/ports/aura/fidelity.md`
 
-### P-WEB2-AURA-4
+### P-182
 
 - Date: 2026-10-13
 - Area: Components (render-loop)
@@ -2884,7 +2913,7 @@ Design From and Design From Labs (the guards enforce this).
 - Prevention: Read how an upstream derives its buffer size before choosing `maxDpr`; a custom `resize` exists for this.
 - Links: `ports/sabosugi-aura/aura/aura.tsx`
 
-### P-WEB2-AURA-5
+### P-183
 
 - Date: 2026-10-13
 - Area: Tests (WebGL)
@@ -2894,7 +2923,7 @@ Design From and Design From Labs (the guards enforce this).
 - Prevention: Assert stillness on draw calls, not on pixels read back.
 - Links: `e2e/webgl.spec.ts`
 
-### P-WEB2-AURA-6
+### P-184
 
 - Date: 2026-10-13
 - Area: Components (WebGL context restore)
@@ -2904,7 +2933,7 @@ Design From and Design From Labs (the guards enforce this).
 - Prevention: Guard deletes in a dispose that can run after a restore.
 - Links: `ports/sabosugi-aura/aura/aura.tsx`
 
-### P-WEB2-SILEO-1
+### P-185
 
 - Date: 2026-10-13
 - Area: Components (nested interactive controls)
@@ -2923,7 +2952,7 @@ Design From and Design From Labs (the guards enforce this).
   only the glyphs: buttons and links size themselves differently.
 - Links: `docs/evidence/ports/pill-toast/fidelity.md`
 
-### P-WEB2-SILEO-2
+### P-186
 
 - Date: 2026-10-13
 - Area: Fidelity harness (Vite and Playwright)
@@ -2939,7 +2968,7 @@ Design From and Design From Labs (the guards enforce this).
   `page.evaluate`.
 - Links: none
 
-### P-WEB2-SILEO-3
+### P-187
 
 - Date: 2026-10-13
 - Area: Styles (CSS filters)
@@ -2954,7 +2983,7 @@ Design From and Design From Labs (the guards enforce this).
   should apply means it was rejected.
 - Links: `ports/hiaaryan-sileo/pill-toast/src/shared/pill-toast-styles.ts`
 
-### P-WEB2-SILEO-4
+### P-188
 
 - Date: 2026-10-13
 - Area: Components (forced colors)
@@ -2969,7 +2998,7 @@ Design From and Design From Labs (the guards enforce this).
   with a filter, and look at the screenshot.
 - Links: `ports/hiaaryan-sileo/pill-toast/src/shared/pill-toast-styles.ts`
 
-### P-WEB2-SURFACE-1
+### P-189
 
 - Date: 2026-10-13
 - Area: Components (render-loop with a toggled second canvas)
@@ -2979,17 +3008,17 @@ Design From and Design From Labs (the guards enforce this).
 - Prevention: when a render-loop component toggles other elements around its canvas, keep the loop's canvas in one fixed place in the tree and check `canvas === canvasBefore` after a toggle.
 - Links: `ports/angelolibero-surface-field/surface-field/surface-field.tsx`
 
-### P-WEB2-SURFACE-2
+### P-190
 
 - Date: 2026-10-13
 - Area: Components (an engine that schedules its own frames)
 - Symptom: The obvious port of a canvas engine with its own frame chain, sleep and doze timers is either a rewrite to a per-frame draw function or a second loop beside render-loop.
 - Cause: render-loop owns frame scheduling (`continuous: true` draws every vsync, `false` draws after `invalidate()`); an engine that decides when its next frame is due needs the second mode and a way to hand its callbacks to the loop.
-- Fix: a frame queue: the engine's `frame(cb)` stores the callback and calls `invalidate()`, the loop's `render` runs the stored callbacks; `respectReducedMotion: false` because the engine draws its own still frame (decision 0099, to be renumbered).
+- Fix: a frame queue: the engine's `frame(cb)` stores the callback and calls `invalidate()`, the loop's `render` runs the stored callbacks; `respectReducedMotion: false` because the engine draws its own still frame (decision 0033, to be renumbered).
 - Prevention: for an engine with an environment object, supply `frame` and `cancelFrame` from the loop instead of rewriting it; handles must never be 0 if the engine uses 0 for "none".
-- Links: `docs/decisions/0099-surface-field-frames-on-render-loop.md`
+- Links: `docs/decisions/0033-surface-field-frames-on-render-loop.md`
 
-### P-WEB2-SURFACE-3
+### P-191
 
 - Date: 2026-10-13
 - Area: Tooling (Playwright fake clock with Radix controls)
@@ -2999,7 +3028,7 @@ Design From and Design From Labs (the guards enforce this).
 - Prevention: when a hook drives a control on a paused clock, assert the control's resulting value; a diff that looks like "the whole picture differs" in only some presets is a configuration miss, so look at the before image first.
 - Links: `docs/evidence/ports/surface-field/fidelity.md`
 
-### P-WEB2-SURFACE-4
+### P-192
 
 - Date: 2026-10-13
 - Area: Tooling (shell)
@@ -3009,7 +3038,7 @@ Design From and Design From Labs (the guards enforce this).
 - Prevention: grep the count of old and new names after any scripted rename.
 - Links: `ports/angelolibero-surface-field/surface-field/surface-field-engine.ts`
 
-### P-WEB2-SURFACE-5
+### P-193
 
 - Date: 2026-10-13
 - Area: Lint (Biome hook suppressions)
@@ -3019,7 +3048,7 @@ Design From and Design From Labs (the guards enforce this).
 - Prevention: put hook suppressions immediately before the call.
 - Links: `ports/angelolibero-surface-field/surface-field/surface-field.tsx`
 
-### P-WEB2-SURFACE-6
+### P-194
 
 - Date: 2026-10-13
 - Area: Demos (scaled specimens)
@@ -3029,7 +3058,7 @@ Design From and Design From Labs (the guards enforce this).
 - Prevention: a demo that mixes layout geometry with screen geometry must measure both and convert; look at `/preview/<item>` before generating the preview still.
 - Links: `ports/angelolibero-surface-field/surface-field/demo.tsx`
 
-### P-WEB2-MAP-1
+### P-195
 
 - Date: 2026-10-13
 - Area: Fidelity harness (upstream selectors)
@@ -3044,7 +3073,7 @@ Design From and Design From Labs (the guards enforce this).
   selectors its script uses and keep the stand-in out of their reach.
 - Links: `ports/creativeocean-scroll-map/scroll-map/scroll-map-art.tsx`
 
-### P-WEB2-MAP-2
+### P-196
 
 - Date: 2026-10-13
 - Area: Components (GSAP rewrite, ScrollTrigger scrub)
@@ -3062,7 +3091,7 @@ Design From and Design From Labs (the guards enforce this).
   docs, and write the model before the component.
 - Links: `ports/creativeocean-scroll-map/scroll-map/scroll-map-motion.ts`
 
-### P-WEB2-MAP-3
+### P-197
 
 - Date: 2026-10-13
 - Area: Components (Motion frame loop)
@@ -3080,7 +3109,7 @@ Design From and Design From Labs (the guards enforce this).
   run a loop that tweens can start under a Node fake clock before a browser.
 - Links: `ports/creativeocean-scroll-map/scroll-map/scroll-map-motion.ts`
 
-### P-WEB2-MAP-4
+### P-198
 
 - Date: 2026-10-13
 - Area: Components (CSS ports, browser defaults)
@@ -3097,7 +3126,7 @@ Design From and Design From Labs (the guards enforce this).
   before any pixel is compared.
 - Links: `ports/creativeocean-scroll-map/scroll-map/scroll-map-styles.tsx`
 
-### P-WEB2-GLIMM-1
+### P-199
 
 - Date: 2026-10-13
 - Area: Ports (a page-wide transition inside a gallery tile)
@@ -3120,7 +3149,7 @@ Design From and Design From Labs (the guards enforce this).
   fixed-position item at the tile's scale before trusting it.
 - Links: `ports/nomanijaz-glimm/glimm/glimm-contained.ts`
 
-### P-WEB2-GLIMM-2
+### P-200
 
 - Date: 2026-10-13
 - Area: Fidelity (Playwright's fake clock, View Transitions, WebGL)
@@ -3144,7 +3173,7 @@ Design From and Design From Labs (the guards enforce this).
   clip) for both sides before reading pixel diffs.
 - Links: `docs/evidence/ports/glimm/fidelity.md`
 
-### P-WEB2-GLIMM-3
+### P-201
 
 - Date: 2026-10-13
 - Area: Components (render-loop with a library that owns its animation)
@@ -3164,7 +3193,7 @@ Design From and Design From Labs (the guards enforce this).
   frame order, and compare frames before and after.
 - Links: `ports/nomanijaz-glimm/glimm/glimm-core.ts`
 
-### P-WEB2-GLIMM-4
+### P-202
 
 - Date: 2026-10-13
 - Area: E2E (beta pages, shared machine)
@@ -3182,7 +3211,7 @@ Design From and Design From Labs (the guards enforce this).
   count in the summary and confirm the port serves your own `dist/`.
 - Links: `e2e/glimm.spec.ts`, `playwright.config.ts`
 
-### P-WEB2-ROUGH-1
+### P-203
 
 - Date: 2026-10-13
 - Area: Dependencies (roughjs)
@@ -3198,7 +3227,7 @@ Design From and Design From Labs (the guards enforce this).
   diff the library's own output across versions before allowing a range.
 - Links: `docs/evidence/ports/rough-annotation/fidelity.md`
 
-### P-WEB2-ROUGH-2
+### P-204
 
 - Date: 2026-10-13
 - Area: Fidelity harness (seeded randomness)
@@ -3218,7 +3247,7 @@ Design From and Design From Labs (the guards enforce this).
   comparison can fail.
 - Links: `docs/evidence/ports/rough-annotation/fidelity.md`
 
-### P-WEB2-ROUGH-3
+### P-205
 
 - Date: 2026-10-13
 - Area: Components (highlight color)
@@ -3236,7 +3265,7 @@ Design From and Design From Labs (the guards enforce this).
   configured examples.
 - Links: `ports/pshihn-rough-notation/rough-annotation/rough-annotation.tsx`
 
-### P-WEB2-ROUGH-4
+### P-206
 
 - Date: 2026-10-13
 - Area: Accessibility (forced colors)
@@ -3254,7 +3283,7 @@ Design From and Design From Labs (the guards enforce this).
   emulation, not just the HTML around them.
 - Links: `docs/evidence/ports/rough-annotation/fidelity.md`
 
-### P-WEB2-ROUGH-5
+### P-207
 
 - Date: 2026-10-13
 - Area: Build (Astro server build)
@@ -3275,7 +3304,7 @@ Design From and Design From Labs (the guards enforce this).
   port done, not only its client bundle in the harness.
 - Links: `astro.config.mjs`, `ports/pshihn-rough-notation/rough-annotation/component.json`
 
-### P-WEB2-ROUGH-6
+### P-208
 
 - Date: 2026-10-13
 - Area: Components (CSS transforms)

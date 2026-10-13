@@ -1179,7 +1179,7 @@ oss:
   # A public CodePen 2.0 pen, MIT licensed by its own Details view. It has no
   # git commit: `ref` is the git tree hash of the verbatim snapshot of its
   # files in ports/sabosugi-aura/aura/upstream (the snapshot-pinning decision,
-  # 0028). The pen's debug panel (lil-gui) is not ported; its three.js
+  # 0030). The pen's debug panel (lil-gui) is not ported; its three.js
   # ShaderMaterial is replaced by the same shader on raw WebGL 2.
   - id: sabosugi-aura
     name: Aura (CodePen)

@@ -76,7 +76,7 @@ The first port run differed by 0.14% to 0.73% on every frame (for `types`:
 upstream against itself was 0 px. The strokes were slightly different shapes,
 not shifted: React draws random numbers while it loads, so the port's first
 annotation took later numbers from the seeded sequence. The port page now
-restarts the sequence right before its first render (pitfall P-WEB2-ROUGH-2),
+restarts the sequence right before its first render (pitfall P-204),
 and the 70 frames above are 0 px (at worst 2 px). The harness therefore does
 distinguish two seeds.
 
@@ -108,7 +108,7 @@ distinguish two seeds.
   The svg is styled 100px wide, so `k = 100 / svg.width` is 1 without a
   transform (the arithmetic is unchanged: the 70 frames stay 0 px) and `1 / s`
   with one; the measured x, y, width and height are multiplied by `k`
-  (pitfall P-WEB2-ROUGH-6). The gallery wall and the preview route scale demos,
+  (pitfall P-208). The gallery wall and the preview route scale demos,
   so this was needed there. Rotations and skews are not handled.
 - **Labs addition (screen readers)**: `svg.setAttribute('aria-hidden', 'true')`
   on the annotation's `<svg>`, next to upstream's `class` line. The marks are
@@ -116,7 +116,7 @@ distinguish two seeds.
 - **Dependency pin**: `roughjs@4.3.1` exactly, not a range. Releases after 4.3.1
   draw ellipses differently (all 171 ellipse cases compared against 4.6.6
   differ; lines, rectangles and polylines are identical), which would change
-  every `circle` (pitfall P-WEB2-ROUGH-1). The packages' optional peer is pinned
+  every `circle` (pitfall P-203). The packages' optional peer is pinned
   the same.
 - **Labs addition, React wrapper** (`rough-annotation.tsx`, a thin layer, not
   upstream code): `RoughNotation` creates the annotation in an effect, shows and
@@ -131,7 +131,7 @@ distinguish two seeds.
   behind the text (the last `types` row shows upstream hiding its own text). The
   wrapper's default for `highlight` is the `--rough-annotation-highlight` token;
   every other type keeps `currentColor`; `color` always wins (pitfall
-  P-WEB2-ROUGH-3). The fidelity scenes pass explicit colors, so they compare
+  P-205). The fidelity scenes pass explicit colors, so they compare
   the wrapper with upstream rather than the two defaults.
 - **Labs addition, reduced motion**: with `prefers-reduced-motion: reduce` the
   wrapper creates the annotation with `animate: false` (read from
@@ -177,7 +177,7 @@ harness page with the Labs tokens:
 | Resize | 1280 to 375 px: every mark is redrawn around its text at the new size |
 | Scaled ancestor | the demo inside `transform: scale(1.6)` and `scale(0.6)`: see the scale rows below |
 | Contrast (fidelity default, contrast on request) | Highlight bar against its text (computed): light default 15.96:1, light more 6.24:1, dark default 8.05:1, dark more 5.08:1. Bar against the card: 1.24:1, 3.17:1, 2.23:1, 3.54:1. The default already meets AA; `prefers-contrast: more` makes the bar visible as a shape (above 3:1) while keeping the text at 4.5:1 or more |
-| Forced colors | `forced-colors: active`: the highlight bar is the system `Mark` (255,255,0) with `MarkText` text (0,0,0); every other mark takes `CanvasText` (0,0,0) (pitfall P-WEB2-ROUGH-4) |
+| Forced colors | `forced-colors: active`: the highlight bar is the system `Mark` (255,255,0) with `MarkText` text (0,0,0); every other mark takes `CanvasText` (0,0,0) (pitfall P-206) |
 | axe | The demo page (harness) in light, dark, right to left, 375 px wide, and dark, right to left, 375 px: no violation on the component; the three page-level rules the bare harness page cannot satisfy (landmark, h1, region) are the only reports. On the built site (`LABS_INCLUDE_BETA=1`), `e2e/rough-annotation.spec.ts` passes 6 of 6: axe at `/ui/rough-annotation` in light, dark and right to left with no violations, the marks decoration check, reduced motion, and Replay |
 
 Stills: `enhance-default-light.webp`, `enhance-default-dark.webp`,
