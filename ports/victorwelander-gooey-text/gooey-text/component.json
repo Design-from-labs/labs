@@ -1,0 +1,93 @@
+{
+  "title": "Gooey Text",
+  "description": "Words that melt into each other: two blurred copies cross-fade and an SVG threshold filter merges their edges into one gooey shape.",
+  "category": "typography",
+  "type": "registry:ui",
+  "status": "beta",
+  "upstreamPath": "upstream/gooey-text-morphing.tsx",
+  "iconSets": ["none"],
+  "registryDependencies": ["utils", "use-reduced-motion"],
+  "files": [
+    {
+      "file": "gooey-text.tsx",
+      "type": "registry:ui"
+    }
+  ],
+  "demo": "demo.tsx",
+  "tile": {
+    "span": 2,
+    "rows": 1
+  },
+  "loop": {
+    "hydrate": true
+  },
+  "credits": [
+    "S-003",
+    "S-004",
+    "S-008",
+    "S-019",
+    "S-020",
+    "S-152",
+    "S-157",
+    "S-237",
+    "S-450",
+    "S-467",
+    "S-469"
+  ],
+  "tags": ["text", "morph", "svg-filter", "blur", "gooey", "animation"],
+  "props": [
+    {
+      "name": "texts",
+      "type": "string[]",
+      "required": true,
+      "description": "The words or phrases to morph through, in order, looping. The same words in a new array do not restart the morph."
+    },
+    {
+      "name": "morphTime",
+      "type": "number",
+      "default": "1",
+      "description": "Seconds one morph takes."
+    },
+    {
+      "name": "cooldownTime",
+      "type": "number",
+      "default": "0.25",
+      "description": "Seconds a word holds before the next morph."
+    },
+    {
+      "name": "className",
+      "type": "string",
+      "description": "Classes for the root. It has no height of its own (the words are absolutely positioned), so give it or its parent a height, as the demo does."
+    },
+    {
+      "name": "textClassName",
+      "type": "string",
+      "description": "Classes for both text copies: size, weight and color (upstream: text-6xl, text-[60pt] from md up, text-foreground)."
+    },
+    {
+      "name": "label",
+      "type": "string",
+      "description": "What screen readers read instead of the moving words. Default: every word, comma separated."
+    },
+    {
+      "name": "paused",
+      "type": "boolean",
+      "default": "false",
+      "description": "Stop the morph where it is, for example behind a pause control."
+    },
+    {
+      "name": "renderFirstWordOnServer",
+      "type": "boolean",
+      "default": "false",
+      "description": "Put the first word in the server render, so the server HTML, a no-JavaScript visit and the first frame show a word instead of nothing. Off by default, as upstream: the text appears with the first morph."
+    }
+  ],
+  "a11y": [
+    "The morphing copies are aria-hidden. Screen readers read every word once, from a visually hidden span (or the label prop); the moving words are never announced, so nothing interrupts.",
+    "Reduced motion: the words swap at the same rhythm with no blur and no fade.",
+    "The words change on their own without end. Pair it with a pause control that sets paused when it sits in the reading flow.",
+    "The loop pauses off screen, in a hidden tab, in a paused gallery tile and while paused is set, and resumes where it stopped."
+  ],
+  "usage": "<div className=\"flex h-[200px] items-center justify-center\">\n  <GooeyText texts={[\"Design\", \"Engineering\", \"Is\", \"Awesome\"]} className=\"font-bold\" />\n</div>",
+  "docs": "Installed `GooeyText` in `components/ui/`, plus `useReducedMotion` in `hooks/`. Render it inside a box with a height: `<div className=\"flex h-[200px] items-center justify-center\"><GooeyText texts={[\"Design\", \"Engineering\", \"Is\", \"Awesome\"]} className=\"font-bold\" /></div>`. The words are absolutely positioned and centered on the root, which has no height of its own.\n\nTwo copies of the text cross-fade while their blur grows and shrinks, and an SVG color matrix (alpha x 255 - 140) thresholds the result, so the blurred edges merge into one gooey shape. Set the size and color with `textClassName` (default: `text-6xl`, `text-[60pt]` from md up, `text-foreground`). It is a different technique from Text Morph, which glides shared characters to their new places.\n\nScreen readers read the full list once (or `label`); the morphing copies are hidden from them. Under reduced motion the words just swap. Like upstream, the text is empty until the first morph (`cooldownTime`); set `renderFirstWordOnServer` to put the first word in the server render instead, which keeps the server HTML and no-JavaScript visits from showing an empty box. Ported from Victor Welander's 21st.dev item \"Gooey Text Morphing\" (MIT, copyright 2024 Victor Welander): https://21st.dev/@victorwelander/components/gooey-text-morphing. The license text is in the file."
+}

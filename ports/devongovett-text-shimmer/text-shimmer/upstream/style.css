@@ -1,0 +1,76 @@
+html {
+  color-scheme: light dark;
+}
+
+.wrapper {
+  position: relative;
+  display: inline-block;
+  color: #777;
+  font-family: system-ui;
+}
+
+/* original text */
+.text {
+  display: inline-block;
+}
+
+/* inert clone positioned above original text.
+ * This element acts as a mask for the actual shimmer
+ * in the ::after pseudo element.
+ *
+ * NOTE: It is possible to add the ::after shimmer 
+ * directly to the original text instead of a clone,
+ * but this can cause the text to appear thinner than
+ * expected due to masking of sub-pixels. The clone 
+ * fixes that problem. */
+.shimmer {
+  --spread: 4ch;
+  position: relative;
+  position: absolute;
+  inset: 0;
+  overflow: clip;
+  color: transparent;
+  contain: strict;
+
+  @media (prefers-reduced-motion: reduce) {
+    display: none;
+  }
+
+  /* This only works in Chrome/Safari, not Firefox */
+  @supports (-webkit-mask-clip: text) {
+    mask-image: linear-gradient(white, white);
+    -webkit-mask-clip: text;
+  }
+
+  /* This fallback works in Firefox but unfortunately
+   * -moz-element is not GPU accelerated so it causes
+   * high CPU usage. */
+  @supports (mask-image: -moz-element(#text)) {
+    mask-image: -moz-element(#text);
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      90deg,
+      transparent calc(50% - var(--spread)),
+      light-dark(black, white) 50%,
+      transparent calc(50% + var(--spread))
+    );
+    will-change: transform;
+    pointer-events: none;
+    animation: shimmer 2.5s infinite;
+  }
+}
+
+@keyframes shimmer {
+  from {
+    translate: -100% 0;
+  }
+
+  to {
+    translate: 100% 0;
+  }
+}

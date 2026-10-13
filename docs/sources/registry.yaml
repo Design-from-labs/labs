@@ -1564,3 +1564,189 @@ sources:
     accessed: 2026-10-13
     visibility: public
     used-in: [content/components/paperlab, package.json]
+  - id: S-450
+    title: "Owner brief: port pod WEB-1 (the remaining web-sourced items: pens, gallery items and npm-only packages, fidelity first, GSAP rewritten)"
+    author: "Owner"
+    kind: brief
+    private-file: "Owner instructions relayed to port pod WEB-1; not in the repository"
+    license: "All rights reserved (owner)"
+    accessed: 2026-10-13
+    visibility: private-cited-only
+    used-in: [docs/decisions, docs/evidence/ports, content/components]
+  - id: S-451
+    title: "CodePen documentation: Licensing (public Pens are MIT licensed by default)"
+    author: "CodePen"
+    kind: doc
+    url: "https://blog.codepen.io/documentation/licensing/"
+    license: "All rights reserved (CodePen); cited for the license terms only"
+    accessed: 2026-10-13
+    visibility: public
+    note: "Each pen ported here was also checked on its own Details view, which shows its MIT notice and copyright line."
+    used-in: [sources.yaml, docs/decisions, ports]
+  - id: S-465
+    title: "Jhey, \"masked inset border shine\" (a CodePen pen: a glass icon with a pointer-following masked inset highlight)"
+    author: "Jhey"
+    kind: library
+    url: "https://codepen.io/jh3y/pen/WbwyGBb"
+    license: "MIT"
+    accessed: 2026-10-13
+    visibility: public
+    note: "No git commit: pinned by the tree hash of the verbatim debug-view snapshot (decision 0030). The pen also loads GSAP and Tweakpane for its debug panel; neither is ported. Its Google font (Gloria Hallelujah) draws only the pen's annotation arrows and is not shipped."
+    used-in: [ports/jh3y-border-shine, content/components/jh3y-border-shine, sources.yaml, docs/evidence/ports/border-shine]
+  - id: S-466
+    title: "Victor Welander, \"Gooey Text Morphing\" (a 21st.dev community item: words that melt into each other with an SVG threshold filter)"
+    author: "Victor Welander"
+    kind: library
+    url: "https://21st.dev/@victorwelander/components/gooey-text-morphing"
+    license: "MIT"
+    accessed: 2026-10-13
+    visibility: public
+    note: "No git repository: pinned by the tree hash of the verbatim files from 21st's CDN (decision 0030). The item's license field reads mit; its page dates it 2024-11-27."
+    used-in: [ports/victorwelander-gooey-text, content/components/victorwelander-gooey-text, sources.yaml, docs/evidence/ports/gooey-text]
+  - id: S-467
+    title: "21st.dev Terms of Service (open-source works keep their license and credit the author; copies link back to the component page)"
+    author: "21st.dev"
+    kind: doc
+    url: "https://21st.dev/terms"
+    license: "All rights reserved (21st.dev); cited for the attribution terms only"
+    accessed: 2026-10-13
+    visibility: public
+    used-in: [sources.yaml, docs/evidence/ports/gooey-text, ports/victorwelander-gooey-text]
+  - id: S-469
+    title: "WCAG 2.2: Success Criterion 2.2.2 Pause, Stop, Hide"
+    author: "W3C"
+    kind: doc
+    url: "https://www.w3.org/TR/WCAG22/#pause-stop-hide"
+    license: "W3C Document License"
+    accessed: 2026-10-13
+    visibility: public
+    note: "Cited for why Gooey Text, which changes words on its own without end, has a paused prop and says to pair it with a pause control."
+    used-in: [ports/victorwelander-gooey-text, docs/evidence/ports/gooey-text]
+  - id: S-460
+    title: "CodePen: Neumorphic shadows (raised and pressed neumorphic panels)"
+    author: "Una Kravets"
+    kind: library
+    url: "https://codepen.io/una/pen/gbwjzgw"
+    license: "MIT"
+    accessed: 2026-10-13
+    visibility: public
+    note: "Snapshot of the pen's compiled debug view, pinned by the git tree hash of ports/una-neumorphic-shadows/neumorphic-panel/upstream (docs/decisions/0030-pin-snapshot-sources.md)."
+    used-in: [ports/una-neumorphic-shadows, content/components/una-neumorphic-shadows, sources.yaml, docs/evidence/ports/neumorphic-panel]
+  - id: S-461
+    title: "CodePen 2.0: Shadow Stacking I (a stacked box-shadow elevation scale, light and dark)"
+    author: "Josh Miller"
+    kind: library
+    url: "https://codepen.io/editor/jshmllr/pen/019d8276-da5b-7365-a8fa-a8e929da3a6d"
+    license: "MIT"
+    accessed: 2026-10-13
+    visibility: public
+    note: "index.html, style.css and script.js (empty) read from the pen's editor and pinned by the git tree hash of ports/jshmllr-shadow-stacking/elevation/upstream (docs/decisions/0030-pin-snapshot-sources.md)."
+    used-in: [ports/jshmllr-shadow-stacking, content/components/jshmllr-shadow-stacking, sources.yaml, docs/evidence/ports/elevation]
+  - id: S-462
+    title: "CodePen 2.0: Shadow Stacking II (the pen Shadow Stacking I was forked from)"
+    author: "Josh Miller"
+    kind: library
+    url: "https://codepen.io/editor/jshmllr/pen/019d8247-a4ea-71f5-9316-4daaf53bbfdf"
+    license: "MIT"
+    accessed: 2026-10-13
+    visibility: public
+    note: "Cited as the origin of Shadow Stacking I; its code was not read or copied."
+    used-in: [ports/jshmllr-shadow-stacking, sources.yaml, docs/evidence/ports/elevation]
+  - id: S-463
+    title: "MDN: corner-shape (squircle and other corner geometries)"
+    author: "MDN contributors"
+    kind: doc
+    url: "https://developer.mozilla.org/en-US/docs/Web/CSS/corner-shape"
+    license: "CC-BY-SA-2.5"
+    accessed: 2026-10-13
+    visibility: public
+    note: "Cited for the @supports (corner-shape: squircle) blocks the Neumorphic Panel and Border Shine pens use and the ports keep."
+    used-in: [ports/una-neumorphic-shadows, ports/jh3y-border-shine, docs/evidence/ports/neumorphic-panel, docs/evidence/ports/border-shine]
+  - id: S-464
+    title: "MDN: the prefers-contrast media feature (and the forced-colors media feature)"
+    author: "MDN contributors"
+    kind: doc
+    url: "https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-contrast"
+    license: "CC-BY-SA-2.5"
+    accessed: 2026-10-13
+    visibility: public
+    note: "Cited for the contrast-on-request rules (prefers-contrast: more, forced-colors: active) added to both components."
+    used-in: [docs/evidence/ports/neumorphic-panel, docs/evidence/ports/elevation]
+  - id: S-470
+    title: "Anchor Magnet Slide Menu (CodePen pen by Jhey)"
+    author: "Jhey"
+    kind: library
+    url: "https://codepen.io/jh3y/pen/GRapZqO"
+    license: "MIT"
+    accessed: 2026-10-13
+    visibility: public
+    used-in: [sources.yaml, ports/jh3y-anchor-magnet-menu, content/components/jh3y-anchor-magnet-menu/magnet-menu]
+    note: "Pinned by the verbatim snapshot of the pen's debug view (https://cdpn.io/pen/debug/GRapZqO, 19,374 bytes, checked byte for byte against a second fetch on the access date); sources.yaml ref is the git tree hash of that directory (decision 0030). The pen's Details view shows the MIT notice and the copyright line kept in ports/jh3y-anchor-magnet-menu/LICENSE."
+  - id: S-471
+    title: "CSS Scroll-Driven Image Carousel (CodePen pen by Jhey)"
+    author: "Jhey"
+    kind: library
+    url: "https://codepen.io/jh3y/pen/PovoorJ"
+    license: "MIT"
+    accessed: 2026-10-13
+    visibility: public
+    used-in: [sources.yaml, ports/jh3y-scroll-carousel, content/components/jh3y-scroll-carousel/scroll-carousel]
+    note: "Pinned by the verbatim snapshot of the pen's debug view (https://cdpn.io/pen/debug/PovoorJ, 15,895 bytes, checked byte for byte against a second fetch on the access date); sources.yaml ref is the git tree hash of that directory (decision 0030). The pen loads GSAP and ScrollTrigger (proprietary, S-345), tweakpane and photos from picsum.photos; none of them is in the port (the fallback is a scroll listener, the panel's defaults are props, the photos are generated placeholders)."
+  - id: S-472
+    title: "MDN Web Docs: CSS anchor positioning"
+    author: "Mozilla contributors"
+    kind: doc
+    url: "https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_anchor_positioning"
+    license: "CC-BY-SA-2.5 (content); cited for the feature description and browser support only"
+    accessed: 2026-10-13
+    visibility: public
+    used-in: [docs/evidence/ports/magnet-menu, content/components/jh3y-anchor-magnet-menu/magnet-menu]
+  - id: S-473
+    title: "MDN Web Docs: CSS scroll-driven animations"
+    author: "Mozilla contributors"
+    kind: doc
+    url: "https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_scroll-driven_animations"
+    license: "CC-BY-SA-2.5 (content); cited for the feature description and browser support only"
+    accessed: 2026-10-13
+    visibility: public
+    used-in: [docs/evidence/ports/scroll-carousel, content/components/jh3y-scroll-carousel/scroll-carousel]
+  - id: S-474
+    title: "WAI-ARIA Authoring Practices: Carousel pattern"
+    author: "W3C"
+    kind: doc
+    url: "https://www.w3.org/WAI/ARIA/apg/patterns/carousel/"
+    license: "W3C Document License; cited for the pattern only"
+    accessed: 2026-10-13
+    visibility: public
+    used-in: [docs/evidence/ports/scroll-carousel, content/components/jh3y-scroll-carousel/scroll-carousel]
+  - id: S-455
+    title: "Text Shimmer Lines [contenteditable] (CodePen pen by Jhey)"
+    author: "Jhey"
+    kind: library
+    url: "https://codepen.io/jh3y/pen/Exqbaem"
+    license: "MIT"
+    accessed: 2026-10-13
+    visibility: public
+    note: "No git commit: pinned by the tree hash of the verbatim debug-view snapshot in ports/jh3y-text-shimmer/shimmer-lines/upstream."
+    used-in: [ports/jh3y-text-shimmer, content/components/jh3y-text-shimmer, sources.yaml, docs/evidence/ports/shimmer-lines]
+  - id: S-456
+    title: "GPU accelerated text shimmer (CodePen 2.0 project by Devon Govett)"
+    author: "Devon Govett"
+    kind: library
+    url: "https://codepen.io/editor/devongovett/pen/01a0439c-4b7f-7f44-bf84-205c514ad139"
+    license: "MIT"
+    accessed: 2026-10-13
+    visibility: public
+    note: "No git commit: pinned by the tree hash of the verbatim snapshot of its files (index.html, style.css, an empty script.js) in ports/devongovett-text-shimmer/text-shimmer/upstream."
+    used-in: [ports/devongovett-text-shimmer, content/components/devongovett-text-shimmer, sources.yaml, docs/evidence/ports/text-shimmer]
+  - id: S-458
+    title: "normalize.css 8.0.1 (the stylesheet the shimmer lines pen loads from a CDN)"
+    author: "Nicolas Gallagher and Jonathan Neal"
+    kind: library
+    url: "https://github.com/necolas/normalize.css"
+    package: "normalize.css@8.0.1"
+    license: "MIT"
+    accessed: 2026-10-13
+    visibility: public
+    note: "Loaded only on the upstream side of the fidelity diff, as a local copy of the file the pen links; nothing from it ships."
+    used-in: [docs/evidence/ports/shimmer-lines]

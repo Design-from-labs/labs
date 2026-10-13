@@ -1,0 +1,143 @@
+{
+  "title": "Scroll Carousel",
+  "description": "A 3D ring of pictures that turns as you scroll, driven by a CSS scroll timeline, with a scroll-listener fallback and a flat strip under reduced motion.",
+  "category": "media",
+  "type": "registry:ui",
+  "status": "beta",
+  "upstreamPath": "upstream/debug.html",
+  "iconSets": ["none"],
+  "registryDependencies": ["utils", "use-reduced-motion"],
+  "files": [
+    {
+      "file": "scroll-carousel.tsx",
+      "type": "registry:ui"
+    },
+    {
+      "file": "scroll-carousel-styles.tsx",
+      "type": "registry:ui"
+    }
+  ],
+  "demo": "demo.tsx",
+  "tile": {
+    "span": 2,
+    "rows": 2,
+    "surface": "dark"
+  },
+  "loop": {
+    "script": "wait",
+    "duration": 8000,
+    "hydrate": true
+  },
+  "credits": [
+    "S-471",
+    "S-473",
+    "S-474",
+    "S-345",
+    "S-003",
+    "S-004",
+    "S-008",
+    "S-014",
+    "S-152",
+    "S-153",
+    "S-157",
+    "S-237",
+    "S-450",
+    "S-451"
+  ],
+  "tags": [
+    "carousel",
+    "gallery",
+    "scroll-driven",
+    "3d",
+    "perspective",
+    "images"
+  ],
+  "docs": "Installed `ScrollCarousel` in `components/ui/` (with its stylesheet next to it), plus the `use-reduced-motion` hook in `hooks/`.\n\n```tsx\nimport { ScrollCarousel } from \"@/components/ui/scroll-carousel\";\n\n<ScrollCarousel\n  images={[{ src: \"/a.jpg\", alt: \"A red door\" }, ...]}\n  label=\"Recent work\"\n  className=\"h-dvh\"\n/>\n```\n\nIt fills its parent, so give the parent a height. Pass 3 or more images, each with `alt` text (an empty string marks a decorative one). The ring turns as the named scroll region over it scrolls (focus it and use the arrow keys); the picture size follows the component's own box, or set `--scroll-carousel-item-size`.\n\nWhere the browser has CSS scroll timelines the ring is turned by the stylesheet alone; elsewhere a scroll listener turns it the same way (`scrollDriver=\"script\"` forces that). Under reduced motion nothing is tied to the scroll position: the ring becomes a flat strip of the same images that scrolls natively.\n\nPorted from Jhey's pen (MIT, copyright 2026 by Jhey); the pen's photos, debug panel and GSAP fallback are not part of it. The license text is in each file.",
+  "props": [
+    {
+      "name": "images",
+      "type": "{ src: string; alt: string }[]",
+      "required": true,
+      "description": "The pictures on the ring, in order; 3 or more (the pen used 10 to 50). Every picture needs alt text."
+    },
+    {
+      "name": "label",
+      "type": "string",
+      "default": "\"Image carousel\"",
+      "description": "The accessible name of the scroll region."
+    },
+    {
+      "name": "scrollDriven",
+      "type": "boolean",
+      "default": "true",
+      "description": "Turn the ring with the scroller (the pen's Scroll Drive). Off, it turns by itself (half a second per picture for each turn)."
+    },
+    {
+      "name": "animate",
+      "type": "boolean",
+      "default": "true",
+      "description": "Off, the ring stands still and there is nothing to scroll."
+    },
+    {
+      "name": "vertical / infinite",
+      "type": "boolean",
+      "default": "false",
+      "description": "Scroll up and down instead of across; wrap around at either end."
+    },
+    {
+      "name": "ratio / gap",
+      "type": "number",
+      "default": "2 / 0.1",
+      "description": "Scroll distance per picture, and the space between pictures, both as a multiple of the picture width."
+    },
+    {
+      "name": "perspective / rotateX / rotateZ",
+      "type": "number",
+      "default": "320 / 0 / 0",
+      "description": "Perspective in px, and the ring's tilt and roll in degrees."
+    },
+    {
+      "name": "maskLower / maskUpper",
+      "type": "number",
+      "default": "0.9 / 1.8",
+      "description": "Where the edge fade is fully opaque and fully transparent, in picture widths from the centre."
+    },
+    {
+      "name": "backface",
+      "type": "boolean",
+      "default": "false",
+      "description": "Show the back of the pictures on the far side of the ring."
+    },
+    {
+      "name": "scheme",
+      "type": "\"dark\" | \"light\" | \"auto\"",
+      "default": "\"dark\"",
+      "description": "The color scheme of the system colors it draws with; auto inherits."
+    },
+    {
+      "name": "hint",
+      "type": "React.ReactNode",
+      "default": "\"scroll.\"",
+      "description": "The word in the corner while the ring is scroll-driven; null hides it."
+    },
+    {
+      "name": "scrollDriver",
+      "type": "\"auto\" | \"script\"",
+      "default": "\"auto\"",
+      "description": "auto: a CSS scroll timeline where supported, a scroll listener elsewhere; script always uses the listener."
+    },
+    {
+      "name": "--scroll-carousel-item-size",
+      "type": "length",
+      "default": "clamp(120px, 20cqmin, 12rem)",
+      "description": "The picture size."
+    }
+  ],
+  "a11y": [
+    "The scroller is a focusable region named by label: the arrow keys, Page Up and Page Down and Home and End scroll it a picture at a time (scroll-snap), and the focus ring shows only for keyboard focus. The pictures are a list with their own alt text, in order.",
+    "Reduced motion: no transform is linked to the scroll position and nothing turns by itself. The ring is replaced by a flat strip of the same pictures that scrolls natively, in the same named region.",
+    "Without CSS scroll timelines a scroll listener sets the same rotation; the keyboard behaviour does not change.",
+    "Right to left: the scroller starts at the inline start, and the rotation follows the distance scrolled."
+  ],
+  "usage": "<div className=\"h-96\">\n  <ScrollCarousel images={images} label=\"Gallery\" />\n</div>"
+}

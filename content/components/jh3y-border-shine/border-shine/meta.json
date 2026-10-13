@@ -1,0 +1,103 @@
+{
+  "$schema": "https://labs.designfrom.com/schemas/meta.schema.json",
+  "schemaVersion": 1,
+  "name": "border-shine",
+  "kind": "component",
+  "title": "Border Shine",
+  "description": "A glass edge that catches the light: a masked inset highlight whose angle follows the pointer, or the arrow keys. Wraps any card or button.",
+  "status": "beta",
+  "category": "layout",
+  "label": "Border Shine (CodePen)",
+  "variants": [
+    {
+      "name": "border-shine",
+      "primitive": "none",
+      "iconSet": "none",
+      "status": "beta"
+    }
+  ],
+  "defaultVariant": "border-shine",
+  "demo": "demo.tsx",
+  "preview": "preview.webp",
+  "source": {
+    "repo": "https://codepen.io/jh3y/pen/WbwyGBb",
+    "commit": "ccec66c2191e6105456fcb8d6e5eefc6f53c1ef9",
+    "path": "upstream/debug.html"
+  },
+  "author": "Jhey <https://codepen.io/jh3y>",
+  "license": "MIT",
+  "attribution": "Copyright (c) 2026 by Jhey (https://codepen.io/jh3y/pen/WbwyGBb). MIT License.",
+  "credits": [
+    "S-465",
+    "S-003",
+    "S-004",
+    "S-008",
+    "S-019",
+    "S-020",
+    "S-152",
+    "S-156",
+    "S-157",
+    "S-237",
+    "S-345",
+    "S-450",
+    "S-451",
+    "S-463"
+  ],
+  "date": "2026-10-13",
+  "tile": {
+    "span": 1,
+    "rows": 2,
+    "surface": "dark"
+  },
+  "loop": {
+    "script": "hover[1] → press[1] → release[1] → idle",
+    "duration": 4000
+  },
+  "tags": [
+    "border",
+    "glass",
+    "highlight",
+    "mask",
+    "pointer",
+    "backdrop-filter"
+  ],
+  "props": [
+    {
+      "name": "as",
+      "type": "\"div\" | \"span\" | \"button\" | \"a\" | \"article\" | \"section\" | \"li\"",
+      "default": "\"div\"",
+      "description": "The element to render. Use button or a for a control."
+    },
+    {
+      "name": "angle",
+      "type": "number",
+      "default": "325",
+      "description": "Where the light sits, in degrees (0 is the top, clockwise), before the pointer moves and whenever it does not follow."
+    },
+    {
+      "name": "follow",
+      "type": "boolean",
+      "default": "true",
+      "description": "Turn the light toward the pointer anywhere on the page, and with the arrow keys while the element, or a button or link inside it, has focus. Reduced motion keeps the light at angle."
+    },
+    {
+      "name": "squircle",
+      "type": "boolean",
+      "default": "true",
+      "description": "Upstream's squircle corners (24% radius, a true squircle where corner-shape is supported). Turn it off to set your own radius with a rounded-* class."
+    },
+    {
+      "name": "className",
+      "type": "string",
+      "description": "Size, radius and fill of the plate (upstream: a 64 px square at scale 2)."
+    }
+  ],
+  "a11y": [
+    "Decorative edge: the highlight, the glass fill and BorderShineGlyph are aria-hidden or pseudo-elements, and the pseudo-elements ignore the pointer, so everything inside stays clickable.",
+    "Name the control: BorderShine renders a div by default; use as=\"button\" or as=\"a\" with an accessible name (the glyph has none).",
+    "Keyboard: while the element, or a button or link inside it, has focus, ArrowRight and ArrowUp turn the light clockwise 15 degrees (Shift: 45), ArrowLeft and ArrowDown the other way, Home resets it. Inputs, text fields and widgets that use the arrows themselves (sliders, tabs, menus, listboxes) keep their keys.",
+    "Reduced motion: the light stays at the angle prop; the pointer and the arrow keys no longer move it.",
+    "More contrast and forced colors: the highlight becomes a solid white inset line under prefers-contrast: more, and a CanvasText border under forced colors."
+  ],
+  "usage": "<BorderShine as=\"button\" type=\"button\" aria-label=\"Weather\" className=\"size-16\">\n  <BorderShineGlyph />\n</BorderShine>"
+}

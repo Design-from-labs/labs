@@ -1,0 +1,100 @@
+{
+  "title": "Neumorphic Panel",
+  "description": "A soft extruded panel with a light highlight and a faint shadow, raised or pressed, with an optional toggle button.",
+  "category": "layout",
+  "type": "registry:ui",
+  "status": "beta",
+  "upstreamPath": "debug.html",
+  "iconSets": ["none"],
+  "files": [
+    {
+      "file": "neumorphic-panel.tsx",
+      "type": "registry:ui"
+    }
+  ],
+  "cssVars": {
+    "theme": {
+      "color-neumorphic-panel-surface": "var(--neumorphic-panel-surface)",
+      "color-neumorphic-panel-foreground": "var(--neumorphic-panel-foreground)",
+      "color-neumorphic-panel-focus": "var(--neumorphic-panel-focus)"
+    },
+    "light": {
+      "neumorphic-panel-surface": "#e8eae9",
+      "neumorphic-panel-foreground": "#ced3d9",
+      "neumorphic-panel-highlight": "rgba(255, 255, 255, 1)",
+      "neumorphic-panel-shade": "rgba(13, 39, 80, 0.04)",
+      "neumorphic-panel-inner-highlight": "rgba(255, 255, 255, 0.64)",
+      "neumorphic-panel-inner-shade": "rgba(13, 39, 80, 0.16)",
+      "neumorphic-panel-contrast-foreground": "#4b525c",
+      "neumorphic-panel-contrast-edge": "#4b525c",
+      "neumorphic-panel-focus": "#3a56d6"
+    },
+    "dark": {
+      "neumorphic-panel-surface": "#e8eae9",
+      "neumorphic-panel-foreground": "#ced3d9",
+      "neumorphic-panel-highlight": "rgba(255, 255, 255, 1)",
+      "neumorphic-panel-shade": "rgba(13, 39, 80, 0.04)",
+      "neumorphic-panel-inner-highlight": "rgba(255, 255, 255, 0.64)",
+      "neumorphic-panel-inner-shade": "rgba(13, 39, 80, 0.16)",
+      "neumorphic-panel-contrast-foreground": "#4b525c",
+      "neumorphic-panel-contrast-edge": "#4b525c",
+      "neumorphic-panel-focus": "#3a56d6"
+    }
+  },
+  "demo": "demo.tsx",
+  "tile": {
+    "span": 2,
+    "rows": 2
+  },
+  "loop": {
+    "script": "click[1] → wait → wait → click[1] → wait",
+    "duration": 4800,
+    "hydrate": true
+  },
+  "credits": [
+    "S-003",
+    "S-004",
+    "S-008",
+    "S-152",
+    "S-157",
+    "S-237",
+    "S-450",
+    "S-451",
+    "S-460",
+    "S-463",
+    "S-464"
+  ],
+  "tags": ["neumorphism", "shadow", "squircle", "surface", "toggle"],
+  "docs": "Installed `NeumorphicPanel`. Import it from `@/components/ui/neumorphic-panel` and put it on a surface of the same color: `<NeumorphicPanel state=\"raised\">Label</NeumorphicPanel>`. The effect is a light highlight toward the top start and a faint shadow toward the bottom end; `state=\"pressed\"` adds inner shadows. With `pressable` it is a toggle button whose `aria-pressed` state is the pressed look.\n\nThe page behind it must be `--neumorphic-panel-surface` (#e8eae9 by default) for the illusion to read. The colors are the `--neumorphic-panel-*` variables (light and dark); `--neumorphic-panel-size` sets the width (300px). The default text is faint by design: under `prefers-contrast: more` it and the edge are lifted, and you can set `--neumorphic-panel-foreground` to make that the default.\n\nPorted from the CodePen \"Neumorphic shadows\" by Una Kravets (MIT, copyright 2026 Una Kravets); the license text is in the file.\n\nThe pen has one palette, so the dark theme uses the same light panel (it paints its own surface); set the `--neumorphic-panel-*` variables under `.dark` for a dark treatment.",
+  "props": [
+    {
+      "name": "state",
+      "type": "\"raised\" | \"pressed\"",
+      "default": "\"raised\"",
+      "description": "The pen's raised look (a highlight and a shadow outside) or its pressed look (the same plus two inner shadows). Ignored when `pressable`."
+    },
+    {
+      "name": "pressable",
+      "type": "boolean",
+      "default": "false",
+      "description": "Render a toggle button (`aria-pressed`) instead of a div; its pressed state is the pressed look."
+    },
+    {
+      "name": "pressed / defaultPressed / onPressedChange",
+      "type": "boolean / boolean / (pressed: boolean) => void",
+      "description": "Controlled or initial pressed state of a `pressable` panel, and its change callback."
+    },
+    {
+      "name": "className / children",
+      "type": "string / React.ReactNode",
+      "description": "Classes for the root, and its content. All other div (or button) props pass through."
+    }
+  ],
+  "a11y": [
+    "A plain panel is a div with no role. A pressable panel is a native button with aria-pressed: Enter and Space toggle it, and a visible focus outline appears for keyboard focus only.",
+    "The pressed look only changes shadows, so the state is carried by aria-pressed for assistive technology; under prefers-contrast: more and forced colors the pressed state also gets a heavier double border.",
+    "Contrast (fidelity default, contrast on request): the pen's text is #ced3d9 on #e8eae9 (1.25:1) and its edge is a soft shadow, a known deviation from AA kept for fidelity. Under prefers-contrast: more the text becomes #4b525c (6.5:1) and the panel gets a 2px edge; under forced colors it uses ButtonText with a border. Set --neumorphic-panel-foreground to make the higher contrast the default.",
+    "Reduced motion: the pressed look changes instantly; otherwise the shadow eases for 200ms."
+  ],
+  "usage": "<NeumorphicPanel pressable aria-label=\"Mute\" defaultPressed>Mute</NeumorphicPanel>"
+}

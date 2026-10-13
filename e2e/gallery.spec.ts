@@ -301,8 +301,10 @@ test("Enter on a focused tile opens the component, with a visible focus ring", a
   await page.goto("/ui");
   await painted(page);
   const link = tileLink(page, "Tooltip");
-  // Reach the tile by keyboard so :focus-visible applies.
-  for (let i = 0; i < 40; i += 1) {
+  // Reach the tile by keyboard so :focus-visible applies. The wall has one
+  // tab stop per tile (57 on a beta build, with Tooltip the 35th), so the
+  // bound leaves room for it to grow.
+  for (let i = 0; i < 120; i += 1) {
     await page.keyboard.press("Tab");
     if (await link.evaluate((el) => el === document.activeElement)) {
       break;

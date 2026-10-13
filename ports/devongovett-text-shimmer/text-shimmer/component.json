@@ -1,0 +1,83 @@
+{
+  "title": "Text Shimmer",
+  "description": "Gray text with a light shine that sweeps across the glyphs on the GPU: a masked, translating gradient over an inert copy of any text.",
+  "category": "typography",
+  "type": "registry:ui",
+  "status": "beta",
+  "upstreamPath": "style.css and index.html of the project",
+  "iconSets": ["none"],
+  "registryDependencies": ["utils"],
+  "files": [
+    {
+      "file": "text-shimmer.tsx",
+      "type": "registry:ui"
+    }
+  ],
+  "cssVars": {
+    "light": {
+      "text-shimmer-color": "#777",
+      "text-shimmer-highlight": "#000"
+    },
+    "dark": {
+      "text-shimmer-color": "#777",
+      "text-shimmer-highlight": "#fff"
+    }
+  },
+  "demo": "demo.tsx",
+  "tile": {
+    "span": 1,
+    "rows": 1
+  },
+  "credits": [
+    "S-003",
+    "S-004",
+    "S-008",
+    "S-014",
+    "S-015",
+    "S-035",
+    "S-152",
+    "S-153",
+    "S-155",
+    "S-156",
+    "S-157",
+    "S-161",
+    "S-237",
+    "S-450",
+    "S-451"
+  ],
+  "tags": ["text", "shimmer", "mask", "gpu", "loading"],
+  "docs": "Installed `TextShimmer`. Import it from `@/components/ui/text-shimmer` and wrap any text: `<TextShimmer>Thinking in progress</TextShimmer>`.\n\nThe component renders your text once as real text and once more as an inert, hidden copy that clips a moving gradient to the glyphs, so the animation runs on the compositor with no JavaScript. Colors are `--text-shimmer-color` (the text) and `--text-shimmer-highlight` (the shine). Keep ids and form fields out of the children, since they are rendered twice. Under reduced motion the shine is not drawn.\n\nPorted from Devon Govett's CodePen project (MIT, copyright 2026 Devon Govett); the license text is in the file.",
+  "props": [
+    {
+      "name": "spread",
+      "type": "string",
+      "default": "\"4ch\"",
+      "description": "Half the shine's width, as a CSS length."
+    },
+    {
+      "name": "duration",
+      "type": "number",
+      "default": "2.5",
+      "description": "One sweep, in seconds."
+    },
+    {
+      "name": "paused",
+      "type": "boolean",
+      "default": "false",
+      "description": "Holds the shine on its current frame."
+    },
+    {
+      "name": "className",
+      "type": "string",
+      "description": "Extra classes for the root (an inline-block span)."
+    }
+  ],
+  "a11y": [
+    "The words you pass are real text, selectable and read by screen readers once; the copy that carries the shine is inert and aria-hidden.",
+    "Reduced motion: the shine is not drawn, only the plain gray text remains.",
+    "The gray (#777) is 4.48:1 on white and fails AA by 0.02, as in the original. Under prefers-contrast: more it moves a quarter toward the highlight color, and under forced colors the shine is hidden.",
+    "Right to left: the shine sweeps from the inline start edge; left to right is unchanged.",
+    "paused holds the shine for people who need the animation stopped (WCAG 2.2.2)."
+  ],
+  "usage": "<TextShimmer>Thinking in progress</TextShimmer>"
+}

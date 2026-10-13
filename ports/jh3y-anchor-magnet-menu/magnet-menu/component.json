@@ -1,0 +1,107 @@
+{
+  "title": "Magnet Menu",
+  "description": "A navigation menu whose hover highlight slides from link to link, and an underline that marks the current page, both placed with CSS anchor positioning.",
+  "category": "navigation",
+  "type": "registry:ui",
+  "status": "beta",
+  "upstreamPath": "upstream/debug.html",
+  "iconSets": ["none"],
+  "registryDependencies": ["utils", "compose-refs"],
+  "variants": [
+    {
+      "primitive": "none",
+      "roots": ["src/shared", "src/none"],
+      "status": "beta"
+    },
+    {
+      "primitive": "radix",
+      "roots": ["src/shared", "src/radix"],
+      "status": "beta"
+    },
+    {
+      "primitive": "base",
+      "roots": ["src/shared", "src/base"],
+      "status": "beta"
+    }
+  ],
+  "defaultVariant": "magnet-menu",
+  "demo": "demo.tsx",
+  "stage": {
+    "device": "laptop",
+    "slot": "header"
+  },
+  "loop": {
+    "script": "hover[1] → hover[3] → hover[2] → hover[5] → hover[4] → idle",
+    "duration": 4000
+  },
+  "cssVars": {
+    "light": {
+      "magnet-menu-ink": "#000",
+      "magnet-menu-paper": "#fff"
+    },
+    "dark": {
+      "magnet-menu-ink": "#fff",
+      "magnet-menu-paper": "#000"
+    }
+  },
+  "credits": [
+    "S-470",
+    "S-472",
+    "S-003",
+    "S-004",
+    "S-008",
+    "S-032",
+    "S-033",
+    "S-014",
+    "S-152",
+    "S-153",
+    "S-157",
+    "S-237",
+    "S-450",
+    "S-451"
+  ],
+  "tags": ["navigation", "menu", "anchor-positioning", "hover", "indicator"],
+  "docs": "Installed `MagnetMenu` and `MagnetMenuLink` in `components/ui/` (with its fallback script and stylesheet next to them), plus the `compose-refs` helper in `lib/`.\n\n```tsx\nimport { MagnetMenu, MagnetMenuLink } from \"@/components/ui/magnet-menu\";\n\n<MagnetMenu aria-label=\"Sections\">\n  <MagnetMenuLink href=\"/\" active>Home</MagnetMenuLink>\n  <MagnetMenuLink href=\"/craft\">Craft</MagnetMenuLink>\n</MagnetMenu>\n```\n\nThe highlight follows the pointer and keyboard focus from link to link; the underline marks `active` (`aria-current=\"page\"`) or, as upstream does, the link the URL hash targets. Pass `orientation=\"vertical\"` for a column. The stylesheet is rendered by the component; theme it with `--magnet-menu-ink`, `--magnet-menu-paper` and `--magnet-menu-indicator`.\n\nThe pill and underline are placed by CSS anchor positioning. Where the browser lacks it (`CSS.supports(\"anchor-name: --a\")` is false) a small script measures the links and the same CSS reads the numbers.\n\nPorted from Jhey's pen (MIT, copyright 2026 by Jhey); the license text is in each file.",
+  "props": [
+    {
+      "name": "orientation",
+      "type": "\"horizontal\" | \"vertical\"",
+      "default": "\"horizontal\"",
+      "description": "Lay the links out in a row or a column (the pen's orientation button)."
+    },
+    {
+      "name": "aria-label",
+      "type": "string",
+      "description": "The accessible name of the navigation landmark. Give it one whenever the page has more than one navigation landmark (axe's landmark-unique); upstream's nav had none."
+    },
+    {
+      "name": "MagnetMenuLink active",
+      "type": "boolean",
+      "default": "false",
+      "description": "The current page: underlined and announced with aria-current=\"page\". A link the URL hash targets is underlined too."
+    },
+    {
+      "name": "MagnetMenuLink",
+      "type": "React.ComponentProps<\"a\">",
+      "description": "Every anchor prop (href, target, rel, onClick, id)."
+    },
+    {
+      "name": "--magnet-menu-ink / --magnet-menu-paper",
+      "type": "color",
+      "default": "canvasText / canvas",
+      "description": "The text color and the page color the labels, pill and underline are mixed from. The items set black on white and white on black for the light and dark themes."
+    },
+    {
+      "name": "--magnet-menu-indicator",
+      "type": "color",
+      "description": "Overrides the pill's color (default: 15% ink over paper, as upstream)."
+    }
+  ],
+  "a11y": [
+    "A navigation landmark of links (name it with aria-label when the page has another): Tab moves through them, and the pill follows keyboard focus as it follows the pointer. The current page carries aria-current=\"page\".",
+    "The label color is upstream's 50% mix of ink over paper (about 4.5:1 on white). Under prefers-contrast: more it is raised to 75%; under forced colors the links use LinkText and the pill is drawn as a Highlight outline.",
+    "Reduced motion: the pill and underline move and fade at once.",
+    "Right to left: the pill and underline are anchored to the links, so they follow the mirrored order."
+  ],
+  "usage": "<MagnetMenu aria-label=\"Sections\">\n  <MagnetMenuLink href=\"/\" active>Home</MagnetMenuLink>\n  <MagnetMenuLink href=\"/craft\">Craft</MagnetMenuLink>\n  <MagnetMenuLink href=\"/posts\">Posts</MagnetMenuLink>\n</MagnetMenu>"
+}

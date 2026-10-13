@@ -1,0 +1,111 @@
+{
+  "title": "Shimmer Lines",
+  "description": "Text that shimmers as a band of light sweeps across its glyphs, then rests; longer lines sweep for longer. Wraps any text, in classic, aurora or flame.",
+  "category": "typography",
+  "type": "registry:ui",
+  "status": "beta",
+  "upstreamPath": "debug view: the main p rule and its shimmer keyframes",
+  "iconSets": ["none"],
+  "registryDependencies": ["utils"],
+  "files": [
+    {
+      "file": "shimmer-lines.tsx",
+      "type": "registry:ui"
+    }
+  ],
+  "cssVars": {
+    "light": {
+      "shimmer-lines-base": "color-mix(in hsl, #fff, #000 20%)",
+      "shimmer-lines-highlight": "#000"
+    },
+    "dark": {
+      "shimmer-lines-base": "color-mix(in hsl, #121212, #fff 20%)",
+      "shimmer-lines-highlight": "#fff"
+    }
+  },
+  "demo": "demo.tsx",
+  "tile": {
+    "span": 1,
+    "rows": 1,
+    "surface": "dark"
+  },
+  "credits": [
+    "S-003",
+    "S-004",
+    "S-008",
+    "S-014",
+    "S-015",
+    "S-035",
+    "S-152",
+    "S-153",
+    "S-155",
+    "S-156",
+    "S-157",
+    "S-161",
+    "S-237",
+    "S-450",
+    "S-451"
+  ],
+  "tags": ["text", "shimmer", "gradient", "loading", "background-clip"],
+  "docs": "Installed `ShimmerLines`. Import it from `@/components/ui/shimmer-lines` and wrap any text: `<ShimmerLines>CSS is awesome, right?</ShimmerLines>`.\n\nA light band sweeps across the glyphs, then the text rests until the next pass; the sweep lasts `speed` seconds per character (0.12 by default), so longer lines take longer. `variant` picks classic, aurora or flame. Colors are `--shimmer-lines-base` (the resting text) and `--shimmer-lines-highlight` (the classic band). Under reduced motion it is plain, full-contrast text.\n\nPorted from Jhey's CodePen (MIT, copyright 2026 Jhey); the license text is in the file.",
+  "props": [
+    {
+      "name": "variant",
+      "type": "\"classic\" | \"aurora\" | \"flame\"",
+      "default": "\"classic\"",
+      "description": "The band: one color, a multi-color aurora, or a flame."
+    },
+    {
+      "name": "speed",
+      "type": "number",
+      "default": "0.12",
+      "description": "Seconds per character of text; the sweep takes longer on longer lines."
+    },
+    {
+      "name": "duration",
+      "type": "number",
+      "description": "A fixed duration in seconds, instead of one derived from the text."
+    },
+    {
+      "name": "length",
+      "type": "number",
+      "description": "The character count the duration is derived from; defaults to the length of the text in children. Pass it for text you edit in place."
+    },
+    {
+      "name": "spread",
+      "type": "number",
+      "default": "3",
+      "description": "Half the band's width, in ch."
+    },
+    {
+      "name": "angle",
+      "type": "number",
+      "default": "295",
+      "description": "The band's angle in degrees (mirrored in right-to-left)."
+    },
+    {
+      "name": "position",
+      "type": "number",
+      "description": "Holds the band at this position, 0 to 100, without animating."
+    },
+    {
+      "name": "paused",
+      "type": "boolean",
+      "default": "false",
+      "description": "Holds the animation on its current frame."
+    },
+    {
+      "name": "className",
+      "type": "string",
+      "description": "Extra classes for the root (an inline-block span)."
+    }
+  ],
+  "a11y": [
+    "The text stays real text: selectable, searchable and read by screen readers as it is; only its color is painted by the gradient.",
+    "Reduced motion: no band and no animation, the text shows in the full-contrast highlight color.",
+    "The resting color is a faint gray (it fails 4.5:1 by design, like the original). Under prefers-contrast: more it becomes the highlight color, and under forced colors the system text color.",
+    "Right to left: the band sweeps from the inline start edge with its slant mirrored; left to right is unchanged.",
+    "paused holds the band for people who need the animation stopped (WCAG 2.2.2)."
+  ],
+  "usage": "<ShimmerLines variant=\"aurora\">Generating your report</ShimmerLines>"
+}
