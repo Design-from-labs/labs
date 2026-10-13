@@ -1,0 +1,417 @@
+{
+  "pre-SimpleNumbers-idle": {
+    "upstream": "http://localhost:5330/",
+    "port": "http://localhost:5331/?example=SimpleNumbers&await=1",
+    "scheme": "light",
+    "threshold": 0.1,
+    "seed": null,
+    "clock": {
+      "epoch": 1767225600000,
+      "advance": 500
+    },
+    "reducedMotion": false,
+    "results": {
+      "1280x800": {
+        "differingPixels": 0,
+        "totalPixels": 527443,
+        "percent": 0,
+        "sizes": {
+          "upstream": [1057, 499],
+          "port": [1057, 499]
+        },
+        "pass": true
+      },
+      "375x812": {
+        "differingPixels": 0,
+        "totalPixels": 77672,
+        "percent": 0,
+        "sizes": {
+          "upstream": [152, 511],
+          "port": [152, 511]
+        },
+        "pass": true
+      }
+    }
+  },
+  "pre-SimpleNumbers-drag": {
+    "upstream": "http://localhost:5330/",
+    "port": "http://localhost:5331/?example=SimpleNumbers&await=1",
+    "scheme": "light",
+    "threshold": 0.1,
+    "seed": null,
+    "clock": {
+      "epoch": 1767225600000,
+      "advance": 500
+    },
+    "reducedMotion": false,
+    "pause": null,
+    "results": {
+      "1280x800": {
+        "differingPixels": 0,
+        "totalPixels": 527443,
+        "percent": 0,
+        "sizes": {
+          "upstream": [1057, 499],
+          "port": [1057, 499]
+        },
+        "pass": true
+      },
+      "375x812": {
+        "differingPixels": 0,
+        "totalPixels": 77672,
+        "percent": 0,
+        "sizes": {
+          "upstream": [152, 511],
+          "port": [152, 511]
+        },
+        "pass": true
+      }
+    }
+  },
+  "pre-SimpleNumbers-wheel": {
+    "upstream": "http://localhost:5330/",
+    "port": "http://localhost:5331/?example=SimpleNumbers&await=1",
+    "scheme": "light",
+    "threshold": 0.1,
+    "seed": null,
+    "clock": {
+      "epoch": 1767225600000,
+      "advance": 500
+    },
+    "reducedMotion": false,
+    "results": {
+      "1280x800": {
+        "differingPixels": 0,
+        "totalPixels": 527443,
+        "percent": 0,
+        "sizes": {
+          "upstream": [1057, 499],
+          "port": [1057, 499]
+        },
+        "pass": true
+      },
+      "375x812": {
+        "differingPixels": 0,
+        "totalPixels": 77672,
+        "percent": 0,
+        "sizes": {
+          "upstream": [152, 511],
+          "port": [152, 511]
+        },
+        "pass": true
+      }
+    }
+  },
+  "pre-CardLayout-idle": {
+    "upstream": "http://localhost:5330/",
+    "port": "http://localhost:5331/?example=CardLayout&await=1",
+    "scheme": "light",
+    "threshold": 0.1,
+    "seed": null,
+    "clock": {
+      "epoch": 1767225600000,
+      "advance": 500
+    },
+    "reducedMotion": false,
+    "results": {
+      "1280x800": {
+        "differingPixels": 0,
+        "totalPixels": 527443,
+        "percent": 0,
+        "sizes": {
+          "upstream": [1057, 499],
+          "port": [1057, 499]
+        },
+        "pass": true
+      },
+      "375x812": {
+        "differingPixels": 0,
+        "totalPixels": 77672,
+        "percent": 0,
+        "sizes": {
+          "upstream": [152, 511],
+          "port": [152, 511]
+        },
+        "pass": true
+      }
+    }
+  },
+  "pre-CardLayout-drag": {
+    "upstream": "http://localhost:5330/",
+    "port": "http://localhost:5331/?example=CardLayout&await=1",
+    "scheme": "light",
+    "threshold": 0.1,
+    "seed": null,
+    "clock": {
+      "epoch": 1767225600000,
+      "advance": 500
+    },
+    "reducedMotion": false,
+    "results": {
+      "1280x800": {
+        "differingPixels": 0,
+        "totalPixels": 527443,
+        "percent": 0,
+        "sizes": {
+          "upstream": [1057, 499],
+          "port": [1057, 499]
+        },
+        "pass": true
+      },
+      "375x812": {
+        "differingPixels": 0,
+        "totalPixels": 77672,
+        "percent": 0,
+        "sizes": {
+          "upstream": [152, 511],
+          "port": [152, 511]
+        },
+        "pass": true
+      }
+    }
+  },
+  "pre-CardLayout-wheel": {
+    "upstream": "http://localhost:5330/",
+    "port": "http://localhost:5331/?example=CardLayout&await=1",
+    "scheme": "light",
+    "threshold": 0.1,
+    "seed": null,
+    "clock": {
+      "epoch": 1767225600000,
+      "advance": 500
+    },
+    "reducedMotion": false,
+    "results": {
+      "1280x800": {
+        "differingPixels": 0,
+        "totalPixels": 527443,
+        "percent": 0,
+        "sizes": {
+          "upstream": [1057, 499],
+          "port": [1057, 499]
+        },
+        "pass": true
+      },
+      "375x812": {
+        "differingPixels": 0,
+        "totalPixels": 77672,
+        "percent": 0,
+        "sizes": {
+          "upstream": [152, 511],
+          "port": [152, 511]
+        },
+        "pass": true
+      }
+    }
+  },
+  "post-SimpleNumbers-drag": {
+    "upstream": "http://localhost:5330/",
+    "port": "http://localhost:5331/?example=SimpleNumbers&await=1",
+    "scheme": "light",
+    "threshold": 0.1,
+    "seed": null,
+    "clock": {
+      "epoch": 1767225600000,
+      "advance": 500
+    },
+    "reducedMotion": false,
+    "pause": null,
+    "results": {
+      "1280x800": {
+        "differingPixels": 0,
+        "totalPixels": 527443,
+        "percent": 0,
+        "sizes": {
+          "upstream": [1057, 499],
+          "port": [1057, 499]
+        },
+        "pass": true
+      },
+      "375x812": {
+        "differingPixels": 0,
+        "totalPixels": 77672,
+        "percent": 0,
+        "sizes": {
+          "upstream": [152, 511],
+          "port": [152, 511]
+        },
+        "pass": true
+      }
+    }
+  },
+  "post-SimpleNumbers-wheel": {
+    "upstream": "http://localhost:5330/",
+    "port": "http://localhost:5331/?example=SimpleNumbers&await=1",
+    "scheme": "light",
+    "threshold": 0.1,
+    "seed": null,
+    "clock": {
+      "epoch": 1767225600000,
+      "advance": 500
+    },
+    "reducedMotion": false,
+    "pause": null,
+    "results": {
+      "1280x800": {
+        "differingPixels": 0,
+        "totalPixels": 527443,
+        "percent": 0,
+        "sizes": {
+          "upstream": [1057, 499],
+          "port": [1057, 499]
+        },
+        "pass": true
+      },
+      "375x812": {
+        "differingPixels": 0,
+        "totalPixels": 77672,
+        "percent": 0,
+        "sizes": {
+          "upstream": [152, 511],
+          "port": [152, 511]
+        },
+        "pass": true
+      }
+    }
+  },
+  "post-CardLayout-idle": {
+    "upstream": "http://localhost:5330/",
+    "port": "http://localhost:5331/?example=CardLayout&await=1",
+    "scheme": "light",
+    "threshold": 0.1,
+    "seed": null,
+    "clock": {
+      "epoch": 1767225600000,
+      "advance": 500
+    },
+    "reducedMotion": false,
+    "pause": null,
+    "results": {
+      "1280x800": {
+        "differingPixels": 0,
+        "totalPixels": 527443,
+        "percent": 0,
+        "sizes": {
+          "upstream": [1057, 499],
+          "port": [1057, 499]
+        },
+        "pass": true
+      },
+      "375x812": {
+        "differingPixels": 0,
+        "totalPixels": 77672,
+        "percent": 0,
+        "sizes": {
+          "upstream": [152, 511],
+          "port": [152, 511]
+        },
+        "pass": true
+      }
+    }
+  },
+  "post-CardLayout-drag": {
+    "upstream": "http://localhost:5330/",
+    "port": "http://localhost:5331/?example=CardLayout&await=1",
+    "scheme": "light",
+    "threshold": 0.1,
+    "seed": null,
+    "clock": {
+      "epoch": 1767225600000,
+      "advance": 500
+    },
+    "reducedMotion": false,
+    "pause": null,
+    "results": {
+      "1280x800": {
+        "differingPixels": 0,
+        "totalPixels": 527443,
+        "percent": 0,
+        "sizes": {
+          "upstream": [1057, 499],
+          "port": [1057, 499]
+        },
+        "pass": true
+      },
+      "375x812": {
+        "differingPixels": 0,
+        "totalPixels": 77672,
+        "percent": 0,
+        "sizes": {
+          "upstream": [152, 511],
+          "port": [152, 511]
+        },
+        "pass": true
+      }
+    }
+  },
+  "post-CardLayout-wheel": {
+    "upstream": "http://localhost:5330/",
+    "port": "http://localhost:5331/?example=CardLayout&await=1",
+    "scheme": "light",
+    "threshold": 0.1,
+    "seed": null,
+    "clock": {
+      "epoch": 1767225600000,
+      "advance": 500
+    },
+    "reducedMotion": false,
+    "pause": null,
+    "results": {
+      "1280x800": {
+        "differingPixels": 0,
+        "totalPixels": 527443,
+        "percent": 0,
+        "sizes": {
+          "upstream": [1057, 499],
+          "port": [1057, 499]
+        },
+        "pass": true
+      },
+      "375x812": {
+        "differingPixels": 0,
+        "totalPixels": 77672,
+        "percent": 0,
+        "sizes": {
+          "upstream": [152, 511],
+          "port": [152, 511]
+        },
+        "pass": true
+      }
+    }
+  },
+  "post-SimpleNumbers-idle": {
+    "upstream": "http://localhost:5330/",
+    "port": "http://localhost:5331/?example=SimpleNumbers&await=1",
+    "scheme": "light",
+    "threshold": 0.1,
+    "seed": null,
+    "clock": {
+      "epoch": 1767225600000,
+      "advance": 500
+    },
+    "reducedMotion": false,
+    "pause": null,
+    "results": {
+      "1280x800": {
+        "differingPixels": 0,
+        "totalPixels": 527443,
+        "percent": 0,
+        "sizes": {
+          "upstream": [1057, 499],
+          "port": [1057, 499]
+        },
+        "pass": true
+      },
+      "375x812": {
+        "differingPixels": 0,
+        "totalPixels": 77672,
+        "percent": 0,
+        "sizes": {
+          "upstream": [152, 511],
+          "port": [152, 511]
+        },
+        "pass": true
+      }
+    }
+  }
+}

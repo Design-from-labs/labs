@@ -107,7 +107,10 @@ Examples: `button-radix-lucide`, `button-aria-phosphor`,
   (with `utils` in `registryDependencies`), `@/components/ui/<name>`,
   `@/hooks/<name>` and `@/lib/<name>` for a registry dependency, and relative
   imports between the item's own files. No other `@/` alias, no app-specific
-  path, no environment access, no network calls at import time.
+  path, no environment access (the one exception is `process.env.NODE_ENV`,
+  which bundlers inline at build time, for development-only tools; decision
+  [0018](decisions/0018-node-env-in-items.md)), no network calls at import
+  time.
 - Server-render safe: no `window`/`document` access at module scope. Files
   that use hooks or event handlers start with `"use client"`.
 - Right-to-left safe: use logical utilities (`ms-*`, `me-*`, `ps-*`, `pe-*`,

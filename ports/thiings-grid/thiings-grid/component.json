@@ -1,0 +1,69 @@
+{
+  "title": "ThiingsGrid",
+  "description": "An infinite, pannable grid with momentum: drag, scroll or use the arrow keys in any direction and cells render on demand from a render function.",
+  "category": "layout",
+  "type": "registry:block",
+  "status": "beta",
+  "date": "2026-10-12",
+  "entry": "thiings-grid.tsx",
+  "registryDependencies": ["utils"],
+  "iconSets": ["none"],
+  "variants": [
+    { "primitive": "none", "roots": ["src/upstream"], "status": "beta" }
+  ],
+  "defaultVariant": "thiings-grid",
+  "demo": "demo.tsx",
+  "sourcePath": "lib/ThiingsGrid.tsx",
+  "credits": ["S-003", "S-008"],
+  "tags": ["infinite-canvas", "pan", "momentum", "grid", "virtualized"],
+  "docs": "Installed `ThiingsGrid` at `components/thiings-grid.tsx`. It fills its nearest positioned ancestor (`position: absolute; inset: 0`), so give the parent a size and `position: relative`.\n\nPass `gridSize` (the cell size in pixels) and `renderItem`, which receives `{ gridIndex, position, isMoving }` for every visible cell. Indexes spiral outward from the center cell (0), so `items[gridIndex % items.length]` repeats a finite list across the infinite plane.\n\nThe viewport is focusable: arrow keys pan by one cell, Page Up and Page Down by one screen (Shift for sideways), Home returns to `initialPosition`. Give it a `label` that names what the grid holds.",
+  "props": [
+    {
+      "name": "gridSize",
+      "type": "number",
+      "description": "Width and height of one cell in pixels."
+    },
+    {
+      "name": "renderItem",
+      "type": "(config: { gridIndex: number; position: { x: number; y: number }; isMoving: boolean }) => React.ReactNode",
+      "description": "Renders one cell. gridIndex spirals out from 0 at the center; position is the cell's grid coordinate; isMoving is true while the grid is being dragged or gliding."
+    },
+    {
+      "name": "initialPosition",
+      "type": "{ x: number; y: number }",
+      "default": "{ x: 0, y: 0 }",
+      "description": "Starting pan offset in pixels; Home returns here."
+    },
+    {
+      "name": "className",
+      "type": "string",
+      "description": "Classes for the viewport element."
+    },
+    {
+      "name": "label",
+      "type": "string",
+      "default": "\"Pannable grid\"",
+      "description": "Accessible name of the viewport region."
+    },
+    {
+      "name": "description",
+      "type": "string",
+      "description": "Screen-reader instructions linked with aria-describedby. The default explains drag, scroll and the keys."
+    },
+    {
+      "name": "keyboardStep",
+      "type": "number",
+      "default": "gridSize",
+      "description": "Pixels one arrow key press pans."
+    }
+  ],
+  "a11y": [
+    "The viewport is a focusable region (tabIndex 0) with an accessible name (label) and the role description \"pannable grid\"; a visually hidden description, linked with aria-describedby, explains the controls.",
+    "Arrow keys pan by one cell, Page Up and Page Down by one screen (with Shift: sideways), Home returns to the start; keys with Ctrl, Alt or Meta pass through.",
+    "Focus is visible: a two-pixel inset outline in the ring token on keyboard focus only.",
+    "Reduced motion: when prefers-reduced-motion is reduce, releasing a drag stops where the pointer let go instead of gliding with momentum.",
+    "Right-to-left: panning is physical and does not mirror (dragging moves content with the pointer, ArrowRight reveals what is to the right), and cells are placed from a physical origin so the layout is identical in RTL.",
+    "Cells are rendered by your renderItem; make interactive cells real buttons or links with their own names. Cells are virtualized, so off-screen cells are not in the accessibility tree."
+  ],
+  "usage": "<div className=\"relative h-96\">\n  <ThiingsGrid\n    gridSize={80}\n    label=\"Number grid\"\n    renderItem={({ gridIndex }) => <div className=\"absolute inset-1 grid place-items-center rounded border\">{gridIndex}</div>}\n  />\n</div>"
+}

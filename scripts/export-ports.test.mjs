@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { exportPort, licenseFooter } from "./export-ports.mjs";
+import { exportPort, licenseFooter, toPhosphorTyped } from "./export-ports.mjs";
 import { loadSources } from "./lib/content.mjs";
 
 const source = (id) => loadSources().oss.find((s) => s.id === id);
@@ -63,4 +63,95 @@ test("exportPort: the Phosphor item differs only in its icon imports", () => {
       assert.equal(a[name], b[name], `${name} is shared`);
     }
   }
+});
+
+// The variants shape (primitive overlays, nested targets) uses a type-aware
+// Lucide -> Phosphor rewrite.
+const MAP = {
+  ChevronDown: "CaretDownIcon",
+  X: "XIcon",
+  LucideIcon: "Icon",
+  LucideProps: "IconProps",
+};
+
+test("toPhosphorTyped rewrites value imports and their uses", () => {
+  const out = toPhosphorTyped(
+    'import { ChevronDown, X } from "lucide-react";\nconst a = <ChevronDown />;\nconst b = <X className="x" />;\n',
+    MAP,
+    "t",
+  );
+  assert.match(
+    out,
+    /import \{ CaretDownIcon, XIcon \} from "@phosphor-icons\/react\/ssr";/,
+  );
+  assert.match(out, /<CaretDownIcon \/>/);
+  assert.match(out, /<XIcon className="x" \/>/);
+  assert.doesNotMatch(out, /lucide-react/);
+});
+
+test("toPhosphorTyped maps type imports, inline type specifiers and aliases", () => {
+  const out = toPhosphorTyped(
+    'import type { LucideIcon } from "lucide-react";\nimport { type LucideProps, X as Close } from "lucide-react";\ntype A = { icon: LucideIcon; p: LucideProps };\nconst c = <Close />;\n',
+    MAP,
+    "t",
+  );
+  assert.match(
+    out,
+    /import type \{ Icon \} from "@phosphor-icons\/react\/ssr";/,
+  );
+  assert.match(out, /import \{ type IconProps, XIcon as Close \}/);
+  assert.match(out, /icon: Icon; p: IconProps/);
+  assert.match(out, /<Close \/>/);
+});
+
+test("toPhosphorTyped leaves longer identifiers and member access alone", () => {
+  const out = toPhosphorTyped(
+    'import { X } from "lucide-react";\nconst Xylophone = 1;\nobj.X = 2;\n<X />;\n',
+    MAP,
+    "t",
+  );
+  assert.match(out, /const Xylophone = 1;/);
+  assert.match(out, /obj\.X = 2;/);
+  assert.match(out, /<XIcon \/>/);
+});
+
+test("toPhosphorTyped refuses an icon missing from the map", () => {
+  assert.throws(
+    () =>
+      toPhosphorTyped(
+        'import { Bell } from "lucide-react";',
+        MAP,
+        "item/x.tsx",
+      ),
+    /item\/x\.tsx: icons\.json has no Phosphor name for Bell/,
+  );
+});
+
+test("exportPort (variants): an item per icon set, nested targets, the notice in every file", () => {
+  const lifeline = source("lifeline");
+  const files = exportPort("lifeline", "lifeline", lifeline);
+  const meta = JSON.parse(files["meta.json"]);
+  assert.deepEqual(
+    meta.variants.map((v) => v.name),
+    ["lifeline-lucide", "lifeline-phosphor"],
+  );
+  const item = JSON.parse(files["items/lifeline-phosphor.json"]);
+  assert.ok(item.dependencies.includes("@phosphor-icons/react@^2"));
+  for (const file of item.files) {
+    assert.ok(file.target.startsWith("components/lifeline/"), file.path);
+    assert.ok(
+      file.content.includes(lifeline.attribution),
+      `${file.path} has the attribution`,
+    );
+    assert.doesNotMatch(file.content, /from "lucide-react"/);
+  }
+});
+
+test("licenseFooter normalises CRLF license text", () => {
+  const footer = licenseFooter(
+    "Copyright (c) 2025 Acme.",
+    "MIT License\r\n\r\nText\r\n",
+  );
+  assert.doesNotMatch(footer, /\r/);
+  assert.match(footer, / \* MIT License\n \*\n \* Text\n/);
 });

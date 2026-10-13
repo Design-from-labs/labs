@@ -1,0 +1,163 @@
+{
+  "title": "Liveline",
+  "description": "A real-time canvas chart for live values: a smooth line with a live dot and value badge, candlesticks that morph into a line, multiple series, and a cross-fade wrapper.",
+  "category": "data-display",
+  "type": "registry:block",
+  "status": "beta",
+  "date": "2026-10-12",
+  "entry": "liveline.tsx",
+  "target": "components/liveline",
+  "sourcePath": "src",
+  "iconSets": ["none"],
+  "credits": ["S-003"],
+  "tags": ["chart", "canvas", "real-time", "line", "candlestick", "streaming"],
+  "variants": [
+    {
+      "primitive": "none",
+      "roots": ["src/upstream"],
+      "status": "beta"
+    }
+  ],
+  "defaultVariant": "liveline",
+  "demo": "demo.tsx",
+  "docs": "Installed `Liveline` and `LivelineTransition` in `components/liveline` (no dependencies beyond React).\n\nFirst, render it inside an element with a height and feed it points as they arrive:\n\n```tsx\nimport { Liveline } from \"@/components/liveline\"\n\n<div className=\"h-64\">\n  <Liveline data={points} value={latest} theme=\"dark\" />\n</div>\n```\n\n- `data` is `{ time, value }[]` with `time` in Unix seconds; `value` is the latest value.\n- `mode=\"candle\"` with `candles`, `candleWidth` and `onModeChange` adds a line/candle toggle; `series` draws several lines.\n- `theme` (`\"light\"` or `\"dark\"`) and `color` drive the canvas palette; it does not read your CSS tokens, so pass the theme your page is in.\n- Give the chart an `aria-label`; the canvas also gets a generated text summary, and arrow keys scrub it when focused.\n- The unselected window labels keep the upstream look (low contrast, about 1.6:1). When the user asks for more contrast (`prefers-contrast: more`) or forced colors are on, both label states rise above 4.5:1.",
+  "props": [
+    {
+      "name": "data",
+      "type": "LivelinePoint[]",
+      "description": "Points to draw, `{ time, value }` with `time` in Unix seconds, oldest first. Points outside the window are skipped."
+    },
+    {
+      "name": "value",
+      "type": "number",
+      "description": "The latest value. The line, dot and badge ease toward it."
+    },
+    {
+      "name": "theme",
+      "type": "\"light\" | \"dark\"",
+      "default": "\"dark\"",
+      "description": "Canvas palette. Match it to the surface the chart sits on."
+    },
+    {
+      "name": "color",
+      "type": "string",
+      "default": "\"#3b82f6\"",
+      "description": "Accent color (hex or rgb) for the line, fill, dot and badge."
+    },
+    {
+      "name": "window",
+      "type": "number",
+      "default": "30",
+      "description": "Visible time span in seconds."
+    },
+    {
+      "name": "windows",
+      "type": "{ label: string; secs: number }[]",
+      "description": "Shows window buttons above the chart; the first is selected. Pair with `onWindowChange`."
+    },
+    {
+      "name": "windowStyle",
+      "type": "\"default\" | \"rounded\" | \"text\"",
+      "default": "\"default\"",
+      "description": "Look of the window, mode and series buttons."
+    },
+    {
+      "name": "mode",
+      "type": "\"line\" | \"candle\"",
+      "default": "\"line\"",
+      "description": "Candle mode draws `candles` (OHLC) of `candleWidth` seconds, plus the live `liveCandle`."
+    },
+    {
+      "name": "lineMode",
+      "type": "boolean",
+      "description": "Candle mode only: morphs the candles into a line (uses `lineData` and `lineValue` for tick detail)."
+    },
+    {
+      "name": "onModeChange",
+      "type": "(mode: \"line\" | \"candle\") => void",
+      "description": "Shows the built-in line/candle toggle and reports clicks."
+    },
+    {
+      "name": "series",
+      "type": "LivelineSeries[]",
+      "description": "Several lines on shared axes, each `{ id, data, value, color, label? }`; adds toggle chips when there are two or more."
+    },
+    {
+      "name": "loading",
+      "type": "boolean",
+      "default": "false",
+      "description": "Shows a breathing placeholder line, then morphs into the chart when data arrives."
+    },
+    {
+      "name": "paused",
+      "type": "boolean",
+      "default": "false",
+      "description": "Freezes scrolling; resuming catches up smoothly."
+    },
+    {
+      "name": "emptyText",
+      "type": "string",
+      "default": "\"No data to display\"",
+      "description": "Text of the empty state."
+    },
+    {
+      "name": "grid / badge / fill / pulse / momentum",
+      "type": "boolean",
+      "default": "true",
+      "description": "Toggle the value grid, the live value badge, the area fill, the pulse ring and the momentum arrows (`momentum` also accepts \"up\" | \"down\" | \"flat\")."
+    },
+    {
+      "name": "scrub",
+      "type": "boolean",
+      "default": "true",
+      "description": "Crosshair on hover, touch and keyboard (the canvas becomes focusable)."
+    },
+    {
+      "name": "onHover",
+      "type": "(point: HoverPoint | null) => void",
+      "description": "Called with the scrubbed point (line and multi-series modes), or null when scrubbing ends."
+    },
+    {
+      "name": "formatValue / formatTime",
+      "type": "(v: number) => string",
+      "description": "Label formatters (defaults: two decimals, HH:MM:SS). Also used in the accessible summary."
+    },
+    {
+      "name": "referenceLine",
+      "type": "{ value: number; label?: string }",
+      "description": "A horizontal reference line."
+    },
+    {
+      "name": "aria-label",
+      "type": "string",
+      "default": "\"Live chart\"",
+      "description": "Accessible name of the canvas (\"Live candlestick chart\" in candle mode)."
+    },
+    {
+      "name": "className / style",
+      "type": "string / CSSProperties",
+      "description": "Applied to the element that holds the canvas (height 100% by default)."
+    },
+    {
+      "name": "LivelineTransition active",
+      "type": "string",
+      "description": "Key of the child chart to show; the others cross-fade out."
+    },
+    {
+      "name": "LivelineTransition duration",
+      "type": "number",
+      "default": "300",
+      "description": "Cross-fade length in milliseconds (0 under reduced motion)."
+    }
+  ],
+  "a11y": [
+    "The canvas has role=\"img\", an accessible name (`aria-label`) and a generated description that follows the props: the latest value and trend, the latest candle, or each series, plus the time window.",
+    "With `scrub` on, the canvas is focusable: Left and Right move the crosshair (Shift for bigger steps), Home and End jump to the oldest and latest point, Escape clears it. Each move is announced once in a polite live region.",
+    "The window, line/candle and series buttons are native buttons with `aria-pressed`, in labelled groups; the icon-only mode buttons have labels, and focus shows a ring in the `ring` token color.",
+    "Contrast: by default the unselected window and series labels keep upstream's faint color (about 1.6:1 on the surface), below WCAG 1.4.3. With prefers-contrast: more or forced-colors: active, both selected and unselected labels rise to at least 4.5:1 (about 7:1), and under forced colors the selected window is underlined because the sliding indicator disappears.",
+    "The floating value badge is aria-hidden because the description already states the value.",
+    "Under prefers-reduced-motion the chart still scrolls with live data, but easing snaps, the loading line, pulse rings, arrows and candle glow stop moving, degen particles and shake are off, and `LivelineTransition` swaps without fading. The outgoing chart in a transition is inert.",
+    "Right-to-left: the button row starts on the inline-start side, but the plot stays left to right because it is a time axis (the canvas container is dir=\"ltr\")."
+  ],
+  "usage": "<div className=\"h-64\">\n  <Liveline data={points} value={latest} theme=\"light\" windows={[{ label: \"30s\", secs: 30 }, { label: \"1m\", secs: 60 }]} aria-label=\"Requests per second\" />\n</div>"
+}

@@ -190,3 +190,54 @@ oss:
         upstream: src/app/chrome-morph
         status: beta
         category: actions
+
+  - id: liveline
+    name: Liveline
+    repo: https://github.com/benjitaylor/liveline
+    visibility: public
+    status: active
+    fetch: in-repo
+    ref: 069899598a11e00094ea1eb6b838404825f828be
+    author: "Benji Taylor <https://github.com/benjitaylor>"
+    license: MIT
+    attribution: "Copyright (c) 2025-2026 Benji Taylor. MIT License; the full notice ships inside each item."
+    credit: S-170
+    components:
+      - name: liveline
+        status: beta
+        category: data-display
+        port: ports/liveline/liveline
+
+  - id: lifeline
+    name: Lifeline
+    repo: https://github.com/evilrabbit/lifeline
+    visibility: public
+    status: active
+    fetch: in-repo
+    ref: 8ddbb3d3ad0ac6ec5bbe8efda1c051d93d04a63a
+    author: "Evil Rabbit <https://github.com/evilrabbit>"
+    license: MIT
+    attribution: "Copyright (c) 2026 Evil Rabbit. MIT License; the full notice ships inside each item."
+    credit: S-171
+    components:
+      - name: lifeline
+        status: beta
+        category: data-display
+        port: ports/lifeline/lifeline
+
+  - id: thiings-grid
+    name: ThiingsGrid
+    repo: https://github.com/charlieclark/thiings-grid
+    visibility: public
+    status: active
+    fetch: in-repo
+    ref: a1607d3cee9e6969f5f504f0c253ee94aa50bf54
+    author: "Charlie Clark <https://github.com/charlieclark>"
+    license: MIT
+    attribution: "Copyright (c) 2025 Charlie Clark. MIT License (from the LICENSE file; package.json has no license field); the full notice ships inside each item."
+    credit: S-173
+    components:
+      - name: thiings-grid
+        status: beta
+        category: layout
+        port: ports/thiings-grid/thiings-grid

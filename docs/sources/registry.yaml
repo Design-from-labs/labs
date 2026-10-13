@@ -583,3 +583,139 @@ sources:
     visibility: public
     used-in: [content/components/tegaki/handwriting]
     note: "The default Handwriting font. Its outlines and generated stroke data ship inside the tegaki npm package (FONTS-LICENSE.md there), not in this repository. OFL-1.1 permits bundling with software; it is not a component license here."
+  - id: S-170
+    title: "Liveline: real-time line, candlestick and orderbook chart on canvas"
+    author: "Benji Taylor"
+    kind: library
+    url: "https://github.com/benjitaylor/liveline"
+    license: "MIT"
+    accessed: 2026-10-12
+    visibility: public
+    used-in: [ports/liveline, content/components/liveline, sources.yaml]
+  - id: S-171
+    title: "Lifeline: an animated life timeline shipped as a shadcn registry"
+    author: "Evil Rabbit"
+    kind: library
+    url: "https://github.com/evilrabbit/lifeline"
+    license: "MIT"
+    accessed: 2026-10-12
+    visibility: public
+    used-in: [ports/lifeline, content/components/lifeline, sources.yaml]
+  - id: S-172
+    title: "data-table-filters: faceted, filterable data tables for shadcn/ui"
+    author: "OpenStatus"
+    kind: library
+    url: "https://github.com/openstatusHQ/data-table-filters"
+    license: "MIT"
+    accessed: 2026-10-12
+    visibility: public
+    used-in: [ports/data-table-filters, content/components/data-table-filters, sources.yaml]
+  - id: S-173
+    title: "ThiingsGrid: an infinite, pannable momentum grid for React"
+    author: "Charlie Clark"
+    kind: library
+    url: "https://github.com/charlieclark/thiings-grid"
+    license: "MIT"
+    accessed: 2026-10-12
+    visibility: public
+    used-in: [ports/thiings-grid, content/components/thiings-grid, sources.yaml]
+    note: "package.json has no license field; the LICENSE file is MIT (read 2026-10-12)."
+  - id: S-174
+    title: "Project TOC: a sticky table of contents with tooltips, previews and sound (vanilla JS)"
+    author: "Batuhan Karasakal"
+    kind: library
+    url: "https://github.com/batuhankarasakal/tableofcontent"
+    license: "MIT"
+    accessed: 2026-10-12
+    visibility: public
+    used-in: [ports/tableofcontent, content/components/tableofcontent, sources.yaml]
+  - id: S-175
+    title: "GuideFrame: Figma-style layout grids, rulers and guides over the live DOM"
+    author: "Dinil Thilakarathne (GuideFrame)"
+    kind: library
+    url: "https://github.com/Dinil-Thilakarathne/guide-frame"
+    license: "MIT"
+    accessed: 2026-10-12
+    visibility: public
+    used-in: [ports/guide-frame, content/components/guide-frame, sources.yaml]
+  - id: S-176
+    title: "TanStack Table (@tanstack/react-table)"
+    author: "Tanner Linsley and TanStack contributors"
+    kind: library
+    url: "https://github.com/TanStack/table"
+    license: "MIT"
+    accessed: 2026-10-12
+    visibility: public
+    used-in: [ports/data-table-filters]
+  - id: S-177
+    title: "TanStack Query (@tanstack/react-query)"
+    author: "Tanner Linsley and TanStack contributors"
+    kind: library
+    url: "https://github.com/TanStack/query"
+    license: "MIT"
+    accessed: 2026-10-12
+    visibility: public
+    used-in: [ports/data-table-filters]
+  - id: S-178
+    title: "TanStack Virtual (@tanstack/react-virtual)"
+    author: "Tanner Linsley and TanStack contributors"
+    kind: library
+    url: "https://github.com/TanStack/virtual"
+    license: "MIT"
+    accessed: 2026-10-12
+    visibility: public
+    used-in: [ports/data-table-filters]
+  - id: S-179
+    title: "dnd kit (@dnd-kit/core, sortable, modifiers, utilities)"
+    author: "Claudéric Demers and contributors"
+    kind: library
+    url: "https://github.com/clauderic/dnd-kit"
+    license: "MIT"
+    accessed: 2026-10-12
+    visibility: public
+    used-in: [ports/data-table-filters]
+  - id: S-180
+    title: "date-fns"
+    author: "Sasha Koss and date-fns contributors"
+    kind: library
+    url: "https://github.com/date-fns/date-fns"
+    license: "MIT"
+    accessed: 2026-10-12
+    visibility: public
+    used-in: [ports/data-table-filters]
+  - id: S-181
+    title: "Zod"
+    author: "Colin McDonnell and contributors"
+    kind: library
+    url: "https://github.com/colinhacks/zod"
+    license: "MIT"
+    accessed: 2026-10-12
+    visibility: public
+    used-in: [ports/data-table-filters]
+  - id: S-182
+    title: "cmdk (the command menu behind shadcn's command)"
+    author: "Paco Coursey and contributors"
+    kind: library
+    url: "https://github.com/pacocoursey/cmdk"
+    license: "MIT"
+    accessed: 2026-10-12
+    visibility: public
+    used-in: [ports/data-table-filters]
+  - id: S-183
+    title: "pixelmatch (fidelity diffs of ported components)"
+    author: "Mapbox and contributors"
+    kind: library
+    url: "https://github.com/mapbox/pixelmatch"
+    license: "ISC"
+    accessed: 2026-10-12
+    visibility: public
+    used-in: [docs/evidence/ports]
+  - id: S-184
+    title: "Owner standard for porting third-party components (fidelity first, then enhance)"
+    author: "Owner"
+    kind: brief
+    private-file: "Owner instructions relayed to the port pods; not in the repository"
+    license: "All rights reserved (owner)"
+    accessed: 2026-10-12
+    visibility: private-cited-only
+    used-in: [ports/README.md, docs/decisions/0017-port-variants-and-nested-targets.md, docs/evidence/ports]
