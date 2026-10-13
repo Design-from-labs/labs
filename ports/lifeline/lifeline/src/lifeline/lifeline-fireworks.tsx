@@ -9,6 +9,7 @@ import {
   useState,
   type ReactNode,
 } from "react"
+import { useRenderLoop } from "@/lib/render-loop"
 import type { LifelineEventEffect, LifelineThemeAdapter } from "./types"
 
 /** Tweak these */
@@ -123,6 +124,19 @@ export function useLifelineFireworks() {
   return useContext(LifelineFireworksContext)
 }
 
+interface FireworksState {
+  gl: WebGLRenderingContext
+  program: WebGLProgram
+  buffer: WebGLBuffer | null
+  uRes: WebGLUniformLocation | null
+  uTime: WebGLUniformLocation | null
+  uDur: WebGLUniformLocation | null
+}
+
+// Drawn through the shared render loop (Labs, decision 0021): it creates the
+// WebGL context with upstream's attributes, caps the pixel ratio at MAX_DPR,
+// pauses in a hidden tab (the show resumes where it stopped) and restores a
+// lost context. The shader, the uniforms and the draw are upstream's.
 function FireworksCanvas({
   palette,
   onDone,
@@ -135,104 +149,110 @@ function FireworksCanvas({
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const onDoneRef = useRef(onDone)
   onDoneRef.current = onDone
+  const doneRef = useRef(false)
 
-  useEffect(() => {
-    const canvas = canvasRef.current
-    if (!canvas) return
-
-    const gl = canvas.getContext("webgl", {
+  const { status } = useRenderLoop<FireworksState>(canvasRef, {
+    context: "webgl",
+    contextAttributes: {
       alpha: true,
       premultipliedAlpha: true,
       antialias: false,
-    })
-    if (!gl) {
-      onDoneRef.current()
-      return
-    }
+    },
+    maxDpr: MAX_DPR,
+    setup: (_canvas, context) => {
+      const gl = context as WebGLRenderingContext
 
-    const compile = (type: number, source: string) => {
-      const shader = gl.createShader(type)!
-      gl.shaderSource(shader, source)
-      gl.compileShader(shader)
-      if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-        console.warn("fireworks shader:", gl.getShaderInfoLog(shader))
+      const compile = (type: number, source: string) => {
+        const shader = gl.createShader(type)!
+        gl.shaderSource(shader, source)
+        gl.compileShader(shader)
+        if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+          console.warn("fireworks shader:", gl.getShaderInfoLog(shader))
+        }
+        return shader
       }
-      return shader
-    }
 
-    const program = gl.createProgram()!
-    gl.attachShader(program, compile(gl.VERTEX_SHADER, VERTEX_SHADER))
-    gl.attachShader(program, compile(gl.FRAGMENT_SHADER, FRAGMENT_SHADER))
-    gl.linkProgram(program)
-    if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
-      console.warn("fireworks link:", gl.getProgramInfoLog(program))
-      onDoneRef.current()
-      return
-    }
-    gl.useProgram(program)
+      const program = gl.createProgram()!
+      gl.attachShader(program, compile(gl.VERTEX_SHADER, VERTEX_SHADER))
+      gl.attachShader(program, compile(gl.FRAGMENT_SHADER, FRAGMENT_SHADER))
+      gl.linkProgram(program)
+      if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+        // The loop reports "unsupported", which ends the show.
+        throw new Error(`fireworks link: ${gl.getProgramInfoLog(program)}`)
+      }
+      gl.useProgram(program)
 
-    const buffer = gl.createBuffer()
-    gl.bindBuffer(gl.ARRAY_BUFFER, buffer)
-    gl.bufferData(
-      gl.ARRAY_BUFFER,
-      new Float32Array([-1, -1, 3, -1, -1, 3]),
-      gl.STATIC_DRAW,
-    )
-    const aPos = gl.getAttribLocation(program, "a_pos")
-    gl.enableVertexAttribArray(aPos)
-    gl.vertexAttribPointer(aPos, 2, gl.FLOAT, false, 0, 0)
+      const buffer = gl.createBuffer()
+      gl.bindBuffer(gl.ARRAY_BUFFER, buffer)
+      gl.bufferData(
+        gl.ARRAY_BUFFER,
+        new Float32Array([-1, -1, 3, -1, -1, 3]),
+        gl.STATIC_DRAW,
+      )
+      const aPos = gl.getAttribLocation(program, "a_pos")
+      gl.enableVertexAttribArray(aPos)
+      gl.vertexAttribPointer(aPos, 2, gl.FLOAT, false, 0, 0)
 
-    const uRes = gl.getUniformLocation(program, "u_res")
-    const uTime = gl.getUniformLocation(program, "u_time")
-    const uDur = gl.getUniformLocation(program, "u_dur")
+      const uRes = gl.getUniformLocation(program, "u_res")
+      const uTime = gl.getUniformLocation(program, "u_time")
+      const uDur = gl.getUniformLocation(program, "u_dur")
 
-    const [c0, c1, c2] = paletteRef.current
-    gl.uniform3f(gl.getUniformLocation(program, "u_c0"), c0[0], c0[1], c0[2])
-    gl.uniform3f(gl.getUniformLocation(program, "u_c1"), c1[0], c1[1], c1[2])
-    gl.uniform3f(gl.getUniformLocation(program, "u_c2"), c2[0], c2[1], c2[2])
+      const [c0, c1, c2] = paletteRef.current
+      gl.uniform3f(gl.getUniformLocation(program, "u_c0"), c0[0], c0[1], c0[2])
+      gl.uniform3f(gl.getUniformLocation(program, "u_c1"), c1[0], c1[1], c1[2])
+      gl.uniform3f(gl.getUniformLocation(program, "u_c2"), c2[0], c2[1], c2[2])
 
-    const resize = () => {
-      const dpr = Math.min(window.devicePixelRatio || 1, MAX_DPR)
+      return { gl, program, buffer, uRes, uTime, uDur }
+    },
+    // Upstream sizes the full-screen canvas from the window, not its box.
+    resize: ({ gl }, { dpr }) => {
+      const canvas = gl.canvas as HTMLCanvasElement
       canvas.width = Math.round(window.innerWidth * dpr)
       canvas.height = Math.round(window.innerHeight * dpr)
       gl.viewport(0, 0, canvas.width, canvas.height)
-    }
-    resize()
-    window.addEventListener("resize", resize)
-
-    let frame = 0
-    const start = performance.now()
-
-    const step = (now: number) => {
-      const t = (now - start) / 1000
+    },
+    render: ({ gl, uRes, uTime, uDur }, { time: t }) => {
+      if (doneRef.current) return
       if (t >= DURATION_S) {
+        doneRef.current = true
         onDoneRef.current()
         return
       }
 
+      const canvas = gl.canvas as HTMLCanvasElement
       gl.uniform2f(uRes, canvas.width, canvas.height)
       gl.uniform1f(uTime, t)
       gl.uniform1f(uDur, DURATION_S)
       gl.clearColor(0, 0, 0, 0)
       gl.clear(gl.COLOR_BUFFER_BIT)
       gl.drawArrays(gl.TRIANGLES, 0, 3)
+    },
+    // No manual loseContext: StrictMode re-runs this effect on the
+    // same canvas, and a lost context can never compile again.
+    dispose: ({ gl, program, buffer }) => {
+      gl.deleteBuffer(buffer)
+      gl.deleteProgram(program)
+    },
+  })
 
-      frame = requestAnimationFrame(step)
+  // Without WebGL, or once the user asks for reduced motion, there is no
+  // show: end it so the theme is restored (upstream's no-context path).
+  useEffect(() => {
+    if (
+      (status === "unsupported" || status === "reduced-motion") &&
+      !doneRef.current
+    ) {
+      doneRef.current = true
+      onDoneRef.current()
     }
-    frame = requestAnimationFrame(step)
-
-    return () => {
-      cancelAnimationFrame(frame)
-      window.removeEventListener("resize", resize)
-      // No manual loseContext: StrictMode re-runs this effect on the
-      // same canvas, and a lost context can never compile again.
-    }
-  }, [])
+  }, [status])
 
   return (
     <canvas
       ref={canvasRef}
       aria-hidden="true"
+      data-slot="lifeline-fireworks"
+      data-status={status}
       className="pointer-events-none fixed inset-0 z-[70] h-full w-full"
     />
   )

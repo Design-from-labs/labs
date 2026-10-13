@@ -616,3 +616,74 @@ oss:
         status: beta
         category: layout
         upstream: packages/core/src and packages/react/src
+
+
+  - id: haaarshsingh-halftone-dots
+    name: haaarshsingh halftone-dots
+    repo: https://github.com/haaarshsingh/halftone-dots
+    visibility: public
+    status: active
+    fetch: in-repo
+    ref: 21ddfbdae84cf632dcb9cf617668c83a6f89723b
+    author: "Harsh Singh <https://github.com/haaarshsingh>"
+    license: MIT
+    attribution: "Copyright (c) 2026 Harsh Singh. MIT License."
+    credit: S-340
+    components:
+      - name: dot-halftone
+        status: beta
+        category: media
+        upstream: src/DotHalftone.tsx
+
+  - id: shpigford-dither
+    name: Shpigford dither
+    repo: https://github.com/Shpigford/dither
+    visibility: public
+    status: active
+    fetch: in-repo
+    ref: 19125db21f5874f1677afb6394a0ecd2047bf853
+    author: "Josh Pigford <https://github.com/Shpigford>"
+    license: MIT
+    attribution: "Copyright (c) 2026 Josh Pigford. MIT License."
+    credit: S-341
+    components:
+      - name: vector-dither
+        status: beta
+        category: media
+        upstream: packages/core
+
+  - id: shuding-cobe
+    name: COBE
+    repo: https://github.com/shuding/cobe
+    visibility: public
+    status: active
+    fetch: in-repo
+    ref: 7e94076fa8c38707f4c9cd114ff4f7c5c880971e
+    author: "Shu Ding <https://github.com/shuding>"
+    license: MIT
+    attribution: "Copyright (c) 2021 Shu Ding. MIT License."
+    credit: S-342
+    components:
+      - name: globe
+        status: beta
+        category: media
+        upstream: src/index.js
+
+  # GSAP (used upstream) is under a proprietary license, so the port's motion
+  # is rewritten with Motion; no GSAP code or dependency ships.
+  - id: yousuf-viscose-carousel
+    name: Viscose carousel
+    repo: https://github.com/Yousuf-developer/Viscose-carousel
+    visibility: public
+    status: active
+    fetch: in-repo
+    ref: f91a6de57019b7dcc58c28a2ea83f5a6dd9f3882
+    author: "Yousuf Soomro <https://github.com/Yousuf-developer>"
+    license: MIT
+    attribution: "Copyright (c) 2026 Yousuf Soomro. MIT License."
+    credit: S-343
+    components:
+      - name: viscose-carousel
+        status: beta
+        category: media
+        upstream: components/Carousel.jsx

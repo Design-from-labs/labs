@@ -141,6 +141,7 @@
   "peerDependencies": {
     "@base-ui/react": "^1.9.0",
     "@phosphor-icons/react": "^2.1.10",
+    "cobe": "^2.0.1",
     "driver.js": "^1.9.0",
     "lucide-react": "^1.55.0",
     "motion": ">=12.34.0",
@@ -157,6 +158,9 @@
       "optional": true
     },
     "@phosphor-icons/react": {
+      "optional": true
+    },
+    "cobe": {
       "optional": true
     },
     "driver.js": {

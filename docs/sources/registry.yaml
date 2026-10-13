@@ -1249,3 +1249,58 @@ sources:
     accessed: 2026-10-13
     visibility: public
     used-in: [content/components/driver-js/product-tour, docs/evidence/ports/product-tour]
+  - id: S-340
+    title: "haaarshsingh/halftone-dots (DotHalftone, an animated canvas dot halftone)"
+    author: "Harsh Singh"
+    kind: library
+    url: "https://github.com/haaarshsingh/halftone-dots"
+    license: "MIT"
+    accessed: 2026-10-13
+    visibility: public
+    used-in: [ports/haaarshsingh-halftone-dots, content/components/haaarshsingh-halftone-dots, sources.yaml, docs/evidence/ports/dot-halftone]
+  - id: S-341
+    title: "Shpigford/dither (vector dithering core: Bayer and pattern thresholds to SVG)"
+    author: "Josh Pigford"
+    kind: library
+    url: "https://github.com/Shpigford/dither"
+    license: "MIT"
+    accessed: 2026-10-13
+    visibility: public
+    used-in: [ports/shpigford-dither, content/components/shpigford-dither, sources.yaml, docs/evidence/ports/vector-dither]
+  - id: S-342
+    title: "COBE (shuding/cobe, the npm package cobe): a small WebGL globe"
+    author: "Shu Ding"
+    kind: library
+    url: "https://github.com/shuding/cobe"
+    license: "MIT"
+    accessed: 2026-10-13
+    visibility: public
+    used-in: [ports/shuding-cobe, content/components/shuding-cobe, sources.yaml, docs/evidence/ports/globe, package.json]
+  - id: S-343
+    title: "Yousuf-developer/Viscose-carousel (a single-shader WebGL ring carousel)"
+    author: "Yousuf Soomro"
+    kind: library
+    url: "https://github.com/Yousuf-developer/Viscose-carousel"
+    license: "MIT"
+    accessed: 2026-10-13
+    visibility: public
+    used-in: [ports/yousuf-viscose-carousel, content/components/yousuf-viscose-carousel, sources.yaml, docs/evidence/ports/viscose-carousel]
+  - id: S-344
+    title: "Owner brief: canvas and 3D ports (render-loop for every canvas item, static fallbacks, GSAP rewritten in Motion, Lifeline on render-loop)"
+    author: "Owner"
+    kind: brief
+    private-file: "Owner instructions relayed to port pod W2; not in the repository"
+    license: "All rights reserved (owner)"
+    accessed: 2026-10-13
+    visibility: private-cited-only
+    used-in: [docs/decisions, docs/evidence/ports, content/components]
+  - id: S-345
+    title: "GSAP Standard License (Webflow)"
+    author: "Webflow"
+    kind: doc
+    url: "https://gsap.com/standard-license"
+    license: "Proprietary (read for license review only)"
+    accessed: 2026-10-13
+    visibility: public
+    note: "Cited for why GSAP code is not ported or depended on; nothing from GSAP ships."
+    used-in: [sources.yaml, docs/evidence/ports/viscose-carousel]
