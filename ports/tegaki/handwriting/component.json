@@ -1,0 +1,66 @@
+{
+  "title": "Handwriting",
+  "description": "Text that writes itself stroke by stroke in a handwriting font, from any font's outlines, with optional harfbuzz shaping for ligatures and complex scripts.",
+  "category": "typography",
+  "type": "registry:ui",
+  "status": "beta",
+  "upstreamPath": "packages/renderer",
+  "iconSets": ["none"],
+  "dependencies": ["tegaki@^1.1.0"],
+  "files": [
+    {
+      "file": "handwriting.tsx",
+      "type": "registry:ui"
+    }
+  ],
+  "demo": "demo.tsx",
+  "credits": ["S-003", "S-004", "S-106", "S-107", "S-152"],
+  "tags": ["animation", "text", "handwriting", "font"],
+  "props": [
+    {
+      "name": "children / text",
+      "type": "string | number",
+      "description": "The text to write."
+    },
+    {
+      "name": "font",
+      "type": "TegakiBundle | string",
+      "default": "Caveat",
+      "description": "A Tegaki font bundle. Caveat (SIL OFL 1.1) ships with the package; make others in the Tegaki studio, from fonts whose license allows it."
+    },
+    {
+      "name": "time",
+      "type": "number | `${number}%` | \"css\" | { mode, ... }",
+      "description": "Leave unset to play once. A number of seconds or a percentage holds a frame (controlled); \"css\" reads the time from a CSS variable."
+    },
+    {
+      "name": "reducedMotion",
+      "type": "\"user\" | \"always\" | \"never\"",
+      "default": "\"user\"",
+      "description": "Under reduced motion the finished text appears at once. Labs default; the renderer's own default is \"never\"."
+    },
+    {
+      "name": "timing / pressure / quality / plugins / seed",
+      "type": "TimelineConfig / number / TegakiQuality / TegakiPluginSpec[] / number | \"random\"",
+      "description": "Stroke speed and stagger, pen pressure, render quality, ink plugins (glow, taper, gradients) and the random seed, passed to Tegaki."
+    },
+    {
+      "name": "onComplete",
+      "type": "() => void",
+      "description": "Called when the text has been written."
+    },
+    {
+      "name": "as / ...props",
+      "type": "React.ElementType / element attributes",
+      "default": "\"div\"",
+      "description": "The element to render and its attributes."
+    }
+  ],
+  "a11y": [
+    "The text stays real, selectable text in an overlay, so screen readers and search read it once; the drawn canvas is aria-hidden.",
+    "Follows prefers-reduced-motion by default: the finished text appears without the writing animation.",
+    "Decorative motion only: it never moves layout, so nothing on the page shifts while it writes."
+  ],
+  "usage": "<Handwriting className=\"text-5xl\">Hello, world</Handwriting>",
+  "docs": "Installed `Handwriting` (`@/components/ui/handwriting`), a thin wrapper over the `tegaki` renderer with the Caveat font.\n\n```tsx\nimport { Handwriting } from \"@/components/ui/handwriting\";\n\n<Handwriting className=\"text-5xl\">Hello, world</Handwriting>\n```\n\nSize and color follow the text styles. Change the text to write it again.\n\nComplex shaping (ligatures, contextual alternates, Arabic and Indic scripts) is opt-in: `npm i harfbuzzjs`, then register the shaper once, in the browser:\n\n```tsx\nimport { TegakiEngine } from \"tegaki/react\";\n\nuseEffect(() => {\n  import(\"tegaki/shaper-harfbuzz\").then((m) => TegakiEngine.registerShaper(m.default));\n}, []);\n```\n\nNext.js (Turbopack) also needs `turbopack: { resolveAlias: { module: { browser: \"./src/lib/empty-module.ts\" } } }` with an empty module there: harfbuzzjs imports Node's `module` on its server branch.\n\nVite dev server (Vite 7 or older): add `optimizeDeps: { exclude: [\"tegaki\", \"harfbuzzjs\"] }` so the font and WASM files keep their URLs. Astro: add `tegaki()` from `tegaki/astro/integration` when it renders on the server.\n\nFont data carries its font's license: Caveat is SIL OFL 1.1 (Copyright 2014 The Caveat Project Authors). Wraps Tegaki by Gokhan Kurt (MIT); the license notice is at the end of the file."
+}

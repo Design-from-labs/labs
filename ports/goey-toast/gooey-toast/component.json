@@ -1,0 +1,86 @@
+{
+  "title": "Gooey Toast",
+  "description": "A toast that morphs from a pill into a blob to show its description and action, on top of Sonner, with promise states, a queue, swipe and Escape to dismiss.",
+  "category": "feedback",
+  "type": "registry:ui",
+  "status": "beta",
+  "upstreamPath": "src",
+  "iconSets": ["lucide", "phosphor"],
+  "dependencies": ["sonner@^2.0.7", "motion@>=12.34.0"],
+  "registryDependencies": ["sonner"],
+  "files": [
+    {
+      "file": "gooey-toast.tsx",
+      "type": "registry:ui"
+    },
+    {
+      "file": "gooey-toast-view.tsx",
+      "type": "registry:ui"
+    },
+    {
+      "file": "gooey-toast-core.ts",
+      "type": "registry:ui"
+    },
+    {
+      "file": "gooey-toast-icons.tsx",
+      "type": "registry:ui"
+    }
+  ],
+  "demo": "demo.tsx",
+  "stage": {
+    "device": "laptop",
+    "slot": "inline"
+  },
+  "credits": ["S-003", "S-004", "S-005", "S-006", "S-104", "S-105", "S-152"],
+  "tags": ["toast", "notification", "sonner", "motion"],
+  "props": [
+    {
+      "name": "position",
+      "type": "\"top-left\" | \"top-center\" | \"top-right\" | \"bottom-left\" | \"bottom-center\" | \"bottom-right\"",
+      "default": "\"bottom-right\"",
+      "description": "GooeyToaster: where toasts stack."
+    },
+    {
+      "name": "theme",
+      "type": "\"light\" | \"dark\"",
+      "default": "\"light\"",
+      "description": "GooeyToaster: the toast palette."
+    },
+    {
+      "name": "preset / spring / bounce",
+      "type": "\"smooth\" | \"bouncy\" | \"subtle\" | \"snappy\" / boolean / number",
+      "description": "GooeyToaster: the morph's feel. A preset sets spring and bounce; explicit values win."
+    },
+    {
+      "name": "visibleToasts / maxQueue / queueOverflow",
+      "type": "number / number / \"drop-oldest\" | \"drop-newest\"",
+      "default": "3 / Infinity / \"drop-oldest\"",
+      "description": "GooeyToaster: how many toasts show at once, and what happens to the rest."
+    },
+    {
+      "name": "swipeToDismiss / closeOnEscape / closeButton",
+      "type": "boolean / boolean / boolean | \"top-left\" | \"top-right\"",
+      "default": "true / true / false",
+      "description": "GooeyToaster: ways to dismiss."
+    },
+    {
+      "name": "showProgress / showTimestamp",
+      "type": "boolean",
+      "default": "false / true",
+      "description": "GooeyToaster: a countdown bar, and the time each toast appeared."
+    },
+    {
+      "name": "gooeyToast(title, options)",
+      "type": "options: { description?, action?: { label, onClick, successLabel? }, icon?, timing?: { displayDuration? }, fillColor?, borderColor?, classNames?, onDismiss?, onAutoClose? }",
+      "description": "Show a toast. Also gooeyToast.success, .error, .warning, .info, .promise, .update and .dismiss."
+    }
+  ],
+  "a11y": [
+    "A persistent pair of live regions announces every toast: polite for default, success and info, assertive for warning and error, and each toast also carries role=status or role=alert.",
+    "The action is a native button; Escape dismisses the most recent toast; swipe to dismiss is touch only and can be turned off.",
+    "Under prefers-reduced-motion the morph jumps straight to its end shape, the icon swap and content fades take 10 ms, and the stack transition is reduced to opacity.",
+    "The status icon is decorative (aria-hidden, a Labs addition); the title carries the meaning, and each type also has its own color and icon."
+  ],
+  "usage": "gooeyToast.success(\"Changes saved\", { description: \"Your profile is up to date.\" })",
+  "docs": "Installed `GooeyToaster` and `gooeyToast` (`@/components/ui/gooey-toast`), an add-on over shadcn's `sonner` item.\n\nRender the toaster once, near the root:\n\n```tsx\nimport { GooeyToaster } from \"@/components/ui/gooey-toast\";\n\n<GooeyToaster position=\"bottom-right\" />\n```\n\nThen call it anywhere:\n\n```tsx\nimport { gooeyToast } from \"@/components/ui/gooey-toast\";\n\ngooeyToast.success(\"Saved\");\ngooeyToast.error(\"Connection lost\", { description: \"Check your network and try again.\" });\ngooeyToast.promise(save(), { loading: \"Saving...\", success: \"Saved\", error: \"Failed\" });\n```\n\nIt renders its own Sonner `<Toaster>`, so use it instead of shadcn's `<Toaster />`, not next to it. The stylesheet is injected by the toaster; no CSS import is needed. Theme it with the toaster's `theme` (`light` or `dark`) and per toast with `fillColor`, `borderColor` and `classNames`.\n\nPorted from goey-toast by anl331 (MIT); the license notice is at the end of every file."
+}

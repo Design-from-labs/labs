@@ -1,0 +1,91 @@
+{
+  "$schema": "https://labs.designfrom.com/schemas/meta.schema.json",
+  "schemaVersion": 1,
+  "name": "handwriting",
+  "kind": "component",
+  "title": "Handwriting",
+  "description": "Text that writes itself stroke by stroke in a handwriting font, from any font's outlines, with optional harfbuzz shaping for ligatures and complex scripts.",
+  "status": "beta",
+  "category": "typography",
+  "label": "Tegaki by Gokhan Kurt",
+  "variants": [
+    {
+      "name": "handwriting",
+      "primitive": "none",
+      "iconSet": "none",
+      "status": "beta"
+    }
+  ],
+  "defaultVariant": "handwriting",
+  "demo": "demo.tsx",
+  "preview": "preview.webp",
+  "source": {
+    "repo": "https://github.com/gkurt/tegaki",
+    "commit": "32654a4cfb0fa6a2873264cf693316acd59d1627",
+    "path": "packages/renderer"
+  },
+  "author": "Gokhan Kurt <https://gkurt.com>",
+  "license": "MIT",
+  "attribution": "Tegaki, Copyright (c) 2026 Gokhan Kurt. MIT License.",
+  "credits": [
+    "S-102",
+    "S-003",
+    "S-004",
+    "S-106",
+    "S-107",
+    "S-152"
+  ],
+  "date": "2026-10-12",
+  "tags": [
+    "animation",
+    "text",
+    "handwriting",
+    "font"
+  ],
+  "props": [
+    {
+      "name": "children / text",
+      "type": "string | number",
+      "description": "The text to write."
+    },
+    {
+      "name": "font",
+      "type": "TegakiBundle | string",
+      "default": "Caveat",
+      "description": "A Tegaki font bundle. Caveat (SIL OFL 1.1) ships with the package; make others in the Tegaki studio, from fonts whose license allows it."
+    },
+    {
+      "name": "time",
+      "type": "number | `${number}%` | \"css\" | { mode, ... }",
+      "description": "Leave unset to play once. A number of seconds or a percentage holds a frame (controlled); \"css\" reads the time from a CSS variable."
+    },
+    {
+      "name": "reducedMotion",
+      "type": "\"user\" | \"always\" | \"never\"",
+      "default": "\"user\"",
+      "description": "Under reduced motion the finished text appears at once. Labs default; the renderer's own default is \"never\"."
+    },
+    {
+      "name": "timing / pressure / quality / plugins / seed",
+      "type": "TimelineConfig / number / TegakiQuality / TegakiPluginSpec[] / number | \"random\"",
+      "description": "Stroke speed and stagger, pen pressure, render quality, ink plugins (glow, taper, gradients) and the random seed, passed to Tegaki."
+    },
+    {
+      "name": "onComplete",
+      "type": "() => void",
+      "description": "Called when the text has been written."
+    },
+    {
+      "name": "as / ...props",
+      "type": "React.ElementType / element attributes",
+      "default": "\"div\"",
+      "description": "The element to render and its attributes."
+    }
+  ],
+  "a11y": [
+    "The text stays real, selectable text in an overlay, so screen readers and search read it once; the drawn canvas is aria-hidden.",
+    "Follows prefers-reduced-motion by default: the finished text appears without the writing animation.",
+    "Decorative motion only: it never moves layout, so nothing on the page shifts while it writes."
+  ],
+  "usage": "<Handwriting className=\"text-5xl\">Hello, world</Handwriting>"
+}

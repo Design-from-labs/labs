@@ -11,6 +11,8 @@
   "scripts": {
     "examples": "node scripts/export-labs-examples.mjs",
     "examples:check": "node scripts/export-labs-examples.mjs --check",
+    "ports": "node scripts/export-ports.mjs",
+    "ports:check": "node scripts/export-ports.mjs --check",
     "prepare:content": "node scripts/prepare-content.mjs",
     "dev": "pnpm prepare:content && astro dev",
     "build": "pnpm prepare:content && astro build && pnpm --filter @designfrom/react --filter designfrom build",
@@ -28,7 +30,7 @@
     "test": "node --test \"scripts/**/*.test.mjs\" && pnpm --filter designfrom test",
     "e2e": "playwright test",
     "pack:dry": "pnpm --filter @designfrom/react --filter designfrom pack:dry",
-    "verify": "pnpm examples:check && pnpm validate:content && pnpm check:licenses && pnpm check:sources && pnpm lint && pnpm typecheck && pnpm test && pnpm build && pnpm pack:dry && pnpm e2e"
+    "verify": "pnpm examples:check && pnpm ports:check && pnpm validate:content && pnpm check:licenses && pnpm check:sources && pnpm lint && pnpm typecheck && pnpm test && pnpm build && pnpm pack:dry && pnpm e2e"
   },
   "devDependencies": {
     "@astrojs/check": "0.9.10",
@@ -50,14 +52,17 @@
     "class-variance-authority": "0.7.1",
     "clsx": "2.1.1",
     "lucide-react": "1.55.0",
+    "motion": "14.1.0",
     "radix-ui": "1.6.7",
     "react": "19.3.0",
     "react-aria-components": "1.22.1",
     "react-dom": "19.3.0",
     "shadcn": "4.21.4",
     "sharp": "0.35.5",
+    "sonner": "2.0.8",
     "tailwind-merge": "3.7.0",
     "tailwindcss": "4.3.3",
+    "tegaki": "1.1.0",
     "typescript": "6.0.3",
     "yaml": "2.9.1"
   }

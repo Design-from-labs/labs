@@ -43,6 +43,16 @@ Design From and Design From Labs (the guards enforce this).
 | [P-030](#p-030) | Accessibility | axe reads an iframe as part of the page |
 | [P-031](#p-031) | Content | `pnpm examples` rewrites every example's `source.commit` |
 | [P-032](#p-032) | Deployments (headers) | `X-Frame-Options: DENY` blanks the site's own iframes on Vercel |
+| [P-033](#p-033) | Components (CSS order) | A toast stylesheet injected after Sonner's broke the first toast |
+| [P-034](#p-034) | Fidelity harness | Playwright's clock keeps running after `install`, and a fixed time stalls Motion |
+| [P-035](#p-035) | Fidelity harness | Upstream's own timing noise in real-time captures |
+| [P-036](#p-036) | Components (RTL) | Per-character spans reverse Latin text in a right-to-left page |
+| [P-037](#p-037) | Site (gallery tiles) | Canvas-drawn and swell-in demos are blank in unhydrated tiles |
+| [P-038](#p-038) | Tooling (Vite dev) | Tegaki fonts and the harfbuzz WASM break under dependency pre-bundling |
+| [P-039](#p-039) | npm library | A dependency missing from the library's peers gets bundled into it |
+| [P-040](#p-040) | npm library | Two item files exporting one name break the library's barrel |
+| [P-041](#p-041) | Site (component page) | No direction switch for a component without variants |
+| [P-042](#p-042) | Components (Next.js) | Importing harfbuzzjs fails a default Next.js build |
 
 ---
 
@@ -508,3 +518,157 @@ Design From and Design From Labs (the guards enforce this).
   change to `vercel.json`, check the real headers on the branch deployment
   (`vercel curl <path> --deployment <url> -- -sI`).
 - Links: `vercel.json`, [#10](https://github.com/Design-from-labs/labs/pull/10)
+
+### P-033
+
+- Date: 2026-10-12
+- Area: Components (CSS order)
+- Symptom: The ported Gooey Toast's first toast was missing on a 375 px page
+  for seconds, and a later one rendered behind a stray earlier one, while the
+  same code from upstream's package did not.
+- Cause: Upstream's stylesheet loads before Sonner injects its own, and
+  several rules of equal specificity rely on that order. The port injected
+  its stylesheet when the toaster mounted, after Sonner's.
+- Fix: The toaster inserts its `<style>` directly before Sonner's.
+- Prevention: When a port replaces a CSS import with injected styles, keep
+  upstream's cascade position and diff the first frame on a phone width.
+- Links: `ports/goey-toast/gooey-toast/gooey-toast-core.ts`, `docs/evidence/ports/gooey-toast/fidelity.md`
+
+### P-034
+
+- Date: 2026-10-12
+- Area: Fidelity harness (Playwright clock)
+- Symptom: Frames captured "at 150 ms" differed between two identical runs;
+  with `clock.setFixedTime`, Motion animations sometimes stayed at their first
+  frame for seconds.
+- Cause: `page.clock.install()` leaves time running until `clock.pauseAt()`;
+  and `setFixedTime` freezes the clock Motion's frame loop reads.
+- Fix: `install` then `pauseAt` before navigating, and step with `runFor` in
+  small increments with a little real time between them (WAAPI and CSS
+  transitions run on real time). Use real time, not a fixed clock, for
+  Motion's settled states.
+- Prevention: Use the clock only for code driven by `requestAnimationFrame`
+  and `performance.now` (DotMorph); freeze WAAPI animations with
+  `Animation.currentTime` instead (TextMorph).
+- Links: `docs/evidence/ports/dot-morph/fidelity.md`, `docs/evidence/ports/gooey-toast/fidelity.md`
+
+### P-035
+
+- Date: 2026-10-12
+- Area: Fidelity harness (real-time captures)
+- Symptom: Gooey Toast frames differed by up to a few percent between runs,
+  in both directions, and a pill toast sometimes vanished a few seconds in.
+- Cause: Upstream's own nondeterminism: spring timing in real time, and an
+  occasional early dismissal of a pill toast, in upstream and the port alike.
+- Fix: One toast per fresh page, captured once two frames 250 ms apart are
+  identical; the best of three captures; a retrigger when the toast vanished;
+  and an upstream-against-upstream control under the same conditions
+  (up to 0.089%) to show the noise floor.
+- Prevention: Report a control row whenever a port's numbers come from real
+  time.
+- Links: `docs/evidence/ports/gooey-toast/fidelity.md`
+
+### P-036
+
+- Date: 2026-10-12
+- Area: Components (right to left)
+- Symptom: Text Morph showed "scratch morf Design" for "Design from scratch"
+  inside a `dir="rtl"` page.
+- Cause: The engine splits text into inline-block spans; in a right-to-left
+  context the bidi algorithm orders those spans right to left, reversing
+  Latin words and letters. Upstream has the same behavior.
+- Fix: The rendered element gets `dir="auto"` (a `dir` prop), so the text's
+  own direction applies; left-to-right pages render identically.
+- Prevention: Render text components in `dir="rtl"` with Latin text, not just
+  with mirrored layout.
+- Links: `ports/torph/text-morph/text-morph.tsx`
+
+### P-037
+
+- Date: 2026-10-12
+- Area: Site (gallery tiles and previews)
+- Symptom: The Handwriting tile and its `pnpm previews` still were blank, and
+  DotMorph's tile would have been.
+- Cause: Tiles and `/preview/<item>` render on the server and never hydrate.
+  Tegaki draws strokes on a canvas in the browser, and upstream DotMorph hides
+  its icon until a client-side swell-in.
+- Fix: The Handwriting demo shows the words as text until it hydrates;
+  DotMorph renders its resting single dot on the server.
+- Prevention: Look at the gallery tile, not only the component page, for
+  every canvas or client-only demo.
+- Links: `ports/tegaki/handwriting/demo.tsx`, `ports/peckz-playground/dot-morph/dot-morph.tsx`
+
+### P-038
+
+- Date: 2026-10-12
+- Area: Tooling (Vite dev server)
+- Symptom: Under `vite dev`, Handwriting logged "wasm streaming compile
+  failed ... expected magic word" and drew in a fallback font.
+- Cause: Vite's dependency pre-bundling moves `tegaki`'s font bundles and
+  `harfbuzzjs` into `.vite/deps` without their `.ttf` and `.wasm` files, so
+  the dev server answers those URLs with `index.html`.
+- Fix: `optimizeDeps: { exclude: ["tegaki", "harfbuzzjs"] }`; the item's docs
+  say so. Production builds are unaffected.
+- Prevention: Keep the note in the Handwriting docs.
+- Links: `ports/tegaki/handwriting/component.json`
+
+### P-039
+
+- Date: 2026-10-12
+- Area: npm library (tsdown)
+- Symptom: With Gooey Toast marked ready, `@designfrom/react`'s `dist` gained
+  a `node_modules` folder with Motion inside.
+- Cause: tsdown keeps only the package's dependencies and peers external;
+  `motion` was neither.
+- Fix: `motion`, `sonner`, `tegaki` and `harfbuzzjs` are optional peers of
+  `@designfrom/react`.
+- Prevention: When an item adds a dependency, add it to the library's
+  optional peers in the same pull request, and look for `dist/node_modules`.
+- Links: `packages/react/package.json`
+
+### P-040
+
+- Date: 2026-10-12
+- Area: npm library (barrel)
+- Symptom: Porting torph as is would have exported `TextMorph` from two files
+  of one item: the vanilla class and the React component.
+- Cause: `scripts/prepare-content.mjs` re-exports every file of an item with
+  `export *`, and TypeScript rejects an ambiguous re-export (TS2308).
+- Fix: The class is `TextMorphEngine` in the port.
+- Prevention: Give every exported name in an item's files a distinct name;
+  a trial ready build runs the library's `tsc`.
+- Links: `ports/torph/text-morph/text-morph-engine.ts`
+
+### P-041
+
+- Date: 2026-10-12
+- Area: Site (component page)
+- Symptom: Text Morph, Handwriting and Dot Morph pages had no direction
+  switch, so right to left could not be reviewed there.
+- Cause: The switch is rendered inside the variant switcher, which only shows
+  when a component has more than one variant or a stage.
+- Fix: None on the site yet; `e2e/ports.spec.ts` sets the frame's `dir` the
+  way the switch does.
+- Prevention: A follow-up for the site: show the direction switch on every
+  component page.
+- Links: `src/pages/ui/[component].astro`, `e2e/ports.spec.ts`
+
+### P-042
+
+- Date: 2026-10-12
+- Area: Components (Next.js)
+- Symptom: A fresh Next.js 16 app with the Handwriting item failed
+  `next build`: "Module not found: Can't resolve 'module'" in
+  `harfbuzzjs/dist/harfbuzz.js`; with that aliased, prerendering failed with
+  ENOENT on `/_next/static/media/harfbuzz.*.wasm`.
+- Cause: harfbuzzjs's Emscripten loader imports Node's `module` on its server
+  branch, which Turbopack resolves for the browser bundle too, and it loads
+  its WASM when the module is evaluated, including on the server.
+- Fix: The item imports only `tegaki`; shaping is opt-in, registered in the
+  browser with a dynamic `import("tegaki/shaper-harfbuzz")`, and the docs give
+  the Turbopack alias it then needs.
+- Prevention: Install an item that adds a WASM or Node-flavored dependency
+  into a fresh Next.js app (`scripts/registry-install-test.sh` does once it is
+  ready) before calling it portable.
+- Links: `ports/tegaki/handwriting/component.json`, `docs/evidence/ports/handwriting/fidelity.md`
+

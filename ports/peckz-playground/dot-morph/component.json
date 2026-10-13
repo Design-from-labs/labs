@@ -1,0 +1,90 @@
+{
+  "title": "Dot Morph",
+  "description": "A menu dot that splits into three on hover with a gooey neck, then spins and blooms into a three-piece mark on press, with motion blur. Pass your own mark.",
+  "category": "actions",
+  "type": "registry:ui",
+  "status": "beta",
+  "upstreamPath": "src/app/chrome-morph",
+  "iconSets": ["none"],
+  "registryDependencies": ["utils"],
+  "files": [
+    { "file": "dot-morph.tsx", "type": "registry:ui" },
+    { "file": "dot-morph-motion.ts", "type": "registry:ui" }
+  ],
+  "demo": "demo.tsx",
+  "credits": ["S-003", "S-004", "S-008", "S-152"],
+  "tags": ["animation", "icon", "svg", "morph", "button"],
+  "props": [
+    {
+      "name": "size",
+      "type": "number",
+      "default": "16",
+      "description": "Pixels per unit of the 24-unit icon grid (16 draws a 384 px icon). Whole numbers keep edges on the pixel grid."
+    },
+    {
+      "name": "mark",
+      "type": "readonly [string, string, string]",
+      "default": "three petals",
+      "description": "Three closed SVG paths (24-unit viewBox: top, lower left, lower right) around a core circle of radius 3."
+    },
+    {
+      "name": "colors",
+      "type": "readonly [string, string, string, string]",
+      "description": "Hex colors the pieces, then the core, bloom into. Unset: one solid currentColor."
+    },
+    {
+      "name": "spin / twist / expandAt / duration",
+      "type": "number",
+      "default": "270 / 45 / 0.3 / 600",
+      "description": "Orbit degrees, extra per-piece rotation lag, when the dots start to bloom (fraction of the morph), and morph length in ms."
+    },
+    {
+      "name": "splitDuration / goo",
+      "type": "number",
+      "default": "420 / 1",
+      "description": "Split length in ms, and how gooey the split is (0 turns it off)."
+    },
+    {
+      "name": "shutter / soften",
+      "type": "number",
+      "default": "360 / 0.5",
+      "description": "Motion blur shutter angle (0 turns it off) and the extra soft blur at peak speed."
+    },
+    {
+      "name": "direction / speed",
+      "type": "1 | -1 / number",
+      "default": "1 / 1",
+      "description": "Orbit direction (1 clockwise) and a playback speed multiplier."
+    },
+    {
+      "name": "autoplay",
+      "type": "boolean",
+      "default": "false",
+      "description": "Walk the loop on its own: dot, dots, mark, dots, dot."
+    },
+    {
+      "name": "labels",
+      "type": "{ toMark: string; toDots: string }",
+      "default": "{ toMark: \"Show the mark\", toDots: \"Back to the menu dots\" }",
+      "description": "Accessible names, by what the next press does."
+    },
+    {
+      "name": "onStageChange",
+      "type": "(stage: \"dot\" | \"dots\" | \"mark\") => void",
+      "description": "Called when the icon starts a step toward a new stage."
+    },
+    {
+      "name": "...props",
+      "type": "React.ComponentProps<\"button\">",
+      "description": "Native button attributes (className goes on the button)."
+    }
+  ],
+  "a11y": [
+    "A native button with aria-pressed: Enter and Space toggle the mark, and the accessible name says what the next press does.",
+    "Keyboard parity with hover: focusing it with the keyboard splits the dot, and leaving walks it home (a Labs addition).",
+    "The drawing is aria-hidden; focus is visible with a two-pixel ring.",
+    "Under prefers-reduced-motion every step jumps to its resting frame, with no spin, blur or goo."
+  ],
+  "usage": "<DotMorph size={8} />",
+  "docs": "Installed `DotMorph` (`@/components/ui/dot-morph`) and its frame math (`@/components/ui/dot-morph-motion`).\n\n```tsx\nimport { DotMorph } from \"@/components/ui/dot-morph\";\n\n<DotMorph size={8} className=\"text-foreground\" />\n```\n\nThe icon draws in `currentColor`; set the text color to theme it. Hover splits the dot, a press morphs the three dots into the mark and back. Pass `mark` (three closed paths in a 24-unit viewBox) for your own shape, and `colors` to bloom into color.\n\nPorted from the chrome-morph experiment in peckz/playground by Petar Cirkovic (MIT), renamed, with the third-party logo replaced by an original mark; the license notice is at the end of every file."
+}

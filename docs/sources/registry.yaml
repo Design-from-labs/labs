@@ -505,3 +505,81 @@ sources:
     accessed: 2026-10-12
     visibility: public
     used-in: [docs/decisions/0015-layout-stages.md, src/components/Stage.astro]
+  - id: S-100
+    title: "torph: dependency-free text and number morph (core and React adapter)"
+    author: "Lochie Axon"
+    kind: library
+    url: "https://github.com/lochie/torph"
+    license: "MIT"
+    accessed: 2026-10-12
+    visibility: public
+    used-in: [sources.yaml, ports/torph, content/components/torph/text-morph]
+    note: "Ported at commit d79a5aa63226acf97d49c3e34fafb2e85c07b026 (packages/torph/src)."
+  - id: S-101
+    title: "goey-toast: gooey morphing toasts on Sonner"
+    author: "Alfredo Natal II (anl331)"
+    kind: library
+    url: "https://github.com/anl331/goey-toast"
+    license: "MIT"
+    accessed: 2026-10-12
+    visibility: public
+    used-in: [sources.yaml, ports/goey-toast, content/components/goey-toast/gooey-toast]
+    note: "Ported at commit be6bd884c85d52cca930b09b425ef68858d1b63c (src)."
+  - id: S-102
+    title: "Tegaki: handwriting animation for any font (npm tegaki)"
+    author: "Gokhan Kurt"
+    kind: library
+    url: "https://github.com/gkurt/tegaki"
+    license: "MIT"
+    accessed: 2026-10-12
+    visibility: public
+    used-in: [sources.yaml, package.json, ports/tegaki, content/components/tegaki/handwriting]
+    note: "Wrapped, not copied: the item depends on npm tegaki. Demo compared against commit 32654a4cfb0fa6a2873264cf693316acd59d1627 (formerly KurtGokhan/tegaki)."
+  - id: S-103
+    title: "playground: chrome-morph experiment (three dots morph into a mark)"
+    author: "Petar Cirkovic"
+    kind: library
+    url: "https://github.com/peckz/playground"
+    license: "MIT"
+    accessed: 2026-10-12
+    visibility: public
+    used-in: [sources.yaml, ports/peckz-playground, content/components/peckz-playground/dot-morph]
+    note: "Ported at commit 8b088c0911f6e9d3135962b92ca82b9da38736ce (src/app/chrome-morph). Renamed DotMorph; the third-party logo, its colours and its name were removed and replaced with an original three-petal mark."
+  - id: S-104
+    title: "Motion (motion/react, formerly Framer Motion)"
+    author: "Motion Division (Matt Perry) and contributors"
+    kind: library
+    url: "https://github.com/motiondivision/motion"
+    license: "MIT"
+    accessed: 2026-10-12
+    visibility: public
+    used-in: [package.json, content/components/goey-toast/gooey-toast]
+  - id: S-105
+    title: "Sonner toast library, and shadcn's sonner registry item"
+    author: "Emil Kowalski"
+    kind: library
+    url: "https://github.com/emilkowalski/sonner"
+    license: "MIT"
+    accessed: 2026-10-12
+    visibility: public
+    used-in: [package.json, content/components/goey-toast/gooey-toast]
+  - id: S-106
+    title: "harfbuzzjs (HarfBuzz text shaping compiled to WebAssembly)"
+    author: "HarfBuzz contributors"
+    kind: library
+    url: "https://github.com/harfbuzz/harfbuzzjs"
+    license: "MIT"
+    accessed: 2026-10-12
+    visibility: public
+    used-in: [content/components/tegaki/handwriting]
+    note: "Opt-in shaping for Handwriting, documented in the item's docs; not a dependency of the item, because it breaks a default Next.js build (docs/pitfalls.md)."
+  - id: S-107
+    title: "Caveat typeface (stroke data bundled with npm tegaki)"
+    author: "Impallari Type, The Caveat Project Authors"
+    kind: library
+    url: "https://github.com/googlefonts/caveat"
+    license: "OFL-1.1"
+    accessed: 2026-10-12
+    visibility: public
+    used-in: [content/components/tegaki/handwriting]
+    note: "The default Handwriting font. Its outlines and generated stroke data ship inside the tegaki npm package (FONTS-LICENSE.md there), not in this repository. OFL-1.1 permits bundling with software; it is not a component license here."

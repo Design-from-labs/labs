@@ -1,0 +1,10 @@
+{
+  "$comment": "Lucide export name -> Phosphor export name (from @phosphor-icons/react/ssr). Ported items that render icons are authored with Lucide; scripts/export-ports.mjs derives the Phosphor variant with this map.",
+  "Bell": "BellIcon",
+  "CircleAlert": "WarningCircleIcon",
+  "CircleCheck": "CheckCircleIcon",
+  "CircleX": "XCircleIcon",
+  "Info": "InfoIcon",
+  "LoaderCircle": "CircleNotchIcon",
+  "X": "XIcon"
+}

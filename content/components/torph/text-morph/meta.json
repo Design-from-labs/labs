@@ -1,0 +1,119 @@
+{
+  "$schema": "https://labs.designfrom.com/schemas/meta.schema.json",
+  "schemaVersion": 1,
+  "name": "text-morph",
+  "kind": "component",
+  "title": "Text Morph",
+  "description": "Text and numbers that morph in place when they change: shared characters glide to their new spots, the rest fade, digits roll by place value. No dependencies.",
+  "status": "beta",
+  "category": "typography",
+  "label": "torph by Lochie Axon",
+  "variants": [
+    {
+      "name": "text-morph",
+      "primitive": "none",
+      "iconSet": "none",
+      "status": "beta"
+    }
+  ],
+  "defaultVariant": "text-morph",
+  "demo": "demo.tsx",
+  "preview": "preview.webp",
+  "source": {
+    "repo": "https://github.com/lochie/torph",
+    "commit": "d79a5aa63226acf97d49c3e34fafb2e85c07b026",
+    "path": "packages/torph/src"
+  },
+  "author": "Lochie Axon <https://lochieaxon.com>",
+  "license": "MIT",
+  "attribution": "torph, Copyright (c) 2025 Lochie Axon. MIT License.",
+  "credits": [
+    "S-100",
+    "S-003",
+    "S-004",
+    "S-152"
+  ],
+  "date": "2026-10-12",
+  "tags": [
+    "animation",
+    "text",
+    "numbers",
+    "motion"
+  ],
+  "props": [
+    {
+      "name": "children",
+      "type": "string | number",
+      "description": "The text to show. Change it to morph. A lone number keeps its type, so `locale` and `decimals` can format it. React elements are refused."
+    },
+    {
+      "name": "as",
+      "type": "React.ElementType",
+      "default": "\"span\"",
+      "description": "The element to render."
+    },
+    {
+      "name": "duration",
+      "type": "number",
+      "default": "400",
+      "description": "Morph length in milliseconds. Ignored when `ease` is a spring."
+    },
+    {
+      "name": "ease",
+      "type": "string | { stiffness?: number; damping?: number; mass?: number; precision?: number }",
+      "default": "\"cubic-bezier(0.19, 1, 0.22, 1)\"",
+      "description": "A CSS easing, or spring parameters (the duration then follows the spring)."
+    },
+    {
+      "name": "numbers",
+      "type": "boolean",
+      "default": "true",
+      "description": "Morph numeric words by place value. Off falls back to the character morph."
+    },
+    {
+      "name": "locale",
+      "type": "Intl.LocalesArgument",
+      "default": "\"en\"",
+      "description": "Locale for word segmentation and number formatting."
+    },
+    {
+      "name": "decimals",
+      "type": "number",
+      "description": "Fraction digits for a numeric value. Ignored for strings."
+    },
+    {
+      "name": "scale",
+      "type": "boolean",
+      "default": "true",
+      "description": "Scale characters as they enter and leave."
+    },
+    {
+      "name": "cursorIndex",
+      "type": "number",
+      "description": "Caret position for a single number being typed: digits match by caret instead of by place."
+    },
+    {
+      "name": "respectReducedMotion",
+      "type": "boolean",
+      "default": "true",
+      "description": "Swap the text without motion when the user prefers reduced motion."
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "default": "false",
+      "description": "Turn the morph off and swap text instantly."
+    },
+    {
+      "name": "onAnimationStart / onAnimationComplete",
+      "type": "() => void",
+      "description": "Called when a morph starts and when it settles."
+    }
+  ],
+  "a11y": [
+    "The value is kept once as plain, visually clipped text for screen readers; the animated character fragments are aria-hidden, so a morph is read as one word, not letter by letter.",
+    "With the default respectReducedMotion, the text swaps without motion when the user prefers reduced motion.",
+    "It renders inline text with no role of its own; to announce changes, wrap it in a live region (for example aria-live=\"polite\")."
+  ],
+  "usage": "<TextMorph>{saved ? \"Saved\" : \"Save changes\"}</TextMorph>"
+}
