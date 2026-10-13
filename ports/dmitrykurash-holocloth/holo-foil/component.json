@@ -1,0 +1,96 @@
+{
+  "title": "Holo Foil",
+  "description": "A draped sheet of holographic foil: view-angle rainbow diffraction, sparkle, a scratched clear coat, bloom and film grain, rendered with three.js.",
+  "category": "media",
+  "type": "registry:ui",
+  "status": "beta",
+  "upstreamPath": "src/holoMaterial.ts",
+  "iconSets": ["none"],
+  "dependencies": ["three@^0.185.1"],
+  "devDependencies": ["@types/three@^0.185.3"],
+  "registryDependencies": ["utils", "render-loop"],
+  "files": [
+    {
+      "file": "holo-foil.tsx",
+      "type": "registry:ui"
+    },
+    {
+      "file": "holo-foil-scene.ts",
+      "type": "registry:ui"
+    },
+    {
+      "file": "holo-foil-pose.ts",
+      "type": "registry:ui"
+    }
+  ],
+  "demo": "demo.tsx",
+  "tile": {
+    "span": 2,
+    "rows": 2,
+    "surface": "dark"
+  },
+  "credits": [
+    "S-275",
+    "S-276",
+    "S-279",
+    "S-003",
+    "S-004",
+    "S-019",
+    "S-020",
+    "S-157",
+    "S-288"
+  ],
+  "tags": ["holographic", "foil", "three", "webgl", "effect"],
+  "props": [
+    {
+      "name": "preset",
+      "type": "\"holo\" | \"chrome\" | \"black-cloth\"",
+      "default": "\"holo\"",
+      "description": "The starting look."
+    },
+    {
+      "name": "material",
+      "type": "Partial<HoloFoilMaterial>",
+      "description": "baseColor, holoIntensity, holoScale, bandFreq, saturation, hueShift, sparkle, specTint, iridescence, roughness, metalness, clearcoat, coatRoughness, sheen, bump, bumpTiling."
+    },
+    {
+      "name": "look",
+      "type": "Partial<HoloFoilLook>",
+      "description": "background, exposure, environment, bloom, bloomThreshold, noise, toneMapping, occlusion, occlusionStrength."
+    },
+    {
+      "name": "image",
+      "type": "string",
+      "description": "A full-bleed image printed on the foil; it also sets the sheet's shape."
+    },
+    {
+      "name": "interactive",
+      "type": "boolean",
+      "default": "true",
+      "description": "Lean the sheet toward the pointer."
+    },
+    {
+      "name": "time",
+      "type": "number",
+      "description": "Freezes the film grain at this time (seconds) and draws only on change, for stills."
+    },
+    {
+      "name": "maxDpr",
+      "type": "number",
+      "default": "2",
+      "description": "Device pixel ratio cap."
+    },
+    {
+      "name": "fallback",
+      "type": "React.ReactNode",
+      "description": "Replaces the static picture shown without WebGL 2 or under reduced motion."
+    }
+  ],
+  "a11y": [
+    "Decorative by default (aria-hidden); with aria-label it is role=\"img\" with that name.",
+    "Without WebGL 2, under reduced motion and before the first frame it shows a static CSS picture of a foil sheet.",
+    "Pointer lean only changes the picture; nothing needs a pointer."
+  ],
+  "usage": "<HoloFoil preset=\"holo\" aria-label=\"Holographic foil\" className=\"rounded-xl\" />",
+  "docs": "Installed `HoloFoil` and its three.js scene in `components/ui/`, plus the `render-loop` helper in `lib/`. Render `<HoloFoil className=\"rounded-xl\" />`; it is 16:10 by default, so size it with `className`.\n\nPick a `preset` (\"holo\", \"chrome\", \"black-cloth\") and override any dial with `material` and `look`. Print an image on the foil with `image=\"/poster.png\"`. Rendering pauses off screen and in hidden tabs; without WebGL 2 or under reduced motion a static picture shows instead.\n\nNeeds `three` (installed) and, for TypeScript, `@types/three`. Ported from dmitrykurash/holocloth (MIT, copyright 2026 Dmitry Kurash): the material only, without the cloth simulation; the license text is in each file."
+}

@@ -223,7 +223,7 @@ function exportOne(name) {
     kind: spec.kind,
     title: spec.title,
     description: spec.description,
-    status: "ready",
+    status: spec.status ?? "ready",
     category: spec.category,
     label: "Labs examples",
     variants,

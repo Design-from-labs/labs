@@ -1,0 +1,110 @@
+{
+  "$schema": "https://labs.designfrom.com/schemas/meta.schema.json",
+  "schemaVersion": 1,
+  "name": "iridescent-ribbon",
+  "kind": "component",
+  "title": "Iridescent Ribbon",
+  "description": "A procedural iridescent light ribbon in one WebGL 2 shader: a travelling wave of red, green and blue bands that spreads into a soft color field.",
+  "status": "beta",
+  "category": "media",
+  "label": "mark-x64 ribbon shader",
+  "variants": [
+    {
+      "name": "iridescent-ribbon",
+      "primitive": "none",
+      "iconSet": "none",
+      "status": "beta"
+    }
+  ],
+  "defaultVariant": "iridescent-ribbon",
+  "demo": "demo.tsx",
+  "preview": "preview.webp",
+  "source": {
+    "repo": "https://github.com/mark-x64/siri-ribbon-shader",
+    "commit": "775a3c093a14d89880532733e9acc6782acad4aa",
+    "path": "src/ribbon.frag"
+  },
+  "author": "Mark By <https://github.com/mark-x64>",
+  "license": "MIT",
+  "attribution": "Copyright (c) 2026 Mark By. MIT License.",
+  "credits": [
+    "S-274",
+    "S-003",
+    "S-004",
+    "S-019",
+    "S-020",
+    "S-157",
+    "S-288"
+  ],
+  "date": "2026-10-12",
+  "tile": {
+    "span": 2,
+    "rows": 1,
+    "surface": "dark"
+  },
+  "tags": [
+    "shader",
+    "webgl",
+    "glsl",
+    "gradient",
+    "effect"
+  ],
+  "props": [
+    {
+      "name": "sequence",
+      "type": "\"full\" | \"wave\"",
+      "default": "\"full\"",
+      "description": "The wave, spread and fade, or the travelling wave on a loop."
+    },
+    {
+      "name": "playing",
+      "type": "boolean",
+      "default": "true",
+      "description": "Plays the sequence."
+    },
+    {
+      "name": "speed",
+      "type": "number",
+      "default": "1",
+      "description": "Playback rate."
+    },
+    {
+      "name": "loop",
+      "type": "boolean",
+      "default": "true",
+      "description": "Repeats the sequence when it ends."
+    },
+    {
+      "name": "time",
+      "type": "number",
+      "description": "Shows one moment (seconds) and stops the clock, for stills."
+    },
+    {
+      "name": "amplitude | dispersion | glow | brightness",
+      "type": "number",
+      "default": "1",
+      "description": "Wave height, color separation, glow and brightness."
+    },
+    {
+      "name": "maxDpr",
+      "type": "number",
+      "default": "2",
+      "description": "Device pixel ratio cap."
+    },
+    {
+      "name": "fallback",
+      "type": "React.ReactNode",
+      "description": "Replaces the static picture shown without WebGL 2 or under reduced motion."
+    },
+    {
+      "name": "onStatusChange",
+      "type": "(status: RenderLoopStatus) => void",
+      "description": "Reports the loop status, for example to hide playback controls without WebGL 2."
+    }
+  ],
+  "a11y": [
+    "Decorative by default (aria-hidden); with aria-label it is role=\"img\" with that name.",
+    "Reduced motion: nothing animates; a static SVG picture of the ribbon shows instead (also without WebGL 2 and before the first frame)."
+  ],
+  "usage": "<IridescentRibbon aria-label=\"A flowing light ribbon\" className=\"rounded-lg\" />"
+}

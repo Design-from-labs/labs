@@ -1,0 +1,110 @@
+{
+  "title": "Glass",
+  "description": "A liquid glass lens that refracts live DOM through an SVG displacement filter, with chromatic dispersion and a bright rim, in Chrome, Safari and Firefox. No dependencies.",
+  "category": "media",
+  "type": "registry:ui",
+  "status": "beta",
+  "upstreamPath": "src",
+  "iconSets": ["none"],
+  "files": [
+    {
+      "file": "glass.tsx",
+      "type": "registry:ui"
+    },
+    {
+      "file": "glass-material.tsx",
+      "type": "registry:ui"
+    },
+    {
+      "file": "glass-surface.tsx",
+      "type": "registry:ui"
+    },
+    {
+      "file": "glass-displacement.ts",
+      "type": "registry:ui"
+    },
+    {
+      "file": "glass-webgl.ts",
+      "type": "registry:ui"
+    },
+    {
+      "file": "glass-signal.ts",
+      "type": "registry:ui"
+    },
+    {
+      "file": "glass-interaction.tsx",
+      "type": "registry:ui"
+    }
+  ],
+  "demo": "demo.tsx",
+  "tile": {
+    "span": 2,
+    "rows": 2
+  },
+  "credits": ["S-278", "S-003", "S-004", "S-157", "S-288"],
+  "tags": ["glass", "refraction", "svg-filter", "webgl", "effect"],
+  "props": [
+    {
+      "name": "children",
+      "type": "React.ReactNode",
+      "description": "What the lens bends in place, or (with refract) the crisp layer on top."
+    },
+    {
+      "name": "refract",
+      "type": "React.ReactNode",
+      "description": "Bend a copy of this node instead (a panel over a photo); children render crisp on top."
+    },
+    {
+      "name": "behind",
+      "type": "string",
+      "default": "auto",
+      "description": "Fill for the thin bleed ring past a refract copy; auto reads the nearest solid ancestor background."
+    },
+    {
+      "name": "optics",
+      "type": "Partial<GlassOptics>",
+      "description": "The look: strength, depth, curvature, dispersion, bend, sheen, glow, frost, brightness..."
+    },
+    {
+      "name": "size | width | height",
+      "type": "number | [number, number] | GlassValue",
+      "description": "Lens size in px; omit to fit the wrapped element."
+    },
+    {
+      "name": "radius",
+      "type": "number | GlassValue",
+      "description": "Corner radius in px; omit to inherit the element's radius."
+    },
+    {
+      "name": "center",
+      "type": "{ x?: GlassValue; y?: GlassValue }",
+      "default": "{ x: 0.5, y: 0.5 }",
+      "description": "Lens center as fractions of the element (physical left and top, also in right-to-left pages)."
+    },
+    {
+      "name": "src | draw | lenses",
+      "type": "string | (ctx, t) => void | GlassSurfaceLens[]",
+      "description": "Refract a video or a canvas painter on the GPU (WebGL 2), with one or many lenses."
+    },
+    {
+      "name": "filterResolution",
+      "type": "number",
+      "default": "1",
+      "description": "Chromium-only supersample (2 is crisper); forced to 1 in Safari."
+    },
+    {
+      "name": "live",
+      "type": "boolean",
+      "default": "false",
+      "description": "Re-rasterize every frame when the refracted content animates by itself."
+    }
+  ],
+  "a11y": [
+    "The lens is presentation: the refracted copy (refract, overlay) is aria-hidden and inert, so screen readers read the content once and its links stay out of the tab order.",
+    "Children keep their own semantics and focus order; the filter never intercepts pointer or keyboard input.",
+    "Reduced motion: animateGlassValue jumps to its target and useLensWobble does not squash or stretch.",
+    "Geometry (center, size) is physical, measured from the element's box, so a lens stays where it is placed in right-to-left pages."
+  ],
+  "usage": "<Glass size={160} center={{ x: 0.4, y: 0.5 }}><Hero /></Glass>",
+  "docs": "Installed `Glass` (with `GlassMaterial`, `GlassSurface` and the motion helpers) in `components/ui/glass*.ts(x)`. Import from `@/components/ui/glass`.\n\n- `<Glass className=\"rounded-full bg-white/25 px-4 py-2\">Save</Glass>`: a plain wrap is a glass material (frost, tint, bright edge everywhere; the live-page bend is Chrome and Edge only).\n- `<Glass size={160} center={{ x: 0.4, y: 0.5 }}><Hero /></Glass>`: bends its own children in place, in every browser.\n- `<Glass refract={<Wallpaper />} width={420} height={84} radius={20}>...</Glass>`: a panel over content it does not own.\n- `<Glass draw={(ctx, t) => paint(ctx, t)} size={160} />` or `src=\"/clip.mp4\"`: refracts a canvas or a video with WebGL 2.\n\nGive the wrapper a translucent background: an opaque one hides the refraction. No dependencies.\n\nPorted from samasante/liquid-glass (MIT, copyright 2026 Sam Asante); the license text is in each file."
+}

@@ -103,6 +103,9 @@ function buildItem(name, spec, source, iconSet, dir, footer) {
   if (dependencies.length > 0) {
     item.dependencies = dependencies;
   }
+  if (spec.devDependencies?.length) {
+    item.devDependencies = spec.devDependencies;
+  }
   if (spec.registryDependencies?.length) {
     item.registryDependencies = spec.registryDependencies;
   }
