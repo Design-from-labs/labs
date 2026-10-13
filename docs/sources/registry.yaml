@@ -1998,3 +1998,12 @@ sources:
     visibility: public
     note: "Not ported and not a dependency: the panel's starting values are the component's defaults, and its collapsed title bar is hidden on the upstream side of the fidelity diff."
     used-in: [ports/sabosugi-aura, docs/evidence/ports/aura]
+  - id: S-444
+    title: "Owner brief: port batch K (anchored dropdown, morphing dropdown, speed dial, balloons, number flow, segmented pill, financial chart, virtual list)"
+    author: "Owner"
+    kind: brief
+    private-file: "Owner instructions relayed to port pod K; not in the repository"
+    license: "All rights reserved (owner)"
+    accessed: 2026-10-13
+    visibility: private-cited-only
+    used-in: [docs/evidence/ports, content/components]
