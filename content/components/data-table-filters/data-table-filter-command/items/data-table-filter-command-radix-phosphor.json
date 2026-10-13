@@ -10,7 +10,7 @@
     "radix",
     "phosphor"
   ],
-  "docs": "Installed `DataTableFilterCommand` in `components/data-table/data-table-filter-command/`. It needs the `data-table` item (installed with it) and reads the table from `DataTableProvider`.\n\nFirst, render it above the toolbar inside the provider and pass your filter schema: `<DataTableFilterCommand schema={schema.definition} tableId=\"my-table\" />`. Type `field:value` to filter (`status:up,down`, `p95:100-300`); recent searches are kept in localStorage under the `tableId`.",
+  "docs": "Installed `DataTableFilterCommand` in `components/data-table/data-table-filter-command/`. It needs the `data-table` item (installed with it) and reads the table from `DataTableProvider`.\n\nFirst, render it above the toolbar inside the provider and pass your filter schema: `<DataTableFilterCommand schema={schema.definition} tableId=\"my-table\" />`. Type `field:value` to filter (`status:up,down`, `p95:100-300`); recent searches are kept in localStorage under the `tableId`.\n\nOn React Aria the command is `ui/command`'s `Autocomplete` and `Menu` instead of cmdk: the arrow keys move a virtual focus through the menu while focus stays in the field, and Enter applies the focused item.",
   "dependencies": [
     "@tanstack/react-table@^9.2.3",
     "cmdk@^1.0.4",

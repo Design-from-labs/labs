@@ -20,6 +20,30 @@
       "primitive": "radix",
       "iconSet": "phosphor",
       "status": "beta"
+    },
+    {
+      "name": "data-table-sheet-base-lucide",
+      "primitive": "base",
+      "iconSet": "lucide",
+      "status": "beta"
+    },
+    {
+      "name": "data-table-sheet-base-phosphor",
+      "primitive": "base",
+      "iconSet": "phosphor",
+      "status": "beta"
+    },
+    {
+      "name": "data-table-sheet-aria-lucide",
+      "primitive": "aria",
+      "iconSet": "lucide",
+      "status": "beta"
+    },
+    {
+      "name": "data-table-sheet-aria-phosphor",
+      "primitive": "aria",
+      "iconSet": "phosphor",
+      "status": "beta"
     }
   ],
   "defaultVariant": "data-table-sheet-radix-lucide",
@@ -45,9 +69,11 @@
     "S-005",
     "S-006",
     "S-003",
-    "S-008"
+    "S-008",
+    "S-034",
+    "S-033"
   ],
-  "date": "2026-10-13",
+  "date": "2026-10-12",
   "stage": {
     "device": "laptop",
     "slot": "inline",
@@ -96,10 +122,11 @@
     }
   ],
   "a11y": [
-    "A modal Radix dialog: focus moves into the sheet, stays there while it is open and returns to the row on close.",
+    "A modal dialog: focus moves into the sheet, stays there while it is open and returns to the row on close.",
     "The arrow keys move to the previous and next row; the up, down and close buttons have accessible names and tooltips.",
     "Each filterable field is one menu button named by its label and value (\"Status up\"); Enter opens the actions (include, ranges, same hour or day, copy). Read-only fields are plain text.",
-    "Under prefers-reduced-motion the sheet and its overlay appear without sliding or fading."
+    "Under prefers-reduced-motion the sheet and its overlay appear without sliding or fading.",
+    "Known issue: while a field's action menu is open, axe reports the best-practice `region` rule (moderate), because the stock shadcn `ui/dropdown-menu` portals the menu to `<body>`, outside the page landmarks. It was measured the same on Radix and Base UI and does not affect the menu's roles, names or keyboard use."
   ],
   "usage": "<DataTableSheetDetails title={row?.original.name}>\n  <MemoizedDataTableSheetContent\n    table={table}\n    data={row?.original}\n    filterFields={filterFields}\n    fields={sheetFields}\n  />\n</DataTableSheetDetails>"
 }

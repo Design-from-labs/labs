@@ -20,6 +20,30 @@
       "primitive": "radix",
       "iconSet": "phosphor",
       "status": "beta"
+    },
+    {
+      "name": "data-table-base-lucide",
+      "primitive": "base",
+      "iconSet": "lucide",
+      "status": "beta"
+    },
+    {
+      "name": "data-table-base-phosphor",
+      "primitive": "base",
+      "iconSet": "phosphor",
+      "status": "beta"
+    },
+    {
+      "name": "data-table-aria-lucide",
+      "primitive": "aria",
+      "iconSet": "lucide",
+      "status": "beta"
+    },
+    {
+      "name": "data-table-aria-phosphor",
+      "primitive": "aria",
+      "iconSet": "phosphor",
+      "status": "beta"
     }
   ],
   "defaultVariant": "data-table-radix-lucide",
@@ -46,13 +70,11 @@
     "S-005",
     "S-006",
     "S-003",
-    "S-008"
+    "S-008",
+    "S-034",
+    "S-033"
   ],
-  "date": "2026-10-13",
-  "tile": {
-    "span": 2,
-    "rows": 2
-  },
+  "date": "2026-10-12",
   "tags": [
     "table",
     "filters",

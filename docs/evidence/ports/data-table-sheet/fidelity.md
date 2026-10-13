@@ -56,6 +56,21 @@ shows it mirrored with `dir="rtl"`.
 Files: `<state>-<viewport>-before.webp` (upstream), `-after.webp` (port), `-diff.webp`
 (pixelmatch, threshold 0.1), and `fidelity.json`.
 
+## Deviations after the fidelity run
+
+- **Type-only imports** in `data-table-sheet-content.tsx`, `data-table-sheet-row-action.tsx`
+  and `data-table-sheet-skeleton.tsx` became `import type` (pixel-neutral; the reason is
+  in the data-table fidelity notes: shadcn's Vite template sets `verbatimModuleSyntax`,
+  and the demos failed at runtime without it).
+
+## Known issue
+
+With a field's action menu open, axe reports `region` (best-practice, moderate): the
+stock shadcn `ui/dropdown-menu` portals the menu to `<body>`, outside the page
+landmarks. Measured the same on the Radix and the Base UI variants; the menu's roles,
+names and keyboard use are unaffected. Fixing it needs a portal container in the
+project's `ui/dropdown-menu`, which the block does not own.
+
 ## Residual differences
 
 None measured: every state is pixel-identical. What the comparison does not cover:

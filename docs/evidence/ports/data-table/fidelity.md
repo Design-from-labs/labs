@@ -60,6 +60,30 @@ combobox. `rtl-table-1280x800.webp` shows the demo with `dir="rtl"`.
 Files: `<state>-<viewport>-before.webp` (upstream), `-after.webp` (port), `-diff.webp`
 (pixelmatch, threshold 0.1), and `fidelity.json`.
 
+## Deviations after the fidelity run
+
+Both are pixel-neutral: no class, element or style changed.
+
+- **Type-only imports** (`constants/date-preset.ts`, `data-table-provider.tsx`,
+  `lib/table/filterfns.ts`, and in data-table-sheet `data-table-sheet-content.tsx`,
+  `data-table-sheet-row-action.tsx`, `data-table-sheet-skeleton.tsx`): seven imports
+  of types became `import type`. Projects made with shadcn's Vite template set
+  `verbatimModuleSyntax`, under which Vite keeps a value-style import of a type and the
+  module fails at runtime ("does not provide an export named `DataTableFilterField`"),
+  in every variant. Type imports are erased, so the emitted code is the same.
+- **Accessibility on the Radix overlays** (also in the Base UI overlays): the
+  view-options popover is named "View options" and the date popover "Date range" (axe
+  `aria-dialog-name`), the date presets select is named "Date presets" (`button-name`,
+  in the filter drawer at 375 px), and dnd-kit's instructions and live region are
+  portaled to `<body>` (`accessibility.container`) instead of rendering inside the
+  view options listbox (`aria-required-children`). The Radix range thumbs already read
+  "Minimum" and "Maximum". Measured in a local Vite app with the `*-radix-lucide` items:
+  19 states (table, filters, slider, date popover, view options while dragging,
+  command, sheet, sheet menu, drawer, right-to-left; 1280 and 375) differ by 0 px
+  before and after, and axe shows 0 violations for the view options with the slider
+  open and for the date popover at 1280 and 375, light and dark, LTR and RTL (each of
+  those states had one to three findings before).
+
 ## Residual differences
 
 None measured: every state is pixel-identical. What the comparison does not cover:

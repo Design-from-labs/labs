@@ -38,6 +38,17 @@
       "roots": ["src/shared", "src/radix"],
       "dependencies": ["radix-ui@^1.4.3"],
       "status": "beta"
+    },
+    {
+      "primitive": "base",
+      "roots": ["src/shared", "src/base"],
+      "status": "beta"
+    },
+    {
+      "primitive": "aria",
+      "roots": ["src/shared", "src/aria"],
+      "dependencies": ["react-aria-components@^1.22.1"],
+      "status": "beta"
     }
   ],
   "defaultVariant": "data-table-sheet-radix-lucide",
@@ -53,9 +64,11 @@
     "S-005",
     "S-006",
     "S-003",
-    "S-008"
+    "S-008",
+    "S-034",
+    "S-033"
   ],
-  "docs": "Installed the row sheet in `components/data-table/data-table-sheet/`: `DataTableSheetDetails` (the side sheet with previous, next and close) and `MemoizedDataTableSheetContent` (the fields of a row), plus the typed cell renderers in `data-table-cell/` they use. It needs the `data-table` item (installed with it).\n\nFirst, put `DataTableSheetDetails` inside `DataTableProvider` (or pass it as `DataTableInfinite`'s `sheetSlot`), find the selected row from `rowSelection`, and render `MemoizedDataTableSheetContent` with `table`, `data`, `filterFields` and your `SheetField[]` (`readonly` for values that are not filters).\n\n- Copy actions toast through `sonner`: mount a `<Toaster />` once (`npx shadcn@latest add sonner`).\n- The sheet slides in from the inline end; set `dir=\"rtl\"` on `<html>` to mirror it.",
+  "docs": "Installed the row sheet in `components/data-table/data-table-sheet/`: `DataTableSheetDetails` (the side sheet with previous, next and close) and `MemoizedDataTableSheetContent` (the fields of a row), plus the typed cell renderers in `data-table-cell/` they use. It needs the `data-table` item (installed with it).\n\nFirst, put `DataTableSheetDetails` inside `DataTableProvider` (or pass it as `DataTableInfinite`'s `sheetSlot`), find the selected row from `rowSelection`, and render `MemoizedDataTableSheetContent` with `table`, `data`, `filterFields` and your `SheetField[]` (`readonly` for values that are not filters).\n\n- Copy actions toast through `sonner`: mount a `<Toaster />` once (`npx shadcn@latest add sonner`).\n- The sheet slides in from the inline end; set `dir=\"rtl\"` on `<html>` to mirror it.\n\nOn React Aria the sheet is `ModalOverlay`, `Modal` and `Dialog` (dismissed by Escape or a press outside, focus kept inside and returned on close), and each field's actions are a React Aria menu. The timestamp card and the tooltip on truncated text open on hover only, as on Radix: their text sits inside the field buttons, where the focusable trigger React Aria's `PreviewTrigger` and `TooltipTrigger` need would be invalid.",
   "props": [
     {
       "name": "title",
@@ -89,10 +102,11 @@
     }
   ],
   "a11y": [
-    "A modal Radix dialog: focus moves into the sheet, stays there while it is open and returns to the row on close.",
+    "A modal dialog: focus moves into the sheet, stays there while it is open and returns to the row on close.",
     "The arrow keys move to the previous and next row; the up, down and close buttons have accessible names and tooltips.",
     "Each filterable field is one menu button named by its label and value (\"Status up\"); Enter opens the actions (include, ranges, same hour or day, copy). Read-only fields are plain text.",
-    "Under prefers-reduced-motion the sheet and its overlay appear without sliding or fading."
+    "Under prefers-reduced-motion the sheet and its overlay appear without sliding or fading.",
+    "Known issue: while a field's action menu is open, axe reports the best-practice `region` rule (moderate), because the stock shadcn `ui/dropdown-menu` portals the menu to `<body>`, outside the page landmarks. It was measured the same on Radix and Base UI and does not affect the menu's roles, names or keyboard use."
   ],
   "usage": "<DataTableSheetDetails title={row?.original.name}>\n  <MemoizedDataTableSheetContent\n    table={table}\n    data={row?.original}\n    filterFields={filterFields}\n    fields={sheetFields}\n  />\n</DataTableSheetDetails>",
   "tags": ["table", "sheet", "details", "layout-part"],

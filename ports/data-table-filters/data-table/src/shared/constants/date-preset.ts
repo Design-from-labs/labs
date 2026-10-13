@@ -1,4 +1,4 @@
-import { DatePreset } from "../types";
+import type { DatePreset } from "../types";
 import { addDays, addHours, endOfDay, startOfDay } from "date-fns";
 
 export const presets = [

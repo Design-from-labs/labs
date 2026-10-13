@@ -28,6 +28,17 @@
       "roots": ["src/shared", "src/radix"],
       "dependencies": ["radix-ui@^1.4.3"],
       "status": "beta"
+    },
+    {
+      "primitive": "base",
+      "roots": ["src/shared", "src/base"],
+      "status": "beta"
+    },
+    {
+      "primitive": "aria",
+      "roots": ["src/shared", "src/aria"],
+      "dependencies": ["react-aria-components@^1.22.1"],
+      "status": "beta"
     }
   ],
   "defaultVariant": "data-table-filter-command-radix-lucide",
@@ -41,9 +52,11 @@
     "S-005",
     "S-006",
     "S-003",
-    "S-008"
+    "S-008",
+    "S-034",
+    "S-033"
   ],
-  "docs": "Installed `DataTableFilterCommand` in `components/data-table/data-table-filter-command/`. It needs the `data-table` item (installed with it) and reads the table from `DataTableProvider`.\n\nFirst, render it above the toolbar inside the provider and pass your filter schema: `<DataTableFilterCommand schema={schema.definition} tableId=\"my-table\" />`. Type `field:value` to filter (`status:up,down`, `p95:100-300`); recent searches are kept in localStorage under the `tableId`.",
+  "docs": "Installed `DataTableFilterCommand` in `components/data-table/data-table-filter-command/`. It needs the `data-table` item (installed with it) and reads the table from `DataTableProvider`.\n\nFirst, render it above the toolbar inside the provider and pass your filter schema: `<DataTableFilterCommand schema={schema.definition} tableId=\"my-table\" />`. Type `field:value` to filter (`status:up,down`, `p95:100-300`); recent searches are kept in localStorage under the `tableId`.\n\nOn React Aria the command is `ui/command`'s `Autocomplete` and `Menu` instead of cmdk: the arrow keys move a virtual focus through the menu while focus stays in the field, and Enter applies the focused item.",
   "props": [
     {
       "name": "schema",

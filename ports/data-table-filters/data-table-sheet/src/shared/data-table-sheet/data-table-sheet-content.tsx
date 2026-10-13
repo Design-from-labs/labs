@@ -16,9 +16,9 @@ import {
 import type { SerializableDisplayConfig } from "../lib/table-schema/types";
 import type { DataTableFeatures } from "../lib/table/features";
 import { cn } from "@/lib/utils";
-import { Table } from "@tanstack/react-table";
+import type { Table } from "@tanstack/react-table";
 import * as React from "react";
-import { DataTableFilterField, SheetField } from "../types";
+import type { DataTableFilterField, SheetField } from "../types";
 import { DataTableSheetRowAction } from "./data-table-sheet-row-action";
 import { SheetDetailsContentSkeleton } from "./data-table-sheet-skeleton";
 

@@ -13,7 +13,7 @@ import { useIsRtl } from "../hooks/use-is-rtl";
 import { boxRadiusClassName } from "../lib/style";
 import type { DataTableFeatures } from "../lib/table/features";
 import { cn } from "@/lib/utils";
-import { RowData, Table } from "@tanstack/react-table";
+import type { RowData, Table } from "@tanstack/react-table";
 import { endOfDay, endOfHour, startOfDay, startOfHour } from "date-fns";
 import {
   CalendarClock,
@@ -25,7 +25,7 @@ import {
   Equal,
   Search,
 } from "lucide-react";
-import { DataTableFilterField } from "../types";
+import type { DataTableFilterField } from "../types";
 
 interface DataTableSheetRowActionProps<
   TData extends RowData,

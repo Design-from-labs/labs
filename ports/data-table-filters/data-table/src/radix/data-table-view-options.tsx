@@ -57,7 +57,13 @@ export function DataTableViewOptions() {
           <span className="sr-only">View</span>
         </Button>
       </PopoverTrigger>
-      <PopoverContent side="bottom" align="end" className="w-[200px] p-0">
+      <PopoverContent
+        side="bottom"
+        align="end"
+        className="w-[200px] p-0"
+        // The popup is a dialog; name it after its trigger.
+        aria-label="View options"
+      >
         <Command>
           <CommandInput
             value={search}

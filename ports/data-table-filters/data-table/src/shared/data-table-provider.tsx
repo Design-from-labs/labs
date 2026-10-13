@@ -1,6 +1,6 @@
 "use client";
 
-import { DataTableFilterField } from "./types";
+import type { DataTableFilterField } from "./types";
 import type { DataTableFeatures } from "./lib/table/features";
 import { ControlsProvider } from "./providers/controls";
 import type {
