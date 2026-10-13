@@ -160,7 +160,7 @@ const round5 = (value: number) => Math.round(value * 100000) / 100000 || 0;
 
 function isSvgChild(element: Element) {
   return (
-    "getCTM" in element && (element as SVGElement).ownerSVGElement != null
+    "getCTM" in element && (element as unknown as SVGElement).ownerSVGElement != null
   );
 }
 

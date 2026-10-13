@@ -88,7 +88,10 @@ function itemsOf(list: HTMLElement | null) {
     : [];
 }
 
-function setRef<T>(ref: ComponentPropsWithRef<"div">["ref"] | undefined, value: T) {
+function setRef<T>(
+  ref: ComponentPropsWithRef<"button">["ref"] | ComponentPropsWithRef<"div">["ref"],
+  value: T,
+) {
   if (typeof ref === "function") {
     ref(value as never);
   } else if (ref) {
@@ -233,7 +236,7 @@ export function TaffyMenuTrigger({
   return (
     <Menu.Trigger
       {...props}
-      ref={(node) => {
+      ref={(node: HTMLElement | null) => {
         menu.triggerRef.current = node;
         setRef(ref, node);
       }}
@@ -340,7 +343,7 @@ export function TaffyMenuList({
   );
 }
 
-export type TaffyMenuCheckboxItemProps = ComponentPropsWithRef<"button"> & {
+export type TaffyMenuCheckboxItemProps = ComponentPropsWithRef<"div"> & {
   checked: boolean;
   onCheckedChange: (checked: boolean) => void;
   textValue: string;
@@ -375,7 +378,7 @@ export function TaffyMenuCheckboxItem({
   );
 }
 
-export type TaffyMenuItemProps = ComponentPropsWithRef<"button"> & {
+export type TaffyMenuItemProps = ComponentPropsWithRef<"div"> & {
   onAction: () => void;
   textValue: string;
 };

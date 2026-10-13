@@ -80,7 +80,10 @@ function itemsOf(list: HTMLElement | null) {
     : [];
 }
 
-function setRef<T>(ref: ComponentPropsWithRef<"div">["ref"] | undefined, value: T) {
+function setRef<T>(
+  ref: ComponentPropsWithRef<"button">["ref"] | ComponentPropsWithRef<"div">["ref"],
+  value: T,
+) {
   if (typeof ref === "function") {
     ref(value as never);
   } else if (ref) {
