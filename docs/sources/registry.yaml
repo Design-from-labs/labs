@@ -2007,3 +2007,51 @@ sources:
     accessed: 2026-10-13
     visibility: private-cited-only
     used-in: [docs/evidence/ports, content/components]
+  - id: S-428
+    title: "Segmented Pill: an accessible segmented control with a sliding pill (core, React adapter, stylesheet)"
+    author: "Daniel Belyi"
+    kind: library
+    url: "https://github.com/Danilaa1/segmented-pill"
+    license: "MIT"
+    accessed: 2026-10-13
+    visibility: public
+    used-in: [sources.yaml, ports/segmented-pill, content/components/segmented-pill/segmented-pill, docs/evidence/ports/segmented-pill]
+    note: "Ported at commit 489bdf7374868d40bc2aa4adc3e03ebfe8a90e99 (npm 0.1.3): src/index.js, src/react.js, src/react.d.ts and src/style.css. The Vue adapter and the registry wrapper are not ported."
+  - id: S-429
+    title: "balloons-js: an animated balloons effect for the web"
+    author: "Artur Bień"
+    kind: library
+    url: "https://github.com/arturbien/balloons-js"
+    license: "MIT"
+    accessed: 2026-10-13
+    visibility: public
+    used-in: [sources.yaml, ports/balloons-js, content/components/balloons-js/balloons, docs/evidence/ports/balloons]
+    note: "Ported at commit b27dbf3e80340549854a348ff2d94118f53bdd38 (src). The embedded font (src/balloonFont.ts) and the demo's og-image are not shipped."
+  - id: S-430
+    title: "Sniglet typeface (the font upstream balloons-js embeds for its text balloons)"
+    author: "Haley Fiege"
+    kind: library
+    url: "https://fonts.google.com/specimen/Sniglet"
+    license: "OFL-1.1"
+    accessed: 2026-10-13
+    visibility: public
+    used-in: [content/components/balloons-js/balloons, docs/evidence/ports/balloons]
+    note: "Not shipped: OFL-1.1 is not on the component license allowlist. The item's docs explain how to load it; the fidelity harness loaded upstream's embedded copy on both sides, outside the repository."
+  - id: S-431
+    title: "WAI-ARIA Authoring Practices: Radio Group pattern"
+    author: "W3C"
+    kind: doc
+    url: "https://www.w3.org/WAI/ARIA/apg/patterns/radio/"
+    license: "W3C Software and Document License"
+    accessed: 2026-10-13
+    visibility: public
+    used-in: [content/components/segmented-pill/segmented-pill, docs/evidence/ports/segmented-pill]
+  - id: S-432
+    title: "Understanding WCAG 2.2: Success Criterion 2.3.3 Animation from Interactions"
+    author: "W3C"
+    kind: doc
+    url: "https://www.w3.org/WAI/WCAG22/Understanding/animation-from-interactions.html"
+    license: "W3C Software and Document License"
+    accessed: 2026-10-13
+    visibility: public
+    used-in: [content/components/balloons-js/balloons, docs/evidence/ports/balloons]

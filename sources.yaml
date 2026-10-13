@@ -1285,3 +1285,38 @@ oss:
         upstream: src
         status: beta
         category: typography
+
+
+  - id: segmented-pill
+    name: Segmented Pill
+    repo: https://github.com/Danilaa1/segmented-pill
+    visibility: public
+    status: active
+    fetch: in-repo
+    ref: 489bdf7374868d40bc2aa4adc3e03ebfe8a90e99
+    author: "Daniel Belyi <https://github.com/Danilaa1>"
+    license: MIT
+    attribution: "Copyright (c) 2026 Daniel Belyi. MIT License."
+    credit: S-428
+    components:
+      - name: segmented-pill
+        status: beta
+        category: inputs
+        upstream: src (core, React adapter, stylesheet)
+
+  - id: balloons-js
+    name: balloons-js
+    repo: https://github.com/arturbien/balloons-js
+    visibility: public
+    status: active
+    fetch: in-repo
+    ref: b27dbf3e80340549854a348ff2d94118f53bdd38
+    author: "Artur Bień <https://github.com/arturbien>"
+    license: MIT
+    attribution: "Copyright (c) 2024 Artur Bień. MIT License."
+    credit: S-429
+    components:
+      - name: balloons
+        status: beta
+        category: feedback
+        upstream: src
