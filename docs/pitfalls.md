@@ -2491,3 +2491,194 @@ Design From and Design From Labs (the guards enforce this).
   `scrollWidth - innerWidth` on a new component page at 320px (the e2e spec
   does); a site fix would be `break-words` on that paragraph.
 - Links: `e2e/shadow-ports.spec.ts`
+### P-WEB1-B1-1
+
+- Date: 2026-10-13
+- Area: Components (CSS ports, focus ring)
+- Symptom: A port restated the browser's focus ring so a host's global
+  `:focus-visible` rule could not restyle it, and the keyboard-focus state
+  differed from upstream by 0.05% to 0.17% of the pixels (a ring one pixel
+  thinner on every side).
+- Cause: The restatement copied `outline-offset: 0` from memory. Chromium's
+  default for a focused link is `auto`, 1px wide, with a 1px offset (measured
+  on a real keyboard focus in the upstream page: `auto 1px lch(0 0 none / 0.5)`
+  with `1px`).
+- Fix: State `outline-style: auto; outline-width: 1px; outline-offset: 1px`.
+- Prevention: Read a restated default from `getComputedStyle` on an element
+  focused with the keyboard in the upstream page, not from memory.
+- Links: `ports/jh3y-anchor-magnet-menu/magnet-menu/src/shared/magnet-menu-styles.tsx`
+
+### P-WEB1-B1-2
+
+- Date: 2026-10-13
+- Area: Tests (keyframe guard)
+- Symptom: `pnpm test` failed with "@keyframes carousel must start with
+  scroll-carousel-" although the shipped keyframes were already prefixed.
+- Cause: `scripts/keyframe-items.test.mjs` scans every exported file's text,
+  including comments, for `@keyframes <name>`; a provenance comment that quoted
+  upstream's rule name matched.
+- Fix: The comment says "the `carousel` keyframes" without the at-rule.
+- Prevention: Do not write `@keyframes` or `var(--` followed by an unprefixed
+  name in a comment of a port that ships keyframes.
+- Links: `ports/jh3y-scroll-carousel/scroll-carousel/scroll-carousel-styles.tsx`
+
+### P-WEB1-B1-3
+
+- Date: 2026-10-13
+- Area: Fidelity harness (locks)
+- Symptom: Wrapping `fidelity.mjs` in `heavy.sh` looks like it would wait for
+  its own parent (read from the two scripts; the nesting was not run).
+- Cause: `heavy.sh` slot 0 and `fidelity.mjs` both create
+  `/private/tmp/claude-501/ports/locks/playwright`; the tool finds the lock
+  held by a live process (the wrapper) and polls for 30 minutes.
+- Fix: Run `fidelity.mjs` directly (it takes the lock itself), or drive many
+  states from one script that takes no lock of its own and wrap that in
+  `heavy.sh`: one slot for the whole batch instead of one wait per state.
+- Prevention: Never nest the two; batch states into a single browser session.
+- Links: `docs/evidence/ports/magnet-menu/fidelity.md`
+
+### P-WEB1-B1-4
+
+- Date: 2026-10-13
+- Area: Gallery demos (previews)
+- Symptom: A demo whose content is all absolutely positioned rendered with
+  zero width in `/preview/<item>` (a shrink-to-fit flex item) while it filled
+  the wall tile.
+- Cause: `w-full` on the demo's wrapper resolves against a width that depends
+  on the wrapper's own content, which is empty when every child is absolute.
+- Fix: The demo's wrapper has an explicit width with a cap
+  (`w-[40rem] max-w-full`), so it is the same in the tile, the page and the
+  preview.
+- Prevention: Give a demo that has no in-flow content a definite width.
+- Links: `ports/jh3y-scroll-carousel/scroll-carousel/demo.tsx`
+
+### P-WEB1-B1-5
+
+- Date: 2026-10-13
+- Area: Fidelity harness (color schemes)
+- Symptom: The dark and light evidence strips of a menu were byte for byte the
+  same file, and both were light.
+- Cause: The pen's page paints `light-dark(#fff, #000)` but never declares
+  `color-scheme`, so it ignores `prefers-color-scheme`; it turns dark only when
+  its theme button sets `html.dark`. Emulating the dark scheme changed nothing,
+  and the first run reported 0.000% for a "dark" state that was never dark.
+- Fix: The dark runs set `html.dark` on both sides after load and also emulate
+  the scheme.
+- Prevention: Compare the evidence files of two states (their hashes or a
+  crop) before trusting a table; a state that cannot differ from another one
+  is not a measurement.
+- Links: `docs/evidence/ports/magnet-menu/fidelity.md`
+
+### P-WEB1-B1-6
+
+- Date: 2026-10-13
+- Area: Components (Base UI NavigationMenu, Radix NavigationMenu)
+- Symptom: In a right-to-left page, ArrowLeft in the Base UI menu moved focus
+  to the visually right link; and a link focused with `element.focus()` did not
+  become the starting point of the next arrow key.
+- Cause: Base UI maps its composite arrow keys by the direction its
+  `DirectionProvider` holds (left to right by default), not by the document's
+  `dir`; its highlighted index follows keyboard and pointer focus, not a
+  programmatic `focus()`. Radix writes `dir="ltr"` on its root and list unless
+  told otherwise.
+- Fix: The component reads the page's direction after mount and hands it to the
+  provider (Base UI) or to the root (Radix, whose own `dir` attribute is
+  overridden so the first paint keeps the page's direction); keyboard behavior
+  was measured with real key presses, left to right and right to left.
+- Prevention: Test a primitive's keys with `keyboard.press` after real Tab
+  focus, in both directions, not with dispatched events.
+- Links: `ports/jh3y-anchor-magnet-menu/magnet-menu/src/base/magnet-menu.tsx`
+
+### P-WEB1-B1-7
+
+- Date: 2026-10-13
+- Area: Components (CSS color)
+- Symptom: A corner label was drawn at full strength in the port and half
+  strength upstream (708 differing pixels in every state, 0.23% at 375x812).
+- Cause: `color-mix(in lch, canvasText, transparent)` has no percentages, so it
+  is a 50% mix: the text color at half opacity, not the text color. The port
+  had simplified it to `canvasText`.
+- Fix: Keep the `color-mix` as upstream wrote it.
+- Prevention: Do not simplify a `color-mix` with `transparent`; the diff of a
+  text-only region is the quickest check of a color.
+- Links: `ports/jh3y-scroll-carousel/scroll-carousel/scroll-carousel-styles.tsx`
+
+### P-WEB1-B1-8
+
+- Date: 2026-10-13
+- Area: Components (3D transforms)
+- Symptom: A ring turned by a scroll listener (the fallback) differed from the
+  same ring turned by a CSS scroll timeline along every picture edge, only at
+  375x812 (up to 0.44%), while 1280x800 was identical.
+- Cause: Not isolated. Most likely an animated element gets its own composited
+  layer and the same transform written by script does not, and at an odd
+  viewport width the ring's centre sits on a half pixel, which the two paths
+  round differently; adding `will-change: transform` removed the difference.
+- Fix: `will-change: transform` on the script-driven ring (0 differing pixels
+  at both viewports, in every state).
+- Prevention: Compare a script-driven fallback with the CSS path at an odd
+  viewport width too.
+- Links: `ports/jh3y-scroll-carousel/scroll-carousel/scroll-carousel-styles.tsx`
+
+### P-WEB1-B1-9
+
+- Date: 2026-10-13
+- Area: Tests (wall and gallery specs)
+- Symptom: On a beta build two specs failed once two more tiles were on the
+  wall: one Tabs a fixed 40 times to reach the Tooltip tile (it is now the
+  35th tile, after the header's own stops), the other plays one loop cycle for
+  every staged tile in a 30 s test.
+- Cause: Both bounds were set for a shorter wall; every staged or tabbable
+  entry makes them tighter.
+- Fix: The Tab bound is 120 (the loop stops at the tile), and the staged-loop
+  spec has a 120 s timeout.
+- Prevention: Bound a loop over the wall by the wall's size, not by a count
+  that was true on the day it was written.
+- Links: `e2e/gallery.spec.ts`, `e2e/wall.spec.ts`
+
+### P-WEB1-B1-10
+
+- Date: 2026-10-13
+- Area: Components and demos (landmarks)
+- Symptom: axe reported `landmark-unique` on the component page of a staged
+  navigation: once for the demo's `header` (a second banner beside the site's)
+  and once for a navigation named "Main" (the site's own is called that).
+- Cause: A framed document counts as part of the page. The demo used a
+  `header` element for the slot it fills, and the component's default
+  `aria-label` was a common name.
+- Fix: The demo's slot is a `div`, the demo names its navigation, and the
+  component has no default name (upstream's `nav` had none).
+- Prevention: A staged demo is the content of a slot, not a landmark; name a
+  navigation only where the page needs it.
+- Links: `ports/jh3y-anchor-magnet-menu/magnet-menu/demo.tsx`
+
+### P-WEB1-B1-11
+
+- Date: 2026-10-13
+- Area: Tests (staged demos)
+- Symptom: An e2e check that a pill was as wide as its link failed by a
+  constant 41 px.
+- Cause: The stage scales its device frame down, so `boundingBox()` of an
+  element inside the frame is in scaled page pixels while the computed width of
+  a pseudo-element is in the frame's own pixels.
+- Fix: Measure both inside the frame (`getBoundingClientRect` evaluated in it).
+- Prevention: Never compare a Playwright box of a framed element with a
+  computed style of the same document.
+- Links: `e2e/magnet-menu.spec.ts`
+
+### P-WEB1-B1-12
+
+- Date: 2026-10-13
+- Area: Fidelity harness (browsers)
+- Symptom: A support probe against the WebKit builds in Playwright's cache
+  (`webkit-2272`, `-2336`, `-2359`, started with `executablePath`) hung for
+  sixteen minutes holding a shared slot.
+- Cause: The installed driver (1.64) expects revision 2370, which is not
+  installed; the older builds start but do not answer its protocol, and
+  `launch` has no timeout on the first command.
+- Fix: The probe measures Chromium only, and the fallback paths are exercised
+  in Chromium with the feature switched off (`CSS.supports` answering no and
+  the `@supports` block never matching).
+- Prevention: Give a probe an overall deadline, and install the revision the
+  driver names before claiming a cross-engine result.
+- Links: `docs/evidence/ports/magnet-menu/fidelity.md`

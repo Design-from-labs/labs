@@ -914,88 +914,6 @@ oss:
         category: blocks
         upstream: src/scripts/index.js
         port: ports/theoplawinski-sticky-grid/sticky-grid-scroll
-  # A public CodePen pen, MIT licensed by its own Details view. It has no git
-  # commit: `ref` is the git tree hash of the verbatim snapshot in
-  # ports/jh3y-border-shine/border-shine/upstream (decision 0027,
-  # docs/decisions/0027-pin-snapshot-sources.md). The pen also loads GSAP
-  # (proprietary) and Tweakpane for its debug panel; neither is ported.
-  - id: jh3y-border-shine
-    name: Border Shine (CodePen)
-    repo: https://codepen.io/jh3y/pen/WbwyGBb
-    visibility: public
-    status: active
-    fetch: in-repo
-    ref: ccec66c2191e6105456fcb8d6e5eefc6f53c1ef9
-    author: "Jhey <https://codepen.io/jh3y>"
-    license: MIT
-    attribution: "Copyright (c) 2026 by Jhey (https://codepen.io/jh3y/pen/WbwyGBb). MIT License."
-    credit: S-465
-    components:
-      - name: border-shine
-        status: beta
-        category: layout
-        upstream: upstream/debug.html
-
-  # A 21st.dev community item, MIT licensed by its own license field. 21st's
-  # terms ask to keep the license notice, credit the author and link back to
-  # the item page, which this entry and the file header do. `ref` is the git
-  # tree hash of the verbatim snapshot in
-  # ports/victorwelander-gooey-text/gooey-text/upstream (decision 0027).
-  - id: victorwelander-gooey-text
-    name: Gooey Text Morphing (21st.dev)
-    repo: https://21st.dev/@victorwelander/components/gooey-text-morphing
-    visibility: public
-    status: active
-    fetch: in-repo
-    ref: d25e7a0b47e178eee1fba417e742d9950e30cebf
-    author: "Victor Welander <https://21st.dev/@victorwelander>"
-    license: MIT
-    attribution: "Copyright (c) 2024 Victor Welander. MIT License. https://21st.dev/@victorwelander/components/gooey-text-morphing"
-    credit: S-466
-    components:
-      - name: gooey-text
-        status: beta
-        category: typography
-        upstream: upstream/gooey-text-morphing.tsx
-  # CodePen pens have no git commit: each is pinned by the tree hash of a
-  # verbatim snapshot (docs/decisions/0027-pin-snapshot-sources.md).
-  - id: una-neumorphic-shadows
-    name: Neumorphic shadows (Una Kravets)
-    repo: https://codepen.io/una/pen/gbwjzgw
-    visibility: public
-    status: active
-    fetch: in-repo
-    ref: fc17a41832744c5ad747c8b8570a5cf2832562b9
-    author: "Una Kravets <https://codepen.io/una>"
-    license: MIT
-    attribution: "Copyright (c) 2026 by Una Kravets (https://codepen.io/una/pen/gbwjzgw). MIT License."
-    credit: S-460
-    components:
-      - name: neumorphic-panel
-        status: beta
-        category: layout
-        upstream: debug.html
-
-  - id: jshmllr-shadow-stacking
-    name: Shadow Stacking I (Josh Miller)
-    repo: https://codepen.io/editor/jshmllr/pen/019d8276-da5b-7365-a8fa-a8e929da3a6d
-    visibility: public
-    status: active
-    fetch: in-repo
-    ref: 5fdcdb2351abaae531707bf910d538dbf571bb2e
-    author: "Josh Miller <https://codepen.io/jshmllr>"
-    license: MIT
-    # The notice stays short: a long unbreakable URL in it widened the
-    # component page past 320px (P-WEB1-A2-5). Both pen URLs are in the
-    # LICENSE (every exported file) and in the credits (S-461 and S-462).
-    attribution: "Copyright (c) 2026 Josh Miller, Shadow Stacking I (a fork of Shadow Stacking II). MIT License."
-    credit: S-461
-    components:
-      - name: elevation
-        status: beta
-        category: layout
-        upstream: style.css
-
   - id: hiro-kiii-scroll-transition
     name: Hiro-kiii scroll transitions
     repo: https://github.com/Hiro-kiii/Scroll-Transition
@@ -1085,3 +1003,123 @@ oss:
         category: layout
         upstream: packages/react/src/provider.tsx
         port: ports/lenis/smooth-scroll
+  # A public CodePen pen, MIT licensed by its own Details view. It has no git
+  # commit: `ref` is the git tree hash of the verbatim snapshot in
+  # ports/jh3y-border-shine/border-shine/upstream (decision 0027,
+  # docs/decisions/0027-pin-snapshot-sources.md). The pen also loads GSAP
+  # (proprietary) and Tweakpane for its debug panel; neither is ported.
+  - id: jh3y-border-shine
+    name: Border Shine (CodePen)
+    repo: https://codepen.io/jh3y/pen/WbwyGBb
+    visibility: public
+    status: active
+    fetch: in-repo
+    ref: ccec66c2191e6105456fcb8d6e5eefc6f53c1ef9
+    author: "Jhey <https://codepen.io/jh3y>"
+    license: MIT
+    attribution: "Copyright (c) 2026 by Jhey (https://codepen.io/jh3y/pen/WbwyGBb). MIT License."
+    credit: S-465
+    components:
+      - name: border-shine
+        status: beta
+        category: layout
+        upstream: upstream/debug.html
+
+  # A 21st.dev community item, MIT licensed by its own license field. 21st's
+  # terms ask to keep the license notice, credit the author and link back to
+  # the item page, which this entry and the file header do. `ref` is the git
+  # tree hash of the verbatim snapshot in
+  # ports/victorwelander-gooey-text/gooey-text/upstream (decision 0027).
+  - id: victorwelander-gooey-text
+    name: Gooey Text Morphing (21st.dev)
+    repo: https://21st.dev/@victorwelander/components/gooey-text-morphing
+    visibility: public
+    status: active
+    fetch: in-repo
+    ref: d25e7a0b47e178eee1fba417e742d9950e30cebf
+    author: "Victor Welander <https://21st.dev/@victorwelander>"
+    license: MIT
+    attribution: "Copyright (c) 2024 Victor Welander. MIT License. https://21st.dev/@victorwelander/components/gooey-text-morphing"
+    credit: S-466
+    components:
+      - name: gooey-text
+        status: beta
+        category: typography
+        upstream: upstream/gooey-text-morphing.tsx
+  # CodePen pens have no git commit: each is pinned by the tree hash of a
+  # verbatim snapshot (docs/decisions/0027-pin-snapshot-sources.md).
+  - id: una-neumorphic-shadows
+    name: Neumorphic shadows (Una Kravets)
+    repo: https://codepen.io/una/pen/gbwjzgw
+    visibility: public
+    status: active
+    fetch: in-repo
+    ref: fc17a41832744c5ad747c8b8570a5cf2832562b9
+    author: "Una Kravets <https://codepen.io/una>"
+    license: MIT
+    attribution: "Copyright (c) 2026 by Una Kravets (https://codepen.io/una/pen/gbwjzgw). MIT License."
+    credit: S-460
+    components:
+      - name: neumorphic-panel
+        status: beta
+        category: layout
+        upstream: debug.html
+
+  - id: jshmllr-shadow-stacking
+    name: Shadow Stacking I (Josh Miller)
+    repo: https://codepen.io/editor/jshmllr/pen/019d8276-da5b-7365-a8fa-a8e929da3a6d
+    visibility: public
+    status: active
+    fetch: in-repo
+    ref: 5fdcdb2351abaae531707bf910d538dbf571bb2e
+    author: "Josh Miller <https://codepen.io/jshmllr>"
+    license: MIT
+    # The notice stays short: a long unbreakable URL in it widened the
+    # component page past 320px (P-WEB1-A2-5). Both pen URLs are in the
+    # LICENSE (every exported file) and in the credits (S-461 and S-462).
+    attribution: "Copyright (c) 2026 Josh Miller, Shadow Stacking I (a fork of Shadow Stacking II). MIT License."
+    credit: S-461
+    components:
+      - name: elevation
+        status: beta
+        category: layout
+        upstream: style.css
+  # A CodePen pen has no commit: `ref` is the git tree hash of the verbatim
+  # snapshot in ports/jh3y-anchor-magnet-menu/magnet-menu/upstream
+  # (decision 0027). The MIT notice is the pen's own.
+  - id: jh3y-anchor-magnet-menu
+    name: Anchor magnet menu
+    repo: https://codepen.io/jh3y/pen/GRapZqO
+    visibility: public
+    status: active
+    fetch: in-repo
+    ref: 5d90f07374a1971ad805930ae6dc0c433c84f228
+    author: "Jhey <https://codepen.io/jh3y>"
+    license: MIT
+    attribution: "Copyright (c) 2026 by Jhey (https://codepen.io/jh3y/pen/GRapZqO). MIT License."
+    credit: S-470
+    components:
+      - name: magnet-menu
+        status: beta
+        category: navigation
+        upstream: upstream/debug.html
+
+  # GSAP and ScrollTrigger (used upstream for browsers without scroll-driven
+  # animations) are under a proprietary license, so the port's fallback is a
+  # scroll listener; tweakpane and the picsum photos are left out.
+  - id: jh3y-scroll-carousel
+    name: Scroll carousel
+    repo: https://codepen.io/jh3y/pen/PovoorJ
+    visibility: public
+    status: active
+    fetch: in-repo
+    ref: dc78fa4a50582f958606e3a9fe342bd9c7f2d373
+    author: "Jhey <https://codepen.io/jh3y>"
+    license: MIT
+    attribution: "Copyright (c) 2026 by Jhey (https://codepen.io/jh3y/pen/PovoorJ). MIT License."
+    credit: S-471
+    components:
+      - name: scroll-carousel
+        status: beta
+        category: media
+        upstream: upstream/debug.html

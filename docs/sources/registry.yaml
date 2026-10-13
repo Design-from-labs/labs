@@ -1681,3 +1681,50 @@ sources:
     visibility: public
     note: "Cited for the contrast-on-request rules (prefers-contrast: more, forced-colors: active) added to both components."
     used-in: [docs/evidence/ports/neumorphic-panel, docs/evidence/ports/elevation]
+  - id: S-470
+    title: "Anchor Magnet Slide Menu (CodePen pen by Jhey)"
+    author: "Jhey"
+    kind: library
+    url: "https://codepen.io/jh3y/pen/GRapZqO"
+    license: "MIT"
+    accessed: 2026-10-13
+    visibility: public
+    used-in: [sources.yaml, ports/jh3y-anchor-magnet-menu, content/components/jh3y-anchor-magnet-menu/magnet-menu]
+    note: "Pinned by the verbatim snapshot of the pen's debug view (https://cdpn.io/pen/debug/GRapZqO, 19,374 bytes, checked byte for byte against a second fetch on the access date); sources.yaml ref is the git tree hash of that directory (decision 0027). The pen's Details view shows the MIT notice and the copyright line kept in ports/jh3y-anchor-magnet-menu/LICENSE."
+  - id: S-471
+    title: "CSS Scroll-Driven Image Carousel (CodePen pen by Jhey)"
+    author: "Jhey"
+    kind: library
+    url: "https://codepen.io/jh3y/pen/PovoorJ"
+    license: "MIT"
+    accessed: 2026-10-13
+    visibility: public
+    used-in: [sources.yaml, ports/jh3y-scroll-carousel, content/components/jh3y-scroll-carousel/scroll-carousel]
+    note: "Pinned by the verbatim snapshot of the pen's debug view (https://cdpn.io/pen/debug/PovoorJ, 15,895 bytes, checked byte for byte against a second fetch on the access date); sources.yaml ref is the git tree hash of that directory (decision 0027). The pen loads GSAP and ScrollTrigger (proprietary, S-345), tweakpane and photos from picsum.photos; none of them is in the port (the fallback is a scroll listener, the panel's defaults are props, the photos are generated placeholders)."
+  - id: S-472
+    title: "MDN Web Docs: CSS anchor positioning"
+    author: "Mozilla contributors"
+    kind: doc
+    url: "https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_anchor_positioning"
+    license: "CC-BY-SA-2.5 (content); cited for the feature description and browser support only"
+    accessed: 2026-10-13
+    visibility: public
+    used-in: [docs/evidence/ports/magnet-menu, content/components/jh3y-anchor-magnet-menu/magnet-menu]
+  - id: S-473
+    title: "MDN Web Docs: CSS scroll-driven animations"
+    author: "Mozilla contributors"
+    kind: doc
+    url: "https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_scroll-driven_animations"
+    license: "CC-BY-SA-2.5 (content); cited for the feature description and browser support only"
+    accessed: 2026-10-13
+    visibility: public
+    used-in: [docs/evidence/ports/scroll-carousel, content/components/jh3y-scroll-carousel/scroll-carousel]
+  - id: S-474
+    title: "WAI-ARIA Authoring Practices: Carousel pattern"
+    author: "W3C"
+    kind: doc
+    url: "https://www.w3.org/WAI/ARIA/apg/patterns/carousel/"
+    license: "W3C Document License; cited for the pattern only"
+    accessed: 2026-10-13
+    visibility: public
+    used-in: [docs/evidence/ports/scroll-carousel, content/components/jh3y-scroll-carousel/scroll-carousel]
