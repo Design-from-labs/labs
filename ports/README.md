@@ -134,3 +134,4 @@ paths (pitfall P-044); until then they are reviewed on preview deployments.
 | `angelolibero-surface-field` | `surface-field` | angelolibero/surface-field, `src` (engine, host, controller and viewport merged as flat files; render-loop frames, no worker prop) |
 | `creativeocean-scroll-map` | `scroll-map` | CodePen pen creativeocean/myOVZYO, pinned by the snapshot in `upstream/` (the snapshot-pinning decision; GSAP, DrawSVG, MotionPath and ScrollTrigger rewritten with Motion and plain SVG, map photo generated, reduced motion draws the whole route) |
 | `nomanijaz-glimm` | `glimm` | glimm 0.3.1 by Noman Ijaz, `dist/index.js` and `dist/react.js` (npm only, pinned by its gitHead; core and React entry, render-loop, a container scope, reduced-motion crossfade, focus handoff, RTL) |
+| `pshihn-rough-notation` | `rough-annotation` | rough-stuff/rough-notation, `src` (merged into one core file plus a React wrapper; depends on roughjs 4.3.1) |

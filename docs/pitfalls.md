@@ -184,6 +184,12 @@ Design From and Design From Labs (the guards enforce this).
 | [P-171](#p-171) | Pen ports (durations) | A pen's `textContent` includes the markup's indentation, so lengths and durations differ from the visible text |
 | [P-172](#p-172) | Fidelity harness (RTL check) | A mirrored-render check built a URL without a `?`, and a wide block text overflowed one direction only |
 | [P-173](#p-173) | Tests (beta tiles on the wall) | A wall test for a beta tile timed out on a production build |
+| [P-WEB2-ROUGH-1](#p-web2-rough-1) | Dependencies (roughjs) | A newer roughjs draws circles differently from the version the port was measured against |
+| [P-WEB2-ROUGH-2](#p-web2-rough-2) | Fidelity harness (seeded randomness) | A seeded comparison of a React port differs by 0.1% to 0.7% because React draws random numbers first |
+| [P-WEB2-ROUGH-3](#p-web2-rough-3) | Components (highlight color) | Upstream's default highlight color is the text color, which hides the text |
+| [P-WEB2-ROUGH-4](#p-web2-rough-4) | Accessibility (forced colors) | SVG strokes keep their authored colors under forced colors |
+| [P-WEB2-ROUGH-5](#p-web2-rough-5) | Build (Astro server build) | `roughjs` cannot be loaded by Node's resolver, so the site build failed |
+| [P-WEB2-ROUGH-6](#p-web2-rough-6) | Components (CSS transforms) | Marks drawn inside a scaled ancestor land away from their text |
 
 ---
 
@@ -3175,3 +3181,115 @@ Design From and Design From Labs (the guards enforce this).
 - Prevention: a spec that skips on 404 can pass vacuously; read the "skipped"
   count in the summary and confirm the port serves your own `dist/`.
 - Links: `e2e/glimm.spec.ts`, `playwright.config.ts`
+
+### P-WEB2-ROUGH-1
+
+- Date: 2026-10-13
+- Area: Dependencies (roughjs)
+- Symptom: With `roughjs@^4.3.1` allowed to float, the `circle` mark would be
+  drawn with different wobble than the one the port was verified against.
+- Cause: roughjs changed its ellipse generator after 4.3.1 (the version in the
+  upstream lockfile and its published build). Measured against 4.6.6 with the
+  options the annotations use: lines, rectangles and polylines are identical,
+  but all 171 ellipse cases (57 seeds, three option sets) differ.
+- Fix: the item depends on `roughjs@4.3.1` exactly (and the library lists
+  the same version as an optional peer).
+- Prevention: when a port wraps a library whose output is seeded noise,
+  diff the library's own output across versions before allowing a range.
+- Links: `docs/evidence/ports/rough-annotation/fidelity.md`
+
+### P-WEB2-ROUGH-2
+
+- Date: 2026-10-13
+- Area: Fidelity harness (seeded randomness)
+- Symptom: Upstream and the React port, both seeded the same way, differed by
+  0.14% to 0.73% of the pixels on every frame, with every hand-drawn stroke
+  slightly different in shape. Upstream against itself was 0 pixels.
+- Cause: each annotation takes its drawing seed from `Math.random()` when it is
+  created, and React itself draws random numbers while it loads (its internal
+  instance keys), so the port's first annotation received numbers later in the
+  sequence than upstream's.
+- Fix: the port page restarts the seeded sequence right before the first
+  render (`window.__reseed`), so the first annotation sees the same numbers as
+  upstream. The 70 compared frames were then 0 pixels (at worst 2 pixels on a
+  half-drawn dash, rasterizer jitter).
+- Prevention: seed after the framework has loaded, not before, and keep the
+  failing control (the offset sequence) in the fidelity notes to show the
+  comparison can fail.
+- Links: `docs/evidence/ports/rough-annotation/fidelity.md`
+
+### P-WEB2-ROUGH-3
+
+- Date: 2026-10-13
+- Area: Components (highlight color)
+- Symptom: `type: "highlight"` without a color painted a solid bar in the
+  text color under the text, so the highlighted words disappeared.
+- Cause: upstream's color defaults to `currentColor` for every type. The
+  highlight is drawn behind the text, so a text-colored bar hides it. It is
+  upstream's documented default, not a port defect.
+- Fix: the React wrapper's default color for `highlight` is the
+  `--rough-annotation-highlight` token (a stronger one under
+  `prefers-contrast: more`); the other types keep `currentColor`. Passing
+  `color` always wins, and the fidelity runs pass `currentColor` to prove the
+  wrapper matches upstream when asked.
+- Prevention: look at every option's default on its own, not only the
+  configured examples.
+- Links: `ports/pshihn-rough-notation/rough-annotation/rough-annotation.tsx`
+
+### P-WEB2-ROUGH-4
+
+- Date: 2026-10-13
+- Area: Accessibility (forced colors)
+- Symptom: With forced colors on (Chromium), the computed `stroke` of every
+  mark stayed its authored value (an `oklch` red, blue or green), so the
+  marks did not follow the user's system colors, and a highlight bar had no
+  system text color to sit under.
+- Cause: unlike text and borders, the SVG `stroke` set through a presentation
+  attribute is not forced.
+- Fix: a small stylesheet shipped with the component sets, under
+  `forced-colors: active`, every mark's `stroke` to `CanvasText`, and the
+  highlight bar to `Mark` with `MarkText` text (`forced-color-adjust: none` on
+  that bar and its text).
+- Prevention: check marks drawn in SVG with `forcedColors: "active"`
+  emulation, not just the HTML around them.
+- Links: `docs/evidence/ports/rough-annotation/fidelity.md`
+
+### P-WEB2-ROUGH-5
+
+- Date: 2026-10-13
+- Area: Build (Astro server build)
+- Symptom: `LABS_INCLUDE_BETA=1 pnpm build:site` failed while generating static
+  routes with "Cannot find module .../roughjs/bin/fillers/hachure-filler".
+- Cause: Vite leaves npm packages external in the server build, and Node's ES
+  module resolver then loads `roughjs/bin/*` directly; roughjs 4.3.1's files
+  import each other without a file extension, which Node rejects (bundlers
+  accept it). The wrapper imports roughjs at the top of its module, so
+  rendering any page that contains the component hit it.
+- Fix: `roughjs` in `noExternal` for each Astro environment (`ssr`, `prerender`
+  and `astro`) in the site's Vite config, so the server build bundles it. The
+  top-level `ssr.noExternal` alone did not fix it: a build with only that
+  option failed the same way, and the build passed once the per-environment
+  setting was in (Astro 7 renders pages in its own `prerender` environment). The item's docs tell Vite-based projects to do the same;
+  bundlers that already bundle dependencies need nothing.
+- Prevention: build the site with the item's beta flag on before reporting a
+  port done, not only its client bundle in the harness.
+- Links: `astro.config.mjs`, `ports/pshihn-rough-notation/rough-annotation/component.json`
+
+### P-WEB2-ROUGH-6
+
+- Date: 2026-10-13
+- Area: Components (CSS transforms)
+- Symptom: The gallery still of Rough Annotation (taken from the preview route,
+  where the demo sits in a `scale(1.6)` wrapper) showed a box, a circle and a
+  highlight bar floating beside the words they belong to.
+- Cause: upstream measures the element and its `<svg>` in screen pixels
+  (`getBoundingClientRect`) and then draws in the svg's own coordinates, which
+  a scaled ancestor shrinks or grows, so every offset is multiplied by the
+  scale. The wall and the preview route both scale demos.
+- Fix: the core divides the measured offsets and sizes by the svg's screen
+  scale (the svg is styled 100px wide, so the scale is `svg.width / 100`); with
+  no transform the factor is exactly 1 and the 70 fidelity frames are
+  unchanged. The harness measures the marks at scale 1, 1.6 and 0.6.
+- Prevention: look at a canvas or SVG overlay on the wall tile and the preview
+  still, which are scaled, not only on the component page.
+- Links: `docs/evidence/ports/rough-annotation/fidelity.md`

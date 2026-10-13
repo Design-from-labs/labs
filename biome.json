@@ -48,7 +48,8 @@
       "!ports/raphaelsalaja-audio/ui-sounds/ui-sounds.tsx",
       "!ports/angelolibero-surface-field/surface-field/surface-field-*.ts",
       "!ports/nomanijaz-glimm/glimm/glimm-core.ts",
-      "!ports/nomanijaz-glimm/glimm/glimm-sweeps.ts"
+      "!ports/nomanijaz-glimm/glimm/glimm-sweeps.ts",
+      "!ports/pshihn-rough-notation/rough-annotation/rough-annotation-core.ts"
     ]
   },
   "formatter": {

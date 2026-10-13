@@ -1267,3 +1267,21 @@ oss:
         upstream: dist/index.js and dist/react.js (glimm 0.3.1)
         status: beta
         category: navigation
+  # Rough Notation (web batch WEB-2). Pinned at the commit of npm 0.5.1 (its
+  # gitHead); the drawing code depends on roughjs 4.3.1 (S-505).
+  - id: pshihn-rough-notation
+    name: Rough Notation by Preet Shihn
+    repo: https://github.com/rough-stuff/rough-notation
+    visibility: public
+    status: active
+    fetch: in-repo
+    ref: 668ba82ac89c903d6f59c9351b9b85855da9882c
+    author: "Preet Shihn <https://github.com/pshihn>"
+    license: MIT
+    attribution: "Rough Notation, Copyright (c) 2020 Preet Shihn. MIT License."
+    credit: S-504
+    components:
+      - name: rough-annotation
+        upstream: src
+        status: beta
+        category: typography
