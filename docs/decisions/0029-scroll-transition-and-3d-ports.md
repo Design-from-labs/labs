@@ -1,4 +1,4 @@
-# 0027: Port scroll effects into scroll containers, let renderers that own their context run on render-loop, and carry Apache notices once
+# 0029: Port scroll effects into scroll containers, let renderers that own their context run on render-loop, and carry Apache notices once
 
 - Status: Accepted
 - Date: 2026-10-13

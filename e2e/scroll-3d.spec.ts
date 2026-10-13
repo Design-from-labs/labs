@@ -1,7 +1,7 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, type Page, test } from "@playwright/test";
 
-// Port batch J (decision 0027): scroll effects, page transitions and 3D. They
+// Port batch J (decision 0029): scroll effects, page transitions and 3D. They
 // land as beta, so each test skips while its page is not published, and runs
 // on a LABS_INCLUDE_BETA=1 build (decision 0014) or once promoted.
 
@@ -19,8 +19,8 @@ async function open(page: Page, path: string) {
   test.skip(response?.status() === 404, `${path} is not published here`);
 }
 
-// Paper's page lists 75 source files (about 87,000 highlighted spans), which
-// axe cannot get through in a test's time; the listing is the site's own
+// Paper's page lists 75 source files, which axe cannot get through in a
+// test's time (docs/pitfalls.md, P-123); the listing is the site's own
 // SourceView, checked on every other component page, so it is left out there.
 async function axe(page: Page, excludeSource = false) {
   const builder = new AxeBuilder({ page }).withTags(TAGS);

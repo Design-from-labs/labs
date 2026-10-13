@@ -72,7 +72,7 @@ ports/<source-id>/<component>/
 | `icons.json` | per-component Lucide to Phosphor names, merged over `ports/icons.json`; type imports (`LucideIcon`) map too |
 | `demo` | a path, or a map keyed by variant or primitive |
 | `sourcePath` | the upstream path shown as `source.path` (same as `upstreamPath`) |
-| `licenseFile` | either shape: the one file that carries the full license text and upstream NOTICE; the others get a short notice pointing to it (decision 0027) |
+| `licenseFile` | either shape: the one file that carries the full license text and upstream NOTICE; the others get a short notice pointing to it (decision 0029) |
 | `changeNotice` | either shape: a sentence appended to every file's footer saying the files were modified (Apache-2.0, section 4(b)) |
 
 `src/` is upstream code kept line for line, so Biome skips `ports/*/*/src`.

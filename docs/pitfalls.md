@@ -149,6 +149,14 @@ Design From and Design From Labs (the guards enforce this).
 | [P-136](#p-136) | Accessibility (forced colors) | Decorative marks drawn with backgrounds vanished in forced colors |
 | [P-137](#p-137) | Accessibility (axe) | axe passed on a page whose scene had not rendered yet |
 | [P-138](#p-138) | Machine (shared lock) | Many small fidelity runs starved behind other pods |
+| [P-139](#p-139) | Fidelity harness (Playwright clock) | Fake frames are not 16 ms apart until the clock is paused |
+| [P-140](#p-140) | Fidelity harness (Playwright clock) | A click-started animation lands at a random phase of the fake frame grid |
+| [P-141](#p-141) | Fidelity harness (CSS) | CSS transitions ignore the fake clock |
+| [P-142](#p-142) | Components (GSAP rewrite) | GSAP's expo and ScrollTrigger's scrub ease are not the textbook curves |
+| [P-143](#p-143) | Components (GSAP rewrite) | A tween fired from a scroll update runs one frame behind GSAP |
+| [P-144](#p-144) | Components (CSS) | Links ported to buttons lose their letter-spacing |
+| [P-145](#p-145) | Fidelity (dependency versions) | three.js 0.185 blends fading WebGPU planes differently from 0.184 |
+| [P-146](#p-146) | Ports (closure) | A bundler's metafile misses type-only modules |
 
 ---
 
@@ -1799,7 +1807,9 @@ Design From and Design From Labs (the guards enforce this).
   watches for animations before animating a child.
 - Links: `ports/iconiq/reasoning-steps/aria/reasoning-steps.tsx`
 
-### P-109
+### P-139
+
+### P-140
 
 - Date: 2026-10-12
 - Area: Components (Radix Tooltip)
@@ -1815,7 +1825,7 @@ Design From and Design From Labs (the guards enforce this).
   changes on press.
 - Links: `ports/aicss/message-actions/radix/message-actions.tsx`
 
-### P-110
+### P-141
 
 - Date: 2026-10-12
 - Area: Fidelity harness (React Aria hover)
@@ -1828,7 +1838,7 @@ Design From and Design From Labs (the guards enforce this).
 - Prevention: start every hover scenario with a real pointer move.
 - Links: `docs/evidence/ports/message-actions/fidelity.md`
 
-### P-111
+### P-142
 
 - Date: 2026-10-12
 - Area: Components (portaled popups)
@@ -1845,7 +1855,7 @@ Design From and Design From Labs (the guards enforce this).
   inherited in place and pass it on.
 - Links: `ports/aicss/message-actions/shared/message-actions-shared.tsx`
 
-### P-112
+### P-143
 
 - Date: 2026-10-12
 - Area: Components (focus return and tooltips)
@@ -1863,7 +1873,7 @@ Design From and Design From Labs (the guards enforce this).
 - Prevention: diff the state after a popup closes, with the pointer away.
 - Links: `ports/aicss/message-actions/base/message-actions.tsx`
 
-### P-113
+### P-144
 
 - Date: 2026-10-12
 - Area: Icons (Lucide 1.x)
@@ -1877,7 +1887,7 @@ Design From and Design From Labs (the guards enforce this).
   with a library icon.
 - Links: `ports/aicss/message-actions/shared/message-actions-icons.tsx`
 
-### P-114
+### P-145
 
 - Date: 2026-10-12
 - Area: Components (React Aria tooltips)
@@ -1892,7 +1902,7 @@ Design From and Design From Labs (the guards enforce this).
   static text in the text itself.
 - Links: `ports/aicss/message-actions/aria/message-actions.tsx`
 
-### P-115
+### P-146
 
 - Date: 2026-10-12
 - Area: Fidelity (screenshot diffs)
