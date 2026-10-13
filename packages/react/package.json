@@ -142,10 +142,13 @@
     "@base-ui/react": "^1.9.0",
     "@phosphor-icons/react": "^2.1.10",
     "lucide-react": "^1.55.0",
+    "motion": ">=12.34.0",
     "radix-ui": "^1.6.7",
     "react": "^19.0.0",
     "react-aria-components": "^1.22.1",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "sonner": "^2.0.7",
+    "tegaki": "^1.1.0"
   },
   "peerDependenciesMeta": {
     "@base-ui/react": {
@@ -157,10 +160,19 @@
     "lucide-react": {
       "optional": true
     },
+    "motion": {
+      "optional": true
+    },
     "radix-ui": {
       "optional": true
     },
     "react-aria-components": {
+      "optional": true
+    },
+    "sonner": {
+      "optional": true
+    },
+    "tegaki": {
       "optional": true
     }
   },

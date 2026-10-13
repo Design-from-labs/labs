@@ -118,3 +118,75 @@ oss:
         status: beta
         category: feedback
         upstream: 2026-04-25/tips-4.html
+
+  # Ported by hand from the pinned commit, with the port's sources in
+  # ports/<id>/<component>/ and exported to content/components/ by
+  # `pnpm ports` (scripts/export-ports.mjs; CI runs `pnpm ports:check`).
+  # Fidelity evidence: docs/evidence/ports/<component>/fidelity.md.
+  - id: torph
+    name: torph by Lochie Axon
+    repo: https://github.com/lochie/torph
+    visibility: public
+    status: active
+    fetch: in-repo
+    ref: d79a5aa63226acf97d49c3e34fafb2e85c07b026
+    author: "Lochie Axon <https://lochieaxon.com>"
+    license: MIT
+    attribution: "torph, Copyright (c) 2025 Lochie Axon. MIT License."
+    credit: S-100
+    components:
+      - name: text-morph
+        upstream: packages/torph/src
+        status: beta
+        category: typography
+
+  - id: goey-toast
+    name: goey-toast by anl331
+    repo: https://github.com/anl331/goey-toast
+    visibility: public
+    status: active
+    fetch: in-repo
+    ref: be6bd884c85d52cca930b09b425ef68858d1b63c
+    author: "Alfredo Natal II (anl331) <https://github.com/anl331>"
+    license: MIT
+    attribution: "goey-toast, Copyright (c) 2026 Alfredo Natal II (anl331). MIT License."
+    credit: S-101
+    components:
+      - name: gooey-toast
+        upstream: src
+        status: beta
+        category: feedback
+
+  - id: tegaki
+    name: Tegaki by Gokhan Kurt
+    repo: https://github.com/gkurt/tegaki
+    visibility: public
+    status: active
+    fetch: in-repo
+    ref: 32654a4cfb0fa6a2873264cf693316acd59d1627
+    author: "Gokhan Kurt <https://gkurt.com>"
+    license: MIT
+    attribution: "Tegaki, Copyright (c) 2026 Gokhan Kurt. MIT License."
+    credit: S-102
+    components:
+      - name: handwriting
+        upstream: packages/renderer (npm tegaki)
+        status: beta
+        category: typography
+
+  - id: peckz-playground
+    name: Playground by Petar Cirkovic
+    repo: https://github.com/peckz/playground
+    visibility: public
+    status: active
+    fetch: in-repo
+    ref: 8b088c0911f6e9d3135962b92ca82b9da38736ce
+    author: "Petar Cirkovic <https://pettar.com>"
+    license: MIT
+    attribution: "playground, Copyright (c) 2026 Petar Cirkovic. MIT License."
+    credit: S-103
+    components:
+      - name: dot-morph
+        upstream: src/app/chrome-morph
+        status: beta
+        category: actions

@@ -51,6 +51,9 @@ jobs:
       - name: Labs examples export is current
         run: pnpm examples:check
 
+      - name: Ported components are exported (pnpm ports)
+        run: pnpm ports:check
+
       - name: Validate content (contract and shadcn schema)
         run: pnpm validate:content
 

@@ -1,0 +1,117 @@
+{
+  "$schema": "https://labs.designfrom.com/schemas/meta.schema.json",
+  "schemaVersion": 1,
+  "name": "dot-morph",
+  "kind": "component",
+  "title": "Dot Morph",
+  "description": "A menu dot that splits into three on hover with a gooey neck, then spins and blooms into a three-piece mark on press, with motion blur. Pass your own mark.",
+  "status": "beta",
+  "category": "actions",
+  "label": "Playground by Petar Cirkovic",
+  "variants": [
+    {
+      "name": "dot-morph",
+      "primitive": "none",
+      "iconSet": "none",
+      "status": "beta"
+    }
+  ],
+  "defaultVariant": "dot-morph",
+  "demo": "demo.tsx",
+  "preview": "preview.webp",
+  "source": {
+    "repo": "https://github.com/peckz/playground",
+    "commit": "8b088c0911f6e9d3135962b92ca82b9da38736ce",
+    "path": "src/app/chrome-morph"
+  },
+  "author": "Petar Cirkovic <https://pettar.com>",
+  "license": "MIT",
+  "attribution": "playground, Copyright (c) 2026 Petar Cirkovic. MIT License.",
+  "credits": [
+    "S-103",
+    "S-003",
+    "S-004",
+    "S-008",
+    "S-152"
+  ],
+  "date": "2026-10-12",
+  "tags": [
+    "animation",
+    "icon",
+    "svg",
+    "morph",
+    "button"
+  ],
+  "props": [
+    {
+      "name": "size",
+      "type": "number",
+      "default": "16",
+      "description": "Pixels per unit of the 24-unit icon grid (16 draws a 384 px icon). Whole numbers keep edges on the pixel grid."
+    },
+    {
+      "name": "mark",
+      "type": "readonly [string, string, string]",
+      "default": "three petals",
+      "description": "Three closed SVG paths (24-unit viewBox: top, lower left, lower right) around a core circle of radius 3."
+    },
+    {
+      "name": "colors",
+      "type": "readonly [string, string, string, string]",
+      "description": "Hex colors the pieces, then the core, bloom into. Unset: one solid currentColor."
+    },
+    {
+      "name": "spin / twist / expandAt / duration",
+      "type": "number",
+      "default": "270 / 45 / 0.3 / 600",
+      "description": "Orbit degrees, extra per-piece rotation lag, when the dots start to bloom (fraction of the morph), and morph length in ms."
+    },
+    {
+      "name": "splitDuration / goo",
+      "type": "number",
+      "default": "420 / 1",
+      "description": "Split length in ms, and how gooey the split is (0 turns it off)."
+    },
+    {
+      "name": "shutter / soften",
+      "type": "number",
+      "default": "360 / 0.5",
+      "description": "Motion blur shutter angle (0 turns it off) and the extra soft blur at peak speed."
+    },
+    {
+      "name": "direction / speed",
+      "type": "1 | -1 / number",
+      "default": "1 / 1",
+      "description": "Orbit direction (1 clockwise) and a playback speed multiplier."
+    },
+    {
+      "name": "autoplay",
+      "type": "boolean",
+      "default": "false",
+      "description": "Walk the loop on its own: dot, dots, mark, dots, dot."
+    },
+    {
+      "name": "labels",
+      "type": "{ toMark: string; toDots: string }",
+      "default": "{ toMark: \"Show the mark\", toDots: \"Back to the menu dots\" }",
+      "description": "Accessible names, by what the next press does."
+    },
+    {
+      "name": "onStageChange",
+      "type": "(stage: \"dot\" | \"dots\" | \"mark\") => void",
+      "description": "Called when the icon starts a step toward a new stage."
+    },
+    {
+      "name": "...props",
+      "type": "React.ComponentProps<\"button\">",
+      "description": "Native button attributes (className goes on the button)."
+    }
+  ],
+  "a11y": [
+    "A native button with aria-pressed: Enter and Space toggle the mark, and the accessible name says what the next press does.",
+    "Keyboard parity with hover: focusing it with the keyboard splits the dot, and leaving walks it home (a Labs addition).",
+    "The drawing is aria-hidden; focus is visible with a two-pixel ring.",
+    "Under prefers-reduced-motion every step jumps to its resting frame, with no spin, blur or goo."
+  ],
+  "usage": "<DotMorph size={8} />"
+}
