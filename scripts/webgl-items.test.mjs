@@ -64,3 +64,20 @@ test("render-loop: pixel ratio cap, observers, visibility and context loss", () 
   assert.match(helper, /"webglcontextrestored"/);
   assert.match(helper, /useReducedMotion\(\)/);
 });
+
+// Lifeline's fireworks overlay (WebGL 1) moved onto the helper too; it has no
+// fallback picture of its own (without WebGL the show simply ends).
+test("lifeline: the fireworks draw through the render-loop helper", () => {
+  const found = items.filter((i) => i.component === "lifeline");
+  assert.ok(found.length > 0);
+  for (const { item } of found) {
+    assert.ok(item.registryDependencies?.includes("render-loop"), item.name);
+    const fireworks = item.files.find((file) =>
+      file.path.endsWith("lifeline-fireworks.tsx"),
+    );
+    assert.ok(fireworks, item.name);
+    assert.match(fireworks.content, /from "@\/lib\/render-loop"/);
+    assert.match(fireworks.content, /useRenderLoop<FireworksState>/);
+    assert.doesNotMatch(fireworks.content, /requestAnimationFrame/);
+  }
+});
