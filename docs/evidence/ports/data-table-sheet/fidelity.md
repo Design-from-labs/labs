@@ -67,3 +67,16 @@ None measured: every state is pixel-identical. What the comparison does not cove
 - The level colors are compared through `--data-table-*` with upstream's registry values;
   the upstream docs site overrides `--success` with a muted value, which no compared state
   shows (the example's rows are info, warning and error).
+
+## Stage
+
+`{ "device": "laptop", "slot": "inline", "shell": "app" }`. A stage renders in
+an iframe at the device's own viewport, so the sheet (a modal Radix dialog,
+`position: fixed` at the inline end) anchors to the device screen and slides
+in from its end edge over the app shell, as it does in a real app. It opens
+from a row of the table, which therefore has to sit in the shell's content
+area; `inline` gives the table that room. `panel-end` would squeeze the table
+into a narrow side column while the fixed sheet still covered the screen's
+end, so it would show a less true picture. Checked on a beta build: on
+`/stage/live/data-table-sheet-radix-lucide`, a row click opens the dialog from
+the device's end edge and Escape closes it.
