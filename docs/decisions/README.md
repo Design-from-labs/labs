@@ -36,5 +36,6 @@ record has a `- Sources:` line (registry ids, or `none: <reason>`).
 | [0028](0028-text-splitters-and-icon-agnostic-morph.md) | Two text splitters (Griffo and kugiri); Morph Icon ships without icon-set items | Accepted |
 | [0029](0029-scroll-transition-and-3d-ports.md) | Scroll effects in scroll containers, render-loop for renderers that own their context, Apache notices once | Accepted |
 | [0030](0030-pin-snapshot-sources.md) | Pin sources that have no git commit by the tree hash of a verbatim snapshot | Accepted |
+| [0031](0031-vite-install-check-on-beta-items.md) | Install beta port items into a fresh Vite app in CI and run its own build | Accepted |
 | [0032](0032-pill-toast-no-primitive-and-div-root.md) | Port the pill toast primitive-free, with a div root and the npm license | Accepted |
 | [0033](0033-surface-field-frames-on-render-loop.md) | Run an engine that schedules its own frames on the render loop, and leave out its worker prop | Accepted |

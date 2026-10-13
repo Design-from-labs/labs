@@ -99,6 +99,35 @@ also underline the selected window, since the sliding indicator disappears).
 That path is not part of the pixel comparison; axe is clean under both
 preferences.
 
+## Deviations after the fidelity run
+
+Pixel-neutral. A fresh Vite app from shadcn's template turns on `noUnusedLocals` and
+`noUnusedParameters`, so `tsc -b` (the app's build) failed on symbols upstream declares
+and never reads. They are removed, or, for a parameter that sits in the middle of a
+positional list, prefixed with `_` (callers are unchanged):
+
+- `draw/candlestick.ts`: parameter `palette` is `_palette`.
+- `draw/orderbook.ts`: the local `totalSize` (computed, never read) is removed.
+- `draw/timeAxis.ts`: parameter `windowSecs` is `_windowSecs`.
+- `useLivelineEngine.ts`: the unused `LivelineSeries` type import and the unused
+  `CANDLE_BUFFER` constant are removed; parameter `dt` of a helper is `_dt`.
+
+None of them feeds a value that is drawn. Re-run against the final export after the
+change, with the same seed 42, fake clock at `1767225600000`, `--advance 3500`, the
+page's Tick rate set to `1s` and the same hook (the shared tool now pauses the clock
+before navigation, so the local copy is no longer needed), 0 px:
+
+| State | Viewport | Scheme | Differing px | % | Pass |
+| --- | --- | --- | --- | --- | --- |
+| line-dark (`/`) | 1280x800 | dark | 0 | 0.0000 | yes |
+| line-dark (`/`) | 375x812 | dark | 0 | 0.0000 | yes |
+| candle-dark (`/demo.html`) | 1280x800 | dark | 0 | 0.0000 | yes |
+| candle-dark (`/demo.html`) | 375x812 | dark | 0 | 0.0000 | yes |
+
+These are the `*-unused-removed-*-diff.webp` images (upstream and port shots are
+identical, so only the diffs are kept) and the `*-unused-removed` entries of
+`fidelity.json`.
+
 ## Residual differences
 
 None measured. Two things are worth knowing when reading the images:

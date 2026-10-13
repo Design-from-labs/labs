@@ -186,7 +186,7 @@ export function drawCandlesticks(
 export function drawClosePrice(
   ctx: CanvasRenderingContext2D,
   layout: ChartLayout,
-  palette: LivelinePalette,
+  _palette: LivelinePalette,
   liveCandle: CandlePoint,
   scrubDim: number,
   bullBlend = -1,

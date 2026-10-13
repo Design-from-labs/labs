@@ -1,7 +1,7 @@
 "use client"
 
 import { useRef, useEffect, useCallback } from 'react'
-import type { LivelinePoint, LivelinePalette, LivelineSeries, Momentum, ReferenceLine, HoverPoint, Padding, ChartLayout, OrderbookData, DegenOptions, BadgeVariant, CandlePoint } from './types'
+import type { LivelinePoint, LivelinePalette, Momentum, ReferenceLine, HoverPoint, Padding, ChartLayout, OrderbookData, DegenOptions, BadgeVariant, CandlePoint } from './types'
 import { lerp } from './math/lerp'
 import { computeRange } from './math/range'
 import { detectMomentum } from './math/momentum'
@@ -115,7 +115,6 @@ const LINE_ADAPTIVE_BOOST = 0.2
 const LINE_SNAP_THRESHOLD = 0.001
 const RANGE_LERP_SPEED = 0.15
 const RANGE_ADAPTIVE_BOOST = 0.2
-const CANDLE_BUFFER = 0.05
 const CANDLE_BUFFER_NO_BADGE = 0.015
 
 // --- Extracted helper functions (pure computation, called inside draw loop) ---
@@ -265,7 +264,7 @@ function updateHoverState(
   leftEdge: number,
   rightEdge: number,
   chartW: number,
-  dt: number,
+  _dt: number,
 ): {
   hoverX: number | null; hoverValue: number | null; hoverTime: number | null
   scrubAmount: number; isActiveHover: boolean

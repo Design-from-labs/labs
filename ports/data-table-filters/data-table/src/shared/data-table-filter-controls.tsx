@@ -55,20 +55,30 @@ export function DataTableFilterControls() {
         return (
           // REMINDER: -mx-2 lets the border-b span the full sidebar width despite the parent p-2; px-2 keeps the content aligned
           <AccordionItem key={value} value={value} className="-mx-2 px-2">
-            <AccordionTrigger className="data-[state=closed]:text-muted-foreground data-[state=open]:text-foreground focus-within:data-[state=closed]:text-foreground hover:data-[state=closed]:text-foreground w-full items-center gap-2 px-2 py-0 hover:no-underline">
-              <div className="flex w-full items-center justify-between gap-2 truncate py-3 pe-2">
-                <div className="flex items-center gap-2 truncate">
-                  <p className="text-sm font-medium">{field.label}</p>
-                  {value !== field.label.toLowerCase() &&
-                  !field.commandDisabled ? (
-                    <p className="text-muted-foreground mt-px truncate font-mono text-[10px]">
-                      {value}
-                    </p>
-                  ) : null}
+            {/* The reset chip is a sibling of the trigger button, not a child (a button
+                inside a button), stacked in the same grid cell over a placeholder that
+                keeps its spot in the header: 40px from the end (the trigger's px-2,
+                the chevron and its gap, the row's pe-2) minus its 2px hit padding. */}
+            <div className="group/filter-header grid *:col-start-1 *:row-start-1">
+              <AccordionTrigger className="data-[state=closed]:text-muted-foreground data-[state=open]:text-foreground focus-within:data-[state=closed]:text-foreground hover:data-[state=closed]:text-foreground group-focus-within/filter-header:data-[state=closed]:text-foreground group-hover/filter-header:data-[state=closed]:text-foreground w-full items-center gap-2 px-2 py-0 hover:no-underline">
+                <div className="flex w-full items-center justify-between gap-2 truncate py-3 pe-2">
+                  <div className="flex items-center gap-2 truncate">
+                    <p className="text-sm font-medium">{field.label}</p>
+                    {value !== field.label.toLowerCase() &&
+                    !field.commandDisabled ? (
+                      <p className="text-muted-foreground mt-px truncate font-mono text-[10px]">
+                        {value}
+                      </p>
+                    ) : null}
+                  </div>
+                  <DataTableFilterResetButton {...field} placeholder />
                 </div>
-                <DataTableFilterResetButton {...field} />
-              </div>
-            </AccordionTrigger>
+              </AccordionTrigger>
+              <DataTableFilterResetButton
+                {...field}
+                className="text-muted-foreground group-focus-within/filter-header:text-foreground group-hover/filter-header:text-foreground group-has-[[data-slot=accordion-trigger][data-state=open]]/filter-header:text-foreground me-[38px] self-center justify-self-end"
+              />
+            </div>
             <AccordionContent>
               {/* REMINDER: avoid the focus state to be cut due to overflow-hidden */}
               {/* REMINDER: need to move within here because of accordion height animation */}

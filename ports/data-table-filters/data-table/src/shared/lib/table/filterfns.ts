@@ -1,4 +1,4 @@
-import { FilterFn } from "@tanstack/react-table";
+import type { FilterFn } from "@tanstack/react-table";
 import { isSameDay } from "date-fns";
 import { isArrayOfDates } from "../is-array";
 

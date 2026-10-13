@@ -1,0 +1,103 @@
+"use client";
+
+import { useDataTable } from "./data-table-provider";
+import { Button } from "@/components/ui/button";
+import { Kbd } from "@/components/ui/kbd";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { useHotKey } from "./hooks/use-hot-key";
+import { useIsRtl } from "./hooks/use-is-rtl";
+import { formatCompactNumber } from "./lib/format";
+import { useControls } from "./providers/controls";
+import { PanelLeftClose, PanelLeftOpen } from "lucide-react";
+import { DataTableFilterControlsDrawer } from "./data-table-filter-controls-drawer";
+import { DataTableResetButton } from "./data-table-reset-button";
+import { DataTableViewOptions } from "./data-table-view-options";
+import { TOOLTIP_DELAY } from "./ui-compat";
+
+interface DataTableToolbarProps {
+  renderActions?: () => React.ReactNode;
+}
+
+export function DataTableToolbar({ renderActions }: DataTableToolbarProps) {
+  const { table, columnFilters, totalRows, filterRows } =
+    useDataTable();
+  const { open, setOpen } = useControls();
+  const isRtl = useIsRtl();
+  useHotKey(() => setOpen((prev) => !prev), "b");
+  const rows = {
+    total: totalRows ?? table.getCoreRowModel().rows.length,
+    filtered: filterRows ?? table.getFilteredRowModel().rows.length,
+  };
+
+  return (
+    <div className="flex flex-wrap items-center justify-between gap-4">
+      <div className="flex flex-wrap items-center gap-2">
+        <TooltipProvider {...TOOLTIP_DELAY}>
+          <Tooltip>
+            <TooltipTrigger
+              render={
+                <Button
+                  variant="ghost"
+                  onClick={() => setOpen((prev) => !prev)}
+                  className="hidden gap-2 sm:flex"
+                />
+              }
+            >
+              {open ? (
+                <>
+                  <PanelLeftClose className="h-4 w-4 rtl:-scale-x-100" />
+                  <span className="hidden md:block">Hide Controls</span>
+                </>
+              ) : (
+                <>
+                  <PanelLeftOpen className="h-4 w-4 rtl:-scale-x-100" />
+                  <span className="hidden md:block">Show Controls</span>
+                </>
+              )}
+            </TooltipTrigger>
+            <TooltipContent side={isRtl ? "left" : "right"}>
+              <p className="text-nowrap">
+                Toggle controls with{" "}
+                <Kbd className="text-muted-foreground group-hover:text-accent-foreground ms-1">
+                  <span className="me-1">⌘</span>
+                  <span>B</span>
+                </Kbd>
+              </p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+        <div className="block sm:hidden">
+          <DataTableFilterControlsDrawer />
+        </div>
+        <div>
+          <p className="text-muted-foreground hidden text-sm sm:block">
+            <span className="font-mono font-medium">
+              {formatCompactNumber(rows.filtered)}
+            </span>{" "}
+            of{" "}
+            <span className="font-mono font-medium">
+              {formatCompactNumber(rows.total)}
+            </span>{" "}
+            row(s) <span className="sr-only sm:not-sr-only">filtered</span>
+          </p>
+          <p className="text-muted-foreground block text-sm sm:hidden">
+            <span className="font-mono font-medium">
+              {formatCompactNumber(rows.filtered)}
+            </span>{" "}
+            row(s)
+          </p>
+        </div>
+      </div>
+      <div className="ms-auto flex items-center gap-2">
+        {columnFilters.length ? <DataTableResetButton /> : null}
+        {renderActions?.()}
+        <DataTableViewOptions />
+      </div>
+    </div>
+  );
+}

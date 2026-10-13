@@ -147,6 +147,13 @@ function Sortable<TData extends { id: UniqueIdentifier }>({
 
   const config = orientationConfig[orientation];
 
+  // dnd-kit renders its screen reader instructions and live region next to
+  // the sortable items unless given a container; inside a listbox (the view
+  // options) they would be invalid children. Portal them to <body> once
+  // mounted (SSR safe).
+  const [a11yContainer, setA11yContainer] = React.useState<Element>();
+  React.useEffect(() => setA11yContainer(document.body), []);
+
   return (
     <DndContext
       modifiers={modifiers ?? config.modifiers}
@@ -176,6 +183,7 @@ function Sortable<TData extends { id: UniqueIdentifier }>({
       }}
       collisionDetection={collisionDetection}
       {...props}
+      accessibility={{ container: a11yContainer, ...props.accessibility }}
     >
       <SortableContext items={value} strategy={strategy ?? config.strategy}>
         {children}

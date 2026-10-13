@@ -83,7 +83,12 @@ export function DatePickerWithRange({
             )}
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="w-auto p-0" align="start">
+        <PopoverContent
+          className="w-auto p-0"
+          align="start"
+          // The popup is a dialog; give it a name.
+          aria-label="Date range"
+        >
           <div className="flex flex-col justify-between sm:flex-row">
             <div className="hidden sm:block">
               <DatePresets
@@ -192,7 +197,11 @@ function DatePresetsSelect({
           valid HTML attribute, so passing it typechecks and then renders an
           empty trigger. Picking the muted colour by hand keeps the placeholder
           looking the same on both libraries. */}
-      <SelectTrigger className={cn(!value && "text-muted-foreground")}>
+      <SelectTrigger
+        className={cn(!value && "text-muted-foreground")}
+        // A combobox takes its name from a label, not from its content.
+        aria-label="Date presets"
+      >
         {presets.find((preset) => preset.shortcut === value)?.label ??
           "Date Presets"}
       </SelectTrigger>

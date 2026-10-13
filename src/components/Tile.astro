@@ -57,7 +57,7 @@ const specimen = {
         <div class={`${surfaceClass} vt-tile-preview`} transition:name={previewName(entry.name)} transition:animate="initial" {...specimen}>
           {variant?.demo ? (
             <div class="specimen-fit" data-specimen-fit>
-              <Demos item={variant.name} hydrate={hydrate} />
+              <Demos item={variant.name} hydrate={hydrate} wall />
             </div>
           ) : (
             <div class="specimen-fit" data-specimen-fit>
