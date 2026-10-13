@@ -12,6 +12,18 @@
       "primitive": "none",
       "roots": ["../shared/src/glyphs/none", "../shared/src/menu/none", "src"],
       "status": "beta"
+    },
+    {
+      "style": "icons",
+      "label": "Icon library",
+      "primitive": "none",
+      "roots": [
+        "../shared/src/glyphs/library",
+        "../shared/src/menu/none",
+        "src"
+      ],
+      "iconSets": ["lucide", "phosphor"],
+      "status": "beta"
     }
   ],
   "demo": "demo.tsx",
@@ -125,5 +137,5 @@
     "Right to left: the fan mirrors, so the first action sits at the inline start."
   ],
   "usage": "<SpeedDial onAction={(id) => console.log(id)} />",
-  "docs": "Installed `SpeedDial` in `components/ui/` with its stylesheet, glyphs and menu wiring next to it, and the shared engine (`liquid-taffy-engine`, in `lib/`) as a dependency; one engine serves all three liquid surfaces.\n\n```tsx\nimport { SpeedDial } from \"@/components/ui/speed-dial\";\n\n<SpeedDial onAction={(id) => console.log(id)} />\n```\n\nThe 32px button breaks into up to three droplets that fan out left, up and right (mirrored in right-to-left). Choose an action and the dial closes. Place it with `className` and leave room around it for the fan. It follows the page's theme (a `.dark` ancestor makes it dark) or the `theme` prop; the palette is the `--speed-dial-*` variables. Sound is off unless you pass `sound`.\n\nPress and hold the button or a droplet and drag: a liquid finger stretches out of the edge and snaps back on release.\n\nPorted from liquid-taffy by arknow91 (MIT); the license notice is at the end of every file."
+  "docs": "Installed `SpeedDial` in `components/ui/` with its stylesheet, glyphs and menu wiring next to it, and the shared engine (`liquid-taffy-engine`, in `lib/`) as a dependency; one engine serves all three liquid surfaces.\n\n```tsx\nimport { SpeedDial } from \"@/components/ui/speed-dial\";\n\n<SpeedDial onAction={(id) => console.log(id)} />\n```\n\nThe 32px button breaks into up to three droplets that fan out left, up and right (mirrored in right-to-left). Choose an action and the dial closes. Place it with `className` and leave room around it for the fan. It follows the page's theme (a `.dark` ancestor makes it dark) or the `theme` prop; the palette is the `--speed-dial-*` variables. Sound is off unless you pass `sound`.\n\nThe `-icons-lucide` and `-icons-phosphor` items draw the plus, the shapes and the tick from an icon library instead of the component's own glyphs.\n\nPress and hold the button or a droplet and drag: a liquid finger stretches out of the edge and snaps back on release.\n\nPorted from liquid-taffy by arknow91 (MIT); the license notice is at the end of every file."
 }

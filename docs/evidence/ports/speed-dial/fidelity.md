@@ -44,6 +44,20 @@ more samples has its own section).
 numbers of every frame. Only a representative set is kept (size budget); every frame
 passed or is listed above.
 
+## Icon library style (enhancement)
+
+The default item keeps upstream's own glyphs (decision 0025), so everything above is
+measured on it. The `icons` style (`speed-dial-icons-lucide` and `-icons-phosphor`) fills the trigger plus and the three satellite shapes from an icon library
+instead: Lucide's or Phosphor's nearest circle, cross, triangle, square, plus and
+tick, drawn at the same 12px and 16px boxes. Nothing else changes: the frame, the
+goo, the springs and the tick morph are the same files (the glyph layer is the only
+file that differs, `taffy-glyphs.tsx`). The morph turns each library glyph as a
+group, so the spin-away and the tick growing from it work as in the default style.
+These are not upstream-fidelity frames; the stills show both frames with the icons
+style (`enhance-icons-lucide-1280x800.webp`, `enhance-icons-phosphor-1280x800.webp`).
+Install either style on its own: both write `taffy-glyphs.tsx`, so a project uses one
+style for all three surfaces.
+
 ## Deviations from upstream
 
 - **Tween engine.** Upstream choreographs with GSAP, which is proprietary and is not

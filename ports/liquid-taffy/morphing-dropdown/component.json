@@ -17,6 +17,19 @@
         "src"
       ],
       "status": "beta"
+    },
+    {
+      "style": "icons",
+      "label": "Icon library",
+      "primitive": "none",
+      "roots": [
+        "../shared/src/dropdown",
+        "../shared/src/glyphs/library",
+        "../shared/src/menu/none",
+        "src"
+      ],
+      "iconSets": ["lucide", "phosphor"],
+      "status": "beta"
     }
   ],
   "demo": "demo.tsx",
@@ -136,5 +149,5 @@
     "Right to left: the panel is centered over the trigger, so it does not move; each row's glyph and label follow the page direction."
   ],
   "usage": "<MorphingDropdown onValueChange={(ids) => console.log(ids)} />",
-  "docs": "Installed `MorphingDropdown` in `components/ui/` with its stylesheet, glyphs, menu wiring, row hover and tick burst next to it, and the shared engine (`liquid-taffy-engine`, in `lib/`) as a dependency; install one engine for all three liquid surfaces.\n\n```tsx\nimport { MorphingDropdown } from \"@/components/ui/morphing-dropdown\";\n\n<MorphingDropdown onValueChange={(ids) => console.log(ids)} />\n```\n\nThe button becomes the dropdown: the circle stretches up into the panel and closing gathers it back. It is a 32px circle: place it with `className` and leave room around it for the panel. Rows are multi-select. It follows the page's theme (a `.dark` ancestor makes it dark) or the `theme` prop; the palette is the `--morphing-dropdown-*` variables. Sound is off unless you pass `sound`.\n\nPress and hold the button or the panel and drag: a liquid finger stretches out of the edge and snaps back on release.\n\nPorted from liquid-taffy by arknow91 (MIT); the license notice is at the end of every file."
+  "docs": "Installed `MorphingDropdown` in `components/ui/` with its stylesheet, glyphs, menu wiring, row hover and tick burst next to it, and the shared engine (`liquid-taffy-engine`, in `lib/`) as a dependency; install one engine for all three liquid surfaces.\n\n```tsx\nimport { MorphingDropdown } from \"@/components/ui/morphing-dropdown\";\n\n<MorphingDropdown onValueChange={(ids) => console.log(ids)} />\n```\n\nThe button becomes the dropdown: the circle stretches up into the panel and closing gathers it back. It is a 32px circle: place it with `className` and leave room around it for the panel. Rows are multi-select. It follows the page's theme (a `.dark` ancestor makes it dark) or the `theme` prop; the palette is the `--morphing-dropdown-*` variables. Sound is off unless you pass `sound`.\n\nThe `-icons-lucide` and `-icons-phosphor` items draw the plus, the shapes and the tick from an icon library instead of the component's own glyphs.\n\nPress and hold the button or the panel and drag: a liquid finger stretches out of the edge and snaps back on release.\n\nPorted from liquid-taffy by arknow91 (MIT); the license notice is at the end of every file."
 }

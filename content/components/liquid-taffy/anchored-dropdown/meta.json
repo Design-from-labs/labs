@@ -14,6 +14,22 @@
       "primitive": "none",
       "iconSet": "none",
       "status": "beta"
+    },
+    {
+      "name": "anchored-dropdown-icons-lucide",
+      "style": "icons",
+      "label": "Icon library",
+      "primitive": "none",
+      "iconSet": "lucide",
+      "status": "beta"
+    },
+    {
+      "name": "anchored-dropdown-icons-phosphor",
+      "style": "icons",
+      "label": "Icon library",
+      "primitive": "none",
+      "iconSet": "phosphor",
+      "status": "beta"
     }
   ],
   "defaultVariant": "anchored-dropdown",

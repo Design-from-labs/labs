@@ -261,3 +261,41 @@ test("the wall tiles stay still under reduced motion", async ({ page }) => {
     "false",
   );
 });
+
+// The icon library style: the plus, the shapes and the tick come from Lucide
+// or Phosphor, and the surface still opens, ticks and closes.
+for (const name of NAMES) {
+  for (const set of ["lucide", "phosphor"] as const) {
+    test(`/ui/${name}: the icon library style (${set}) opens and works`, async ({
+      page,
+    }) => {
+      test.setTimeout(90_000);
+      await open(page, `/ui/${name}`);
+      await page.getByText("Icon library", { exact: true }).click();
+      await page
+        .getByText(set === "lucide" ? "Lucide" : "Phosphor", { exact: true })
+        .click();
+      await expect(hero(page)).toHaveAttribute(
+        "data-variant-demo",
+        `${name}-icons-${set}`,
+      );
+      const label = name === "speed-dial" ? "Shapes" : "Add shape";
+      const button = await trigger(page, label);
+      await button.focus();
+      await page.keyboard.press("ArrowDown");
+      await expect(button).toHaveAttribute("aria-expanded", "true");
+      const rows = hero(page).getByRole(
+        name === "speed-dial" ? "menuitem" : "menuitemcheckbox",
+      );
+      await expect(rows.first()).toBeFocused();
+      // Every row and the trigger draw an icon.
+      expect(await rows.first().locator("svg").count()).toBeGreaterThan(0);
+      expect(await button.locator("svg").count()).toBeGreaterThan(0);
+      if (name !== "speed-dial") {
+        await page.keyboard.press("Space");
+        await expect(rows.first()).toHaveAttribute("aria-checked", "true");
+      }
+      expect(await axe(page)).toEqual([]);
+    });
+  }
+}
