@@ -118,3 +118,9 @@ port lifts `--lifeline-label`, `--lifeline-text` and `--lifeline-icon` to
 zinc-400 (about 8:1). Upstream itself, audited the same way, reports the
 same dark color-contrast nodes and nothing else (the harness pages' missing
 `h1` aside, which the port's harness adds as visually hidden text).
+
+**Known deviation (fidelity default, contrast on request).** Following the
+port policy in `ports/README.md`, the dark default keeps upstream's grays and
+therefore does not meet WCAG AA contrast for those labels; the port lifts them
+under `prefers-contrast: more` and uses the system text color under forced
+colors (`@media (forced-colors: active)`).

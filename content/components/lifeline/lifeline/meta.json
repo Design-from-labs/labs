@@ -40,7 +40,7 @@
     "S-006",
     "S-008"
   ],
-  "date": "2026-10-13",
+  "date": "2026-10-12",
   "tags": [
     "timeline",
     "history",
@@ -94,7 +94,7 @@
     "Events with media, photo cards and the fireworks event are buttons (Enter or Space); media opens in a modal dialog that takes focus, keeps Tab inside, closes with Escape or its Close button and returns focus to what opened it.",
     "Under prefers-reduced-motion there is no intro sweep, no scroll inertia, no fireworks (the event is plain text), the hover image jumps to the cursor instead of trailing it, the lightbox opens without a flight and clips rest on their poster.",
     "The desktop time axis runs left to right in every writing direction (a numeric axis); text inside follows its own direction. The vertical layout mirrors in right-to-left.",
-    "Contrast: light mode meets WCAG AA. The dark defaults keep upstream's muted grays for labels, ages, the legend and names (--lifeline-label, --lifeline-text: about 2.7:1 and 4.3:1 on black); under prefers-contrast: more they lift to about 8:1. Set those two tokens in .dark to make that the default."
+    "Contrast (fidelity default, contrast on request): light mode meets WCAG AA. The dark defaults keep upstream's muted grays for labels, ages, the legend and names (--lifeline-label, --lifeline-text: about 2.7:1 and 4.3:1 on black), a known deviation from AA kept for fidelity; under prefers-contrast: more they lift to about 8:1, and under forced colors they use the system text color. Set those two tokens in .dark to make the higher contrast the default."
   ],
   "usage": "<Lifeline mode=\"embed\" markers={life.markers} birthYear={life.birthYear} title={life.name} className=\"h-full\" />"
 }

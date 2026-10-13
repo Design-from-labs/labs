@@ -9,7 +9,7 @@
     "data-display",
     "lucide"
   ],
-  "docs": "Installed the Lifeline timeline in `components/lifeline/`: `lifeline.tsx` (the component), `lifeline-data.ts` (`defineLifeline`, which turns milestones keyed by year into markers), `lifeline-legend.tsx` and the parts they use, plus the intro keyframes and `--lifeline-*` color tokens in your CSS.\n\nFirst, describe a timeline and give it a height:\n\n```tsx\nimport { Lifeline } from \"@/components/lifeline/lifeline\"\nimport { defineLifeline } from \"@/components/lifeline/lifeline-data\"\n\nconst life = defineLifeline({\n  slug: \"me\",\n  name: \"Your name\",\n  birthYear: 1990,\n  description: \"A life, year by year.\",\n  milestones: { 1990: { id: \"born\", events: [\"Born.\"] } },\n})\n\n<div className=\"h-[640px]\">\n  <Lifeline mode=\"embed\" markers={life.markers} birthYear={life.birthYear} title={life.name} className=\"h-full\" />\n</div>\n```\n\n- Desktop scrubs sideways (wheel, drag, arrow keys, Home and End); below 768px it becomes a vertical list.\n- Fonts are your app's: it inherits the surrounding font; set `--lifeline-font` to typeset it separately.\n- The fireworks easter egg darkens a light page with the `dark` class on `<html>`; pass `theme={{ get, set }}` to route that through your theme library.\n- Colors come from the `--lifeline-*` tokens (light and dark).",
+  "docs": "Installed the Lifeline timeline in `components/lifeline/`: `lifeline.tsx` (the component), `lifeline-data.ts` (`defineLifeline`, which turns milestones keyed by year into markers), `lifeline-legend.tsx` and the parts they use, plus the intro keyframes and `--lifeline-*` color tokens in your CSS.\n\nFirst, describe a timeline and give it a height:\n\n```tsx\nimport { Lifeline } from \"@/components/lifeline/lifeline\"\nimport { defineLifeline } from \"@/components/lifeline/lifeline-data\"\n\nconst life = defineLifeline({\n  slug: \"me\",\n  name: \"Your name\",\n  birthYear: 1990,\n  description: \"A life, year by year.\",\n  milestones: { 1990: { id: \"born\", events: [\"Born.\"] } },\n})\n\n<div className=\"h-[640px]\">\n  <Lifeline mode=\"embed\" markers={life.markers} birthYear={life.birthYear} title={life.name} className=\"h-full\" />\n</div>\n```\n\n- Desktop scrubs sideways (wheel, drag, arrow keys, Home and End); below 768px it becomes a vertical list.\n- Fonts are your app's: it inherits the surrounding font; set `--lifeline-font` to typeset it separately.\n- The fireworks easter egg darkens a light page with the `dark` class on `<html>`; pass `theme={{ get, set }}` to route that through your theme library.\n- Colors come from the `--lifeline-*` tokens (light and dark).\n- Contrast: the dark defaults keep upstream's muted grays; they lift automatically under `prefers-contrast: more` and forced colors. Set `--lifeline-label` and `--lifeline-text` in `.dark` to raise them for everyone.",
   "dependencies": [
     "lucide-react@^1"
   ],
@@ -275,6 +275,13 @@
         "--lifeline-label": "oklch(70.5% 0.015 286.067)",
         "--lifeline-text": "oklch(70.5% 0.015 286.067)",
         "--lifeline-icon": "oklch(70.5% 0.015 286.067)"
+      }
+    },
+    "@media (forced-colors: active)": {
+      ":root, .dark": {
+        "--lifeline-label": "CanvasText",
+        "--lifeline-text": "CanvasText",
+        "--lifeline-icon": "CanvasText"
       }
     }
   }

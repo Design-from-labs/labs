@@ -28,6 +28,27 @@ Merged upstream modules keep their lines; each starts with a
 listed under Deviations in `docs/evidence/ports/<component>/fidelity.md`.
 Verbatim upstream files are excluded from Biome so they stay diffable.
 
+## Contrast policy: fidelity default, contrast on request
+
+When an upstream's default palette fails WCAG AA contrast (for example faint
+secondary labels), the port keeps the upstream colors as the default, so the
+fidelity diff still passes, and lifts them only on request:
+
+- under `@media (prefers-contrast: more)`, to at least 4.5:1 for text (3:1
+  for large text and non-text marks);
+- under `@media (forced-colors: active)`, by deferring to system colors
+  (`CanvasText`, `ButtonText`, `Highlight`) and replacing any cue that only
+  color carried (for example underline a selected tab whose indicator
+  disappears);
+- expose the colors as component-prefixed tokens, so an app can raise them for
+  everyone, and say so in `docs`.
+
+Record it in the component's `a11y` notes and as a known deviation in its
+`fidelity.md`, with the measured default ratios. A port may raise a default
+only when the change stays within the 0.1% fidelity budget, and records that
+too. Decided by the owner for Liveline and Lifeline; it applies to every port
+without asking.
+
 ## The variants shape (primitives and nested files)
 
 A port with a headless primitive, or too many upstream modules to merge into
