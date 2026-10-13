@@ -35,7 +35,14 @@
       "!ports/aicss/message-actions/glyphs/message-actions-icons.tsx",
       "!ports/generative-loaders/*/*-loader.tsx",
       "!ports/shimmer-trace/shimmer-trace/shimmer-trace*.ts*",
-      "!ports/gradient-spin/gradient-spin/gradient-spin*.ts*"
+      "!ports/gradient-spin/gradient-spin/gradient-spin*.ts*",
+      "!ports/morphicons/morph-icon/morph-icon*.ts*",
+      "!ports/componentry/annotated-text/annotated-text.tsx",
+      "!ports/libraries-dev/image-fx/image-fx-engine.ts",
+      "!ports/libraries-dev/image-fx/image-fx-presets.ts",
+      "!ports/libraries-dev/image-fx/image-fx-shaders.ts",
+      "!ports/slot-text/slot-text/slot-text*.ts*",
+      "!ports/calligraph/calligraph/calligraph*.ts*"
     ]
   },
   "formatter": {

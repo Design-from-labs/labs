@@ -1,0 +1,138 @@
+{
+  "$schema": "https://labs.designfrom.com/schemas/meta.schema.json",
+  "schemaVersion": 1,
+  "name": "split-text",
+  "kind": "component",
+  "title": "Split Text",
+  "description": "Splits text into characters, words and lines for Motion animations without breaking its kerning: staggered reveals, line masks, nested links and emphasis, resize re-splits and screen reader text.",
+  "status": "beta",
+  "category": "typography",
+  "label": "Griffo by dimi",
+  "variants": [
+    {
+      "name": "split-text",
+      "primitive": "none",
+      "iconSet": "none",
+      "status": "beta"
+    }
+  ],
+  "defaultVariant": "split-text",
+  "demo": "demo.tsx",
+  "preview": "preview.webp",
+  "source": {
+    "repo": "https://github.com/dimicx/griffo",
+    "commit": "79689ab086a4628eb449b54b721e9872b5e98ab1",
+    "path": "src"
+  },
+  "author": "dimi (dimicx) <https://github.com/dimicx>",
+  "license": "MIT",
+  "attribution": "Griffo by dimi (dimicx), Copyright (c) 2025. MIT License.",
+  "credits": [
+    "S-382",
+    "S-003",
+    "S-104",
+    "S-152",
+    "S-157",
+    "S-387",
+    "S-383",
+    "S-035",
+    "S-037"
+  ],
+  "date": "2026-10-13",
+  "tile": {
+    "span": 2,
+    "rows": 1
+  },
+  "loop": {
+    "hydrate": true,
+    "duration": 9000
+  },
+  "tags": [
+    "animation",
+    "text",
+    "split",
+    "kerning",
+    "stagger",
+    "reveal",
+    "motion"
+  ],
+  "props": [
+    {
+      "name": "children",
+      "type": "React.ReactElement",
+      "description": "One element whose text is split, for example an `<h1>` or a `<p>`. Nested inline elements (`<a>`, `<em>`, `<strong>`) keep their tags and attributes."
+    },
+    {
+      "name": "options",
+      "type": "{ type?: \"chars\" | \"words\" | \"lines\" | \"chars,words\" | \"words,lines\" | \"chars,lines\" | \"chars,words,lines\"; mask?: \"lines\" | \"words\" | \"chars\"; charClass?: string; wordClass?: string; lineClass?: string; propIndex?: boolean; disableKerning?: boolean; resplitDebounceMs?: number; restoreLigaturesOnRevert?: boolean }",
+      "description": "What to split, and an optional clipping mask around each line, word or character for reveals. Kerning is compensated unless `disableKerning`."
+    },
+    {
+      "name": "variants / initial / animate / exit",
+      "type": "Record<string, Variant> / string | Variant | false",
+      "description": "Motion variants. A variant is a flat target, a function of `{ index, count, globalIndex, lineIndex, wordIndex, custom, isPresent }`, or per-type targets (`chars`, `words`, `lines`, `wrapper`). `initial` is applied right after the split."
+    },
+    {
+      "name": "whileInView / whileOutOfView / whileScroll / whileHover / whileTap / whileFocus",
+      "type": "string | Variant",
+      "description": "Variants for the viewport, a scroll-driven progress (`scroll` sets offset, axis and container), hover, tap and focus."
+    },
+    {
+      "name": "transition",
+      "type": "AnimationOptions",
+      "description": "Default transition; a variant's own or a function's returned transition wins. `delay: stagger(...)` staggers the parts."
+    },
+    {
+      "name": "delayScope",
+      "type": "\"global\" | \"local\"",
+      "default": "\"global\"",
+      "description": "Whether a stagger counts across all parts of a type or within each parent (line or word)."
+    },
+    {
+      "name": "onSplit / onResplit / onViewportEnter / onViewportLeave / onRevert",
+      "type": "(result: { chars, words, lines, revert }) => AnimationCallbackReturn",
+      "description": "Callbacks with the split elements. Return an animation (or a promise) with `revertOnComplete` to restore the original markup when it finishes."
+    },
+    {
+      "name": "autoSplit",
+      "type": "boolean",
+      "default": "false",
+      "description": "Split again when the container's width changes, so lines follow the new wrap. `animateOnResplit` replays the reveal."
+    },
+    {
+      "name": "viewport",
+      "type": "{ once?: boolean; amount?: number | \"some\" | \"all\"; leave?: number | \"some\" | \"all\"; margin?: string; root?: React.RefObject<Element> }",
+      "description": "Viewport observer options for `whileInView` and the viewport callbacks; `resetOnViewportLeave` re-applies the initial state when it leaves."
+    },
+    {
+      "name": "initialStyles / initialClasses",
+      "type": "{ chars?, words?, lines? }",
+      "description": "Inline styles or classes applied to the parts right after the split (callback mode)."
+    },
+    {
+      "name": "waitForFonts",
+      "type": "boolean",
+      "default": "true",
+      "description": "Wait for `document.fonts.ready` before splitting, so kerning is measured on the real font. The wrapper is hidden until then."
+    },
+    {
+      "name": "reducedMotion",
+      "type": "\"user\" | \"always\" | \"never\"",
+      "default": "\"user\"",
+      "description": "Reduced motion handling. With `\"user\"` a visitor who prefers reduced motion gets the animate variant's end state at once (Labs default; upstream animates)."
+    },
+    {
+      "name": "as",
+      "type": "keyof HTMLElementTagNameMap",
+      "default": "\"div\"",
+      "description": "The wrapper element. Other Motion props pass through to it; `dir` defaults to `\"auto\"`."
+    }
+  ],
+  "a11y": [
+    "The split parts are aria-hidden. Headings, landmarks and interactive elements get an aria-label with the full text; other elements keep a visually hidden copy of the text, links and emphasis included, so the text is read once, as words, not letter by letter.",
+    "With the default reducedMotion=\"user\", a visitor who prefers reduced motion sees the end state with no movement.",
+    "The wrapper sets dir=\"auto\", so Latin text inside a right-to-left page keeps its letter and word order (the parts are inline blocks, which the page direction would otherwise reorder).",
+    "It renders text only and adds no role or focus stop; whileFocus and whileTap apply only when the wrapped element is itself focusable or pressable."
+  ],
+  "usage": "<SplitText options={{ type: \"words\" }} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.65, delay: stagger(0.04) }}>\n  <h1>Hello World</h1>\n</SplitText>"
+}

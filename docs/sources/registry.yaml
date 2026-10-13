@@ -1191,6 +1191,85 @@ sources:
     accessed: 2026-10-13
     visibility: private-cited-only
     used-in: [docs/evidence/ports, content/components]
+  - id: S-380
+    title: "slot-text: dependency-free text roll animation (core and React adapter)"
+    author: "Daniel Belyi"
+    kind: library
+    url: "https://github.com/danielwh2/slot-text"
+    license: "MIT"
+    accessed: 2026-10-13
+    visibility: public
+    used-in: [sources.yaml, ports/slot-text, content/components/slot-text/slot-text]
+    note: "Ported at commit daa93fd34d39db981c9ecd9dc48118b6ec5dbb9e (src)."
+  - id: S-381
+    title: "Calligraph: animated text and number transitions on Motion"
+    author: "Raphael Salaja"
+    kind: library
+    url: "https://github.com/raphaelsalaja/calligraph"
+    license: "MIT"
+    accessed: 2026-10-13
+    visibility: public
+    used-in: [sources.yaml, ports/calligraph, content/components/calligraph/calligraph]
+    note: "Ported at commit c99497a440e280e8471f084db1173197ba0e255c (packages/calligraph/src)."
+  - id: S-382
+    title: "Griffo: kerning-aware text splitting (core and Motion SplitText)"
+    author: "dimi (dimicx)"
+    kind: library
+    url: "https://github.com/dimicx/griffo"
+    license: "MIT"
+    accessed: 2026-10-13
+    visibility: public
+    used-in: [sources.yaml, ports/griffo, content/components/griffo/split-text]
+    note: "Ported at commit 79689ab086a4628eb449b54b721e9872b5e98ab1 (src). The LICENSE names no holder; kept verbatim."
+  - id: S-383
+    title: "kugiri: splits text into the lines, words and characters the browser painted"
+    author: "Edoardo Lunardi"
+    kind: library
+    url: "https://github.com/edoardolunardi/kugiri"
+    license: "MIT"
+    accessed: 2026-10-13
+    visibility: public
+    used-in: [sources.yaml, ports/kugiri, content/components/kugiri/split-lines, content/components/griffo/split-text, docs/evidence/ports/split-text/fidelity.md, docs/evidence/ports/split-lines/fidelity.md]
+    note: "Ported at commit 9274367572a5bf2d218e119eb4f92907763643a4 (src/index.ts, verbatim) with a Labs React wrapper; compared with Griffo in docs/evidence/ports/split-text/fidelity.md."
+  - id: S-384
+    title: "Componentry: AnnotatedText (hand-drawn text annotations)"
+    author: "Harsh Jadhav"
+    kind: library
+    url: "https://github.com/harshjdhv/componentry"
+    license: "MIT"
+    accessed: 2026-10-13
+    visibility: public
+    used-in: [sources.yaml, ports/componentry, content/components/componentry/annotated-text]
+    note: "Ported at commit b602c2872fea85c9f2464016ce3bbe0af17b51b4 (packages/ui/src/components/annotated-text.tsx)."
+  - id: S-385
+    title: "Morphicons: icons that morph between shapes"
+    author: "Guillermo López"
+    kind: library
+    url: "https://github.com/guillermolg00/morphicons"
+    license: "MIT"
+    accessed: 2026-10-13
+    visibility: public
+    used-in: [sources.yaml, ports/morphicons, content/components/morphicons/morph-icon]
+    note: "Ported at commit 38d2a7221633a453eeafebd872ee3649b9274b22 (src)."
+  - id: S-386
+    title: "Jakubantalik/Libraries.dev: img-fx package (WebGL image generation and reveal effect)"
+    author: "Jakub Antalik"
+    kind: library
+    url: "https://github.com/Jakubantalik/Libraries.dev"
+    license: "MIT"
+    accessed: 2026-10-13
+    visibility: public
+    used-in: [ports/libraries-dev/image-fx, content/components/libraries-dev/image-fx]
+    note: "Ported at commit bcaf88f8a16a75fd95bf21e0747193ee3380a927 (packages/img-fx)."
+  - id: S-387
+    title: "Owner brief: port batch H (text, annotation and icon motion; GSAP rewritten in Motion; no licensed fonts, icons or media)"
+    author: "Owner"
+    kind: brief
+    private-file: "Owner instructions relayed to port pod H; not in the repository"
+    license: "All rights reserved (owner)"
+    accessed: 2026-10-13
+    visibility: private-cited-only
+    used-in: [docs/evidence/ports, content/components]
   - id: S-412
     title: "Desperately seeking squircles (the cubic-shoulder squircle construction the default curve follows)"
     author: "Daniel Furse"
@@ -1374,3 +1453,23 @@ sources:
     visibility: public
     used-in: [content/components/iconiq/reasoning-steps, content/components/aicss/message-actions, content/components/generative-loaders, content/components/shimmer-trace/shimmer-trace, content/components/gradient-spin/gradient-spin]
     note: "Reference for the loaders' and AI states' screen-reader announcements; documentation only, nothing copied."
+  - id: S-397
+    title: "three.js r152 release notes (color management enabled by default)"
+    author: "three.js authors (mrdoob and contributors)"
+    kind: doc
+    url: "https://github.com/mrdoob/three.js/releases/tag/r152"
+    license: "MIT"
+    accessed: 2026-10-13
+    visibility: public
+    used-in: [docs/evidence/ports/image-fx, content/components/libraries-dev/image-fx]
+    note: "Checked for the img-fx port (upstream built on three 0.149): Color.setRGB defaults to the working color space and its ShaderMaterial has no color-space chunk, so output is unchanged on 0.185.1."
+  - id: S-398
+    title: "three.js r163 release notes (WebGL 1 support removed)"
+    author: "three.js authors (mrdoob and contributors)"
+    kind: doc
+    url: "https://github.com/mrdoob/three.js/releases/tag/r163"
+    license: "MIT"
+    accessed: 2026-10-13
+    visibility: public
+    used-in: [docs/evidence/ports/image-fx, content/components/libraries-dev/image-fx]
+    note: "Upstream img-fx fell back to WebGL 1; on three 0.185.1 the renderer needs WebGL 2, so Image FX shows its static fallback without it."

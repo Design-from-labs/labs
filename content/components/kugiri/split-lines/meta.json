@@ -1,0 +1,99 @@
+{
+  "$schema": "https://labs.designfrom.com/schemas/meta.schema.json",
+  "schemaVersion": 1,
+  "name": "split-lines",
+  "kind": "component",
+  "title": "Split Lines",
+  "description": "Splits text into the lines the browser painted, and the words and characters inside them, for reveals that keep hyphenation, Japanese and other spaceless scripts, long URLs and balanced wraps exactly as set.",
+  "status": "beta",
+  "category": "typography",
+  "label": "kugiri by Edoardo Lunardi",
+  "variants": [
+    {
+      "name": "split-lines",
+      "primitive": "none",
+      "iconSet": "none",
+      "status": "beta"
+    }
+  ],
+  "defaultVariant": "split-lines",
+  "demo": "demo.tsx",
+  "preview": "preview.webp",
+  "source": {
+    "repo": "https://github.com/edoardolunardi/kugiri",
+    "commit": "9274367572a5bf2d218e119eb4f92907763643a4",
+    "path": "src/index.ts"
+  },
+  "author": "Edoardo Lunardi <https://www.edoardolunardi.dev>",
+  "license": "MIT",
+  "attribution": "kugiri, Copyright (c) 2026 Edoardo Lunardi. MIT License.",
+  "credits": [
+    "S-383",
+    "S-003",
+    "S-152",
+    "S-157",
+    "S-387",
+    "S-382",
+    "S-037"
+  ],
+  "date": "2026-10-13",
+  "tile": {
+    "span": 2,
+    "rows": 1
+  },
+  "loop": {
+    "hydrate": true,
+    "duration": 8400
+  },
+  "tags": [
+    "animation",
+    "text",
+    "split",
+    "lines",
+    "reveal",
+    "i18n"
+  ],
+  "props": [
+    {
+      "name": "children",
+      "type": "React.ReactNode",
+      "description": "The text, with any inline markup (links, emphasis, a drop cap). The split owns the element's content while it is mounted; give the component a new `key` to replace the text."
+    },
+    {
+      "name": "as",
+      "type": "React.ElementType",
+      "default": "\"p\"",
+      "description": "The element to render. Other props pass through to it."
+    },
+    {
+      "name": "options",
+      "type": "{ type?: (\"lines\" | \"words\" | \"chars\")[]; mask?: SplitLevel | SplitLevel[] | Partial<Record<SplitLevel, string>>; ignore?: string; classes?: Partial<Record<SplitLevel | \"mask\", string>> }",
+      "default": "{ type: [\"lines\"] }",
+      "description": "The units to produce, clipping masks (with an optional reach past the line box, such as `{ lines: \"0.25em\" }`), a selector for elements to leave whole, and extra classes."
+    },
+    {
+      "name": "onSplit",
+      "type": "(split: { lines, words, chars, masks, revert }, info: { resplit: boolean }) => void",
+      "description": "Called after every split with the units. Animate them here (Web Animations, Motion or CSS through the `--line`, `--word` and `--char` index properties)."
+    },
+    {
+      "name": "resplit",
+      "type": "boolean",
+      "default": "true",
+      "description": "Split again when the element's width changes, so the lines follow the new wrap (`info.resplit` is true then)."
+    },
+    {
+      "name": "waitForFonts",
+      "type": "boolean",
+      "default": "true",
+      "description": "Wait for `document.fonts.ready` before the first split, so lines are read in the final font."
+    }
+  ],
+  "a11y": [
+    "Lines are read off the paint, so right-to-left text, Japanese and other scripts without spaces keep their order and breaks.",
+    "With word or character units and nothing focusable inside, the units are aria-hidden and the text is kept once in a visually hidden copy, so screen readers read it as words. A line-only split, or text with links, is left as it reads.",
+    "It does not animate by itself; the demo's reveal is skipped when the visitor prefers reduced motion, and so should yours.",
+    "Every line carries translate=\"no\" (upstream), since a page translator would rewrite each unit on its own; put the source text back and split again after translating."
+  ],
+  "usage": "<SplitLines options={{ type: [\"lines\"], mask: \"lines\" }} onSplit={({ lines }) => lines.forEach((line, i) => line.animate([{ transform: \"translateY(100%)\" }, { transform: \"none\" }], { duration: 900, delay: i * 100, fill: \"backwards\" }))}>\n  Long text that wraps.\n</SplitLines>"
+}
