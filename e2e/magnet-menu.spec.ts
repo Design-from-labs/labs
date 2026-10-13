@@ -136,6 +136,10 @@ test("the wall tile loops hover over the links and never takes the page's focus"
 }) => {
   await open(page, "/ui");
   const specimen = page.locator('[data-specimen="magnet-menu"]');
+  test.skip(
+    (await specimen.count()) === 0,
+    "beta ports are not published here",
+  );
   await specimen.scrollIntoViewIfNeeded();
   const frame = specimen.frameLocator("iframe[data-stage-frame]");
   // The driver writes data-loop on one link at a time; the frame is inert.

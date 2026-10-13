@@ -141,6 +141,10 @@ test("on the wall nobody can scroll, so the ring turns by itself", async ({
 }) => {
   await open(page, "/ui");
   const specimen = page.locator('[data-specimen="scroll-carousel"]');
+  test.skip(
+    (await specimen.count()) === 0,
+    "beta ports are not published here",
+  );
   await specimen.scrollIntoViewIfNeeded();
   const root = specimen.locator("[data-slot=scroll-carousel]");
   // The tile hydrates when it is in view, then the demo turns scroll drive off.

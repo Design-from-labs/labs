@@ -183,6 +183,7 @@ Design From and Design From Labs (the guards enforce this).
 | [P-170](#p-170) | Components (system colors) | `canvas` and `canvasText` follow `color-scheme`, not the site's theme class |
 | [P-171](#p-171) | Pen ports (durations) | A pen's `textContent` includes the markup's indentation, so lengths and durations differ from the visible text |
 | [P-172](#p-172) | Fidelity harness (RTL check) | A mirrored-render check built a URL without a `?`, and a wide block text overflowed one direction only |
+| [P-173](#p-173) | Tests (beta tiles on the wall) | A wall test for a beta tile timed out on a production build |
 
 ---
 
@@ -2733,3 +2734,20 @@ Design From and Design From Labs (the guards enforce this).
 - Fix: Add `?` or `&` as the URL needs, and cap the glyph count so the line fits the narrow viewport.
 - Prevention: Assert that the unmirrored comparison differs and the mirrored one does not, and that the page's `dir` actually changed, before reading the numbers.
 - Links: `docs/evidence/ports/shimmer-lines/fidelity.md`
+
+### P-173
+
+- Date: 2026-10-13
+- Area: Tests (beta tiles on the wall)
+- Symptom: CI's e2e job failed twice at `scrollIntoViewIfNeeded` (30 s
+  timeouts) in two wall tests of new beta ports, while every other test of
+  those ports skipped.
+- Cause: The component-page tests skip when `/ui/<item>` answers 404, but the
+  wall tests open `/ui`, which always exists; on a production build the beta
+  tile is simply absent, so the locator never resolved.
+- Fix: Each wall test skips when its specimen is not on the wall, as
+  `wall.spec.ts` already does for beta ports.
+- Prevention: Run a new port's specs on a production build as well as on a
+  `LABS_INCLUDE_BETA=1` build before handing off; guard every test that looks
+  for a beta tile by its presence, not by a page status.
+- Links: `e2e/magnet-menu.spec.ts`, `e2e/scroll-carousel.spec.ts`
