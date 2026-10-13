@@ -152,6 +152,9 @@ for (const [label, groupRole, itemRole, selected] of [
       .getByTestId("switcher")
       .getByText(label, { exact: true })
       .click();
+    // A variant's island hydrates once it is shown; a click before that is
+    // lost, so wait for it (the same wait as ai-states.spec.ts).
+    await expect(hero(page).locator("astro-island:not([ssr])")).toBeAttached();
     const group = hero(page).getByRole(groupRole, { name: "Section" });
     await expect(group).toBeVisible();
     const items = group.getByRole(itemRole);
