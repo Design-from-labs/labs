@@ -11,6 +11,14 @@
 //
 //   node scripts/export-ports.mjs           write the export
 //   node scripts/export-ports.mjs --check   fail when it is stale
+//   node scripts/export-ports.mjs <name>... only these components
+//
+// Two component.json shapes (ports/README.md):
+//   flat      `files: [{ file, type }]`, primitive-free, files at the top level
+//   variants  `variants: [{ primitive, roots, status }]`: one item per primitive
+//             (radix | base | aria | none) and icon set, built from source roots
+//             overlaid file by file (`src/shared` then `src/radix`, ...), each
+//             file keeping its relative path below `target` when one is set
 //
 // --check ignores `date`, which follows the last commit that touched a port.
 import { execFileSync } from "node:child_process";
@@ -22,13 +30,14 @@ import {
   rmSync,
   writeFileSync,
 } from "node:fs";
-import { join } from "node:path";
+import { join, relative } from "node:path";
 import { fileURLToPath } from "node:url";
 import { toPhosphor } from "./export-labs-examples.mjs";
 import { loadSources } from "./lib/content.mjs";
 import {
   ICON_SETS,
   itemName,
+  PRIMITIVES,
   SHADCN_ITEM_SCHEMA,
   SITE_URL,
 } from "./lib/naming.mjs";
@@ -61,7 +70,13 @@ function lastChanged(path) {
 
 /** The upstream notice appended to every exported file. */
 export function licenseFooter(attribution, licenseText) {
-  const body = [attribution, "", ...licenseText.trim().split("\n")]
+  // Upstream LICENSE files may use CRLF; a stray \r would end up inside
+  // every exported file (P-046).
+  const body = [
+    attribution,
+    "",
+    ...licenseText.replace(/\r\n?/g, "\n").trim().split("\n"),
+  ]
     .map((line) => (line ? ` * ${line}` : " *"))
     .join("\n");
   return `\n/*\n${body.replaceAll("*/", "* /")}\n */\n`;
@@ -106,6 +121,179 @@ function buildItem(name, spec, source, iconSet, dir, footer) {
   return item;
 }
 
+/**
+ * Rewrites Lucide imports to Phosphor (server-safe entry) with a name map.
+ * Handles value and `import type` imports, aliases (`X as Y`) and the
+ * `LucideIcon` / `LucideProps` types (mapped through the same map).
+ */
+export function toPhosphorTyped(content, map, where) {
+  const importRe =
+    /import\s+(type\s+)?\{([^}]*)\}\s*from\s*["']lucide-react["'];?/g;
+  const renames = new Map();
+  let out = content.replace(importRe, (_all, isType, list) => {
+    const parts = list
+      .split(",")
+      .map((p) => p.trim())
+      .filter(Boolean);
+    const mapped = parts.map((part) => {
+      const typeOnly = /^type\s+/.test(part);
+      const clean = part.replace(/^type\s+/, "");
+      const [imported, local] = clean.split(/\s+as\s+/).map((s) => s.trim());
+      const target = map[imported];
+      if (!target) {
+        throw new Error(
+          `${where}: icons.json has no Phosphor name for ${imported}`,
+        );
+      }
+      if (local) {
+        return `${typeOnly ? "type " : ""}${target} as ${local}`;
+      }
+      renames.set(imported, target);
+      return `${typeOnly ? "type " : ""}${target}`;
+    });
+    return `import ${isType ? "type " : ""}{ ${mapped.join(", ")} } from "@phosphor-icons/react/ssr";`;
+  });
+  for (const [from, to] of renames) {
+    if (from === to) {
+      continue;
+    }
+    // Only identifiers outside the rewritten import lines.
+    out = out
+      .split("\n")
+      .map((line) =>
+        line.includes("@phosphor-icons/react/ssr")
+          ? line
+          : line.replace(new RegExp(`(?<![\\w.$-])${from}(?![\\w$])`, "g"), to),
+      )
+      .join("\n");
+  }
+  return out;
+}
+
+const FILE_TYPES = {
+  "registry:ui": "registry:ui",
+  "registry:block": "registry:component",
+  "registry:hook": "registry:hook",
+  "registry:lib": "registry:lib",
+};
+const SOURCE_EXT = /\.(tsx|ts|css)$/;
+
+function walk(dir, base = dir) {
+  if (!existsSync(dir)) {
+    return [];
+  }
+  return readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {
+    const path = join(dir, entry.name);
+    if (entry.isDirectory()) {
+      return walk(path, base);
+    }
+    return SOURCE_EXT.test(entry.name) ? [relative(base, path)] : [];
+  });
+}
+
+/** The files of one variant: later roots override earlier ones by path. */
+function variantFiles(dir, variant) {
+  const files = new Map();
+  for (const root of variant.roots) {
+    for (const rel of walk(join(dir, root))) {
+      files.set(rel.split("\\").join("/"), join(dir, root, rel));
+    }
+  }
+  for (const rel of variant.exclude ?? []) {
+    files.delete(rel);
+  }
+  return [...files.entries()].sort(([a], [b]) => a.localeCompare(b));
+}
+
+function labelFor(primitive, iconSet) {
+  return [
+    primitive !== "none" ? PRIMITIVES[primitive].label : null,
+    iconSet !== "none" ? ICON_SETS[iconSet].label : null,
+  ]
+    .filter(Boolean)
+    .join(", ");
+}
+
+/** An item of a variants-shaped port (one primitive, one icon set). */
+function buildVariantItem(
+  name,
+  spec,
+  source,
+  variant,
+  iconSet,
+  dir,
+  footer,
+  icons,
+) {
+  const primitive = variant.primitive ?? "none";
+  const label = labelFor(primitive, iconSet);
+  const item = {
+    $schema: SHADCN_ITEM_SCHEMA,
+    name: itemName({ component: name, primitive, iconSet }),
+    type: spec.type,
+    title: label ? `${spec.title} (${label})` : spec.title,
+    description: spec.description,
+    author: source.author,
+    categories: [
+      spec.category,
+      ...(primitive !== "none" ? [primitive] : []),
+      ...(iconSet !== "none" ? [iconSet] : []),
+    ],
+    docs: spec.docs,
+  };
+  const dependencies = [
+    ...(spec.dependencies ?? []),
+    ...(variant.dependencies ?? []),
+  ];
+  const primitivePackage = PRIMITIVES[primitive]?.package;
+  if (
+    primitivePackage &&
+    !dependencies.some(
+      (d) => d.startsWith(`${primitivePackage}@`) || d === primitivePackage,
+    )
+  ) {
+    dependencies.push(`${primitivePackage}@^1`);
+  }
+  if (iconSet !== "none") {
+    dependencies.push(ICON_RANGES[iconSet]);
+  }
+  if (dependencies.length > 0) {
+    item.dependencies = dependencies;
+  }
+  const registryDependencies = [
+    ...(spec.registryDependencies ?? []),
+    ...(variant.registryDependencies ?? []),
+  ].map((dep) =>
+    dep.replaceAll("{primitive}", primitive).replaceAll("{iconSet}", iconSet),
+  );
+  if (registryDependencies.length > 0) {
+    item.registryDependencies = registryDependencies;
+  }
+  item.files = variantFiles(dir, variant).map(([rel, abs]) => {
+    const raw = readFileSync(abs, "utf8");
+    const content =
+      iconSet === "phosphor"
+        ? toPhosphorTyped(raw, icons, `${name}/${rel}`)
+        : raw;
+    const file = {
+      path: `registry/${item.name}/${rel}`,
+      type: FILE_TYPES[spec.type],
+      content: `${content.trimEnd()}\n${footer}`,
+    };
+    if (spec.target) {
+      file.target = `${spec.target}/${rel}`;
+    }
+    return file;
+  });
+  if (spec.cssVars) {
+    item.cssVars = spec.cssVars;
+  }
+  if (spec.css) {
+    item.css = spec.css;
+  }
+  return item;
+}
+
 export function exportPort(sourceId, name, source) {
   const dir = join(PORTS, sourceId, name);
   const spec = JSON.parse(readFileSync(join(dir, "component.json"), "utf8"));
@@ -113,17 +301,51 @@ export function exportPort(sourceId, name, source) {
   const footer = licenseFooter(source.attribution, licenseText);
   const out = {};
   const variants = [];
-  for (const iconSet of spec.iconSets ?? ["none"]) {
-    const item = buildItem(name, spec, source, iconSet, dir, footer);
-    out[`items/${item.name}.json`] = json(item);
-    variants.push({
-      name: item.name,
-      primitive: "none",
-      iconSet,
-      status: spec.status,
-    });
+  if (spec.variants) {
+    const icons = {
+      ...ICON_MAP,
+      ...(existsSync(join(dir, "icons.json"))
+        ? JSON.parse(readFileSync(join(dir, "icons.json"), "utf8"))
+        : {}),
+    };
+    for (const variant of spec.variants) {
+      for (const iconSet of spec.iconSets ?? ["none"]) {
+        const item = buildVariantItem(
+          name,
+          spec,
+          source,
+          variant,
+          iconSet,
+          dir,
+          footer,
+          icons,
+        );
+        out[`items/${item.name}.json`] = json(item);
+        variants.push({
+          name: item.name,
+          primitive: variant.primitive ?? "none",
+          iconSet,
+          status: variant.status ?? spec.status,
+        });
+      }
+    }
+  } else {
+    for (const iconSet of spec.iconSets ?? ["none"]) {
+      const item = buildItem(name, spec, source, iconSet, dir, footer);
+      out[`items/${item.name}.json`] = json(item);
+      variants.push({
+        name: item.name,
+        primitive: "none",
+        iconSet,
+        status: spec.status,
+      });
+    }
   }
-  out[spec.demo] = readFileSync(join(dir, spec.demo), "utf8");
+  const demos =
+    typeof spec.demo === "string" ? [spec.demo] : Object.values(spec.demo);
+  for (const demo of new Set(demos)) {
+    out[demo] = readFileSync(join(dir, demo), "utf8");
+  }
   const meta = {
     $schema: `${SITE_URL}/schemas/meta.schema.json`,
     schemaVersion: 1,
@@ -141,12 +363,14 @@ export function exportPort(sourceId, name, source) {
     source: {
       repo: source.repo,
       commit: source.ref,
-      ...(spec.upstreamPath ? { path: spec.upstreamPath } : {}),
+      ...((spec.upstreamPath ?? spec.sourcePath)
+        ? { path: spec.upstreamPath ?? spec.sourcePath }
+        : {}),
     },
     author: source.author,
     license: source.license,
     attribution: source.attribution,
-    credits: [source.credit, ...(spec.credits ?? [])],
+    credits: [...new Set([source.credit, ...(spec.credits ?? [])])],
     date: lastChanged(`ports/${sourceId}/${name}`),
     ...(spec.stage ? { stage: spec.stage } : {}),
     ...(spec.tags ? { tags: spec.tags } : {}),
@@ -162,6 +386,7 @@ const VOLATILE = /"date": "[^"]*"/g;
 
 function main() {
   const check = process.argv.includes("--check");
+  const only = process.argv.slice(2).filter((a) => !a.startsWith("--"));
   const { oss } = loadSources();
   const ported = oss.filter(
     (s) => s.fetch === "in-repo" && existsSync(join(PORTS, s.id)),
@@ -170,6 +395,9 @@ function main() {
   let count = 0;
   for (const source of ported) {
     for (const component of source.components ?? []) {
+      if (only.length > 0 && !only.includes(component.name)) {
+        continue;
+      }
       const dir = join(PORTS, source.id, component.name);
       if (!existsSync(join(dir, "component.json"))) {
         stale.push(

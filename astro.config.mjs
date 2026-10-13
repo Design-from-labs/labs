@@ -37,17 +37,22 @@ function itemAliases() {
       const from = relative(ITEMS, importer.split("?")[0]);
       if (!from.startsWith("..")) {
         const item = from.split(sep)[0];
-        for (const ext of [".tsx", ".ts"]) {
-          const own = join(ITEMS, item, sub + ext);
-          if (existsSync(own)) {
-            return own;
+        // A file, or a directory's index module, as bundlers resolve it
+        // (`@/components/liveline` -> components/liveline/index.ts).
+        for (const base of [sub, `${sub}/index`]) {
+          for (const ext of [".tsx", ".ts"]) {
+            const own = join(ITEMS, item, base + ext);
+            if (existsSync(own)) {
+              return own;
+            }
           }
         }
       }
       if (existsSync(depIndexPath)) {
         const index = JSON.parse(readFileSync(depIndexPath, "utf8"));
-        if (index[sub]) {
-          return resolve(ROOT, index[sub]);
+        const hit = index[sub] ?? index[`${sub}/index`];
+        if (hit) {
+          return resolve(ROOT, hit);
         }
       }
       return null;

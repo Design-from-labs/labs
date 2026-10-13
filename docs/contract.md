@@ -107,7 +107,10 @@ Examples: `button-radix-lucide`, `button-aria-phosphor`,
   (with `utils` in `registryDependencies`), `@/components/ui/<name>`,
   `@/hooks/<name>` and `@/lib/<name>` for a registry dependency, and relative
   imports between the item's own files. No other `@/` alias, no app-specific
-  path, no environment access, no network calls at import time.
+  path, no environment access (the one exception is `process.env.NODE_ENV`,
+  which bundlers inline at build time, for development-only tools; decision
+  [0018](decisions/0018-node-env-in-items.md)), no network calls at import
+  time.
 - Server-render safe: no `window`/`document` access at module scope. Files
   that use hooks or event handlers start with `"use client"`.
 - Right-to-left safe: use logical utilities (`ms-*`, `me-*`, `ps-*`, `pe-*`,
@@ -247,7 +250,9 @@ where it has one) and `--radius`, used through Tailwind v4 utilities
 `--font-sans` (Figtree), `--font-mono` (JetBrains Mono) and `--font-serif`
 (Instrument Serif). Motion respects `prefers-reduced-motion`
 (`motion-safe:`/`motion-reduce:`). Focus is visible
-(`focus-visible:ring-2 focus-visible:ring-ring`).
+(`focus-visible:ring-2 focus-visible:ring-ring`). Ported components keep an upstream palette that fails contrast as their
+default and lift it under `prefers-contrast: more` and forced colors
+("fidelity default, contrast on request", [`ports/README.md`](../ports/README.md)).
 
 ## 6. Licenses and attribution
 

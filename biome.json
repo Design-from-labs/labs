@@ -18,7 +18,8 @@
       "!**/*.astro",
       "!ports/torph/text-morph/text-morph*.ts*",
       "!ports/goey-toast/gooey-toast/gooey-toast*.ts*",
-      "!ports/peckz-playground/dot-morph/dot-morph-motion.ts"
+      "!ports/peckz-playground/dot-morph/dot-morph-motion.ts",
+      "!ports/*/*/src"
     ]
   },
   "formatter": {

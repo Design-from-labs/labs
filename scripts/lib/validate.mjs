@@ -176,6 +176,35 @@ function checkCssVars(item, entryName, kind, where, errors) {
   }
 }
 
+/**
+ * Environment reads in item files (decision 0018). Only `process.env.NODE_ENV`
+ * is allowed: every bundler inlines it at build time, so a development-only
+ * tool can default to off in production. Any other `process.env.*`, a
+ * computed `process.env[...]`, a bare `process.env`, or `import.meta.env` is
+ * app-specific configuration and is refused.
+ */
+export function envProblems(content) {
+  const problems = [];
+  const code = content
+    .replace(/\/\*[\s\S]*?\*\//g, "")
+    .replace(/(^|[^:"'`])\/\/.*$/gm, "$1");
+  for (const match of code.matchAll(
+    /\bprocess\.env\b(\s*\.\s*([A-Za-z_$][\w$]*))?/g,
+  )) {
+    if (match[2] !== "NODE_ENV") {
+      problems.push(
+        match[2]
+          ? `process.env.${match[2]}`
+          : "process.env (other than .NODE_ENV)",
+      );
+    }
+  }
+  if (/\bimport\.meta\.env\b/.test(code)) {
+    problems.push("import.meta.env");
+  }
+  return problems;
+}
+
 function checkImports(item, variant, where, errors, warnings) {
   const deps = new Set((item.dependencies ?? []).map(packageName));
   const regDeps = item.registryDependencies ?? [];
@@ -193,6 +222,11 @@ function checkImports(item, variant, where, errors, warnings) {
   let usesIcons = false;
   for (const file of item.files ?? []) {
     const fileWhere = `${where} ${file.path}`;
+    for (const problem of envProblems(file.content ?? "")) {
+      errors.push(
+        `${fileWhere}: reads ${problem}; item files may only read process.env.NODE_ENV (decision 0018)`,
+      );
+    }
     for (const spec of importsOf(file.content ?? "")) {
       if (/^@radix-ui\/react-/.test(spec)) {
         errors.push(

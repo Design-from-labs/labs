@@ -53,6 +53,13 @@ Design From and Design From Labs (the guards enforce this).
 | [P-040](#p-040) | npm library | Two item files exporting one name break the library's barrel |
 | [P-041](#p-041) | Site (component page) | No direction switch for a component without variants |
 | [P-042](#p-042) | Components (Next.js) | Importing harfbuzzjs fails a default Next.js build |
+| [P-043](#p-043) | Ports (process) | Two pods built incompatible ports exporters in parallel |
+| [P-044](#p-044) | npm library | Nested item files are flattened by name |
+| [P-045](#p-045) | Contract imports | Multi-segment `@/` aliases fail validation |
+| [P-046](#p-046) | Ports (exporter) | A CRLF upstream LICENSE puts carriage returns in every exported file |
+| [P-047](#p-047) | Ports (process) | Unfinished sibling content breaks a shared worktree's site build |
+| [P-048](#p-048) | Components | A dev overlay shown in production when env reads are banned |
+| [P-049](#p-049) | Site (demo aliases) | A directory import in a demo did not resolve |
 
 ---
 
@@ -671,4 +678,115 @@ Design From and Design From Labs (the guards enforce this).
   into a fresh Next.js app (`scripts/registry-install-test.sh` does once it is
   ready) before calling it portable.
 - Links: `ports/tegaki/handwriting/component.json`, `docs/evidence/ports/handwriting/fidelity.md`
+
+### P-043
+
+- Date: 2026-10-12
+- Area: Ports (process)
+- Symptom: The data-display batch and the text-motion batch each wrote a
+  `scripts/export-ports.mjs` and a `ports/` layout at the same time, with
+  different `component.json` shapes; the second to land would have broken the
+  first one's exports.
+- Cause: Parallel pods started from the same staging commit with no shared
+  owner for the pipeline.
+- Fix: Rebased onto staging and extended the merged exporter with a second,
+  opt-in shape (`variants`, decision 0017); the flat shape's exports stayed
+  byte-identical (`pnpm ports:check`).
+- Prevention: Shared pipeline code lands first in its own small pull request;
+  a pod that needs a pipeline change extends it behind a new field.
+- Links: `scripts/export-ports.mjs`, `docs/decisions/0017-port-variants-and-nested-targets.md`
+
+### P-044
+
+- Date: 2026-10-12
+- Area: npm library
+- Symptom: An item whose files keep nested targets (`components/liveline/draw/index.ts`
+  next to `components/liveline/index.ts`) would be written by basename into one
+  library folder once ready, so files collide and relative imports such as
+  `../math/lerp` break.
+- Cause: `scripts/prepare-content.mjs` writes each library file as
+  `file.path.split("/").pop()` and re-exports all of them.
+- Fix: None needed while such items are beta (the library takes ready items
+  only); they are reviewed on preview deployments.
+- Prevention: Before promoting a nested item, make the library generator keep
+  each file's target path and export only the item's entry module, then run
+  `pnpm build` and `pnpm pack:dry` with the item ready.
+- Links: `scripts/prepare-content.mjs`, decision 0017
+
+### P-045
+
+- Date: 2026-10-12
+- Area: Contract imports
+- Symptom: Upstream registry files importing `@/lib/store/hooks` or
+  `@/components/data-table/types` fail `validate:content` ("alias ... is not
+  allowed").
+- Cause: The contract allows only single-segment registry aliases
+  (`@/components/ui/<name>`, `@/lib/<name>`); everything inside one item is
+  relative.
+- Fix: The data-table ports fold upstream's `lib/`, `hooks/` and `providers/`
+  under one `target` root and import between files relatively.
+- Prevention: Grep a port for `from "@/` with more than one path segment before
+  exporting.
+- Links: `ports/data-table-filters/`
+
+### P-046
+
+- Date: 2026-10-12
+- Area: Ports (exporter)
+- Symptom: Every exported Liveline file ended with a license footer whose
+  lines carried `\r`, visible as `\r` escapes in the item JSON and as mixed
+  line endings after `shadcn add`.
+- Cause: The upstream LICENSE uses CRLF line endings, and the footer split
+  the text on `\n` only.
+- Fix: `licenseFooter` normalises `\r\n` and `\r` to `\n` before building the
+  footer; a test covers it.
+- Prevention: Treat every upstream text file as possibly CRLF when copying it
+  into generated output.
+- Links: `scripts/export-ports.mjs`, `scripts/export-ports.test.mjs`
+
+### P-047
+
+- Date: 2026-10-12
+- Area: Ports (process)
+- Symptom: `LABS_INCLUDE_BETA=1 pnpm build:site` failed in the batch's shared
+  worktree on a demo that another worker had not finished, so a finished
+  component could not be checked in the site.
+- Cause: The site build validates and bundles every entry under
+  `content/components/`, including half-written sibling ports.
+- Fix: Each worker built from an isolated copy of the worktree holding only
+  committed content plus its own component.
+- Prevention: When several workers share a worktree, run the site build from a
+  per-worker copy (or a temporary `git worktree` at the commit being checked).
+- Links: `docs/decisions/0014-beta-on-preview-deployments.md`
+
+### P-048
+
+- Date: 2026-10-12
+- Area: Components (development tools)
+- Symptom: The GuideframeGrid port first showed its layout overlay in
+  production by default, so an app that did not wire `enabled` would ship a
+  grid over its pages.
+- Cause: The contract banned all environment access in item files, so the
+  port could not reproduce upstream's `process.env.NODE_ENV` gate.
+- Fix: Decision 0018 allows exactly `process.env.NODE_ENV` (inlined by every
+  bundler); `validate:content` refuses any other environment read; the port
+  defaults to on in development, off in production, with `enabled` as an
+  override.
+- Prevention: Port development-only tools with their production gate intact.
+- Links: `docs/decisions/0018-node-env-in-items.md`, `scripts/validate-env.test.mjs`
+
+### P-049
+
+- Date: 2026-10-12
+- Area: Site (demo aliases)
+- Symptom: `LABS_INCLUDE_BETA=1 pnpm build:site` failed on the Liveline demo:
+  `@/components/liveline` did not resolve, although Vite, Next.js and
+  TypeScript all resolve it to `components/liveline/index.ts` in an
+  installing app.
+- Cause: The `labs-item-aliases` plugin in `astro.config.mjs` tried only
+  `<path>.tsx` and `<path>.ts`.
+- Fix: The plugin also tries `<path>/index.tsx` and `<path>/index.ts`, in the
+  item's own files and in the dependency index.
+- Prevention: Resolve demo imports the way the installing app's bundler would.
+- Links: `astro.config.mjs`
 

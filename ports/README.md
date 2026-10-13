@@ -28,9 +28,63 @@ Merged upstream modules keep their lines; each starts with a
 listed under Deviations in `docs/evidence/ports/<component>/fidelity.md`.
 Verbatim upstream files are excluded from Biome so they stay diffable.
 
+## Contrast policy: fidelity default, contrast on request
+
+When an upstream's default palette fails WCAG AA contrast (for example faint
+secondary labels), the port keeps the upstream colors as the default, so the
+fidelity diff still passes, and lifts them only on request:
+
+- under `@media (prefers-contrast: more)`, to at least 4.5:1 for text (3:1
+  for large text and non-text marks);
+- under `@media (forced-colors: active)`, by deferring to system colors
+  (`CanvasText`, `ButtonText`, `Highlight`) and replacing any cue that only
+  color carried (for example underline a selected tab whose indicator
+  disappears);
+- expose the colors as component-prefixed tokens, so an app can raise them for
+  everyone, and say so in `docs`.
+
+Record it in the component's `a11y` notes and as a known deviation in its
+`fidelity.md`, with the measured default ratios. A port may raise a default
+only when the change stays within the 0.1% fidelity budget, and records that
+too. Decided by the owner for Liveline and Lifeline; it applies to every port
+without asking.
+
+## The variants shape (primitives and nested files)
+
+A port with a headless primitive, or too many upstream modules to merge into
+a few flat files, uses the variants shape instead of `files` (decision
+[0017](../docs/decisions/0017-port-variants-and-nested-targets.md)):
+
+```text
+ports/<source-id>/<component>/
+  component.json      ... plus `variants`, `target`, optional `icons.json`
+  src/shared/...      primitive-agnostic files (upstream layout kept)
+  src/radix/...       files that differ per primitive, overlaid by path
+  src/base/... src/aria/...
+```
+
+| Field | Meaning |
+| --- | --- |
+| `variants[]` | `{ primitive, roots, exclude?, dependencies?, registryDependencies?, status }`: one item per primitive and icon set; later `roots` override earlier ones file by file |
+| `target` | install root, such as `components/data-table`; each file keeps its path below it |
+| `registryDependencies` | `{primitive}` and `{iconSet}` are substituted, so `@designfrom/data-table-{primitive}-{iconSet}` follows the variant |
+| `icons.json` | per-component Lucide to Phosphor names, merged over `ports/icons.json`; type imports (`LucideIcon`) map too |
+| `demo` | a path, or a map keyed by variant or primitive |
+| `sourcePath` | the upstream path shown as `source.path` (same as `upstreamPath`) |
+
+`src/` is upstream code kept line for line, so Biome skips `ports/*/*/src`.
+Nested files cannot be promoted to `ready` until the npm library keeps target
+paths (pitfall P-044); until then they are reviewed on preview deployments.
+
 | Source | Component | Upstream |
 | --- | --- | --- |
 | `torph` | `text-morph` | lochie/torph, `packages/torph/src` (core and React adapter) |
 | `goey-toast` | `gooey-toast` | anl331/goey-toast, `src` |
 | `tegaki` | `handwriting` | gkurt/tegaki, a wrapper over npm `tegaki` |
 | `peckz-playground` | `dot-morph` | peckz/playground, `src/app/chrome-morph` (renamed, logo removed) |
+| `liveline` | `liveline` | benjitaylor/liveline, `src` (variants shape, nested) |
+| `lifeline` | `lifeline` | evilrabbit/lifeline, `components/lifeline` (variants shape) |
+| `thiings-grid` | `thiings-grid` | charlieclark/thiings-grid, `lib/ThiingsGrid.tsx` |
+| `data-table-filters` | `data-table`, `data-table-filter-command`, `data-table-sheet` | openstatusHQ/data-table-filters, `packages/registry` (variants shape, primitives) |
+| `tableofcontent` | `table-of-contents` | batuhankarasakal/tableofcontent, `src` (React rewrite) |
+| `guide-frame` | `guideframe-grid` | Dinil-Thilakarathne/guide-frame, `packages/core` and `packages/react` |

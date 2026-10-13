@@ -1,0 +1,100 @@
+{
+  "$schema": "https://labs.designfrom.com/schemas/meta.schema.json",
+  "schemaVersion": 1,
+  "name": "lifeline",
+  "kind": "component",
+  "title": "Lifeline",
+  "description": "A life or company timeline on one rail: scroll-scrubbed and horizontal on desktop, vertical on phones, with people, hover media, floating photo cards, a lightbox and an intro sweep.",
+  "status": "beta",
+  "category": "data-display",
+  "label": "Lifeline",
+  "variants": [
+    {
+      "name": "lifeline-lucide",
+      "primitive": "none",
+      "iconSet": "lucide",
+      "status": "beta"
+    },
+    {
+      "name": "lifeline-phosphor",
+      "primitive": "none",
+      "iconSet": "phosphor",
+      "status": "beta"
+    }
+  ],
+  "defaultVariant": "lifeline-lucide",
+  "demo": "demo.tsx",
+  "preview": "preview.webp",
+  "source": {
+    "repo": "https://github.com/evilrabbit/lifeline",
+    "commit": "8ddbb3d3ad0ac6ec5bbe8efda1c051d93d04a63a",
+    "path": "components/lifeline"
+  },
+  "author": "Evil Rabbit <https://github.com/evilrabbit>",
+  "license": "MIT",
+  "attribution": "Copyright (c) 2026 Evil Rabbit. MIT License; the full notice ships inside each item.",
+  "credits": [
+    "S-171",
+    "S-003",
+    "S-005",
+    "S-006",
+    "S-008"
+  ],
+  "date": "2026-10-12",
+  "tags": [
+    "timeline",
+    "history",
+    "biography",
+    "scroll",
+    "media"
+  ],
+  "props": [
+    {
+      "name": "markers",
+      "type": "LifelineMarker[]",
+      "description": "Required. One marker per year (or any sequential unit); `defineLifeline` builds them from milestones and fills the empty years."
+    },
+    {
+      "name": "birthYear",
+      "type": "number",
+      "description": "Required. Year zero for the age row."
+    },
+    {
+      "name": "mode",
+      "type": "\"auto\" | \"page\" | \"embed\"",
+      "default": "\"auto\"",
+      "description": "Whether the timeline is the page (owns the wheel) or a module in a scrolling page (hands the wheel back at either end of the rail). `auto` measures."
+    },
+    {
+      "name": "title",
+      "type": "string",
+      "default": "\"Lifeline\"",
+      "description": "The accessible name of the timeline region."
+    },
+    {
+      "name": "className",
+      "type": "string",
+      "description": "Merged onto the desktop root (and the vertical scroll box under `mode=\"embed\"`); `h-full` is what you want inside a sized container."
+    },
+    {
+      "name": "legend",
+      "type": "LifelineLegendItem[]",
+      "default": "Mentors / Met in person",
+      "description": "Names for the two people slots, announced next to each person. Pass the same items you give `LifelineLegend`."
+    },
+    {
+      "name": "theme",
+      "type": "{ get: () => \"light\" | \"dark\"; set: (theme) => void }",
+      "description": "How the fireworks read and flip the color scheme. Defaults to the `dark` class on `<html>`; with next-themes pass `{ get: () => resolvedTheme, set: setTheme }`."
+    }
+  ],
+  "a11y": [
+    "The desktop timeline is a labelled region with one tab stop: the arrow keys move through time and Home and End jump to the start and the end; a visually hidden hint says so. Tabbing to a link or a photo card brings its year into view.",
+    "Years are an ordered list; each entry announces its year and age together (\"1996, age 6\"), and each person their slot (\"Ada Rivers (Mentors)\"), since the dots are color only.",
+    "Events with media, photo cards and the fireworks event are buttons (Enter or Space); media opens in a modal dialog that takes focus, keeps Tab inside, closes with Escape or its Close button and returns focus to what opened it.",
+    "Under prefers-reduced-motion there is no intro sweep, no scroll inertia, no fireworks (the event is plain text), the hover image jumps to the cursor instead of trailing it, the lightbox opens without a flight and clips rest on their poster.",
+    "The desktop time axis runs left to right in every writing direction (a numeric axis); text inside follows its own direction. The vertical layout mirrors in right-to-left.",
+    "Contrast (fidelity default, contrast on request): light mode meets WCAG AA. The dark defaults keep upstream's muted grays for labels, ages, the legend and names (--lifeline-label, --lifeline-text: about 2.7:1 and 4.3:1 on black), a known deviation from AA kept for fidelity; under prefers-contrast: more they lift to about 8:1, and under forced colors they use the system text color. Set those two tokens in .dark to make the higher contrast the default."
+  ],
+  "usage": "<Lifeline mode=\"embed\" markers={life.markers} birthYear={life.birthYear} title={life.name} className=\"h-full\" />"
+}
