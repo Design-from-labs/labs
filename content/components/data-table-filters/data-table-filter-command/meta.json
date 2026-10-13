@@ -1,0 +1,75 @@
+{
+  "$schema": "https://labs.designfrom.com/schemas/meta.schema.json",
+  "schemaVersion": 1,
+  "name": "data-table-filter-command",
+  "kind": "component",
+  "title": "Data Table Filter Command",
+  "description": "A command palette input for the data table: type key:value filters with autocomplete, ranges and dates, keep a search history, and open it with a keyboard shortcut.",
+  "status": "beta",
+  "category": "data-display",
+  "label": "data-table-filters",
+  "variants": [
+    {
+      "name": "data-table-filter-command-radix-lucide",
+      "primitive": "radix",
+      "iconSet": "lucide",
+      "status": "beta"
+    },
+    {
+      "name": "data-table-filter-command-radix-phosphor",
+      "primitive": "radix",
+      "iconSet": "phosphor",
+      "status": "beta"
+    }
+  ],
+  "defaultVariant": "data-table-filter-command-radix-lucide",
+  "demo": "demo.tsx",
+  "preview": "preview.webp",
+  "source": {
+    "repo": "https://github.com/openstatusHQ/data-table-filters",
+    "commit": "dd87f2770048f1b805d497f1c763794e060781c1",
+    "path": "packages/registry/src/components/data-table/data-table-filter-command"
+  },
+  "author": "OpenStatus <https://github.com/openstatusHQ>",
+  "license": "MIT",
+  "attribution": "Copyright (c) 2024 OpenStatus. MIT License; the full notice ships inside each item.",
+  "credits": [
+    "S-172",
+    "S-176",
+    "S-180",
+    "S-182",
+    "S-004",
+    "S-032",
+    "S-005",
+    "S-006",
+    "S-003",
+    "S-008"
+  ],
+  "date": "2026-10-13",
+  "tags": [
+    "table",
+    "filters",
+    "command",
+    "search"
+  ],
+  "props": [
+    {
+      "name": "schema",
+      "type": "SchemaDefinition",
+      "description": "The filter schema from `createSchema(...).definition`; it parses and serializes what is typed."
+    },
+    {
+      "name": "tableId",
+      "type": "string",
+      "default": "\"default\"",
+      "description": "Namespace for the search history in localStorage."
+    }
+  ],
+  "a11y": [
+    "Built on cmdk: the input is a combobox, suggestions are a listbox, and the arrow keys move through them.",
+    "Cmd or Ctrl + K opens it from anywhere; Enter applies the query and Escape closes the list.",
+    "The closed state is a native button with the same visible text, so it is reachable with Tab.",
+    "The list does not pop in, and the loading spinner stays still, under prefers-reduced-motion."
+  ],
+  "usage": "<DataTableFilterCommand schema={filterSchema.definition} tableId=\"checks\" />"
+}

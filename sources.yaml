@@ -450,3 +450,62 @@ oss:
         category: data-display
         upstream: components/interior/show-more.tsx
         port: ports/interior/show-more
+
+  - id: data-table-filters
+    name: data-table-filters
+    repo: https://github.com/openstatusHQ/data-table-filters
+    visibility: public
+    status: active
+    fetch: in-repo
+    ref: dd87f2770048f1b805d497f1c763794e060781c1
+    author: "OpenStatus <https://github.com/openstatusHQ>"
+    license: MIT
+    attribution: "Copyright (c) 2024 OpenStatus. MIT License; the full notice ships inside each item."
+    credit: S-172
+    components:
+      - name: data-table
+        status: beta
+        category: data-display
+        port: ports/data-table-filters/data-table
+      - name: data-table-filter-command
+        status: beta
+        category: data-display
+        port: ports/data-table-filters/data-table-filter-command
+      - name: data-table-sheet
+        status: beta
+        category: data-display
+        port: ports/data-table-filters/data-table-sheet
+
+  - id: tableofcontent
+    name: Project TOC
+    repo: https://github.com/batuhankarasakal/tableofcontent
+    visibility: public
+    status: active
+    fetch: in-repo
+    ref: db0bcee81b34792e03b6b5584d67f1cf23758680
+    author: "Batuhan Karasakal <https://github.com/batuhankarasakal>"
+    license: MIT
+    attribution: "Copyright (c) 2026 Batuhan Karasakal. MIT License; the full notice ships inside each item."
+    credit: S-174
+    components:
+      - name: table-of-contents
+        status: beta
+        category: navigation
+        port: ports/tableofcontent/table-of-contents
+
+  - id: guide-frame
+    name: GuideFrame
+    repo: https://github.com/Dinil-Thilakarathne/guide-frame
+    visibility: public
+    status: active
+    fetch: in-repo
+    ref: aee6735f2b931b2c092f4fd908cb895713d787fb
+    author: "Dinil Thilakarathne <https://github.com/Dinil-Thilakarathne>"
+    license: MIT
+    attribution: "Copyright (c) 2026 GuideFrame. MIT License; the full notice ships inside each item."
+    credit: S-175
+    components:
+      - name: guideframe-grid
+        status: beta
+        category: layout
+        port: ports/guide-frame/guideframe-grid

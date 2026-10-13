@@ -1,0 +1,99 @@
+{
+  "title": "Data Table Sheet",
+  "description": "A row detail side sheet for the data table: every field of the selected row with typed cell renderers, per-value filter and copy actions, and arrow-key navigation between rows.",
+  "category": "data-display",
+  "type": "registry:block",
+  "status": "beta",
+  "date": "2026-10-12",
+  "entry": "data-table-sheet/data-table-sheet-details.tsx",
+  "target": "components/data-table",
+  "sourcePath": "packages/registry/src/components/data-table/data-table-sheet",
+  "stage": {
+    "device": "laptop",
+    "slot": "inline",
+    "shell": "app"
+  },
+  "dependencies": [
+    "@tanstack/react-table@^9.2.3",
+    "@date-fns/utc@^2.1.0",
+    "class-variance-authority@^0.7.1",
+    "date-fns@^4.1.0",
+    "sonner@^1.7.2"
+  ],
+  "registryDependencies": [
+    "@designfrom/data-table-{primitive}-{iconSet}",
+    "utils",
+    "button",
+    "dropdown-menu",
+    "hover-card",
+    "kbd",
+    "separator",
+    "skeleton",
+    "tooltip"
+  ],
+  "iconSets": ["lucide", "phosphor"],
+  "variants": [
+    {
+      "primitive": "radix",
+      "roots": ["src/shared", "src/radix"],
+      "dependencies": ["radix-ui@^1.4.3"],
+      "status": "beta"
+    }
+  ],
+  "defaultVariant": "data-table-sheet-radix-lucide",
+  "demo": "demo.tsx",
+  "credits": [
+    "S-176",
+    "S-180",
+    "S-105",
+    "S-214",
+    "S-018",
+    "S-004",
+    "S-032",
+    "S-005",
+    "S-006",
+    "S-003",
+    "S-008"
+  ],
+  "docs": "Installed the row sheet in `components/data-table/data-table-sheet/`: `DataTableSheetDetails` (the side sheet with previous, next and close) and `MemoizedDataTableSheetContent` (the fields of a row), plus the typed cell renderers in `data-table-cell/` they use. It needs the `data-table` item (installed with it).\n\nFirst, put `DataTableSheetDetails` inside `DataTableProvider` (or pass it as `DataTableInfinite`'s `sheetSlot`), find the selected row from `rowSelection`, and render `MemoizedDataTableSheetContent` with `table`, `data`, `filterFields` and your `SheetField[]` (`readonly` for values that are not filters).\n\n- Copy actions toast through `sonner`: mount a `<Toaster />` once (`npx shadcn@latest add sonner`).\n- The sheet slides in from the inline end; set `dir=\"rtl\"` on `<html>` to mirror it.",
+  "props": [
+    {
+      "name": "title",
+      "type": "React.ReactNode",
+      "description": "DataTableSheetDetails: the heading of the sheet, usually from the selected row."
+    },
+    {
+      "name": "titleClassName",
+      "type": "string",
+      "description": "DataTableSheetDetails: classes for the title, for example font-mono."
+    },
+    {
+      "name": "fields",
+      "type": "SheetField<TData>[]",
+      "description": "Content: each field's `id`, `label`, `type` (`readonly`, or the filter type to offer filter actions) and an optional `display` (`text`, `code`, `badge`, `number`, `boolean`, `timestamp`, `status-code`, `level-indicator`, `bar`, `heatmap`, `star`) or `component`."
+    },
+    {
+      "name": "data",
+      "type": "TData | undefined",
+      "description": "Content: the selected row; a skeleton renders while it is undefined."
+    },
+    {
+      "name": "table / filterFields",
+      "type": "from useDataTable()",
+      "description": "Content: the table the filter actions apply to and its filter fields."
+    },
+    {
+      "name": "metadata",
+      "type": "{ totalRows, filterRows, totalRowsFetched } & TMeta",
+      "description": "Content: extra values passed to custom field components."
+    }
+  ],
+  "a11y": [
+    "A modal Radix dialog: focus moves into the sheet, stays there while it is open and returns to the row on close.",
+    "The arrow keys move to the previous and next row; the up, down and close buttons have accessible names and tooltips.",
+    "Each filterable field is one menu button named by its label and value (\"Status up\"); Enter opens the actions (include, ranges, same hour or day, copy). Read-only fields are plain text.",
+    "Under prefers-reduced-motion the sheet and its overlay appear without sliding or fading."
+  ],
+  "usage": "<DataTableSheetDetails title={row?.original.name}>\n  <MemoizedDataTableSheetContent\n    table={table}\n    data={row?.original}\n    filterFields={filterFields}\n    fields={sheetFields}\n  />\n</DataTableSheetDetails>",
+  "tags": ["table", "sheet", "details", "layout-part"]
+}

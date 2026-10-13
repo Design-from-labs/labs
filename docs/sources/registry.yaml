@@ -1076,3 +1076,21 @@ sources:
     accessed: 2026-10-12
     visibility: public
     used-in: [docs/pitfalls.md, content/components/beui/morphing-tabs]
+  - id: S-212
+    title: "React DayPicker (react-day-picker)"
+    author: "Giampaolo Bellavite and contributors"
+    kind: library
+    url: "https://github.com/gpbl/react-day-picker"
+    license: "MIT"
+    accessed: 2026-10-12
+    visibility: public
+    used-in: [ports/data-table-filters]
+  - id: S-214
+    title: "@date-fns/utc (UTC dates for date-fns)"
+    author: "date-fns contributors"
+    kind: library
+    url: "https://github.com/date-fns/utc"
+    license: "MIT"
+    accessed: 2026-10-12
+    visibility: public
+    used-in: [ports/data-table-filters]
