@@ -1,6 +1,11 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { exportPort, licenseFooter, toPhosphorTyped } from "./export-ports.mjs";
+import {
+  exportPort,
+  licenseFooter,
+  portFooters,
+  toPhosphorTyped,
+} from "./export-ports.mjs";
 import { loadSources } from "./lib/content.mjs";
 
 const source = (id) => loadSources().oss.find((s) => s.id === id);
@@ -178,6 +183,29 @@ test("exportPort (variants): a style with its own icon sets beside an icon-free 
   const lucide = JSON.parse(files["items/video-player-icons-lucide.json"]);
   assert.equal(lucide.title, "Video Player (Icon library, Lucide)");
   assert.ok(lucide.dependencies.includes("lucide-react@^1"));
+});
+
+test("portFooters: an upstream NOTICE and change notice travel; licenseFile carries the full text once", () => {
+  const source = {
+    attribution: "Copyright 2026 Noor Mtir. Apache License 2.0.",
+    license: "Apache-2.0",
+  };
+  const every = portFooters("paperlab", source, {
+    changeNotice: "Modified by Design From Labs.",
+  });
+  assert.match(every("a.ts"), /Apache License/);
+  assert.match(every("a.ts"), / \* ---- Upstream NOTICE ----/);
+  assert.match(every("a.ts"), /Modified by Design From Labs\./);
+  const once = portFooters("paperlab", source, {
+    licenseFile: "paper.tsx",
+    changeNotice: "Modified by Design From Labs.",
+  });
+  assert.match(once("paper.tsx"), /TERMS AND CONDITIONS FOR USE/);
+  assert.match(once("paper.tsx"), /Upstream NOTICE/);
+  assert.doesNotMatch(once("paper-mesh.tsx"), /TERMS AND CONDITIONS FOR USE/);
+  assert.match(once("paper-mesh.tsx"), /the upstream NOTICE end paper\.tsx/);
+  assert.match(once("paper-mesh.tsx"), /Modified by Design From Labs\./);
+  assert.equal(once("paper-mesh.tsx").match(/\*\//g).length, 1);
 });
 
 test("exportPort: MessageActions keeps upstream's glyphs by default and offers an icon-library style", () => {

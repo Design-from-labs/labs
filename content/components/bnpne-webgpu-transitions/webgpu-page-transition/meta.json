@@ -1,0 +1,110 @@
+{
+  "$schema": "https://labs.designfrom.com/schemas/meta.schema.json",
+  "schemaVersion": 1,
+  "name": "webgpu-page-transition",
+  "kind": "component",
+  "title": "WebGPU Page Transition",
+  "description": "Image planes that morph between three views on one WebGPU canvas: a looping carousel, a draggable 3D float and a detail stack, with masked text reveals; WebGL 2 or plain images as fallbacks.",
+  "status": "beta",
+  "category": "blocks",
+  "label": "bnpne WebGPU page transitions",
+  "variants": [
+    {
+      "name": "webgpu-page-transition",
+      "primitive": "none",
+      "iconSet": "none",
+      "status": "beta"
+    }
+  ],
+  "defaultVariant": "webgpu-page-transition",
+  "demo": "demo.tsx",
+  "preview": "preview.webp",
+  "source": {
+    "repo": "https://github.com/bnpne/page-transitions-with-webgpu-vanilla-js",
+    "commit": "70e5c0eafb14cd1fdf02aef0799ba486dead46dc",
+    "path": "src"
+  },
+  "author": "Ben Paine <https://github.com/bnpne>",
+  "license": "MIT",
+  "attribution": "Copyright (c) 2009 - 2025 Codrops. MIT License.",
+  "credits": [
+    "S-263",
+    "S-260",
+    "S-157",
+    "S-104",
+    "S-266",
+    "S-275",
+    "S-276",
+    "S-283",
+    "S-286",
+    "S-287",
+    "S-003",
+    "S-004",
+    "S-014",
+    "S-152",
+    "S-240"
+  ],
+  "date": "2026-10-13",
+  "tile": {
+    "span": 2,
+    "rows": 2
+  },
+  "loop": {
+    "duration": 11200,
+    "hydrate": true
+  },
+  "tags": [
+    "webgpu",
+    "webgl",
+    "three",
+    "page-transition",
+    "carousel",
+    "motion"
+  ],
+  "props": [
+    {
+      "name": "images",
+      "type": "{ src: string; alt?: string; width: number; height: number; caption?: string; fact?: string }[]",
+      "required": true,
+      "description": "The images (five in the original). width and height set each slot's aspect ratio; the caption names its carousel button; the fact is the detail view's paragraph. Read on mount: key the component to swap the set."
+    },
+    {
+      "name": "view / defaultView / onViewChange",
+      "type": "{ page: \"main\" } | { page: \"index\" } | { page: \"inner\"; image: number }",
+      "default": "{ page: \"main\" }",
+      "description": "The view: the carousel, the 3D index, or one image's detail stack. Controlled with view and onViewChange, or uncontrolled from defaultView. A view chosen during a transition applies when it ends."
+    },
+    {
+      "name": "labels",
+      "type": "{ main?: string; index?: string; inner?: string; nav?: string }",
+      "default": "\"Selected\", \"Index\", \"Inner\", \"Views\"",
+      "description": "The views' names (the navigation and the title in the corner) and the navigation's accessible name."
+    },
+    {
+      "name": "intro",
+      "type": "boolean",
+      "default": "true",
+      "description": "Fade the planes in and reveal the text once the canvas is ready."
+    },
+    {
+      "name": "forceWebGL",
+      "type": "boolean",
+      "default": "false",
+      "description": "Draw with WebGL 2 even where WebGPU is available."
+    },
+    {
+      "name": "headingLevel",
+      "type": "1 | 2 | 3 | 4 | 5 | 6",
+      "default": "2",
+      "description": "Heading level of the view titles."
+    }
+  ],
+  "a11y": [
+    "Views switch with real buttons: the navigation (aria-current on the active view), one button per carousel image named by its caption, and on the index view a list of buttons (shown on focus) to open each image.",
+    "Arrow keys move the carousel by one image and spin the index float; the detail view's scroll area is focusable.",
+    "Split text keeps its words or lines aria-hidden with a visually hidden copy of the whole text, so screen readers read it once.",
+    "Without WebGPU three.js draws with WebGL 2; without either, and under prefers-reduced-motion, the images are plain DOM (alt text, rounded corners), views cut or crossfade and nothing tilts or floats on its own.",
+    "The canvas pauses off screen and in hidden tabs (render-loop), with its pixel ratio capped at 2. The secondary text is 50% opacity as upstream; under prefers-contrast: more it is full opacity."
+  ],
+  "usage": "<WebGPUPageTransition className=\"h-svh\" images={[{ src: \"/a.jpg\", width: 4, height: 5, caption: \"First\", fact: \"About the first image.\" }]} />"
+}

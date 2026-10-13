@@ -141,8 +141,11 @@
   "peerDependencies": {
     "@base-ui/react": "^1.9.0",
     "@phosphor-icons/react": "^2.1.10",
+    "@react-three/drei": "^10.7.9",
+    "@react-three/fiber": "^9.8.1",
     "cobe": "^2.0.1",
     "driver.js": "^1.9.0",
+    "lenis": "^1.3.26",
     "lucide-react": "^1.55.0",
     "motion": ">=12.34.0",
     "radix-ui": "^1.6.7",
@@ -151,7 +154,9 @@
     "react-dom": "^19.0.0",
     "sonner": "^2.0.7",
     "tegaki": "^1.1.0",
-    "three": "^0.185.1"
+    "three": "^0.185.1",
+    "three-custom-shader-material": "^6.4.0",
+    "zod": "^4.6.5"
   },
   "peerDependenciesMeta": {
     "@base-ui/react": {
@@ -160,10 +165,19 @@
     "@phosphor-icons/react": {
       "optional": true
     },
+    "@react-three/drei": {
+      "optional": true
+    },
+    "@react-three/fiber": {
+      "optional": true
+    },
     "cobe": {
       "optional": true
     },
     "driver.js": {
+      "optional": true
+    },
+    "lenis": {
       "optional": true
     },
     "lucide-react": {
@@ -185,6 +199,12 @@
       "optional": true
     },
     "three": {
+      "optional": true
+    },
+    "three-custom-shader-material": {
+      "optional": true
+    },
+    "zod": {
       "optional": true
     }
   },

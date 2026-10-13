@@ -1,0 +1,146 @@
+{
+  "$schema": "https://labs.designfrom.com/schemas/meta.schema.json",
+  "schemaVersion": 1,
+  "name": "fold-carousel",
+  "kind": "component",
+  "title": "Fold Carousel",
+  "description": "A carousel that folds from one slide to the next like a two-panel hinge: the image stays flat while the frame folds around it, with blur and shade on the turning leaf.",
+  "status": "beta",
+  "category": "media",
+  "label": "Kareem Ahmed fold carousel",
+  "variants": [
+    {
+      "name": "fold-carousel-base-lucide",
+      "primitive": "base",
+      "iconSet": "lucide",
+      "status": "beta"
+    },
+    {
+      "name": "fold-carousel-base-phosphor",
+      "primitive": "base",
+      "iconSet": "phosphor",
+      "status": "beta"
+    },
+    {
+      "name": "fold-carousel-radix-lucide",
+      "primitive": "radix",
+      "iconSet": "lucide",
+      "status": "beta"
+    },
+    {
+      "name": "fold-carousel-radix-phosphor",
+      "primitive": "radix",
+      "iconSet": "phosphor",
+      "status": "beta"
+    },
+    {
+      "name": "fold-carousel-aria-lucide",
+      "primitive": "aria",
+      "iconSet": "lucide",
+      "status": "beta"
+    },
+    {
+      "name": "fold-carousel-aria-phosphor",
+      "primitive": "aria",
+      "iconSet": "phosphor",
+      "status": "beta"
+    }
+  ],
+  "defaultVariant": "fold-carousel-base-lucide",
+  "demo": "demo.tsx",
+  "preview": "preview.webp",
+  "source": {
+    "repo": "https://github.com/Kareem-AEz/iphone-duo-fold-carousel",
+    "commit": "57cb4976589e9a13cfbe1785700972cabddaa49d",
+    "path": "src/registry/fold-carousel"
+  },
+  "author": "Kareem Ahmed <https://github.com/Kareem-AEz>",
+  "license": "MIT",
+  "attribution": "Copyright (c) 2026 Kareem Ahmed. MIT License.",
+  "credits": [
+    "S-264",
+    "S-260",
+    "S-157",
+    "S-104",
+    "S-003",
+    "S-004",
+    "S-014",
+    "S-152",
+    "S-240",
+    "S-018",
+    "S-034"
+  ],
+  "date": "2026-10-13",
+  "tile": {
+    "span": 2,
+    "rows": 1
+  },
+  "loop": {
+    "script": "hover[1] → click[1] → wait → wait → click[1] → wait → wait",
+    "duration": 7000,
+    "hydrate": true
+  },
+  "tags": [
+    "carousel",
+    "fold",
+    "slider",
+    "gallery",
+    "motion",
+    "3d"
+  ],
+  "props": [
+    {
+      "name": "FoldCarousel slides",
+      "type": "React.ReactNode[]",
+      "required": true,
+      "description": "One slide per item; anything that fills a box works, like <img> or next/image with fill."
+    },
+    {
+      "name": "FoldCarousel loop",
+      "type": "boolean",
+      "default": "true",
+      "description": "Whether the last slide folds on to the first."
+    },
+    {
+      "name": "FoldCarousel duration",
+      "type": "number",
+      "default": "0.8",
+      "description": "Seconds a turn takes to settle onto a slide (a spring with no bounce)."
+    },
+    {
+      "name": "FoldCarousel defaultIndex / onIndexChange",
+      "type": "number / (index: number) => void",
+      "description": "The slide shown first; called with the slide a turn is heading for as soon as it starts."
+    },
+    {
+      "name": "FoldCarouselFrame variant",
+      "type": "\"door\" | \"book\"",
+      "default": "\"door\"",
+      "description": "door swings the next slide in behind the current one; book lays it underneath, like a page."
+    },
+    {
+      "name": "FoldCarouselFrame panelWidth / depth / bezelColor",
+      "type": "string / number / string",
+      "default": "\"min(23rem, 42vw)\" / 3.83 / \"black\"",
+      "description": "Width of one square panel (the frame is two wide); perspective distance in panel widths (above 1); the colour on a leaf's edge mid-turn and in place of an unloaded slide."
+    },
+    {
+      "name": "FoldCarouselPrevious / FoldCarouselNext",
+      "type": "Button props",
+      "description": "Fold back or on one slide; children replace the chevron. At an end without a loop they stay focusable and do nothing."
+    },
+    {
+      "name": "useFoldCarousel()",
+      "type": "{ index, count, canPrev, canNext, prev, next, goTo }",
+      "description": "Reads the surrounding carousel, for your own dots or counter."
+    }
+  ],
+  "a11y": [
+    "A region with aria-roledescription=\"carousel\" (label it with aria-label); the frame is a group with aria-roledescription=\"slide\" and an \"n of m\" label, and a polite live region announces the slide on change.",
+    "Screen readers and Tab reach one copy of each slide; the other copies a fold paints are inert.",
+    "Arrow keys change slides while focus is inside, also after clicking a slide; in right-to-left the keys follow the reading direction and the chevrons mirror.",
+    "Previous and next stay focusable at the ends when loop is off (aria-disabled), on every primitive.",
+    "Under prefers-reduced-motion slides cut instead of folding."
+  ],
+  "usage": "<FoldCarousel slides={photos} aria-label=\"Landscapes\"><FoldCarouselFrame /><FoldCarouselPrevious /><FoldCarouselNext /></FoldCarousel>"
+}

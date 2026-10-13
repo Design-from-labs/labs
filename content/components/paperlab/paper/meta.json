@@ -1,0 +1,111 @@
+{
+  "$schema": "https://labs.designfrom.com/schemas/meta.schema.json",
+  "schemaVersion": 1,
+  "name": "paper",
+  "kind": "component",
+  "title": "Paper",
+  "description": "Physical paper as a 3D sheet: a receipt that unrolls, a letter that folds, a corner that peels, a page that turns, with stocks, printed content and interaction states.",
+  "status": "beta",
+  "category": "media",
+  "label": "Paperlab",
+  "variants": [
+    {
+      "name": "paper",
+      "primitive": "none",
+      "iconSet": "none",
+      "status": "beta"
+    }
+  ],
+  "defaultVariant": "paper",
+  "demo": "demo.tsx",
+  "preview": "preview.webp",
+  "source": {
+    "repo": "https://github.com/NourMtir0722/Paperlab",
+    "commit": "41914833cb9ae12b32a8cbbdee4723f5b12158af",
+    "path": "packages/paperlab/src/Paper.tsx"
+  },
+  "author": "Noor Mtir <https://github.com/NourMtir0722>",
+  "license": "Apache-2.0",
+  "attribution": "Paperlab. Copyright 2026 Noor Mtir. Licensed under the Apache License, Version 2.0; this product includes software developed by Noor Mtir (upstream NOTICE reproduced with the license text).",
+  "credits": [
+    "S-265",
+    "S-260",
+    "S-157",
+    "S-104",
+    "S-267",
+    "S-268",
+    "S-269",
+    "S-181",
+    "S-275",
+    "S-276",
+    "S-283",
+    "S-286",
+    "S-287",
+    "S-003",
+    "S-004",
+    "S-014",
+    "S-152",
+    "S-240"
+  ],
+  "date": "2026-10-13",
+  "tile": {
+    "span": 1,
+    "rows": 2
+  },
+  "loop": {
+    "duration": 8000,
+    "hydrate": true
+  },
+  "tags": [
+    "paper",
+    "three",
+    "webgl",
+    "react-three-fiber",
+    "3d",
+    "receipt"
+  ],
+  "props": [
+    {
+      "name": "preset",
+      "type": "string | PaperConfigInput",
+      "description": "A named preset (receipt-unroll, paper-roll, letter-fold, washed-letter, vintage-note, hero-peel, page-flip, hanging-poster, pinned-sheet, flying-note, blank-sheet, postage-stamp, photo-print, crumpled-note, paper-ribbon, settled-sheet, typed-note, peeling-sticker...) or a full config."
+    },
+    {
+      "name": "sheet / stock / content",
+      "type": "{ width, height } / StockName / ContentConfig",
+      "description": "The sheet's size, its paper stock (thermal, kraft, vellum...), and what is printed on it (receipt, card, typed text, an image, a wash); each overrides the preset."
+    },
+    {
+      "name": "behavior",
+      "type": "{ type: \"unroll\" | \"letter-fold\" | \"peel\" | \"flip\" | \"crumple\" | ...; progress?: number; ... }",
+      "description": "What the sheet does, with its progress (0 to 1) and parameters; a fixed progress gives a still."
+    },
+    {
+      "name": "autoplay",
+      "type": "boolean",
+      "default": "false",
+      "description": "Plays the behavior on a loop (not under reduced motion)."
+    },
+    {
+      "name": "interactive",
+      "type": "boolean",
+      "description": "Lets the pointer drag the behavior's handles (peel a corner, pull the receipt)."
+    },
+    {
+      "name": "surface / states / onProgress / reducedMotion",
+      "type": "SurfaceConfig / PaperStatesConfig / (p: number) => void / boolean",
+      "description": "Deckle edges, creases and damage; hover and press states with transitions; progress callbacks; a reduced-motion override."
+    },
+    {
+      "name": "ref",
+      "type": "React.Ref<PaperHandle>",
+      "description": "play(), pause(), playing, set(param, value), getProgress(), snapshot(), toJSON()."
+    }
+  ],
+  "a11y": [
+    "The sheet's text is mirrored in hidden DOM for assistive technology (PaperMirror), and the static fallback is role=\"img\" with that text as its name.",
+    "Without WebGL, and until the first frame is drawn (the server render), a flat picture of the sheet shows instead of the canvas.",
+    "Under prefers-reduced-motion the sheet stays still: no autoplay, as upstream; drawing stops off screen and in hidden tabs (render-loop), with the pixel ratio capped at 2."
+  ],
+  "usage": "<div className=\"h-96\"><Paper preset=\"receipt-unroll\" autoplay /></div>"
+}

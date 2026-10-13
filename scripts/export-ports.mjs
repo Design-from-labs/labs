@@ -71,6 +71,39 @@ function lastChanged(path) {
     : new Date().toISOString().slice(0, 10);
 }
 
+/**
+ * The footer for each exported file, by its path in the item. Every file gets
+ * the upstream attribution and license text, plus the upstream NOTICE when
+ * `ports/<source-id>/NOTICE` exists (Apache-2.0, section 4(d)) and the
+ * component's `changeNotice` (Apache-2.0, section 4(b)). A component with
+ * `licenseFile` carries the full text once, in that file; the others carry a
+ * short notice that points to it (an Apache-2.0 port of many modules would
+ * otherwise repeat 11 KB of license per file).
+ */
+export function portFooters(sourceId, source, spec) {
+  const licenseText = readFileSync(join(PORTS, sourceId, "LICENSE"), "utf8");
+  const noticePath = join(PORTS, sourceId, "NOTICE");
+  const notice = existsSync(noticePath)
+    ? readFileSync(noticePath, "utf8").replace(/\r\n?/g, "\n").trim()
+    : null;
+  const change = spec.changeNotice ? `\n\n${spec.changeNotice}` : "";
+  const full = licenseFooter(
+    source.attribution,
+    [
+      licenseText.replace(/\r\n?/g, "\n").trim(),
+      ...(notice ? ["", "---- Upstream NOTICE ----", "", notice] : []),
+    ].join("\n") + change,
+  );
+  if (!spec.licenseFile) {
+    return () => full;
+  }
+  const short = licenseFooter(
+    source.attribution,
+    `Licensed under the ${source.license} license (the "License"); you may not use this file except in compliance with the License. The full License text${notice ? " and the upstream NOTICE" : ""} end ${spec.licenseFile}, installed next to this file. Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.${change}`,
+  );
+  return (rel) => (rel === spec.licenseFile ? full : short);
+}
+
 /** The upstream notice appended to every exported file. */
 export function licenseFooter(attribution, licenseText) {
   // Upstream LICENSE files may use CRLF; a stray \r would end up inside
@@ -118,7 +151,7 @@ function buildItem(name, spec, source, iconSet, dir, footer) {
     return {
       path: `registry/${item.name}/${file.file}`,
       type: file.type,
-      content: `${content.trimEnd()}\n${footer}`,
+      content: `${content.trimEnd()}\n${footer(file.file)}`,
     };
   });
   if (spec.cssVars) {
@@ -291,7 +324,7 @@ function buildVariantItem(
     const file = {
       path: `registry/${item.name}/${rel}`,
       type: FILE_TYPES[spec.type],
-      content: `${content.trimEnd()}\n${footer}`,
+      content: `${content.trimEnd()}\n${footer(rel)}`,
     };
     if (spec.target) {
       file.target = `${spec.target}/${rel}`;
@@ -310,8 +343,7 @@ function buildVariantItem(
 export function exportPort(sourceId, name, source) {
   const dir = join(PORTS, sourceId, name);
   const spec = JSON.parse(readFileSync(join(dir, "component.json"), "utf8"));
-  const licenseText = readFileSync(join(PORTS, sourceId, "LICENSE"), "utf8");
-  const footer = licenseFooter(source.attribution, licenseText);
+  const footer = portFooters(sourceId, source, spec);
   const out = {};
   const variants = [];
   if (spec.variants) {

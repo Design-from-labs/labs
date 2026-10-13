@@ -1,0 +1,1321 @@
+'use client'
+
+import * as THREE from 'three'
+import { type PaperTween, tweenTo } from './paper-ease'
+import { useFrame, useThree } from '@react-three/fiber'
+import type { ThreeEvent } from '@react-three/fiber'
+import { forwardRef, useEffect, useImperativeHandle, useMemo, useRef } from 'react'
+import type {
+  BehaviorConfigInput,
+  ClothConfig,
+  CreaseConfig,
+  StripConfig,
+  ContentConfigInput,
+  DeformerInstanceConfigInput,
+  MemoryConfigInput,
+  MountConfigInput,
+  PaperConfig,
+  PaperConfigInput,
+  PhysicsConfigInput,
+  SceneConfigInput,
+  SheetConfig,
+  StockName,
+  SurfaceConfigInput,
+} from './paper-config-schema'
+import { paperConfigSchema } from './paper-config-schema'
+import { mergeConfig, parsePreset, serializePreset } from './paper-config-serialize'
+import { computeSheetNormals } from './paper-core-normals'
+import { useStable } from './paper-core-stable'
+import { createSheetGeometry, resolveSegments, surfacePointAt } from './paper-core-sheet'
+import { FLAT_SEGMENTS, type SegmentPair } from './paper-core-tessellation'
+import { getStock } from './paper-core-stock'
+import { getPreset } from './paper-config-presets'
+import { useContentTexture } from './paper-content-texture'
+import { applyDeformerStack, displacePoint, stackAutoSegments, stackMinSegments } from './paper-deformers-compose'
+import { applyMemory, CreaseTracker } from './paper-deformers-memory'
+import { resolveCreases } from './paper-surface-creases'
+import { stackIsAnimated } from './paper-deformers-registry'
+import type { DeformerInstance } from './paper-deformers-types'
+import { getBehavior } from './paper-behaviors-registry'
+import { resolveDeformerStack } from './paper-deformers-registry'
+import type { Behavior } from './paper-behaviors-types'
+import { getIdlePreset, type IdleName, type IdlePose } from './paper-physics-idle'
+import { ClothSim } from './paper-physics-cloth'
+import { DamageCoupling } from './paper-physics-damage'
+import { StripSim, stripNodeCount } from './paper-physics-strip'
+import { PaperMaterial } from './paper-surface-paper-material'
+import type { DamageSource } from './paper-surface-damage-contract'
+import { usePrefersReducedMotion } from './paper-a11y'
+import { quantizeProgress, quantizeTime } from './paper-motion-on-twos'
+import { usePaperStates } from './paper-states-use-paper-states'
+import type { PaperStateMachine, StateEvent } from './paper-states-machine'
+import { MountScene, hide, useMountHost } from './paper-mount'
+import { MountRig } from './paper-mount-rig'
+import { buildWrap } from './paper-mount-wrap'
+
+export interface PaperMeshProps {
+  /** Built-in preset name, or a (partial) preset object. Props below override it. */
+  preset?: string | PaperConfigInput
+  sheet?: Partial<SheetConfig>
+  stock?: StockName
+  /**
+   * These take the schema's INPUT types, not its parsed ones: writing
+   * `content={{ type: 'text', text: 'hi' }}` has to compile, and with the
+   * inferred type it does not — it demands every field of every nested
+   * object. Every default stays a default.
+   */
+  content?: ContentConfigInput
+  behavior?: BehaviorConfigInput
+  deformers?: DeformerInstanceConfigInput[]
+  /** Fragment-side effects: grain, aging, deckle, creases, perforation. */
+  surface?: SurfaceConfigInput
+  /**
+   * What the sheet remembers being folded — how much of a fold this paper
+   * keeps, and the creases it already carries. A sheet can be handed its
+   * creases (a letter that arrives having been folded once) as readily as it
+   * can be folded into them.
+   */
+  memory?: MemoryConfigInput
+  /** Scene-level presentation that travels with the paper (lighting). */
+  scene?: SceneConfigInput
+  physics?: PhysicsConfigInput | 'cloth'
+  /**
+   * What the sheet is stuck to — a lemon, or any model. The sheet hugs its
+   * surface, takes its texture, and every behavior is carried onto the curve.
+   */
+  mount?: MountConfigInput
+  onTwos?: boolean
+  /** Show draggable behavior handles; cloth sheets become grabbable. */
+  interactive?: boolean
+  /** Start the behavior's transport loop on mount. */
+  autoplay?: boolean
+  /** Override prefers-reduced-motion (default: follow the system setting). */
+  reducedMotion?: boolean
+  position?: [number, number, number]
+  rotation?: [number, number, number]
+  /** Fires every animation tick with the behavior's progress (0..1). */
+  onProgress?(value: number): void
+  /** Fires when a handle drag ends, with the params the drag changed. */
+  onBehaviorChange?(patch: Record<string, unknown>): void
+  /**
+   * Fires when folding the paper leaves a crease it did not have.
+   *
+   * The sheet applies its own creases immediately — this is how they get
+   * PERSISTED. Recording happens in the frame loop, where a fold's peak
+   * actually is, and routing that through React sixty times a second would
+   * cost more than the rest of the feature; so the mesh holds the live truth
+   * and reports it, and the host writes it into config whenever it likes.
+   * The same split `onBehaviorChange` uses for handle drags.
+   */
+  onCrease?(creases: CreaseConfig[]): void
+  /**
+   * Interaction states: when the config carries `states`, pointer triggers
+   * are live by default. Set false to sculpt a stateful paper without the
+   * machine firing (the editor's state-editing mode).
+   */
+  stateTriggers?: boolean
+  /** Fires when the state machine changes state. */
+  onStateChange?(state: string): void
+  /** Fires for `onEnter` actions ('emit:<event>'). */
+  onStateAction?(event: string, state: string): void
+  /**
+   * What has happened to this sheet — char, wet, heat and missing paper — as
+   * a grid over its UV.
+   *
+   * The sheet draws whatever damage it is handed and does not know what
+   * caused it, the same way it draws `content` without knowing who painted
+   * it. `DamageField` from `paperlab/fx` is one source; a baked texture or a
+   * recorded burn played back would be others. A prop and not config,
+   * because it is live state that changes every frame and does not belong in
+   * a preset or a share link. See `DamageSource`.
+   */
+  damage?: DamageSource | null
+}
+
+export interface PaperHandle {
+  play(): void
+  pause(): void
+  readonly playing: boolean
+  /** Live-override a behavior param. 'progress' always maps to the behavior's progress param. */
+  set(param: string, value: unknown): void
+  getProgress(): number
+  /** Current full state (including live overrides) as a preset. */
+  snapshot(): PaperConfig
+  toJSON(): string
+  readonly mesh: THREE.Mesh | null
+  /**
+   * Where a behavior's grab point currently sits, in world space, or null
+   * when the behavior has no handles (or `interactive` is off).
+   *
+   * The handle is not at the corner it names: it rides the deformed surface,
+   * so its position is only known after the frame's deformer stack has run.
+   * Anything that wants to point AT the handle — a coach-mark, a tooltip,
+   * an arrow — has to ask the frame rather than compute a UV, which is why
+   * reading it is a method here and not a prop the sheet could publish.
+   *
+   * Written into `target` when one is passed, so a per-frame reader does not
+   * allocate a vector sixty times a second.
+   */
+  handlePoint(id?: string, target?: THREE.Vector3): THREE.Vector3 | null
+  /**
+   * Where a point of the sheet is right now, in world space: `(u, v)` over
+   * the sheet, `v = 0` its bottom edge — the same UV the damage grid is laid
+   * out on, so a cell of damage can be asked where it is. Null before the
+   * sheet has mounted.
+   *
+   * On the DRAWN surface, after this frame's simulation and deformer stack,
+   * which is the reason it is a method: an ember that leaves the burn front
+   * has to leave from where the paper is, and a draped or crumpled sheet is
+   * nowhere a UV alone could say. Interpolated across the triangle the GPU
+   * draws, so the point is on the paper and not a hair behind it.
+   *
+   * Written into `target` when one is passed, like {@link handlePoint}.
+   */
+  surfacePoint(u: number, v: number, target?: THREE.Vector3): THREE.Vector3 | null
+  /** Interaction-state machine access (null when the config has no states). */
+  readonly state: string
+  sendState(event: StateEvent): string | null
+  /**
+   * Drive to 'picked' through the legal chain (rest→hover→pressed→picked),
+   * instantly, so every side effect fires — the keyboard/a11y entry point
+   * where no pointer hover/press ever ran. Returns true if it landed.
+   */
+  pickProgrammatic(): boolean
+  /** Instant, legal place (picked → placed) so onEnter/emit fires. */
+  placeProgrammatic(): boolean
+  /** Instant, legal return (picked → rest). */
+  returnProgrammatic(): boolean
+}
+
+/**
+ * Everything {@link resolveConfig} reads, as a plain tuple.
+ *
+ * Compared with {@link useStable} rather than serialized: a dependency array
+ * is evaluated on EVERY render, and `content` can hold a whole bitmap as a
+ * data URL, so a `JSON.stringify` here was megabytes of garbage per frame of
+ * a slider drag. (There was a `resolveConfigKey` exporting the string form
+ * for consumers to key their own caches on; it was never part of the package
+ * entry, so no consumer could reach it, and nothing else uses it now.)
+ */
+function configInputs(props: PaperMeshProps): unknown[] {
+  return [
+    props.preset ?? null,
+    props.sheet ?? null,
+    props.stock ?? null,
+    props.content ?? null,
+    props.behavior ?? null,
+    props.deformers ?? null,
+    props.surface ?? null,
+    props.memory ?? null,
+    props.scene ?? null,
+    props.physics ?? null,
+    props.mount ?? null,
+    props.onTwos ?? null,
+  ]
+}
+
+/** Resolve once, and again only when the inputs actually differ. */
+export function useResolvedConfig(props: PaperMeshProps): PaperConfig {
+  const inputs = useStable(configInputs(props))
+  // biome-ignore lint/correctness/useExhaustiveDependencies: `inputs` IS every prop resolveConfig reads; the props object itself is new each render.
+  return useMemo(() => resolveConfig(props), [inputs])
+}
+
+/** Resolve preset + prop overrides into a validated config. */
+export function resolveConfig(props: PaperMeshProps): PaperConfig {
+  const base = props.preset
+    ? typeof props.preset === 'string'
+      ? getPreset(props.preset)
+      : parsePreset(props.preset)
+    : paperConfigSchema.parse({})
+  const overrides: PaperConfigInput = {}
+  if (props.sheet) overrides.sheet = { ...base.sheet, ...props.sheet }
+  if (props.stock) overrides.stock = props.stock
+  if (props.content) overrides.content = props.content
+  if (props.behavior) overrides.behavior = props.behavior
+  if (props.deformers) overrides.deformers = props.deformers
+  // Surface merges over the stock's defaults rather than replacing them, so
+  // `surface={{ grain: 0.6 }}` on thermal keeps thermal's banding.
+  if (props.surface) overrides.surface = { ...base.surface, ...props.surface }
+  // Merged like surface, and for the same reason: `memory={{ set: 0.2 }}` on a
+  // preset that ships creased should turn the retention down, not flatten the
+  // paper on its way past.
+  if (props.memory) overrides.memory = { ...base.memory, ...props.memory }
+  if (props.scene) overrides.scene = { ...base.scene, ...props.scene }
+  if (props.physics) overrides.physics = props.physics
+  if (props.mount) overrides.mount = props.mount
+  if (props.onTwos !== undefined) overrides.onTwos = props.onTwos
+  return paperConfigSchema.parse(mergeConfig(base as PaperConfigInput, overrides))
+}
+
+/** Cloth grids cap their resolution — 5k verlet particles is the budget ceiling. */
+const CLOTH_MAX_SEGMENTS = 28
+
+/** Where `'auto'` probes a behavior's sweep. Endpoints matter most — a play
+ *  usually starts or ends at its tightest. */
+const PROGRESS_SAMPLES = [0, 0.25, 0.5, 0.75, 1] as const
+
+const dragPlane = new THREE.Plane()
+const dragPoint = new THREE.Vector3()
+const planeNormal = new THREE.Vector3()
+const anchorScratch = new THREE.Vector3()
+const worldScratch = new THREE.Vector3()
+const quatScratch = new THREE.Quaternion()
+const DEG = Math.PI / 180
+
+/**
+ * The atom: one sheet of paper, hero-mode CPU path. The cloth sim solves the
+ * particles and the deformer stack runs over them — both, not either; only a
+ * strip owns its vertices outright. GSAP owns animated values; useFrame owns
+ * geometry writes.
+ */
+export const PaperMesh = forwardRef<PaperHandle, PaperMeshProps>(function PaperMesh(props, ref) {
+  // Each resolveConfig call is several zod parses (superRefine re-parses every
+  // state override) — memoized so a render without config-prop changes is free.
+  const resolved = useResolvedConfig(props)
+  // Reduced motion: behaviors freeze at their resting pose, physics is off,
+  // idle motion is off. The sheet still renders fully sculpted.
+  const reduced = usePrefersReducedMotion(props.reducedMotion)
+  // Interaction states: the machine animates a live config between state
+  // overrides; `config` below is that animated view (the base when no states).
+  // Reduced motion keeps the machine but makes transitions instant.
+  const statesLive = Boolean(resolved.states) && props.stateTriggers !== false
+  const {
+    config,
+    machine,
+    state: machineState,
+  } = usePaperStates(resolved, statesLive, reduced, props.onStateAction, props.onStateChange)
+  const behavior: Behavior | null = config.behavior ? getBehavior(config.behavior.type) : null
+  const machineRef = useRef<PaperStateMachine | null>(null)
+  machineRef.current = machine
+  // The animated `config` has `states` stripped — keep the resolved preset
+  // around so snapshot()/toJSON() never lose the state machine.
+  const resolvedRef = useRef(resolved)
+  resolvedRef.current = resolved
+  // Two object-shaped simulations now, so the kind is read off the tag rather
+  // than off `typeof` — which was only ever "cloth" by having no rival.
+  const simKind =
+    !reduced && typeof config.physics === 'object' ? (config.physics.type as 'cloth' | 'strip') : null
+  const isCloth = simKind === 'cloth'
+  const isStrip = simKind === 'strip'
+  const idle =
+    !reduced && typeof config.physics === 'string' && config.physics !== 'none'
+      ? getIdlePreset(config.physics as IdleName)
+      : null
+
+  const meshRef = useRef<THREE.Mesh>(null)
+  const groupRef = useRef<THREE.Group>(null)
+  const handleRefs = useRef<(THREE.Mesh | null)[]>([])
+
+  const overridesRef = useRef<Record<string, unknown>>({})
+  const dirtyRef = useRef(true)
+  const playingRef = useRef(false)
+  const tweenRef = useRef<PaperTween | null>(null)
+  const draggingRef = useRef<string | null>(null)
+  /** Where the first handle is in the sheet's flat space this frame, and a sheet-grab's offset from it. */
+  const handleFlat = useRef({ x: 0, y: 0 })
+  const dragOffset = useRef({ x: 0, y: 0 })
+
+  const configRef = useRef(config)
+  configRef.current = config
+
+  /**
+   * The caller's rotation with the preset's `scene.turn` folded in.
+   *
+   * Additive, and about Y: `turn` is how the composition wants to be READ
+   * (see `sceneSchema.turn`), while the prop is where the caller has decided
+   * to put this paper. A preset does not get to overrule that, so it leans on
+   * top of it.
+   */
+  const baseRotation = useMemo<[number, number, number]>(() => {
+    const [rx, ry, rz] = props.rotation ?? [0, 0, 0]
+    return [rx, ry + (config.scene.turn * Math.PI) / 180, rz]
+  }, [props.rotation, config.scene.turn])
+
+  const controls = useThree((s) => s.controls) as { enabled?: boolean } | null
+  const camera = useThree((s) => s.camera)
+
+  const behaviorKey = JSON.stringify(config.behavior ?? null)
+  const deformersKey = JSON.stringify(config.deformers ?? null)
+  const sheetKey = JSON.stringify(config.sheet)
+  /**
+   * What the SHAPE path needs to know about physics, and nothing more.
+   *
+   * Deliberately not `JSON.stringify(config.physics)`. A simulation's config
+   * is live — `strip.scroll` is rewritten every single frame by the host —
+   * and a key that moves every frame re-runs the segment probe, hands the
+   * geometry memo fresh array identities, rebuilds the geometry, and through
+   * it rebuilds the sim, which throws away everything the sim had integrated.
+   * A scroll-driven roll pinned to its own starting tail forever, sixty times
+   * a second.
+   *
+   * Nothing downstream of here reads a sim's VALUES: an object-shaped physics
+   * means there is no deformer stack at all, so the only thing that can change
+   * the shape path is whether a sim is present and which one.
+   */
+  const physicsKey = typeof config.physics === 'object' ? config.physics.type : config.physics
+
+  /** Stuck to something. The schema keeps a mounted sheet off the simulations. */
+  const mounted = Boolean(config.mount)
+
+  /**
+   * The crease LINES, without their depths.
+   *
+   * Depth is exactly the part that moves while you are folding, and the only
+   * thing downstream of this key is the geometry probe — which does not care.
+   * `fold`'s appetite for segments is set by its hinge radius and its
+   * direction, never by how far it has closed, so a crease deepening from 2°
+   * to 20° cannot change the answer. Keying on the depth too would rebuild
+   * the geometry on every frame of every fold, and take the sim and the
+   * base-position buffer down with it — the same trap `physicsKey` above
+   * exists to avoid.
+   */
+  const memoryKey = config.memory.creases.map((c) => `${c.angle}:${c.offset}`).join('|')
+
+  /**
+   * The creases WITH their depths — what the sheet is actually carrying.
+   *
+   * The lines-only key above cannot serve here, and the difference is the
+   * whole reason there are two. Dragging a crease deeper changes no line, so
+   * a lines-only key never fires: the tracker would go on holding the array
+   * it was handed when the crease was created, the shading would follow the
+   * edit (it reads config) and the geometry would not, and the depth slider
+   * would darken the mark without bending the paper.
+   */
+  const creaseKey = config.memory.creases.map((c) => `${c.angle}:${c.offset}:${c.depth}`).join('|')
+
+  /**
+   * The sheet's live memory. Seeded from config and updated in the frame
+   * loop; `onCrease` is how it gets back to config.
+   */
+  const creasesRef = useRef<CreaseTracker | null>(null)
+  creasesRef.current ??= new CreaseTracker(config.memory.creases)
+  const creases = creasesRef.current
+
+  // biome-ignore lint/correctness/useExhaustiveDependencies: The keys are change triggers; the body only touches refs.
+  useEffect(() => {
+    if (!draggingRef.current && !playingRef.current) overridesRef.current = {}
+    // The slots track folds in a stack that no longer exists. The creases they
+    // left do not go with it — a sheet does not un-crease because you gave it
+    // a new behavior — so they carry over as the sheet's authored set.
+    creases.reset()
+    dirtyRef.current = true
+  }, [behaviorKey, deformersKey, sheetKey, physicsKey])
+
+  // Config-side creases changing means something outside the frame loop has an
+  // opinion: an edit, a shared link, or the host persisting what we just
+  // recorded. `adopt` works out which — an edit resets the folds it was
+  // watching, an echo of its own recording does not.
+  // biome-ignore lint/correctness/useExhaustiveDependencies: Keyed on the creases themselves; the body reads them off config.
+  useEffect(() => {
+    creases.adopt(configRef.current.memory.creases)
+    dirtyRef.current = true
+  }, [creaseKey])
+
+  // biome-ignore lint/correctness/useExhaustiveDependencies: Keyed on the stack shape — the probe reads config off a ref.
+  const { minSegments, autoSegments, animatedStack } = useMemo(() => {
+    const cfg = configRef.current
+    // Creases are in the probe because a crease with no live fold on its line
+    // is a fold instance the grid has never been asked about — an authored
+    // dog-ear on an otherwise flat sheet needs `fold`'s 48-segment floor as
+    // much as a real fold does, and a flat sheet is tessellated 2×2.
+    const probe = withMemory(buildStack(cfg, {}), cfg)
+    if (!probe) {
+      return {
+        minSegments: [2, 2] as SegmentPair,
+        autoSegments: [FLAT_SEGMENTS, FLAT_SEGMENTS] as SegmentPair,
+        animatedStack: false,
+      }
+    }
+
+    // The grid is built once; a behavior's stack is not the same shape all
+    // the way through. An unroll is a tight roll at one end of its progress
+    // and a flat sheet at the other, so sizing to the configured moment
+    // would leave the sheet under-tessellated for the rest of the play.
+    // Sample the sweep and keep the densest answer. Every behavior's
+    // progressParam is a 0..1 number — pinned by behaviors.test.ts, because
+    // this loop silently samples the wrong range if that ever stops holding.
+    //
+    // Whether the stack is TIME-DRIVEN is answered off the same sweep, and
+    // for the same reason: it is a property of the stack's shape, not of the
+    // moment it happens to be at, and the frame loop needs it before it has
+    // built anything — see `useFrame` below.
+    const want = stackAutoSegments(probe, cfg.sheet)
+    let animated = stackIsAnimated(probe)
+    if (cfg.behavior && !cfg.deformers) {
+      const param = getBehavior(cfg.behavior.type).progressParam
+      for (const p of PROGRESS_SAMPLES) {
+        const at = withMemory(buildStack(cfg, { [param]: p }), cfg)
+        if (!at) continue
+        const [x, y] = stackAutoSegments(at, cfg.sheet)
+        if (x > want[0]) want[0] = x
+        if (y > want[1]) want[1] = y
+        animated ||= stackIsAnimated(at)
+      }
+    }
+    return {
+      minSegments: stackMinSegments(probe, cfg.sheet),
+      autoSegments: want,
+      animatedStack: animated,
+    }
+  }, [behaviorKey, deformersKey, physicsKey, memoryKey])
+
+  // biome-ignore lint/correctness/useExhaustiveDependencies: Keyed on the sheet — rebuilding geometry on identity would orphan GPU buffers every render.
+  const geometry = useMemo(() => {
+    if (isStrip) {
+      // A strip is a 2×N quad ribbon: one column each side, one row per chain
+      // node. The row count has to agree with the sim exactly, so both derive
+      // it from the same function.
+      const strip = configRef.current.physics as StripConfig
+      const nodes = stripNodeCount(config.sheet.height, strip.perforation)
+      return new THREE.PlaneGeometry(config.sheet.width, config.sheet.height, 1, nodes - 1)
+    }
+    if (!isCloth) {
+      const sheet = createSheetGeometry(config.sheet, minSegments, autoSegments)
+      // How stuck each vertex is, for the press shading — written every
+      // frame by the mount rig, and fully stuck until it is.
+      if (mounted) {
+        const count = sheet.attributes.position!.count
+        sheet.setAttribute('aAttach', new THREE.BufferAttribute(new Float32Array(count).fill(1), 1))
+      }
+      return sheet
+    }
+    // Cloth: explicit capped grid so sim particles == mesh vertices. Square,
+    // because the sim's constraints are laid out on a square lattice.
+    //
+    // The stack's own floor is in the max now that cloth can host one: a fold
+    // needs 48 segments to bend through rather than crease along, and a
+    // crumple more, and a shape running over a simulation is no less entitled
+    // to the grid it needs than one running over a flat sheet. Still capped —
+    // every particle is a constraint solve five times a frame.
+    const [sx, sy] = resolveSegments(config.sheet, minSegments)
+    const capped = Math.min(Math.max(sx, sy), CLOTH_MAX_SEGMENTS)
+    return new THREE.PlaneGeometry(config.sheet.width, config.sheet.height, capped, capped)
+  }, [
+    sheetKey,
+    minSegments,
+    autoSegments,
+    isCloth,
+    isStrip,
+    isStrip ? (config.physics as StripConfig).perforation : 0,
+    mounted,
+  ])
+
+  // Imperatively-created geometry is ours to free — R3F only auto-disposes
+  // JSX-created objects, so a sheet change would otherwise orphan GPU buffers.
+  useEffect(() => () => geometry.dispose(), [geometry])
+
+  const basePositions = useMemo(
+    () => Float32Array.from(geometry.attributes.position!.array as Float32Array),
+    [geometry],
+  )
+
+  // biome-ignore lint/correctness/useExhaustiveDependencies: Rebuild only on geometry or pin layout change — sliders update the sim in place.
+  const stripSim = useMemo(() => {
+    if (!isStrip) return null
+    const strip = configRef.current.physics as StripConfig
+    return new StripSim(config.sheet.height, config.sheet.width, {
+      scroll: strip.scroll,
+      tightness: strip.tightness,
+      core: strip.core,
+      tail: strip.tail,
+      perforation: strip.perforation,
+      crease: strip.crease,
+      stiffness: strip.stiffness,
+      drag: strip.drag,
+      gravity: strip.gravity,
+      floor: strip.floor,
+      inertia: strip.inertia,
+    })
+  }, [geometry, isStrip])
+
+  // The sim the last committed render was running, so a rebuild can carry its
+  // drape over instead of starting flat. Written after commit, never during a
+  // render, or a render React threw away would be the one adopted from.
+  const lastSimRef = useRef<ClothSim | null>(null)
+
+  // biome-ignore lint/correctness/useExhaustiveDependencies: Rebuild only on geometry or pin layout change — sliders update the sim in place.
+  const sim = useMemo(() => {
+    if (!isCloth) return null
+    const cloth = configRef.current.physics as ClothConfig
+    const cols = (geometry.parameters as { widthSegments: number }).widthSegments + 1
+    const rows = (geometry.parameters as { heightSegments: number }).heightSegments + 1
+    const next = new ClothSim(cols, rows, config.sheet.width, config.sheet.height, cloth.pins, {
+      stiffness: cloth.stiffness,
+      gravity: cloth.gravity,
+      wind: cloth.wind,
+      floor: cloth.floor,
+    })
+    // A resize keeps the drape; a restructure does not. `adopt` decides which
+    // this was — see the note on it.
+    next.adopt(lastSimRef.current)
+    return next
+  }, [geometry, isCloth, isCloth ? (config.physics as ClothConfig).pins : ''])
+
+  useEffect(() => {
+    lastSimRef.current = sim
+  }, [sim])
+
+  // What the sim feels of `damage`. Per sim, so a rebuilt one reads it afresh.
+  const coupling = useMemo(() => (sim ? new DamageCoupling(sim) : null), [sim])
+
+  const stock = getStock(config.stock)
+  const texture = useContentTexture(config.content, config.sheet, stock, config.surface.dieCut)
+
+  // The object it is stuck to, and the sheet laid onto it. The lay-up reaches
+  // well past the sheet's own edges: a flap peeled back flat lies beyond the
+  // far edge, and a released sheet springs further still.
+  const mount = config.mount
+  const host = useMountHost(mount)
+  // biome-ignore lint/correctness/useExhaustiveDependencies: keyed on the placement and the sheet's size, not on every mount field.
+  const rig = useMemo(() => {
+    if (!mount || !host) return null
+    const { width, height } = config.sheet
+    const reach = Math.max(width, height) * 1.25
+    const wrap = buildWrap(
+      host.surface,
+      { azimuth: mount.azimuth, elevation: mount.elevation, roll: mount.roll },
+      width / 2 + reach,
+      height / 2 + reach,
+      61,
+      [width / 2, height / 2],
+    )
+    return new MountRig(wrap, config.sheet)
+  }, [host, mount?.azimuth, mount?.elevation, mount?.roll, config.sheet.width, config.sheet.height])
+  useEffect(() => {
+    dirtyRef.current = true
+    return () => rig?.dispose()
+  }, [rig])
+  const mountPress = mount?.press
+  const press = useMemo(
+    () =>
+      mountPress !== undefined && host?.skin
+        ? { amount: mountPress, scale: host.skin.scale, depth: host.skin.depth }
+        : null,
+    // Not `mount`: it is a new object after every config parse, and this is
+    // handed to a dozen materials.
+    [mountPress, host],
+  )
+  const hostRef = useRef<THREE.Group>(null)
+  const hostRotation = useMemo(
+    () => new THREE.Euler(0, (mount?.spin ?? 0) * DEG, (mount?.tilt ?? 0) * DEG, 'ZYX'),
+    [mount?.spin, mount?.tilt],
+  )
+  const backTexture = useContentTexture(config.content.back, config.sheet, stock)
+
+  // Per-frame config: when a state machine is live it OWNS the animated numeric
+  // values (GSAP tweens them); we poll its mutable liveConfig each frame rather
+  // than routing every tick through React. Falls back to the React config for
+  // non-stateful papers.
+  const liveConfig = (): PaperConfig => machineRef.current?.liveConfig ?? configRef.current
+
+  const effectiveOptions = (t: number): Record<string, unknown> | null => {
+    const cfg = liveConfig()
+    if (!cfg.behavior || !behavior) return null
+    const o = { ...cfg.behavior, ...overridesRef.current }
+    return behavior.loop ? { ...o, ...behavior.loop(o, t) } : o
+  }
+
+  const play = () => {
+    if (!behavior) return
+    playingRef.current = true
+    if (tweenRef.current) {
+      tweenRef.current.play()
+      return
+    }
+    const param = behavior.progressParam
+    const start = (effectiveOptions(0)?.[param] as number) ?? 0
+    const state = { p: start }
+    tweenRef.current = tweenTo(state, { p: 1 }, {
+      duration: behavior.duration * (1 - start),
+      ease: 'power2.inOut',
+      yoyo: behavior.loopMode === 'yoyo',
+      repeat: -1,
+      onRepeat: () => {
+        if (behavior.loopMode === 'restart') state.p = 0
+      },
+      onUpdate: () => {
+        const p = configRef.current.onTwos ? quantizeProgress(state.p, behavior.duration) : state.p
+        overridesRef.current[param] = p
+        dirtyRef.current = true
+        props.onProgress?.(p)
+      },
+    })
+  }
+
+  const pause = () => {
+    playingRef.current = false
+    tweenRef.current?.pause()
+  }
+
+  // biome-ignore lint/correctness/useExhaustiveDependencies: Mount-only: autoplay starts once, and the cleanup kills the tween on unmount.
+  useEffect(() => {
+    if (props.autoplay && !reduced) play()
+    return () => {
+      tweenRef.current?.kill()
+      tweenRef.current = null
+    }
+  }, [])
+
+  const snapshot = (): PaperConfig => {
+    // Re-attach `states`: the rendered config is the animated view with the
+    // machine stripped, but a snapshot is a preset — states are part of it.
+    const states = resolvedRef.current.states
+    const cfg = states ? { ...configRef.current, states } : configRef.current
+    if (!cfg.behavior) return states ? paperConfigSchema.parse(cfg) : cfg
+    return paperConfigSchema.parse({
+      ...cfg,
+      behavior: { ...cfg.behavior, ...overridesRef.current },
+    })
+  }
+
+  useImperativeHandle(ref, () => ({
+    play,
+    pause,
+    get playing() {
+      return playingRef.current
+    },
+    set(param: string, value: unknown) {
+      const key = param === 'progress' && behavior ? behavior.progressParam : param
+      overridesRef.current[key] = value
+      dirtyRef.current = true
+      if (behavior && key === behavior.progressParam) props.onProgress?.(value as number)
+    },
+    getProgress() {
+      if (!behavior) return 0
+      return (effectiveOptions(0)?.[behavior.progressParam] as number) ?? 0
+    },
+    snapshot,
+    toJSON: () => serializePreset(snapshot()),
+    get mesh() {
+      return meshRef.current
+    },
+    handlePoint(id?: string, target?: THREE.Vector3) {
+      const handles = behavior?.handles
+      if (!handles?.length) return null
+      const index = id ? handles.findIndex((h) => h.id === id) : 0
+      const mesh = handleRefs.current[index]
+      if (!mesh) return null
+      return mesh.getWorldPosition(target ?? new THREE.Vector3())
+    },
+    surfacePoint(u: number, v: number, target?: THREE.Vector3) {
+      const mesh = meshRef.current
+      if (!mesh) return null
+      // Every sheet is a PlaneGeometry — shape, cloth and strip alike — so its
+      // grid is on the parameters, and the position attribute is whatever this
+      // frame wrote there.
+      const { widthSegments, heightSegments } = geometry.parameters
+      const out = surfacePointAt(
+        geometry.attributes.position!.array,
+        widthSegments + 1,
+        heightSegments + 1,
+        u,
+        v,
+        target ?? new THREE.Vector3(),
+      )
+      mesh.updateWorldMatrix(true, false)
+      return out.applyMatrix4(mesh.matrixWorld)
+    },
+    get state() {
+      return machineState
+    },
+    sendState: (event: StateEvent) => machineRef.current?.send(event) ?? null,
+    pickProgrammatic: () => machineRef.current?.pickProgrammatic() ?? false,
+    placeProgrammatic: () => machineRef.current?.placeProgrammatic() ?? false,
+    returnProgrammatic: () => machineRef.current?.returnProgrammatic() ?? false,
+  }))
+
+  /**
+   * The crease lines the shader draws.
+   *
+   * Off CONFIG rather than off the tracker, and that is the honest trade. The
+   * shading is a shader uniform behind a React memo, so it updates when the
+   * host writes a recorded crease back — a frame or two after the geometry
+   * has it. A crease that has just formed is a fold the sheet is still most
+   * of the way inside; the mark landing as it opens rather than as it closes
+   * is the order it happens in on real paper anyway.
+   */
+  const shadedCreases = useMemo(
+    () => resolveCreases(config.surface, config.memory.creases, config.sheet),
+    [config.surface, config.memory.creases, config.sheet],
+  )
+
+  const idlePose = useRef<IdlePose>({ position: [0, 0, 0], rotation: [0, 0, 0] })
+
+  useFrame(({ clock }, delta) => {
+    const cfg = liveConfig()
+    // Reduced motion freezes time-driven deformers at their resting phase.
+    const now = reduced ? 0 : cfg.onTwos ? quantizeTime(clock.elapsedTime) : clock.elapsedTime
+
+    // Whole-sheet motion — idle presets and behavior transforms (flight's
+    // travel across the scene) compose additively; vertices stay untouched.
+    const hasBehaviorTransform = Boolean(behavior?.transform && cfg.behavior)
+    if ((idle?.transform || hasBehaviorTransform) && groupRef.current) {
+      const pose = idlePose.current
+      pose.position[0] = pose.position[1] = pose.position[2] = 0
+      pose.rotation[0] = pose.rotation[1] = pose.rotation[2] = 0
+      idle?.transform?.(now, pose)
+      if (hasBehaviorTransform) {
+        const o = effectiveOptions(now)
+        if (o) behavior!.transform!(o, now, pose, cfg.sheet)
+      }
+      const base = props.position ?? [0, 0, 0]
+      const baseRot = baseRotation
+      groupRef.current.position.set(
+        base[0] + pose.position[0],
+        base[1] + pose.position[1],
+        base[2] + pose.position[2],
+      )
+      groupRef.current.rotation.set(
+        baseRot[0] + pose.rotation[0],
+        baseRot[1] + pose.rotation[1],
+        baseRot[2] + pose.rotation[2],
+      )
+    }
+
+    // Simulation path: the strip owns the vertices.
+    if (isStrip && stripSim) {
+      const strip = cfg.physics as StripConfig
+      stripSim.setParams({
+        scroll: strip.scroll,
+        tightness: strip.tightness,
+        core: strip.core,
+        tail: strip.tail,
+        crease: strip.crease,
+        stiffness: strip.stiffness,
+        drag: strip.drag,
+        gravity: strip.gravity,
+        floor: strip.floor,
+        inertia: strip.inertia,
+      })
+      stripSim.step(delta)
+      if (!stripSim.asleep) {
+        const position = geometry.attributes.position as THREE.BufferAttribute
+        stripSim.writeInto(position.array as Float32Array)
+        position.needsUpdate = true
+        // Per-segment normals are what make the folds read: the underside of
+        // each turn faces away from the key and goes dark on its own.
+        computeSheetNormals(geometry)
+        geometry.computeBoundingSphere()
+      }
+      return
+    }
+
+    // Shape: the deformer stack, run over whatever it is given as a base.
+    //
+    // `base` is the flat rest pose for a sheet that is only a shape, and the
+    // simulation's live particles for one that is both. That substitution is
+    // the whole of the composition: a deformer is a pure map from a point to
+    // a point, so folding a draped sheet is folding the points the drape put
+    // there. `force` is the simulation saying its vertices moved even though
+    // nothing about the stack did.
+    //
+    // Decide whether there is anything to do BEFORE building it. A resting
+    // sheet — no loop, no time-driven deformer, no transition, nothing
+    // dirtied — used to expand its whole stack every frame and throw it
+    // away, which is a behavior's `stack()` call and its deformer objects
+    // sixty times a second for a picture that does not move.
+    const applyShape = (base: Float32Array, force: boolean): boolean => {
+      const animated = !reduced && animatedStack
+      const hasLoop = !reduced && Boolean(cfg.behavior && behavior?.loop)
+      // A state transition tweens numeric leaves off the React path, so the
+      // stack must re-apply every frame while the machine is transitioning.
+      const machineAnimating = Boolean(machineRef.current?.transitioning)
+      if (!force && !dirtyRef.current && !hasLoop && !animated && !machineAnimating) return false
+
+      const raw = buildStack(cfg, overridesRef.current, behavior, now)
+
+      // How much this paper keeps: its own override, else what the stock is
+      // made of. The same shape as every other stock default in the library.
+      const setAmount = cfg.memory.set ?? stock.takesSet
+
+      // Read the folds BEFORE memory rewrites them. `applyMemory` raises a live
+      // fold to its crease's depth, and a tracker watching that would be reading
+      // its own output — the crease would hold the fold open, and the held-open
+      // fold would keep the crease alive, with nothing in the loop that is
+      // actually the paper being folded.
+      if (raw && creases.observe(raw, setAmount)) props.onCrease?.(creases.creases)
+
+      // A mounted sheet has to be laid onto its object even when nothing
+      // deforms it, so an empty stack still runs there.
+      const stack = withMemory(raw, cfg, creases.creases) ?? (rig ? [] : null)
+      if (!stack) return false
+      dirtyRef.current = false
+
+      const ctx = { t: now, sheet: cfg.sheet }
+      applyDeformerStack(geometry, base, stack, ctx)
+      if (rig) {
+        // Worked out flat, then carried onto the object — see `mount/wrap.ts`.
+        const position = geometry.attributes.position as THREE.BufferAttribute
+        const attach = geometry.attributes.aAttach as THREE.BufferAttribute | undefined
+        // The peel first: the shell reads where its front is to hinge the flap.
+        rig.update(stack, ctx)
+        rig.shell(
+          position.array as Float32Array,
+          base,
+          (attach?.array as Float32Array) ?? null,
+          position.count,
+        )
+        // Free, and flying away: in the world, so it needs to know how the
+        // object leans. Once it is out of the shot it is not drawn at all.
+        const flyOptions = behavior?.fly ? effectiveOptions(now) : null
+        const fly = flyOptions && behavior?.fly ? behavior.fly(flyOptions) : 0
+        if (fly > 0 && hostRef.current) {
+          hostRef.current.updateWorldMatrix(true, false)
+          const columns = (geometry.parameters as { widthSegments: number }).widthSegments + 1
+          rig.fly(
+            position.array as Float32Array,
+            position.count,
+            columns,
+            fly,
+            hostRef.current.matrixWorld,
+            0,
+          )
+        }
+        if (meshRef.current) hide(meshRef.current, fly >= 0.999)
+        if (attach) attach.needsUpdate = true
+        computeSheetNormals(geometry)
+        geometry.computeBoundingSphere()
+      }
+
+      if (props.interactive && behavior?.handles) {
+        const o = effectiveOptions(now)
+        behavior.handles.forEach((h, i) => {
+          const mesh = handleRefs.current[i]
+          // A mounted sheet draws no handle — the sticker itself is what you
+          // take hold of — but a grab still needs to know where the first
+          // one is, so it is worked out either way.
+          if ((!mesh && !(rig && i === 0)) || !o) return
+          const [u, v] = h.anchor(o, cfg.sheet)
+          anchorScratch.set((u - 0.5) * cfg.sheet.width, (v - 0.5) * cfg.sheet.height, 0)
+          displacePoint(anchorScratch, u, v, stack, ctx)
+          if (i === 0) {
+            handleFlat.current.x = anchorScratch.x
+            handleFlat.current.y = anchorScratch.y
+          }
+          if (rig) rig.place((u - 0.5) * cfg.sheet.width, (v - 0.5) * cfg.sheet.height, anchorScratch)
+          mesh?.position.copy(anchorScratch)
+        })
+      }
+      return true
+    }
+
+    // Simulation path: cloth writes the vertices, and may hand them on.
+    if (isCloth && sim) {
+      const cloth = cfg.physics as ClothConfig
+      sim.setParams({
+        wind: cloth.wind,
+        gravity: cloth.gravity,
+        stiffness: cloth.stiffness,
+        floor: cloth.floor,
+      })
+      // Damage first — char, heat, wet and missing paper are levers on the
+      // solve, and a free read when the source has not moved.
+      coupling?.update(props.damage)
+      sim.step(delta)
+      const moved = !sim.asleep
+      if (moved && coupling) {
+        coupling.follow()
+        // A piece a burn cut loose leaves with its own edge: the triangles
+        // left spanning the gap are hidden once it opens — see `tear`.
+        const index = geometry.index
+        if (index && coupling.tear(index.array as Uint16Array | Uint32Array)) index.needsUpdate = true
+      }
+      // The stack first refusal: if there is one, it owns the write, because
+      // its base is the sim's own array and writing that array to the
+      // geometry first would only be overwritten. If there is none, the sim's
+      // positions ARE the vertices, exactly as before.
+      if (!applyShape(sim.positions, moved) && moved) {
+        const position = geometry.attributes.position as THREE.BufferAttribute
+        ;(position.array as Float32Array).set(sim.positions)
+        position.needsUpdate = true
+        computeSheetNormals(geometry)
+      }
+      return
+    }
+
+    // Shape path: the deformer stack over the flat sheet.
+    applyShape(basePositions, false)
+  })
+
+  const localDragPoint = (e: ThreeEvent<PointerEvent>): { x: number; y: number } | null => {
+    const hostGroup = hostRef.current
+    if (rig && hostGroup) {
+      // On an object the sheet's plane is the tangent plane where it is
+      // stuck; the drag is read there, in the sheet's own x and y.
+      const wrap = rig.wrap
+      hostGroup.updateWorldMatrix(true, false)
+      planeNormal.copy(wrap.normal).transformDirection(hostGroup.matrixWorld)
+      dragPoint.copy(wrap.origin).applyMatrix4(hostGroup.matrixWorld)
+      dragPlane.setFromNormalAndCoplanarPoint(planeNormal, dragPoint)
+      const hit = e.ray.intersectPlane(dragPlane, dragPoint)
+      if (!hit) return null
+      hostGroup.worldToLocal(hit).sub(wrap.origin)
+      return { x: hit.dot(wrap.axisX), y: hit.dot(wrap.axisY) }
+    }
+    const group = groupRef.current
+    if (!group) return null
+    planeNormal.set(0, 0, 1).applyQuaternion(group.getWorldQuaternion(quatScratch))
+    dragPlane.setFromNormalAndCoplanarPoint(planeNormal, group.getWorldPosition(dragPoint))
+    const hit = e.ray.intersectPlane(dragPlane, dragPoint)
+    if (!hit) return null
+    group.worldToLocal(hit)
+    return { x: hit.x, y: hit.y }
+  }
+
+  const onHandleDrag = (e: ThreeEvent<PointerEvent>) => {
+    if (!behavior?.handles || !draggingRef.current) return
+    const handleSpec = behavior.handles.find((h) => h.id === draggingRef.current)
+    const local = localDragPoint(e)
+    const o = effectiveOptions(0)
+    if (!handleSpec || !local || !o) return
+    local.x += dragOffset.current.x
+    local.y += dragOffset.current.y
+    Object.assign(overridesRef.current, handleSpec.drag(local, o, configRef.current.sheet))
+    dirtyRef.current = true
+    const p = overridesRef.current[behavior.progressParam]
+    if (typeof p === 'number') props.onProgress?.(p)
+    // Past the point a hand can steer, the rest plays on its own.
+    const commit = behavior.commit
+    if (commit && typeof p === 'number' && p >= commit.from) {
+      draggingRef.current = null
+      if (controls) controls.enabled = true
+      const param = behavior.progressParam
+      const state = { p }
+      tweenTo(state, { p: commit.to }, {
+        duration: commit.duration,
+        ease: 'none',
+        onUpdate: () => {
+          overridesRef.current[param] = state.p
+          dirtyRef.current = true
+          props.onProgress?.(state.p)
+        },
+        onComplete: () => props.onBehaviorChange?.({ ...overridesRef.current }),
+      })
+    }
+  }
+
+  // Cloth grab: pick the particle under the pointer, then drag it on a
+  // camera-facing plane through the grab point — full 3D pull, not just
+  // in-plane.
+  const grabAnchor = useRef(new THREE.Vector3())
+  /**
+   * Where the vertex you grabbed sits relative to the particle behind it.
+   *
+   * Zero unless a deformer is running over the simulation, and then it is
+   * exactly the displacement that deformer applied at the moment of the grab.
+   * The pointer speaks in RENDERED space and the sim only understands its own,
+   * so the offset is what translates between them — carried as a constant
+   * rather than inverted every frame, because a deformer is a map with no
+   * inverse to ask for. Exact when the grab lands and honest as it drifts.
+   */
+  const grabOffset = useRef(new THREE.Vector3())
+  const clothDown = (e: ThreeEvent<PointerEvent>) => {
+    if (!isCloth || !sim || !props.interactive || !groupRef.current) return
+    e.stopPropagation()
+    if (controls) controls.enabled = false
+    grabAnchor.current.copy(e.point) // world-space anchor for the drag plane
+    const local = groupRef.current.worldToLocal(worldScratch.copy(e.point))
+    // Nearest RENDERED vertex, not nearest particle: they are the same sheet
+    // only when nothing is deforming it, and the pointer hit the rendered one.
+    const drawn = geometry.attributes.position!.array as Float32Array
+    const index = nearestVertex(drawn, sim.count, local.x, local.y, local.z)
+    sim.grab(index)
+    const i3 = index * 3
+    grabOffset.current.set(
+      drawn[i3]! - sim.positions[i3]!,
+      drawn[i3 + 1]! - sim.positions[i3 + 1]!,
+      drawn[i3 + 2]! - sim.positions[i3 + 2]!,
+    )
+    draggingRef.current = 'cloth'
+    ;(e.target as Element).setPointerCapture(e.pointerId)
+  }
+  const clothMove = (e: ThreeEvent<PointerEvent>) => {
+    if (draggingRef.current !== 'cloth' || !sim || !groupRef.current) return
+    camera.getWorldDirection(planeNormal)
+    dragPlane.setFromNormalAndCoplanarPoint(planeNormal, grabAnchor.current)
+    const hit = e.ray.intersectPlane(dragPlane, dragPoint)
+    if (!hit) return
+    groupRef.current.worldToLocal(hit)
+    const offset = grabOffset.current
+    sim.moveGrab(hit.x - offset.x, hit.y - offset.y, hit.z - offset.z)
+  }
+  const clothUp = (e: ThreeEvent<PointerEvent>) => {
+    if (draggingRef.current !== 'cloth' || !sim) return
+    draggingRef.current = null
+    if (controls) controls.enabled = true
+    sim.release()
+    ;(e.target as Element).releasePointerCapture(e.pointerId)
+  }
+
+  /**
+   * Take hold of the paper and pull, and the roll turns.
+   *
+   * Same drag plane as cloth — camera-facing, through the point first
+   * touched — which degrades the right way for a strip. Head-on, that plane
+   * holds depth fixed and the gesture is purely up and down, which is the
+   * pull the object is famous for; from three-quarters it opens up and the
+   * paper can be drawn out toward the viewer as well.
+   *
+   * The sim reads only y and z: the strip carries its width along x and never
+   * twists, so there is nothing for a sideways drag to mean.
+   */
+  const stripDown = (e: ThreeEvent<PointerEvent>) => {
+    if (!isStrip || !stripSim || !props.interactive || !groupRef.current) return
+    e.stopPropagation()
+    const local = groupRef.current.worldToLocal(worldScratch.copy(e.point))
+    // Nothing is committed until the grab lands. `grabNearest` returns -1 when
+    // there is no free paper to catch — every node still wound on the roll
+    // belongs to the spiral — and disabling the camera before finding that out
+    // left the controls dead for good: the early return skips both the pointer
+    // capture and `stripUp`, so nothing ever turned them back on.
+    if (stripSim.grabNearest(local.y, local.z) < 0) return
+    if (controls) controls.enabled = false
+    grabAnchor.current.copy(e.point)
+    draggingRef.current = 'strip'
+    ;(e.target as Element).setPointerCapture(e.pointerId)
+  }
+  const stripMove = (e: ThreeEvent<PointerEvent>) => {
+    if (draggingRef.current !== 'strip' || !stripSim || !groupRef.current) return
+    camera.getWorldDirection(planeNormal)
+    dragPlane.setFromNormalAndCoplanarPoint(planeNormal, grabAnchor.current)
+    const hit = e.ray.intersectPlane(dragPlane, dragPoint)
+    if (!hit) return
+    groupRef.current.worldToLocal(hit)
+    stripSim.moveGrab(hit.y, hit.z)
+  }
+  const stripUp = (e: ThreeEvent<PointerEvent>) => {
+    if (draggingRef.current !== 'strip' || !stripSim) return
+    draggingRef.current = null
+    if (controls) controls.enabled = true
+    stripSim.release()
+    ;(e.target as Element).releasePointerCapture(e.pointerId)
+  }
+
+  // Interaction-state triggers (rest ↔ hover ↔ pressed); pick/place/return
+  // are driven by the field's carry controller through `sendState`.
+  const sendState = (event: StateEvent) => machineRef.current?.send(event)
+
+  /**
+   * On an object, the sheet itself is the handle: take hold of the sticker
+   * anywhere and pull. The drag is RELATIVE — it carries the corner from
+   * where it already is by however far the hand moves — so taking hold of the
+   * middle does not snap the peel to wherever the middle is.
+   */
+  const grabsSheet = Boolean(mounted && props.interactive && behavior?.handles?.length)
+  const sheetDown = (e: ThreeEvent<PointerEvent>) => {
+    const spec = behavior?.handles?.[0]
+    const local = localDragPoint(e)
+    if (!spec || !local) return
+    e.stopPropagation()
+    dragOffset.current.x = handleFlat.current.x - local.x
+    dragOffset.current.y = handleFlat.current.y - local.y
+    draggingRef.current = spec.id
+    pause()
+    if (controls) controls.enabled = false
+    ;(e.target as Element).setPointerCapture(e.pointerId)
+  }
+  const handleUp = (e: ThreeEvent<PointerEvent>) => {
+    if (!draggingRef.current) return
+    draggingRef.current = null
+    if (controls) controls.enabled = true
+    ;(e.target as Element).releasePointerCapture(e.pointerId)
+    props.onBehaviorChange?.({ ...overridesRef.current })
+  }
+
+  const sheetMesh = (
+    <mesh
+      ref={meshRef}
+      // A mounted sheet waits for its object rather than floating flat for a frame.
+      visible={!mounted || Boolean(rig)}
+      geometry={geometry}
+      castShadow
+      receiveShadow
+      frustumCulled={false}
+      onPointerOver={statesLive ? () => sendState('enter') : undefined}
+      onPointerOut={statesLive ? () => sendState('leave') : undefined}
+      onPointerDown={
+        isCloth || isStrip || statesLive || grabsSheet
+          ? (e) => {
+              if (isCloth) clothDown(e)
+              if (isStrip) stripDown(e)
+              if (grabsSheet) sheetDown(e)
+              if (statesLive) sendState('down')
+            }
+          : undefined
+      }
+      onPointerMove={isCloth ? clothMove : isStrip ? stripMove : grabsSheet ? onHandleDrag : undefined}
+      onPointerUp={
+        isCloth || isStrip || statesLive || grabsSheet
+          ? (e) => {
+              if (isCloth) clothUp(e)
+              if (isStrip) stripUp(e)
+              if (grabsSheet) handleUp(e)
+              if (statesLive) sendState('up')
+            }
+          : undefined
+      }
+    >
+      <PaperMaterial
+        stock={stock}
+        texture={texture}
+        backTexture={backTexture}
+        surface={config.surface}
+        thickness={config.sheet.thickness}
+        sheet={config.sheet}
+        lighting={config.scene.lighting}
+        creases={shadedCreases}
+        damage={props.damage}
+        press={press}
+      />
+    </mesh>
+  )
+
+  const handles =
+    props.interactive &&
+    // Any simulation, not cloth alone: a sim owns the vertices, so there
+    // is no deformer stack for a handle to drive. Harmless as `!isCloth`
+    // only because the schema makes a sim and a behavior exclusive — the
+    // intent is what is written here.
+    !simKind &&
+    // On an object the sheet is its own handle — see `grabsSheet`.
+    !mounted &&
+    behavior?.handles?.map((h, i) => (
+      <mesh
+        key={h.id}
+        // Marked as chrome so a renderer that is producing a PICTURE can
+        // leave it out. The handle is an editing affordance, and it is
+        // drawn with `depthTest: false` precisely so it sits on top of
+        // the sheet — which makes it the most prominent thing in any
+        // frame captured for export. The editor's capture rig reads this.
+        userData={{ paperlabChrome: true }}
+        ref={(m) => {
+          handleRefs.current[i] = m
+        }}
+        onPointerDown={(e) => {
+          e.stopPropagation()
+          dragOffset.current.x = 0
+          dragOffset.current.y = 0
+          draggingRef.current = h.id
+          pause()
+          if (controls) controls.enabled = false
+          ;(e.target as Element).setPointerCapture(e.pointerId)
+        }}
+        onPointerMove={onHandleDrag}
+        onPointerUp={handleUp}
+      >
+        <sphereGeometry args={[0.035, 16, 16]} />
+        <meshBasicMaterial color="#4f7cff" depthTest={false} transparent opacity={0.9} />
+      </mesh>
+    ))
+
+  if (mount && host) {
+    return (
+      <group ref={groupRef} position={props.position} rotation={baseRotation}>
+        {/* Host space: the object, the sheet laid on it, and its handles, leaning together. */}
+        <group ref={hostRef} rotation={hostRotation}>
+          <MountScene
+            mount={mount}
+            host={host}
+            rig={rig}
+            cut={config.surface.dieCut ? texture : null}
+            press={press}
+            interactive={Boolean(props.interactive)}
+          />
+          {sheetMesh}
+          {handles}
+        </group>
+      </group>
+    )
+  }
+
+  return (
+    <group ref={groupRef} position={props.position} rotation={baseRotation}>
+      {sheetMesh}
+      {handles}
+    </group>
+  )
+})
+
+/**
+ * A stack with the sheet's CONFIGURED creases folded in — the probe's view of
+ * memory.
+ *
+ * The frame loop does not use this: it has the tracker's live creases, which
+ * are ahead of config by however long the host takes to persist them. Both
+ * paths agree on the lines, which is the only thing the geometry probe reads.
+ */
+function withMemory(
+  stack: DeformerInstance[] | null,
+  config: PaperConfig,
+  creases: CreaseConfig[] = config.memory.creases,
+): DeformerInstance[] | null {
+  // A strip owns its vertices outright; cloth hands them on to the stack.
+  // Which means a crease on a CLOTH sheet is now a fold the geometry runs,
+  // not just a mark the shader draws — the paper remembers a fold whether or
+  // not it is being simulated.
+  if (isStripConfig(config.physics)) return null
+  const out = applyMemory(stack ?? [], creases)
+  // Empty and null mean different things upstream — null is "nothing deforms
+  // this sheet", which is the answer that gets it the flat-sheet grid.
+  return out.length > 0 ? out : null
+}
+
+/**
+ * The vertex nearest a local-space point, by index.
+ *
+ * Reads the array it is handed rather than the simulation, which is the point
+ * of it: what a pointer touched is what is on screen.
+ */
+function nearestVertex(array: Float32Array, count: number, x: number, y: number, z: number): number {
+  let best = -1
+  let bestDist = Infinity
+  for (let i = 0; i < count; i++) {
+    const i3 = i * 3
+    const dx = array[i3]! - x
+    const dy = array[i3 + 1]! - y
+    const dz = array[i3 + 2]! - z
+    const d = dx * dx + dy * dy + dz * dz
+    if (d < bestDist) {
+      bestDist = d
+      best = i
+    }
+  }
+  return best
+}
+
+/** The one simulation that will not share its vertices. See the schema. */
+function isStripConfig(physics: PaperConfig['physics']): boolean {
+  return typeof physics === 'object' && physics.type === 'strip'
+}
+
+/** Expand the config into the deformer stack that should run this frame. */
+function buildStack(
+  config: PaperConfig,
+  overrides: Record<string, unknown>,
+  behavior?: Behavior | null,
+  t = 0,
+): DeformerInstance[] | null {
+  // A strip owns the vertices outright — no deformer stack. Cloth does not:
+  // it writes the vertices and the stack runs over what it wrote.
+  if (isStripConfig(config.physics)) return null
+  const idle =
+    typeof config.physics === 'string' && config.physics !== 'none'
+      ? getIdlePreset(config.physics as IdleName)
+      : null
+  const idleStack = idle?.stack?.() ?? []
+
+  let shapeStack: DeformerInstance[] = []
+  if (config.deformers) {
+    // Raw deformer stack wins — it's the Advanced fork of a behavior.
+    shapeStack = resolveDeformerStack(config.deformers)
+  } else if (config.behavior) {
+    const b = behavior ?? getBehavior(config.behavior.type)
+    let options: Record<string, unknown> = { ...config.behavior, ...overrides }
+    if (b.loop) options = { ...options, ...b.loop(options, t) }
+    shapeStack = b.stack(options, config.sheet)
+  }
+
+  const combined = [...shapeStack, ...idleStack]
+  return combined.length > 0 ? combined : null
+}

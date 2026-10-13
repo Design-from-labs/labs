@@ -1,0 +1,98 @@
+{
+  "$schema": "https://labs.designfrom.com/schemas/meta.schema.json",
+  "schemaVersion": 1,
+  "name": "svg-mask-scroll-transition",
+  "kind": "component",
+  "title": "SVG Mask Scroll Transition",
+  "description": "Full-screen images that replace each other through SVG masks as you scroll: blinds opening from their centres or a grid of cells, with sliding text and a progress bar.",
+  "status": "beta",
+  "category": "blocks",
+  "label": "Hiro-kiii scroll transitions",
+  "variants": [
+    {
+      "name": "svg-mask-scroll-transition",
+      "primitive": "none",
+      "iconSet": "none",
+      "status": "beta"
+    }
+  ],
+  "defaultVariant": "svg-mask-scroll-transition",
+  "demo": "demo.tsx",
+  "preview": "preview.webp",
+  "source": {
+    "repo": "https://github.com/Hiro-kiii/Scroll-Transition",
+    "commit": "6bb67c598f767a014ac595c904d85b86119670ee",
+    "path": "js/script.js"
+  },
+  "author": "Hiroki <https://github.com/Hiro-kiii>",
+  "license": "MIT",
+  "attribution": "Copyright (c) 2009 - 2025 Codrops. MIT License.",
+  "credits": [
+    "S-262",
+    "S-260",
+    "S-157",
+    "S-104",
+    "S-266",
+    "S-003",
+    "S-004",
+    "S-014",
+    "S-152",
+    "S-240"
+  ],
+  "date": "2026-10-13",
+  "tile": {
+    "span": 2,
+    "rows": 2,
+    "surface": "dark"
+  },
+  "loop": {
+    "duration": 18000,
+    "hydrate": true
+  },
+  "tags": [
+    "scroll",
+    "svg",
+    "mask",
+    "transition",
+    "motion",
+    "scroll-driven"
+  ],
+  "props": [
+    {
+      "name": "slides",
+      "type": "{ src: string; alt?: string; title?: ReactNode; label?: ReactNode; description?: ReactNode }[]",
+      "required": true,
+      "description": "One slide per image (three in the original), revealed in order; the text slides in after each image opens and out before the next."
+    },
+    {
+      "name": "pattern",
+      "type": "\"horizontal-blinds\" | \"random-grid\" | \"vertical-blinds\" | \"column-grid\"",
+      "default": "\"horizontal-blinds\"",
+      "description": "The mask: 30 horizontal blinds opening bottom to top; a grid fading in at random; 12 vertical blinds with crossfading text (the first image starts shown); or the grid column by column."
+    },
+    {
+      "name": "container",
+      "type": "React.RefObject<HTMLElement | null>",
+      "description": "The element that scrolls, when it is not the window. Give it container-type: size so the stage follows its size."
+    },
+    {
+      "name": "seed",
+      "type": "number",
+      "default": "1",
+      "description": "Seed for the random cell orders of the grid patterns (stable across server and client renders)."
+    },
+    {
+      "name": "headingLevel",
+      "type": "1 | 2 | 3 | 4 | 5 | 6",
+      "default": "2",
+      "description": "The heading level of the slide titles."
+    }
+  ],
+  "a11y": [
+    "Each slide's title is a real heading, and its label and description are text, all in reading order; an image with alt text is role=\"img\" with that name, and one without is decorative.",
+    "Under prefers-reduced-motion nothing moves with scroll: the slides are shown one after another, each image in full with its text.",
+    "Scrolling stays native; the masks only follow the scroll position. Mask ids are unique per instance.",
+    "White text over images darkened to 80% brightness; under prefers-contrast: more the images are darkened further (55%) and the progress track is stronger."
+  ],
+  "usage": "<SvgMaskScrollTransition pattern=\"vertical-blinds\" slides={[{ src: \"/a.jpg\", title: \"First\" }, { src: \"/b.jpg\", title: \"Second\" }]} />"
+}

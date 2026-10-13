@@ -1,0 +1,73 @@
+{
+  "title": "Smooth Scroll",
+  "description": "Smooth, interpolated scrolling for the page or a scroll container, built on Lenis: native scroll underneath, with a hook for the instance and scroll events.",
+  "category": "layout",
+  "type": "registry:ui",
+  "status": "beta",
+  "upstreamPath": "packages/react/src/provider.tsx",
+  "iconSets": ["none"],
+  "dependencies": ["lenis@^1.3.26"],
+  "variants": [
+    {
+      "primitive": "none",
+      "roots": ["src"],
+      "status": "beta"
+    }
+  ],
+  "defaultVariant": "smooth-scroll",
+  "demo": "demo.tsx",
+  "tile": {
+    "span": 1,
+    "rows": 1
+  },
+  "loop": {
+    "duration": 6400,
+    "hydrate": true
+  },
+  "credits": [
+    "S-266",
+    "S-260",
+    "S-157",
+    "S-003",
+    "S-004",
+    "S-014",
+    "S-152",
+    "S-240"
+  ],
+  "tags": ["scroll", "smooth-scroll", "lenis", "provider", "reduced-motion"],
+  "props": [
+    {
+      "name": "root",
+      "type": "boolean | \"asChild\"",
+      "default": "false",
+      "description": "true smooths the page (the <html> scroller) and makes the instance global; false renders a wrapper and a content div that scroll on their own; \"asChild\" renders the wrapper but still makes the instance global."
+    },
+    {
+      "name": "options",
+      "type": "LenisOptions",
+      "description": "Lenis options: lerp (0 to 1, default 0.1), duration, easing, wheelMultiplier, touchMultiplier, orientation, gestureOrientation, smoothWheel, syncTouch, infinite, autoRaf (default true), anchors, respectReducedMotion (default true)..."
+    },
+    {
+      "name": "className",
+      "type": "string",
+      "description": "Classes for the wrapper div (not rendered with root={true}). Give it a height and overflow-y: auto."
+    },
+    {
+      "name": "ref",
+      "type": "React.Ref<LenisRef>",
+      "description": "{ wrapper, content, lenis }: the two divs and the Lenis instance."
+    },
+    {
+      "name": "useSmoothScroll(callback?, deps?, priority?)",
+      "type": "(lenis: Lenis) => void",
+      "description": "Returns the nearest Lenis instance (or the global one); the callback runs on every scroll. Same as the upstream useLenis, also exported."
+    }
+  ],
+  "a11y": [
+    "Scrolling stays native: the keyboard (arrows, Page Up/Down, Space, Home, End), find in page, anchors and assistive technology scroll as usual; Lenis only interpolates wheel and programmatic scrolling.",
+    "Honours prefers-reduced-motion (Lenis's respectReducedMotion, on by default): wheel input tracks one to one and scrollTo jumps instead of animating.",
+    "In wrapper mode, give the wrapper tabIndex={0}, a role and a label (as the demo does) so keyboard users can focus and scroll it."
+  ],
+  "usage": "<SmoothScroll root options={{ lerp: 0.1 }} />",
+  "docs": "Installed `SmoothScroll` in `components/ui/smooth-scroll.tsx` (with the upstream `ReactLenis`, `useLenis` and `LenisContext`), and the `lenis` package. For the whole page, render `<SmoothScroll root />` once near the top of your app; for a scroll container, wrap its content: `<SmoothScroll className=\"h-96 overflow-y-auto\">...</SmoothScroll>`.\n\nRead the instance with `useSmoothScroll()` (for example `lenis.scrollTo(\"#pricing\")`), or pass a callback to run on every scroll. Lenis's stylesheet is included; under reduced motion wheel input tracks one to one.\n\nPorted from darkroomengineering/lenis (MIT, copyright 2024 darkroom.engineering); the license text is in the file."
+}
