@@ -140,3 +140,4 @@ paths (pitfall P-044); until then they are reviewed on preview deployments.
 | `number-flow` | `number-flow` | barvian/number-flow 0.6.2 (a wrapper over npm `@number-flow/react`) |
 | `lightweight-charts` | `financial-chart` | tradingview/lightweight-charts 5.2.1 (a wrapper over npm `lightweight-charts`; Apache-2.0 with a NOTICE, attribution logo kept) |
 | `react-virtuoso` | `virtual-list` | petyosi/react-virtuoso 4.18.16 (a wrapper over npm `react-virtuoso`) |
+| `liquid-taffy` | `anchored-dropdown`, `morphing-dropdown`, `speed-dial`, `liquid-taffy-engine` | arknow91/liquid-taffy, `src/components` (variants shape; the choreography rewritten on Motion; the engine is a `lib` foundation item the three share) |

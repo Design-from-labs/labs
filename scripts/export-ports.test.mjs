@@ -267,3 +267,30 @@ test("exportPort: MessageActions keeps upstream's glyphs by default and offers a
     }
   }
 });
+
+test('exportPort: a `kind: "lib"` item has no demo or preview, and shared roots resolve', () => {
+  const taffy = source("liquid-taffy");
+  const engine = exportPort("liquid-taffy", "liquid-taffy-engine", taffy);
+  const meta = JSON.parse(engine["meta.json"]);
+  assert.equal(meta.kind, "lib");
+  assert.equal(meta.demo, undefined);
+  assert.equal(meta.preview, undefined);
+  assert.deepEqual(Object.keys(engine).sort(), [
+    "items/liquid-taffy-engine.json",
+    "meta.json",
+  ]);
+  const item = JSON.parse(engine["items/liquid-taffy-engine.json"]);
+  assert.equal(item.type, "registry:lib");
+  assert.ok(item.files.every((f) => f.type === "registry:lib"));
+  // A component depends on it and imports its files through `@/lib/<name>`.
+  const dial = exportPort("liquid-taffy", "speed-dial", taffy);
+  const dialItem = JSON.parse(dial["items/speed-dial.json"]);
+  assert.deepEqual(dialItem.registryDependencies, ["liquid-taffy-engine"]);
+  assert.equal(JSON.parse(dial["meta.json"]).kind, "component");
+  const names = new Set(item.files.map((f) => f.path.split("/").pop()));
+  for (const file of dialItem.files) {
+    for (const [, spec] of file.content.matchAll(/from "@\/lib\/([a-z-]+)"/g)) {
+      assert.ok(names.has(`${spec}.ts`), `${file.path} imports ${spec}`);
+    }
+  }
+});

@@ -22,6 +22,9 @@
 //             a variant may name a `style` (with a switcher `label`) and its
 //             own `iconSets`, so one style can draw its own glyphs (icon set
 //             none) while another uses an icon library
+//   Either shape may set `"kind": "lib"` (with `"type": "registry:lib"`): a
+//   foundation item for code several ports of one source share. It has no
+//   demo and no preview.
 //
 // --check ignores `date`, which follows the last commit that touched a port.
 import { execFileSync } from "node:child_process";
@@ -388,8 +391,14 @@ export function exportPort(sourceId, name, source) {
       });
     }
   }
-  const demos =
-    typeof spec.demo === "string" ? [spec.demo] : Object.values(spec.demo);
+  // A foundation item (`"kind": "lib"`, for code several ports share) has no
+  // demo and no preview.
+  const kind = spec.kind ?? "component";
+  const demos = !spec.demo
+    ? []
+    : typeof spec.demo === "string"
+      ? [spec.demo]
+      : Object.values(spec.demo);
   for (const demo of new Set(demos)) {
     out[demo] = readFileSync(join(dir, demo), "utf8");
   }
@@ -397,7 +406,7 @@ export function exportPort(sourceId, name, source) {
     $schema: `${SITE_URL}/schemas/meta.schema.json`,
     schemaVersion: 1,
     name,
-    kind: "component",
+    kind,
     title: spec.title,
     description: spec.description,
     status: spec.status,
@@ -405,8 +414,7 @@ export function exportPort(sourceId, name, source) {
     label: source.name,
     variants,
     defaultVariant: spec.defaultVariant ?? variants[0].name,
-    demo: spec.demo,
-    preview: "preview.webp",
+    ...(spec.demo ? { demo: spec.demo, preview: "preview.webp" } : {}),
     source: {
       repo: source.repo,
       commit: source.ref,

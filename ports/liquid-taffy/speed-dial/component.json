@@ -1,0 +1,129 @@
+{
+  "title": "Speed Dial",
+  "description": "A plus button that breaks into up to three droplets which ooze out, launch past full size and ring still, each an action. Gooey SVG liquid with springs; press and drag to pull a liquid finger.",
+  "category": "actions",
+  "type": "registry:ui",
+  "status": "beta",
+  "upstreamPath": "src/components/LiquidMenu",
+  "iconSets": ["none"],
+  "registryDependencies": ["liquid-taffy-engine"],
+  "variants": [
+    {
+      "primitive": "none",
+      "roots": ["../shared/src/glyphs/none", "../shared/src/menu/none", "src"],
+      "status": "beta"
+    }
+  ],
+  "demo": "demo.tsx",
+  "tile": {
+    "span": 1,
+    "rows": 1,
+    "surface": "dark"
+  },
+  "loop": {
+    "script": "click[3] → wait → click[1] → wait",
+    "duration": 5600,
+    "hydrate": true
+  },
+  "cssVars": {
+    "light": {
+      "speed-dial-fill": "#ffffff",
+      "speed-dial-rim": "#dadada",
+      "speed-dial-icon": "#252731",
+      "speed-dial-icon-hover": "#000000",
+      "speed-dial-hover-tint": "rgb(0 0 0 / 2.5%)",
+      "speed-dial-seam": "#785dd6",
+      "speed-dial-shadow": "drop-shadow(0 3px 3.125px rgb(0 0 0 / 8%))",
+      "speed-dial-tooltip": "#0b0b0c",
+      "speed-dial-tooltip-foreground": "#ffffff",
+      "speed-dial-focus-ring": "#1172fa"
+    },
+    "dark": {
+      "speed-dial-fill": "#212326",
+      "speed-dial-rim": "#2f3235",
+      "speed-dial-icon": "#ffffff",
+      "speed-dial-icon-hover": "#ffffff",
+      "speed-dial-hover-tint": "rgb(255 255 255 / 2%)",
+      "speed-dial-seam": "#8a68ff",
+      "speed-dial-shadow": "none",
+      "speed-dial-tooltip": "#ffffff",
+      "speed-dial-tooltip-foreground": "#0b0b0c",
+      "speed-dial-focus-ring": "#1172fa"
+    }
+  },
+  "credits": [
+    "S-421",
+    "S-422",
+    "S-423",
+    "S-425",
+    "S-426",
+    "S-104",
+    "S-003",
+    "S-004",
+    "S-014",
+    "S-015",
+    "S-152",
+    "S-153",
+    "S-157",
+    "S-158",
+    "S-184",
+    "S-444"
+  ],
+  "tags": ["speed-dial", "fab", "menu", "gooey", "liquid", "spring"],
+  "props": [
+    {
+      "name": "items",
+      "type": "readonly { id: string; label: string; shape: \"circle\" | \"cross\" | \"triangle\" | \"square\" }[]",
+      "default": "square, triangle, circle",
+      "description": "One to three actions, placed left, up and right of the button (mirrored in right-to-left)."
+    },
+    {
+      "name": "onAction",
+      "type": "(id: string) => void",
+      "description": "Called with the id of the action chosen; the dial then closes."
+    },
+    {
+      "name": "open / defaultOpen / onOpenChange",
+      "type": "boolean / (open: boolean) => void",
+      "default": "false",
+      "description": "Whether the fan is out, controlled or uncontrolled."
+    },
+    {
+      "name": "label",
+      "type": "string",
+      "default": "\"Shapes\"",
+      "description": "The trigger button's accessible name."
+    },
+    {
+      "name": "menuLabel",
+      "type": "string",
+      "default": "\"Shapes menu\"",
+      "description": "The menu's accessible name."
+    },
+    {
+      "name": "theme",
+      "type": "\"light\" | \"dark\"",
+      "description": "The frame. By default the page's: dark inside a `.dark` ancestor, light elsewhere, followed live."
+    },
+    {
+      "name": "sound",
+      "type": "boolean",
+      "default": "false",
+      "description": "Synthesized liquid sounds on open, close, grab, weld and release (Web Audio, no samples). Off by default; it plays only inside a user gesture."
+    },
+    {
+      "name": "className",
+      "type": "string",
+      "description": "Added to the 32px anchor element, so you can position it; the actions fan out of it."
+    }
+  ],
+  "a11y": [
+    "The trigger is a button with aria-haspopup=\"menu\", aria-expanded and aria-controls, named by `label`. The fan is a role=menu named by `menuLabel` whose actions are menuitem buttons named by their `label`. Enter, Space and ArrowDown on the trigger open it on the first action, ArrowUp on the last; the arrow keys move and wrap, Home and End jump, Enter and Space choose an action (the dial then closes and focus returns to the trigger), Escape closes, Tab closes and moves on.",
+    "A tooltip shows each action's name on hover and on keyboard focus; the name is also the accessible name, so the tooltip is a convenience, not the only label. The press-and-drag gesture is pointer-only and decorative.",
+    "Reduced motion: the satellites appear and leave in place, without the ooze, the stretch or the springs.",
+    "Contrast on request: under prefers-contrast: more the rim darkens; under forced colors the liquid picture steps aside for system-colour borders. The default keeps upstream's pale rim and ink.",
+    "Right to left: the fan mirrors, so the first action sits at the inline start."
+  ],
+  "usage": "<SpeedDial onAction={(id) => console.log(id)} />",
+  "docs": "Installed `SpeedDial` in `components/ui/` with its stylesheet, glyphs and menu wiring next to it, and the shared engine (`liquid-taffy-engine`, in `lib/`) as a dependency; one engine serves all three liquid surfaces.\n\n```tsx\nimport { SpeedDial } from \"@/components/ui/speed-dial\";\n\n<SpeedDial onAction={(id) => console.log(id)} />\n```\n\nThe 32px button breaks into up to three droplets that fan out left, up and right (mirrored in right-to-left). Choose an action and the dial closes. Place it with `className` and leave room around it for the fan. It follows the page's theme (a `.dark` ancestor makes it dark) or the `theme` prop; the palette is the `--speed-dial-*` variables. Sound is off unless you pass `sound`.\n\nPress and hold the button or a droplet and drag: a liquid finger stretches out of the edge and snaps back on release.\n\nPorted from liquid-taffy by arknow91 (MIT); the license notice is at the end of every file."
+}

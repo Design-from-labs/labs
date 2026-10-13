@@ -1,0 +1,73 @@
+{
+  "kind": "lib",
+  "title": "Liquid Taffy Engine",
+  "description": "The shared engine of the liquid surfaces: a timeline on Motion's frame loop, the spring curves, the goo filter settings, the seam light, the grab-and-stretch gesture, the frame (light or dark) and an optional synthesized voice.",
+  "category": "foundations",
+  "type": "registry:lib",
+  "status": "beta",
+  "upstreamPath": "src/components/liquid",
+  "iconSets": ["none"],
+  "tile": {
+    "span": 2,
+    "rows": 2
+  },
+  "dependencies": ["motion@>=12.34.0"],
+  "variants": [
+    {
+      "primitive": "none",
+      "roots": ["src"],
+      "status": "beta"
+    }
+  ],
+  "credits": [
+    "S-421",
+    "S-422",
+    "S-425",
+    "S-426",
+    "S-104",
+    "S-003",
+    "S-004",
+    "S-444",
+    "S-157",
+    "S-184"
+  ],
+  "tags": ["liquid", "goo", "timeline", "spring", "engine", "foundation"],
+  "props": [
+    {
+      "name": "taffyTimeline / taffyTo / taffySet",
+      "type": "(targets, vars) => TaffyTimeline",
+      "description": "The tween timeline (positions in seconds, `overwrite: \"auto\"`, `autoAlpha`, transforms around an origin, named, bezier and sampled eases), written on Motion's frame loop."
+    },
+    {
+      "name": "HOUSE_SPRING / POP_SPRING",
+      "type": "TaffyEase",
+      "description": "The two sampled spring curves the surfaces move on: a settled house spring and a springier pop."
+    },
+    {
+      "name": "setGooBlur / GOO_RIM_THRESHOLDS",
+      "type": "functions and a table",
+      "description": "The goo filter: one blur and one pair of rim thresholds, solved together so the 1px border keeps its weight at every blur."
+    },
+    {
+      "name": "createLiquidSeam / createLiquidStretch",
+      "type": "engine factories",
+      "description": "The seam light between two touching bodies, and the press-and-drag gesture that pulls a liquid finger out of an edge and snaps it back."
+    },
+    {
+      "name": "useLiquidFrame / LiquidThemeProvider",
+      "type": "hook and context",
+      "description": "The frame a surface stands on: its own `theme`, else the provider's, else the page (a `.dark` ancestor)."
+    },
+    {
+      "name": "gooSfx",
+      "type": "GooSfx",
+      "description": "The synthesized voice (Web Audio, no samples). It plays only inside a user gesture and never on its own; `mute()` and `volume(0..1)` control it."
+    }
+  ],
+  "a11y": [
+    "The engine draws only; the surfaces that use it own the roles, names and keyboard behaviour.",
+    "Motion is skipped under prefers-reduced-motion (`prefersReducedMotion()`), and sound plays only after a user gesture."
+  ],
+  "usage": "import { taffyTimeline } from \"@/lib/taffy-tween\";\n\nconst tl = taffyTimeline();\ntl.to(el, { scale: 1.1, duration: 0.2 }, 0);",
+  "docs": "Installed the shared engine of the liquid surfaces in `lib/` (`taffy-tween.ts`, `taffy-springs.ts`, `taffy-goo.ts`, `taffy-seam.ts`, `taffy-stretch.ts`, `taffy-theme.ts`, `taffy-hues.ts`, `taffy-sfx.ts` and helpers).\n\nYou rarely add this by hand: `anchored-dropdown`, `morphing-dropdown` and `speed-dial` list it as a dependency, so the shadcn CLI installs it once for all three. Import from `@/lib/taffy-*`; the timeline needs `motion` (12.34 or later).\n\nPorted from liquid-taffy by arknow91 (MIT); upstream's tween library is proprietary and is replaced here by a small timeline on Motion's frame loop. The license notice is at the end of every file."
+}

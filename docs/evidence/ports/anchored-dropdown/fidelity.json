@@ -1,0 +1,450 @@
+{
+  "light-anchored-closed": {
+    "upstream": "upstream demo",
+    "port": "port demo",
+    "scheme": "light",
+    "threshold": 0.1,
+    "seed": "7",
+    "clock": null,
+    "reducedMotion": false,
+    "pause": null,
+    "results": {
+      "1280x800": {
+        "differingPixels": 0,
+        "totalPixels": 1024000,
+        "percent": 0,
+        "sizes": {
+          "upstream": [1280, 800],
+          "port": [1280, 800]
+        },
+        "pass": true
+      },
+      "375x812": {
+        "differingPixels": 0,
+        "totalPixels": 304500,
+        "percent": 0,
+        "sizes": {
+          "upstream": [375, 812],
+          "port": [375, 812]
+        },
+        "pass": true
+      }
+    }
+  },
+  "dark-anchored-closed": {
+    "upstream": "upstream demo",
+    "port": "port demo",
+    "scheme": "light",
+    "threshold": 0.1,
+    "seed": "7",
+    "clock": null,
+    "reducedMotion": false,
+    "pause": null,
+    "results": {
+      "1280x800": {
+        "differingPixels": 0,
+        "totalPixels": 1024000,
+        "percent": 0,
+        "sizes": {
+          "upstream": [1280, 800],
+          "port": [1280, 800]
+        },
+        "pass": true
+      },
+      "375x812": {
+        "differingPixels": 0,
+        "totalPixels": 304500,
+        "percent": 0,
+        "sizes": {
+          "upstream": [375, 812],
+          "port": [375, 812]
+        },
+        "pass": true
+      }
+    }
+  },
+  "light-anchored-open": {
+    "upstream": "upstream demo",
+    "port": "port demo",
+    "scheme": "light",
+    "threshold": 0.1,
+    "seed": "7",
+    "clock": null,
+    "reducedMotion": false,
+    "pause": null,
+    "results": {
+      "1280x800": {
+        "differingPixels": 82,
+        "totalPixels": 1024000,
+        "percent": 0.008,
+        "sizes": {
+          "upstream": [1280, 800],
+          "port": [1280, 800]
+        },
+        "pass": true
+      },
+      "375x812": {
+        "differingPixels": 5,
+        "totalPixels": 304500,
+        "percent": 0.0016,
+        "sizes": {
+          "upstream": [375, 812],
+          "port": [375, 812]
+        },
+        "pass": true
+      }
+    }
+  },
+  "dark-anchored-open": {
+    "upstream": "upstream demo",
+    "port": "port demo",
+    "scheme": "light",
+    "threshold": 0.1,
+    "seed": "7",
+    "clock": null,
+    "reducedMotion": false,
+    "pause": null,
+    "results": {
+      "1280x800": {
+        "differingPixels": 92,
+        "totalPixels": 1024000,
+        "percent": 0.009,
+        "sizes": {
+          "upstream": [1280, 800],
+          "port": [1280, 800]
+        },
+        "pass": true
+      },
+      "375x812": {
+        "differingPixels": 176,
+        "totalPixels": 304500,
+        "percent": 0.0578,
+        "sizes": {
+          "upstream": [375, 812],
+          "port": [375, 812]
+        },
+        "pass": true
+      }
+    }
+  },
+  "light-anchored-hover": {
+    "upstream": "upstream demo",
+    "port": "port demo",
+    "scheme": "light",
+    "threshold": 0.1,
+    "seed": "7",
+    "clock": null,
+    "reducedMotion": false,
+    "pause": null,
+    "results": {
+      "1280x800": {
+        "differingPixels": 405,
+        "totalPixels": 1024000,
+        "percent": 0.0396,
+        "sizes": {
+          "upstream": [1280, 800],
+          "port": [1280, 800]
+        },
+        "pass": true
+      },
+      "375x812": {
+        "differingPixels": 161,
+        "totalPixels": 304500,
+        "percent": 0.0529,
+        "sizes": {
+          "upstream": [375, 812],
+          "port": [375, 812]
+        },
+        "pass": true
+      }
+    }
+  },
+  "dark-anchored-hover": {
+    "upstream": "upstream demo",
+    "port": "port demo",
+    "scheme": "light",
+    "threshold": 0.1,
+    "seed": "7",
+    "clock": null,
+    "reducedMotion": false,
+    "pause": null,
+    "results": {
+      "1280x800": {
+        "differingPixels": 138,
+        "totalPixels": 1024000,
+        "percent": 0.0135,
+        "sizes": {
+          "upstream": [1280, 800],
+          "port": [1280, 800]
+        },
+        "pass": true
+      },
+      "375x812": {
+        "differingPixels": 54,
+        "totalPixels": 304500,
+        "percent": 0.0177,
+        "sizes": {
+          "upstream": [375, 812],
+          "port": [375, 812]
+        },
+        "pass": true
+      }
+    }
+  },
+  "light-anchored-sel1": {
+    "upstream": "upstream demo",
+    "port": "port demo",
+    "scheme": "light",
+    "threshold": 0.1,
+    "seed": "7",
+    "clock": null,
+    "reducedMotion": false,
+    "pause": null,
+    "results": {
+      "1280x800": {
+        "differingPixels": 143,
+        "totalPixels": 1024000,
+        "percent": 0.014,
+        "sizes": {
+          "upstream": [1280, 800],
+          "port": [1280, 800]
+        },
+        "pass": true
+      },
+      "375x812": {
+        "differingPixels": 223,
+        "totalPixels": 304500,
+        "percent": 0.0732,
+        "sizes": {
+          "upstream": [375, 812],
+          "port": [375, 812]
+        },
+        "pass": true
+      }
+    }
+  },
+  "dark-anchored-sel1": {
+    "upstream": "upstream demo",
+    "port": "port demo",
+    "scheme": "light",
+    "threshold": 0.1,
+    "seed": "7",
+    "clock": null,
+    "reducedMotion": false,
+    "pause": null,
+    "results": {
+      "1280x800": {
+        "differingPixels": 65,
+        "totalPixels": 1024000,
+        "percent": 0.0063,
+        "sizes": {
+          "upstream": [1280, 800],
+          "port": [1280, 800]
+        },
+        "pass": true
+      },
+      "375x812": {
+        "differingPixels": 0,
+        "totalPixels": 304500,
+        "percent": 0,
+        "sizes": {
+          "upstream": [375, 812],
+          "port": [375, 812]
+        },
+        "pass": true
+      }
+    }
+  },
+  "light-anchored-sel2": {
+    "upstream": "upstream demo",
+    "port": "port demo",
+    "scheme": "light",
+    "threshold": 0.1,
+    "seed": "7",
+    "clock": null,
+    "reducedMotion": false,
+    "pause": null,
+    "results": {
+      "1280x800": {
+        "differingPixels": 132,
+        "totalPixels": 1024000,
+        "percent": 0.0129,
+        "sizes": {
+          "upstream": [1280, 800],
+          "port": [1280, 800]
+        },
+        "pass": true
+      },
+      "375x812": {
+        "differingPixels": 11,
+        "totalPixels": 304500,
+        "percent": 0.0036,
+        "sizes": {
+          "upstream": [375, 812],
+          "port": [375, 812]
+        },
+        "pass": true
+      }
+    }
+  },
+  "dark-anchored-sel2": {
+    "upstream": "upstream demo",
+    "port": "port demo",
+    "scheme": "light",
+    "threshold": 0.1,
+    "seed": "7",
+    "clock": null,
+    "reducedMotion": false,
+    "pause": null,
+    "results": {
+      "1280x800": {
+        "differingPixels": 116,
+        "totalPixels": 1024000,
+        "percent": 0.0113,
+        "sizes": {
+          "upstream": [1280, 800],
+          "port": [1280, 800]
+        },
+        "pass": true
+      },
+      "375x812": {
+        "differingPixels": 217,
+        "totalPixels": 304500,
+        "percent": 0.0713,
+        "sizes": {
+          "upstream": [375, 812],
+          "port": [375, 812]
+        },
+        "pass": true
+      }
+    }
+  },
+  "light-anchored-sel4": {
+    "upstream": "upstream demo",
+    "port": "port demo",
+    "scheme": "light",
+    "threshold": 0.1,
+    "seed": "7",
+    "clock": null,
+    "reducedMotion": false,
+    "pause": null,
+    "results": {
+      "1280x800": {
+        "differingPixels": 14,
+        "totalPixels": 1024000,
+        "percent": 0.0014,
+        "sizes": {
+          "upstream": [1280, 800],
+          "port": [1280, 800]
+        },
+        "pass": true
+      },
+      "375x812": {
+        "differingPixels": 92,
+        "totalPixels": 304500,
+        "percent": 0.0302,
+        "sizes": {
+          "upstream": [375, 812],
+          "port": [375, 812]
+        },
+        "pass": true
+      }
+    }
+  },
+  "dark-anchored-sel4": {
+    "upstream": "upstream demo",
+    "port": "port demo",
+    "scheme": "light",
+    "threshold": 0.1,
+    "seed": "7",
+    "clock": null,
+    "reducedMotion": false,
+    "pause": null,
+    "results": {
+      "1280x800": {
+        "differingPixels": 227,
+        "totalPixels": 1024000,
+        "percent": 0.0222,
+        "sizes": {
+          "upstream": [1280, 800],
+          "port": [1280, 800]
+        },
+        "pass": true
+      },
+      "375x812": {
+        "differingPixels": 504,
+        "totalPixels": 304500,
+        "percent": 0.1655,
+        "sizes": {
+          "upstream": [375, 812],
+          "port": [375, 812]
+        },
+        "pass": false
+      }
+    }
+  },
+  "light-anchored-reclosed": {
+    "upstream": "upstream demo",
+    "port": "port demo",
+    "scheme": "light",
+    "threshold": 0.1,
+    "seed": "7",
+    "clock": null,
+    "reducedMotion": false,
+    "pause": null,
+    "results": {
+      "1280x800": {
+        "differingPixels": 0,
+        "totalPixels": 1024000,
+        "percent": 0,
+        "sizes": {
+          "upstream": [1280, 800],
+          "port": [1280, 800]
+        },
+        "pass": true
+      },
+      "375x812": {
+        "differingPixels": 0,
+        "totalPixels": 304500,
+        "percent": 0,
+        "sizes": {
+          "upstream": [375, 812],
+          "port": [375, 812]
+        },
+        "pass": true
+      }
+    }
+  },
+  "dark-anchored-reclosed": {
+    "upstream": "upstream demo",
+    "port": "port demo",
+    "scheme": "light",
+    "threshold": 0.1,
+    "seed": "7",
+    "clock": null,
+    "reducedMotion": false,
+    "pause": null,
+    "results": {
+      "1280x800": {
+        "differingPixels": 0,
+        "totalPixels": 1024000,
+        "percent": 0,
+        "sizes": {
+          "upstream": [1280, 800],
+          "port": [1280, 800]
+        },
+        "pass": true
+      },
+      "375x812": {
+        "differingPixels": 0,
+        "totalPixels": 304500,
+        "percent": 0,
+        "sizes": {
+          "upstream": [375, 812],
+          "port": [375, 812]
+        },
+        "pass": true
+      }
+    }
+  }
+}

@@ -1377,3 +1377,38 @@ oss:
         status: beta
         category: data-display
         upstream: packages/react-virtuoso/src (npm react-virtuoso 4.18.16)
+
+  # Batch K (menus, numbers and data). liquid-taffy is a gooey interaction
+  # study: three surfaces (anchored dropdown, morphing dropdown, speed dial)
+  # on one engine. The choreography is rewritten on Motion's frame loop
+  # (the upstream tween library is proprietary and is not shipped); the
+  # engine is its own foundation item that the three components share. The
+  # console mark of upstream's stage is not ported.
+  - id: liquid-taffy
+    name: liquid-taffy
+    repo: https://github.com/arknow91/liquid-taffy
+    visibility: public
+    status: active
+    fetch: in-repo
+    ref: 4bcf4005f857c371bf53d60b2cee14abcecedf6a
+    author: "arknow91 <https://github.com/arknow91>"
+    license: MIT
+    attribution: "Copyright (c) 2026 arknow91. MIT License."
+    credit: S-420
+    components:
+      - name: anchored-dropdown
+        status: beta
+        category: overlays
+        upstream: src/components/LiquidAdd
+      - name: morphing-dropdown
+        status: beta
+        category: overlays
+        upstream: src/components/LiquidMorph
+      - name: speed-dial
+        status: beta
+        category: actions
+        upstream: src/components/LiquidMenu
+      - name: liquid-taffy-engine
+        status: beta
+        category: foundations
+        upstream: src/components/liquid

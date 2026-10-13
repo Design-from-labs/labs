@@ -1,0 +1,140 @@
+{
+  "title": "Anchored Dropdown",
+  "description": "A plus button that pours a multi-select dropdown out of itself, hanging above it: gooey SVG liquid, springs, a travelling hover and a glyph that spins into a tick. Press and drag to pull a liquid finger.",
+  "category": "overlays",
+  "type": "registry:ui",
+  "status": "beta",
+  "upstreamPath": "src/components/LiquidAdd",
+  "iconSets": ["none"],
+  "registryDependencies": ["liquid-taffy-engine"],
+  "variants": [
+    {
+      "primitive": "none",
+      "roots": [
+        "../shared/src/dropdown",
+        "../shared/src/glyphs/none",
+        "../shared/src/menu/none",
+        "src"
+      ],
+      "status": "beta"
+    }
+  ],
+  "demo": "demo.tsx",
+  "tile": {
+    "span": 1,
+    "rows": 2,
+    "surface": "dark"
+  },
+  "loop": {
+    "script": "click[4] → click[0] → click[1] → click[4] → wait → click[4] → click[0] → click[1] → click[4]",
+    "duration": 9000,
+    "hydrate": true
+  },
+  "cssVars": {
+    "light": {
+      "anchored-dropdown-fill": "#ffffff",
+      "anchored-dropdown-rim": "#dadada",
+      "anchored-dropdown-icon": "#252731",
+      "anchored-dropdown-icon-hover": "#000000",
+      "anchored-dropdown-text": "#1f2029",
+      "anchored-dropdown-trigger-tint": "rgb(0 0 0 / 4.5%)",
+      "anchored-dropdown-item-tint": "rgb(0 0 0 / 4.5%)",
+      "anchored-dropdown-seam": "#785dd6",
+      "anchored-dropdown-shadow": "drop-shadow(0 3px 3.125px rgb(0 0 0 / 8%))",
+      "anchored-dropdown-focus-ring": "#1172fa"
+    },
+    "dark": {
+      "anchored-dropdown-fill": "#212326",
+      "anchored-dropdown-rim": "#2f3235",
+      "anchored-dropdown-icon": "#ffffff",
+      "anchored-dropdown-icon-hover": "#ffffff",
+      "anchored-dropdown-text": "#ffffff",
+      "anchored-dropdown-trigger-tint": "rgb(255 255 255 / 2%)",
+      "anchored-dropdown-item-tint": "rgb(255 255 255 / 4.5%)",
+      "anchored-dropdown-seam": "#8a68ff",
+      "anchored-dropdown-shadow": "none",
+      "anchored-dropdown-focus-ring": "#1172fa"
+    }
+  },
+  "credits": [
+    "S-421",
+    "S-422",
+    "S-423",
+    "S-425",
+    "S-426",
+    "S-104",
+    "S-003",
+    "S-004",
+    "S-014",
+    "S-015",
+    "S-152",
+    "S-153",
+    "S-157",
+    "S-158",
+    "S-184",
+    "S-444",
+    "S-424"
+  ],
+  "tags": ["dropdown", "menu", "multi-select", "gooey", "liquid", "spring"],
+  "props": [
+    {
+      "name": "items",
+      "type": "readonly { id: string; label: string; shape: \"circle\" | \"cross\" | \"triangle\" | \"square\" }[]",
+      "default": "the four glyphs",
+      "description": "The rows. The panel's height follows the count; up to about eight fit."
+    },
+    {
+      "name": "value / defaultValue",
+      "type": "readonly string[]",
+      "description": "The ticked rows by id, controlled or uncontrolled. Multi-select: a row keeps the menu open, and a tick persists across open and close."
+    },
+    {
+      "name": "onValueChange",
+      "type": "(value: string[]) => void",
+      "description": "Called with the ticked ids after a row is toggled."
+    },
+    {
+      "name": "open / defaultOpen / onOpenChange",
+      "type": "boolean / (open: boolean) => void",
+      "default": "false",
+      "description": "Whether the panel is out, controlled or uncontrolled."
+    },
+    {
+      "name": "label",
+      "type": "string",
+      "default": "\"Add shape\"",
+      "description": "The trigger button's accessible name."
+    },
+    {
+      "name": "menuLabel",
+      "type": "string",
+      "default": "\"Shapes menu\"",
+      "description": "The menu's accessible name."
+    },
+    {
+      "name": "theme",
+      "type": "\"light\" | \"dark\"",
+      "description": "The frame. By default the page's: dark inside a `.dark` ancestor, light elsewhere, followed live."
+    },
+    {
+      "name": "sound",
+      "type": "boolean",
+      "default": "false",
+      "description": "Synthesized liquid sounds on open, close, tick, grab and release (Web Audio, no samples). Off by default; it plays only inside a user gesture."
+    },
+    {
+      "name": "className",
+      "type": "string",
+      "description": "Added to the 32px anchor element, so you can position it; the panel opens out of it."
+    }
+  ],
+  "a11y": [
+    "The trigger is a button with aria-haspopup=\"menu\", aria-expanded and aria-controls, named by `label`. The panel is a role=menu named by `menuLabel` whose rows are menuitemcheckbox with aria-checked. Enter, Space and ArrowDown on the trigger open it on the first row, ArrowUp on the last; the arrow keys move and wrap, Home and End jump, a letter jumps to the next row that starts with it, Enter and Space toggle a row and keep the menu open, Escape closes and returns focus to the trigger, Tab closes and moves on.",
+    "The press-and-drag gesture is pointer-only and decorative: the liquid finger never changes state, so keyboard and screen reader use is complete without it. The goo, the seam light and the glyph burst are aria-hidden, and a ticked row is announced by aria-checked, not by its shape.",
+    "Reduced motion: no goo choreography, stretch or springs; the panel and the ticks switch state in place.",
+    "Contrast on request: under prefers-contrast: more the rim and the selection wash darken; under forced colors the liquid picture steps aside for system-colour borders and a Highlight selection. The default keeps upstream's pale rim and ink.",
+    "Right to left: the panel is centered over the trigger, so it does not move; each row's glyph and label follow the page direction."
+  ],
+  "usage": "<AnchoredDropdown onValueChange={(ids) => console.log(ids)} />",
+  "docs": "Installed `AnchoredDropdown` in `components/ui/` with its stylesheet, glyphs, menu wiring, row hover and tick burst next to it, and the shared engine (`liquid-taffy-engine`, in `lib/`) as a dependency; install one engine for all three liquid surfaces.\n\n```tsx\nimport { AnchoredDropdown } from \"@/components/ui/anchored-dropdown\";\n\n<AnchoredDropdown onValueChange={(ids) => console.log(ids)} />\n```\n\nThe button stays put and pours the dropdown out of itself, 14px above it. It is a 32px circle: place it with `className` and leave room around it for the panel. Rows are multi-select. It follows the page's theme (a `.dark` ancestor makes it dark) or the `theme` prop; the palette is the `--anchored-dropdown-*` variables. Sound is off unless you pass `sound`.\n\nPress and hold the button or the panel and drag: a liquid finger stretches out of the edge and snaps back on release.\n\nPorted from liquid-taffy by arknow91 (MIT); the license notice is at the end of every file."
+}

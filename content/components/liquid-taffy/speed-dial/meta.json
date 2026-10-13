@@ -1,0 +1,123 @@
+{
+  "$schema": "https://labs.designfrom.com/schemas/meta.schema.json",
+  "schemaVersion": 1,
+  "name": "speed-dial",
+  "kind": "component",
+  "title": "Speed Dial",
+  "description": "A plus button that breaks into up to three droplets which ooze out, launch past full size and ring still, each an action. Gooey SVG liquid with springs; press and drag to pull a liquid finger.",
+  "status": "beta",
+  "category": "actions",
+  "label": "liquid-taffy",
+  "variants": [
+    {
+      "name": "speed-dial",
+      "primitive": "none",
+      "iconSet": "none",
+      "status": "beta"
+    }
+  ],
+  "defaultVariant": "speed-dial",
+  "demo": "demo.tsx",
+  "preview": "preview.webp",
+  "source": {
+    "repo": "https://github.com/arknow91/liquid-taffy",
+    "commit": "4bcf4005f857c371bf53d60b2cee14abcecedf6a",
+    "path": "src/components/LiquidMenu"
+  },
+  "author": "arknow91 <https://github.com/arknow91>",
+  "license": "MIT",
+  "attribution": "Copyright (c) 2026 arknow91. MIT License.",
+  "credits": [
+    "S-420",
+    "S-421",
+    "S-422",
+    "S-423",
+    "S-425",
+    "S-426",
+    "S-104",
+    "S-003",
+    "S-004",
+    "S-014",
+    "S-015",
+    "S-152",
+    "S-153",
+    "S-157",
+    "S-158",
+    "S-184",
+    "S-444"
+  ],
+  "date": "2026-10-13",
+  "tile": {
+    "span": 1,
+    "rows": 1,
+    "surface": "dark"
+  },
+  "loop": {
+    "script": "click[3] → wait → click[1] → wait",
+    "duration": 5600,
+    "hydrate": true
+  },
+  "tags": [
+    "speed-dial",
+    "fab",
+    "menu",
+    "gooey",
+    "liquid",
+    "spring"
+  ],
+  "props": [
+    {
+      "name": "items",
+      "type": "readonly { id: string; label: string; shape: \"circle\" | \"cross\" | \"triangle\" | \"square\" }[]",
+      "default": "square, triangle, circle",
+      "description": "One to three actions, placed left, up and right of the button (mirrored in right-to-left)."
+    },
+    {
+      "name": "onAction",
+      "type": "(id: string) => void",
+      "description": "Called with the id of the action chosen; the dial then closes."
+    },
+    {
+      "name": "open / defaultOpen / onOpenChange",
+      "type": "boolean / (open: boolean) => void",
+      "default": "false",
+      "description": "Whether the fan is out, controlled or uncontrolled."
+    },
+    {
+      "name": "label",
+      "type": "string",
+      "default": "\"Shapes\"",
+      "description": "The trigger button's accessible name."
+    },
+    {
+      "name": "menuLabel",
+      "type": "string",
+      "default": "\"Shapes menu\"",
+      "description": "The menu's accessible name."
+    },
+    {
+      "name": "theme",
+      "type": "\"light\" | \"dark\"",
+      "description": "The frame. By default the page's: dark inside a `.dark` ancestor, light elsewhere, followed live."
+    },
+    {
+      "name": "sound",
+      "type": "boolean",
+      "default": "false",
+      "description": "Synthesized liquid sounds on open, close, grab, weld and release (Web Audio, no samples). Off by default; it plays only inside a user gesture."
+    },
+    {
+      "name": "className",
+      "type": "string",
+      "description": "Added to the 32px anchor element, so you can position it; the actions fan out of it."
+    }
+  ],
+  "a11y": [
+    "The trigger is a button with aria-haspopup=\"menu\", aria-expanded and aria-controls, named by `label`. The fan is a role=menu named by `menuLabel` whose actions are menuitem buttons named by their `label`. Enter, Space and ArrowDown on the trigger open it on the first action, ArrowUp on the last; the arrow keys move and wrap, Home and End jump, Enter and Space choose an action (the dial then closes and focus returns to the trigger), Escape closes, Tab closes and moves on.",
+    "A tooltip shows each action's name on hover and on keyboard focus; the name is also the accessible name, so the tooltip is a convenience, not the only label. The press-and-drag gesture is pointer-only and decorative.",
+    "Reduced motion: the satellites appear and leave in place, without the ooze, the stretch or the springs.",
+    "Contrast on request: under prefers-contrast: more the rim darkens; under forced colors the liquid picture steps aside for system-colour borders. The default keeps upstream's pale rim and ink.",
+    "Right to left: the fan mirrors, so the first action sits at the inline start."
+  ],
+  "usage": "<SpeedDial onAction={(id) => console.log(id)} />"
+}

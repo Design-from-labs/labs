@@ -2142,3 +2142,70 @@ sources:
     accessed: 2026-10-13
     visibility: public
     used-in: [content/components/balloons-js/balloons, docs/evidence/ports/balloons]
+  - id: S-420
+    title: "liquid-taffy: anchored dropdown, morphing dropdown and speed dial (a gooey interaction study)"
+    author: "arknow91"
+    kind: library
+    url: "https://github.com/arknow91/liquid-taffy"
+    license: "MIT"
+    accessed: 2026-10-13
+    visibility: public
+    used-in: [sources.yaml, ports/liquid-taffy, content/components/liquid-taffy, docs/evidence/ports/anchored-dropdown, docs/evidence/ports/morphing-dropdown, docs/evidence/ports/speed-dial]
+    note: "Ported at commit 4bcf4005f857c371bf53d60b2cee14abcecedf6a (src/components/liquid, LiquidAdd, LiquidMorph, LiquidMenu). The stage, theme switch and console mark are not ported; the choreography is rewritten on Motion's frame loop."
+  - id: S-421
+    title: "GSAP (the tween library upstream's choreography is written for; replaced, not shipped)"
+    author: "GreenSock"
+    kind: library
+    url: "https://gsap.com/docs/v3/"
+    license: "GreenSock Standard License (proprietary)"
+    accessed: 2026-10-13
+    visibility: public
+    used-in: [docs/evidence/ports/anchored-dropdown, docs/evidence/ports/morphing-dropdown, docs/evidence/ports/speed-dial]
+    note: "Run only in the upstream demo for the fidelity comparison, never shipped or listed as a dependency. Its documented tween semantics (positions, overwrite, autoAlpha, eases) were reproduced in the item's own engine on Motion's frame loop."
+  - id: S-422
+    title: "MDN: Web Audio API"
+    author: "Mozilla contributors"
+    kind: doc
+    url: "https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API"
+    license: "CC-BY-SA-2.5"
+    accessed: 2026-10-13
+    visibility: public
+    used-in: [content/components/liquid-taffy/liquid-taffy-engine, docs/evidence/ports/anchored-dropdown]
+    note: "Reference for upstream's synthesized sound (oscillators, filters, envelopes) and for the autoplay policy that gates it."
+  - id: S-423
+    title: "WAI-ARIA Authoring Practices: Menu Button pattern"
+    author: "W3C"
+    kind: doc
+    url: "https://www.w3.org/WAI/ARIA/apg/patterns/menu-button/"
+    license: "W3C Software and Document License"
+    accessed: 2026-10-13
+    visibility: public
+    used-in: [content/components/liquid-taffy/anchored-dropdown, content/components/liquid-taffy/morphing-dropdown, content/components/liquid-taffy/speed-dial]
+  - id: S-424
+    title: "WAI-ARIA Authoring Practices: Editor Menubar (menuitemcheckbox)"
+    author: "W3C"
+    kind: doc
+    url: "https://www.w3.org/WAI/ARIA/apg/patterns/menubar/examples/menubar-editor/"
+    license: "W3C Software and Document License"
+    accessed: 2026-10-13
+    visibility: public
+    used-in: [content/components/liquid-taffy/anchored-dropdown, content/components/liquid-taffy/morphing-dropdown]
+  - id: S-425
+    title: "MDN: SVG filter primitives (feGaussianBlur, feColorMatrix, feComposite)"
+    author: "Mozilla contributors"
+    kind: doc
+    url: "https://developer.mozilla.org/en-US/docs/Web/SVG/Reference/Element/filter"
+    license: "CC-BY-SA-2.5"
+    accessed: 2026-10-13
+    visibility: public
+    used-in: [content/components/liquid-taffy/liquid-taffy-engine, docs/evidence/ports/anchored-dropdown]
+  - id: S-426
+    title: "MDN: User activation (navigator.userActivation)"
+    author: "Mozilla contributors"
+    kind: doc
+    url: "https://developer.mozilla.org/en-US/docs/Web/API/UserActivation"
+    license: "CC-BY-SA-2.5"
+    accessed: 2026-10-13
+    visibility: public
+    used-in: [content/components/liquid-taffy/liquid-taffy-engine]
+    note: "The engine plays sound only inside a user gesture."

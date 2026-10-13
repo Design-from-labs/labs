@@ -1,0 +1,386 @@
+{
+  "light-morph-closed": {
+    "upstream": "upstream demo",
+    "port": "port demo",
+    "scheme": "light",
+    "threshold": 0.1,
+    "seed": "7",
+    "clock": null,
+    "reducedMotion": false,
+    "pause": null,
+    "results": {
+      "1280x800": {
+        "differingPixels": 0,
+        "totalPixels": 1024000,
+        "percent": 0,
+        "sizes": {
+          "upstream": [1280, 800],
+          "port": [1280, 800]
+        },
+        "pass": true
+      },
+      "375x812": {
+        "differingPixels": 0,
+        "totalPixels": 304500,
+        "percent": 0,
+        "sizes": {
+          "upstream": [375, 812],
+          "port": [375, 812]
+        },
+        "pass": true
+      }
+    }
+  },
+  "dark-morph-closed": {
+    "upstream": "upstream demo",
+    "port": "port demo",
+    "scheme": "light",
+    "threshold": 0.1,
+    "seed": "7",
+    "clock": null,
+    "reducedMotion": false,
+    "pause": null,
+    "results": {
+      "1280x800": {
+        "differingPixels": 0,
+        "totalPixels": 1024000,
+        "percent": 0,
+        "sizes": {
+          "upstream": [1280, 800],
+          "port": [1280, 800]
+        },
+        "pass": true
+      },
+      "375x812": {
+        "differingPixels": 0,
+        "totalPixels": 304500,
+        "percent": 0,
+        "sizes": {
+          "upstream": [375, 812],
+          "port": [375, 812]
+        },
+        "pass": true
+      }
+    }
+  },
+  "light-morph-open": {
+    "upstream": "upstream demo",
+    "port": "port demo",
+    "scheme": "light",
+    "threshold": 0.1,
+    "seed": "7",
+    "clock": null,
+    "reducedMotion": false,
+    "pause": null,
+    "results": {
+      "1280x800": {
+        "differingPixels": 202,
+        "totalPixels": 1024000,
+        "percent": 0.0197,
+        "sizes": {
+          "upstream": [1280, 800],
+          "port": [1280, 800]
+        },
+        "pass": true
+      },
+      "375x812": {
+        "differingPixels": 157,
+        "totalPixels": 304500,
+        "percent": 0.0516,
+        "sizes": {
+          "upstream": [375, 812],
+          "port": [375, 812]
+        },
+        "pass": true
+      }
+    }
+  },
+  "dark-morph-open": {
+    "upstream": "upstream demo",
+    "port": "port demo",
+    "scheme": "light",
+    "threshold": 0.1,
+    "seed": "7",
+    "clock": null,
+    "reducedMotion": false,
+    "pause": null,
+    "results": {
+      "1280x800": {
+        "differingPixels": 15,
+        "totalPixels": 1024000,
+        "percent": 0.0015,
+        "sizes": {
+          "upstream": [1280, 800],
+          "port": [1280, 800]
+        },
+        "pass": true
+      },
+      "375x812": {
+        "differingPixels": 153,
+        "totalPixels": 304500,
+        "percent": 0.0502,
+        "sizes": {
+          "upstream": [375, 812],
+          "port": [375, 812]
+        },
+        "pass": true
+      }
+    }
+  },
+  "light-morph-hover": {
+    "upstream": "upstream demo",
+    "port": "port demo",
+    "scheme": "light",
+    "threshold": 0.1,
+    "seed": "7",
+    "clock": null,
+    "reducedMotion": false,
+    "pause": null,
+    "results": {
+      "1280x800": {
+        "differingPixels": 40,
+        "totalPixels": 1024000,
+        "percent": 0.0039,
+        "sizes": {
+          "upstream": [1280, 800],
+          "port": [1280, 800]
+        },
+        "pass": true
+      },
+      "375x812": {
+        "differingPixels": 43,
+        "totalPixels": 304500,
+        "percent": 0.0141,
+        "sizes": {
+          "upstream": [375, 812],
+          "port": [375, 812]
+        },
+        "pass": true
+      }
+    }
+  },
+  "dark-morph-hover": {
+    "upstream": "upstream demo",
+    "port": "port demo",
+    "scheme": "light",
+    "threshold": 0.1,
+    "seed": "7",
+    "clock": null,
+    "reducedMotion": false,
+    "pause": null,
+    "results": {
+      "1280x800": {
+        "differingPixels": 141,
+        "totalPixels": 1024000,
+        "percent": 0.0138,
+        "sizes": {
+          "upstream": [1280, 800],
+          "port": [1280, 800]
+        },
+        "pass": true
+      },
+      "375x812": {
+        "differingPixels": 150,
+        "totalPixels": 304500,
+        "percent": 0.0493,
+        "sizes": {
+          "upstream": [375, 812],
+          "port": [375, 812]
+        },
+        "pass": true
+      }
+    }
+  },
+  "light-morph-sel1": {
+    "upstream": "upstream demo",
+    "port": "port demo",
+    "scheme": "light",
+    "threshold": 0.1,
+    "seed": "7",
+    "clock": null,
+    "reducedMotion": false,
+    "pause": null,
+    "results": {
+      "1280x800": {
+        "differingPixels": 32,
+        "totalPixels": 1024000,
+        "percent": 0.0031,
+        "sizes": {
+          "upstream": [1280, 800],
+          "port": [1280, 800]
+        },
+        "pass": true
+      },
+      "375x812": {
+        "differingPixels": 196,
+        "totalPixels": 304500,
+        "percent": 0.0644,
+        "sizes": {
+          "upstream": [375, 812],
+          "port": [375, 812]
+        },
+        "pass": true
+      }
+    }
+  },
+  "dark-morph-sel1": {
+    "upstream": "upstream demo",
+    "port": "port demo",
+    "scheme": "light",
+    "threshold": 0.1,
+    "seed": "7",
+    "clock": null,
+    "reducedMotion": false,
+    "pause": null,
+    "results": {
+      "1280x800": {
+        "differingPixels": 189,
+        "totalPixels": 1024000,
+        "percent": 0.0185,
+        "sizes": {
+          "upstream": [1280, 800],
+          "port": [1280, 800]
+        },
+        "pass": true
+      },
+      "375x812": {
+        "differingPixels": 104,
+        "totalPixels": 304500,
+        "percent": 0.0342,
+        "sizes": {
+          "upstream": [375, 812],
+          "port": [375, 812]
+        },
+        "pass": true
+      }
+    }
+  },
+  "light-morph-sel2": {
+    "upstream": "upstream demo",
+    "port": "port demo",
+    "scheme": "light",
+    "threshold": 0.1,
+    "seed": "7",
+    "clock": null,
+    "reducedMotion": false,
+    "pause": null,
+    "results": {
+      "1280x800": {
+        "differingPixels": 20,
+        "totalPixels": 1024000,
+        "percent": 0.002,
+        "sizes": {
+          "upstream": [1280, 800],
+          "port": [1280, 800]
+        },
+        "pass": true
+      },
+      "375x812": {
+        "differingPixels": 61,
+        "totalPixels": 304500,
+        "percent": 0.02,
+        "sizes": {
+          "upstream": [375, 812],
+          "port": [375, 812]
+        },
+        "pass": true
+      }
+    }
+  },
+  "dark-morph-sel2": {
+    "upstream": "upstream demo",
+    "port": "port demo",
+    "scheme": "light",
+    "threshold": 0.1,
+    "seed": "7",
+    "clock": null,
+    "reducedMotion": false,
+    "pause": null,
+    "results": {
+      "1280x800": {
+        "differingPixels": 182,
+        "totalPixels": 1024000,
+        "percent": 0.0178,
+        "sizes": {
+          "upstream": [1280, 800],
+          "port": [1280, 800]
+        },
+        "pass": true
+      },
+      "375x812": {
+        "differingPixels": 301,
+        "totalPixels": 304500,
+        "percent": 0.0989,
+        "sizes": {
+          "upstream": [375, 812],
+          "port": [375, 812]
+        },
+        "pass": true
+      }
+    }
+  },
+  "light-morph-sel4": {
+    "upstream": "upstream demo",
+    "port": "port demo",
+    "scheme": "light",
+    "threshold": 0.1,
+    "seed": "7",
+    "clock": null,
+    "reducedMotion": false,
+    "pause": null,
+    "results": {
+      "1280x800": {
+        "differingPixels": 110,
+        "totalPixels": 1024000,
+        "percent": 0.0107,
+        "sizes": {
+          "upstream": [1280, 800],
+          "port": [1280, 800]
+        },
+        "pass": true
+      },
+      "375x812": {
+        "differingPixels": 77,
+        "totalPixels": 304500,
+        "percent": 0.0253,
+        "sizes": {
+          "upstream": [375, 812],
+          "port": [375, 812]
+        },
+        "pass": true
+      }
+    }
+  },
+  "dark-morph-sel4": {
+    "upstream": "upstream demo",
+    "port": "port demo",
+    "scheme": "light",
+    "threshold": 0.1,
+    "seed": "7",
+    "clock": null,
+    "reducedMotion": false,
+    "pause": null,
+    "results": {
+      "1280x800": {
+        "differingPixels": 299,
+        "totalPixels": 1024000,
+        "percent": 0.0292,
+        "sizes": {
+          "upstream": [1280, 800],
+          "port": [1280, 800]
+        },
+        "pass": true
+      },
+      "375x812": {
+        "differingPixels": 0,
+        "totalPixels": 304500,
+        "percent": 0,
+        "sizes": {
+          "upstream": [375, 812],
+          "port": [375, 812]
+        },
+        "pass": true
+      }
+    }
+  }
+}
