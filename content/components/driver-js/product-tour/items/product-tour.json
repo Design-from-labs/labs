@@ -4,7 +4,7 @@
   "type": "registry:ui",
   "title": "Product Tour",
   "description": "A guided tour that highlights parts of the page one step at a time, with a popover, progress and keyboard navigation, as a React hook and component over driver.js.",
-  "author": "Kamran Ahmed <https://github.com/kamranahmedse>",
+  "author": "Kamran Ahmed <https://github.com/nilbuild>",
   "categories": [
     "overlays"
   ],
