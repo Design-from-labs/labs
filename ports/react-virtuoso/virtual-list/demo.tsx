@@ -55,9 +55,9 @@ export default function VirtualListDemo() {
       ref={root}
     >
       <div className="flex items-baseline justify-between gap-3 border-b px-4 py-3">
-        <h2 className="font-semibold text-sm" id={titleId}>
+        <p className="font-semibold text-sm" id={titleId}>
           Tasks
-        </h2>
+        </p>
         <p className="text-muted-foreground text-xs tabular-nums">
           {COUNT.toLocaleString("en-US")} items
         </p>
