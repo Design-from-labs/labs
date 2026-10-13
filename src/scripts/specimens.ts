@@ -429,8 +429,13 @@ if (surfaces.length > 0) {
   );
   for (const loop of loops) {
     observer.observe(loop.tile);
+    const frame = loop.surface.querySelector<HTMLIFrameElement>(
+      "iframe[data-stage-frame]",
+    );
+    inertFrame(frame);
     // A stage's iframe document arrives later; restart against it.
-    loop.surface.querySelector("iframe")?.addEventListener("load", () => {
+    frame?.addEventListener("load", () => {
+      inertFrame(frame);
       if (loop.running) {
         loop.stop();
       }
@@ -474,4 +479,22 @@ if (surfaces.length > 0) {
   });
 
   update();
+}
+
+/**
+ * The tile is inert, but inert stops at a frame boundary: script in a stage's
+ * framed document can still call focus() (a sheet or tour moving focus as it
+ * opens), which makes the frame the page's active element. The stage shell
+ * marks itself inert before its demo runs; this repeats it for documents
+ * already loaded and after every reload. Scripted clicks still work.
+ */
+function inertFrame(frame: HTMLIFrameElement | null | undefined) {
+  try {
+    const root = frame?.contentDocument?.documentElement;
+    if (root && !root.inert) {
+      root.inert = true;
+    }
+  } catch {
+    // Not same-origin: nothing to reach.
+  }
 }
