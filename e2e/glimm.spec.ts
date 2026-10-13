@@ -70,13 +70,11 @@ test("glimm: a sweep swaps the view and lands focus on its heading", async ({
     root(page).getByRole("heading", { name: "Today" }),
   ).toBeVisible();
   await trigger(page).click();
-  // While the band crosses, the outgoing view is a frozen, inert copy.
-  await expect(root(page).locator('[data-slot="glimm-snapshot"]')).toHaveCount(
-    1,
-  );
+  // While the band crosses, the outgoing view is a frozen, inert copy. One
+  // query checks both, because the copy is gone as soon as the sweep ends.
   await expect(
-    root(page).locator('[data-slot="glimm-snapshot"]'),
-  ).toHaveAttribute("aria-hidden", "true");
+    root(page).locator('[data-slot="glimm-snapshot"][aria-hidden="true"]'),
+  ).toHaveCount(1);
   // Software GL can take a while to draw the 1.3 s sweep.
   await expect(root(page).locator('[data-slot="glimm-snapshot"]')).toHaveCount(
     0,
