@@ -1564,6 +1564,36 @@ sources:
     accessed: 2026-10-13
     visibility: public
     used-in: [content/components/paperlab, package.json]
+  - id: S-516
+    title: "audio: a declarative synthesizer for the web"
+    author: "Raphael Salaja"
+    kind: library
+    url: "https://github.com/raphaelsalaja/audio"
+    license: "MIT"
+    accessed: 2026-10-13
+    visibility: public
+    used-in: [sources.yaml, ports/raphaelsalaja-audio, content/components/raphaelsalaja-audio/ui-sounds]
+    note: "Ported at commit d8c04c77eff93e4ff8355b96dfa806f9a8c79b69 (packages/audio/src: types, engine, effects, context, patch, sequence, analyser, offline, index and react; the command-line tool is left out) plus the Core sound pack from .web-kits/core.json as data. LICENSE verified at that commit (MIT, copyright 2026 Raphael Salaja)."
+  - id: S-517
+    title: "Web Audio API (W3C Candidate Recommendation)"
+    author: "W3C Audio Working Group"
+    kind: doc
+    url: "https://www.w3.org/TR/webaudio/"
+    license: "W3C Software and Document License"
+    accessed: 2026-10-13
+    visibility: public
+    used-in: [docs/evidence/ports/ui-sounds, content/components/raphaelsalaja-audio/ui-sounds]
+    note: "Reference for OfflineAudioContext rendering and the autoplay-gated AudioContext state used by the sonic fidelity comparison and the user-gesture rule; documentation only, nothing copied."
+  - id: S-518
+    title: "Understanding WCAG 2.2: Success Criterion 1.4.2 Audio Control"
+    author: "W3C Web Accessibility Initiative"
+    kind: doc
+    url: "https://www.w3.org/WAI/WCAG22/Understanding/audio-control.html"
+    license: "W3C Document License"
+    accessed: 2026-10-13
+    visibility: public
+    used-in: [content/components/raphaelsalaja-audio/ui-sounds]
+    note: "Reference for the mute switch, the volume slider and the rule that no sound plays on its own; documentation only, nothing copied."
   - id: S-450
     title: "Owner brief: port pod WEB-1 (the remaining web-sourced items: pens, gallery items and npm-only packages, fidelity first, GSAP rewritten)"
     author: "Owner"
@@ -1750,3 +1780,181 @@ sources:
     visibility: public
     note: "Loaded only on the upstream side of the fidelity diff, as a local copy of the file the pen links; nothing from it ships."
     used-in: [docs/evidence/ports/shimmer-lines]
+  - id: S-500
+    title: "sileo: physics-based toast notifications for React"
+    author: "Aaryan (hiaaryan)"
+    kind: library
+    url: "https://github.com/hiaaryan/sileo"
+    license: "MIT (declared by the npm package sileo@0.1.6; the repository has no LICENSE file, see S-501)"
+    accessed: 2026-10-13
+    visibility: public
+    used-in: [sources.yaml, ports/hiaaryan-sileo, content/components/hiaaryan-sileo/pill-toast]
+    note: "Ported at commit fea6820dd34fe00aa9d68c956f2080464c6ab3b2 (packages/sileo/src), the gitHead of sileo@0.1.6. The site is https://sileo.aaryan.design."
+  - id: S-501
+    title: "sileo@0.1.6 npm tarball (license basis for S-500)"
+    author: "Aaryan (hiaaryan)"
+    kind: library
+    url: "https://registry.npmjs.org/sileo/-/sileo-0.1.6.tgz"
+    license: "MIT (the license field of its package.json)"
+    accessed: 2026-10-13
+    visibility: public
+    used-in: [sources.yaml, ports/hiaaryan-sileo, docs/evidence/ports/pill-toast]
+    note: "The package.json license field says MIT and its repository field points at S-500; the tarball and the repository at the same gitHead carry no LICENSE file and no author field, so the copyright line in ports/hiaaryan-sileo/LICENSE (Aaryan, hiaaryan) is taken from the repository owner and the commit author."
+  - id: S-512
+    title: "angelolibero/surface-field (SurfaceField, a React canvas field of dots and lines that makes room around surfaces)"
+    author: "Angelo Libero"
+    kind: library
+    url: "https://github.com/angelolibero/surface-field"
+    license: "MIT"
+    accessed: 2026-10-13
+    visibility: public
+    used-in: [ports/angelolibero-surface-field, content/components/angelolibero-surface-field, sources.yaml, docs/evidence/ports/surface-field]
+    note: "Ported at commit 1674954a249b2e76aac1a83c8bfa1c3a4e5d543f (src); LICENSE verified at that commit (MIT, Copyright (c) 2026 Angelo Libero)."
+  - id: S-513
+    title: "Surface Field interactive demo (presets, draggable surfaces, light and dark themes)"
+    author: "Angelo Libero"
+    kind: library
+    url: "https://angelolibero.github.io/surface-field/"
+    license: "MIT"
+    accessed: 2026-10-13
+    visibility: public
+    used-in: [content/components/angelolibero-surface-field/surface-field, docs/evidence/ports/surface-field]
+    note: "The hosted build of the demo app in the same repository (demo/); the fidelity runs use the demo from the pinned commit, served by its own Vite dev server, and the port's demo reproduces its three surfaces and four presets."
+  - id: S-514
+    title: "W3C Pointer Events (pointerType, pointercancel, touch-action)"
+    author: "W3C"
+    kind: doc
+    url: "https://www.w3.org/TR/pointerevents/"
+    license: "W3C Document License"
+    accessed: 2026-10-13
+    visibility: public
+    used-in: [content/components/angelolibero-surface-field/surface-field, docs/evidence/ports/surface-field]
+    note: "Reference for how the field treats mouse, touch and pen pointers; documentation only, nothing copied."
+  - id: S-515
+    title: "MDN: prefers-reduced-motion"
+    author: "MDN contributors"
+    kind: doc
+    url: "https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-reduced-motion"
+    license: "CC-BY-SA-2.5"
+    accessed: 2026-10-13
+    visibility: public
+    used-in: [content/components/angelolibero-surface-field/surface-field, docs/evidence/ports/surface-field]
+    note: "Reference for the still field under reduced motion; documentation only, nothing copied."
+  - id: S-520
+    title: "Scroll Map, Split-Screen & Expandable (CodePen pen by Tom Miller)"
+    author: "Tom Miller (creativeocean)"
+    kind: library
+    url: "https://codepen.io/creativeocean/pen/myOVZYO"
+    license: "MIT"
+    accessed: 2026-10-13
+    visibility: public
+    used-in: [sources.yaml, ports/creativeocean-scroll-map, content/components/creativeocean-scroll-map/scroll-map]
+    note: "Pinned by the verbatim snapshot of the pen's debug view (https://cdpn.io/pen/debug/myOVZYO, 8,422 bytes, SHA-1 84fabd2b4ffc7dfb1174f9d4ffad42ce6741d71f); sources.yaml ref is the git tree hash of that directory (the snapshot-pinning decision). The pen's Details view shows the MIT notice and the copyright line kept in ports/creativeocean-scroll-map/LICENSE. The pen loads GSAP with DrawSVG, MotionPath and ScrollTrigger (proprietary, S-345), Open Sans and an uploaded map photograph; none of them is in the port (Motion and plain SVG, a repo face, a generated street map). The pen's companion pens were not available and are not ported."
+  - id: S-521
+    title: "Creating Scroll-Driven SVG Map Animations with GSAP (Codrops tutorial by Tom Miller)"
+    author: "Tom Miller"
+    kind: article
+    url: "https://tympanus.net/codrops/2026/05/21/creating-scroll-driven-svg-map-animations-with-gsap"
+    license: "All rights reserved (Codrops); cited as the pen's explanation, nothing copied"
+    accessed: 2026-10-13
+    visibility: public
+    used-in: [docs/evidence/ports/scroll-map, content/components/creativeocean-scroll-map/scroll-map]
+    note: "The article that explains the pen (a route drawn, a point of view that follows it, the timeline tied to scroll). Reference entry only: its text and demo frame are not used."
+  - id: S-522
+    title: "MDN Web Docs: SVG stroke-dasharray and SVGGeometryElement.getPointAtLength"
+    author: "Mozilla contributors"
+    kind: doc
+    url: "https://developer.mozilla.org/en-US/docs/Web/API/SVGGeometryElement/getPointAtLength"
+    license: "CC-BY-SA-2.5 (content); cited for the APIs only"
+    accessed: 2026-10-13
+    visibility: public
+    used-in: [docs/evidence/ports/scroll-map, content/components/creativeocean-scroll-map/scroll-map]
+    note: "The plain SVG APIs that replace DrawSVG (a dash of the drawn length) and MotionPath (a point at a distance along the route)."
+  - id: S-523
+    title: "WAI-ARIA Authoring Practices: Disclosure pattern"
+    author: "W3C"
+    kind: doc
+    url: "https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/"
+    license: "W3C Document License; cited for the pattern only"
+    accessed: 2026-10-13
+    visibility: public
+    used-in: [docs/evidence/ports/scroll-map, content/components/creativeocean-scroll-map/scroll-map]
+    note: "Reference for the expand button (aria-expanded, Enter and Space) and for returning focus when the map closes."
+  - id: S-508
+    title: "glimm: WebGL sweep transitions for the web (npm package 0.3.1)"
+    author: "Noman Ijaz"
+    kind: library
+    url: "https://www.npmjs.com/package/glimm"
+    license: "MIT"
+    accessed: 2026-10-13
+    visibility: public
+    used-in: [sources.yaml, ports/nomanijaz-glimm, content/components/nomanijaz-glimm, docs/evidence/ports/glimm]
+    note: "Ported from version 0.3.1 (gitHead ea7f5500b10979c1abd006b2462e38528fce1bb8): the framework-agnostic core and the React entry; the Next.js entry is not ported. The GitHub repository named in its package.json (nomanjack/glimm) returned 404 on 2026-10-13, so the npm tarball is the source of record (S-509)."
+  - id: S-509
+    title: "glimm 0.3.1 npm tarball and its LICENSE file (registry.npmjs.org)"
+    author: "Noman Ijaz"
+    kind: library
+    url: "https://registry.npmjs.org/glimm/-/glimm-0.3.1.tgz"
+    license: "MIT"
+    accessed: 2026-10-13
+    visibility: public
+    used-in: [sources.yaml, ports/nomanijaz-glimm/LICENSE, docs/evidence/ports/glimm]
+    note: "dist.shasum 5e24a7060bfd637b3dca383f2251690d0a023285, re-downloaded and compared with the copy used for the port. Its package.json license field and LICENSE file both say MIT, Copyright (c) 2026 Noman Ijaz - iamnoman.com."
+  - id: S-510
+    title: "glimm.dev: the author's project site for glimm"
+    author: "Noman Ijaz"
+    kind: design-reference
+    url: "https://glimm.dev"
+    license: "All rights reserved (author); cited as the project home only, nothing from the site is copied"
+    accessed: 2026-10-13
+    visibility: public
+    used-in: [content/components/nomanijaz-glimm/glimm, docs/evidence/ports/glimm]
+  - id: S-511
+    title: "Understanding WCAG 2.2: Success Criterion 2.3.3 Animation from Interactions"
+    author: "W3C Web Accessibility Initiative"
+    kind: doc
+    url: "https://www.w3.org/WAI/WCAG22/Understanding/animation-from-interactions.html"
+    license: "W3C Document License"
+    accessed: 2026-10-13
+    visibility: public
+    used-in: [content/components/nomanijaz-glimm/glimm, docs/evidence/ports/glimm]
+    note: "Reference for the reduced-motion alternatives (instant swap or a 180 ms crossfade) and, with Success Criterion 2.4.3 Focus Order, for moving focus to the new view after a transition."
+  - id: S-528
+    title: "Owner brief: port pod WEB-2 (web-sourced items: pens, npm-only packages and React upstreams, fidelity first, GSAP rewritten)"
+    author: "Owner"
+    kind: brief
+    private-file: "Owner instructions relayed to port pod WEB-2; not in the repository"
+    license: "All rights reserved (owner)"
+    accessed: 2026-10-13
+    visibility: private-cited-only
+    used-in: [docs/decisions, docs/evidence/ports, content/components]
+  - id: S-524
+    title: "Sabo Sugi, \"Aura\" (a CodePen 2.0 pen: a raymarched field of glowing, winding light lines in one fragment shader, drawn with three.js)"
+    author: "Sabo Sugi"
+    kind: library
+    url: "https://codepen.io/editor/sabosugi/pen/01a0ecd0-036b-7ae5-ba96-479b08e3331f"
+    license: "MIT"
+    accessed: 2026-10-13
+    visibility: public
+    note: "No git commit: pinned by the tree hash of the verbatim snapshot of the pen's files (the snapshot-pinning decision, 0028). All code is in index.html (15,706 characters, SHA-256 0768ad0b16279ad1b8b98258ee8c526c60ae83ebb6254e156cb334be0809a4f8); script.js and style.css are empty and the editor does not show the .codepen file. package.json lists three ^0.186.1 and lil-gui ^0.21.0 while index.html imports three 0.170.0 and lil-gui 0.20.0 from a CDN. Its code comment mentions Shadertoy output; a search for an earlier source of the shader (distinctive constants) found none, recorded in the fidelity notes."
+    used-in: [ports/sabosugi-aura, content/components/sabosugi-aura, sources.yaml, docs/evidence/ports/aura]
+  - id: S-525
+    title: "three.js 0.170.0 (the version Aura's import map pins; run locally from the npm package for the upstream side of the fidelity diff)"
+    author: "three.js authors (mrdoob and contributors)"
+    kind: library
+    url: "https://www.npmjs.com/package/three/v/0.170.0"
+    license: "MIT"
+    accessed: 2026-10-13
+    visibility: public
+    note: "Not a dependency of the port: Aura draws the same shader with raw WebGL 2. Cited because the port reproduces the GLSL prelude three.js 0.170.0 adds to a ShaderMaterial, and the fidelity runs execute upstream on it."
+    used-in: [ports/sabosugi-aura, docs/evidence/ports/aura]
+  - id: S-526
+    title: "lil-gui 0.20.0 (the debug panel Aura's import map pins; run locally on the upstream side only)"
+    author: "George Michael Brower"
+    kind: library
+    url: "https://www.npmjs.com/package/lil-gui/v/0.20.0"
+    license: "MIT"
+    accessed: 2026-10-13
+    visibility: public
+    note: "Not ported and not a dependency: the panel's starting values are the component's defaults, and its collapsed title bar is hidden on the upstream side of the fidelity diff."
+    used-in: [ports/sabosugi-aura, docs/evidence/ports/aura]

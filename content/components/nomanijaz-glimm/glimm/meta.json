@@ -1,0 +1,133 @@
+{
+  "$schema": "https://labs.designfrom.com/schemas/meta.schema.json",
+  "schemaVersion": 1,
+  "name": "glimm",
+  "kind": "component",
+  "title": "Glimm",
+  "description": "Shader-driven page transitions: an iridescent WebGL band sweeps across the window or one box, revealing the incoming view behind it while the outgoing view stays ahead. A React provider and hook over a framework-agnostic core.",
+  "status": "beta",
+  "category": "navigation",
+  "label": "glimm by Noman Ijaz",
+  "variants": [
+    {
+      "name": "glimm",
+      "primitive": "none",
+      "iconSet": "none",
+      "status": "beta"
+    }
+  ],
+  "defaultVariant": "glimm",
+  "demo": "demo.tsx",
+  "preview": "preview.webp",
+  "source": {
+    "repo": "https://www.npmjs.com/package/glimm",
+    "commit": "ea7f5500b10979c1abd006b2462e38528fce1bb8",
+    "path": "dist/index.js and dist/react.js (glimm 0.3.1)"
+  },
+  "author": "Noman Ijaz <https://iamnoman.com>",
+  "license": "MIT",
+  "attribution": "glimm, Copyright (c) 2026 Noman Ijaz - iamnoman.com. MIT License.",
+  "credits": [
+    "S-508",
+    "S-003",
+    "S-004",
+    "S-043",
+    "S-157",
+    "S-283",
+    "S-285",
+    "S-286",
+    "S-287",
+    "S-288",
+    "S-344",
+    "S-509",
+    "S-510",
+    "S-511",
+    "S-528"
+  ],
+  "date": "2026-10-13",
+  "tile": {
+    "span": 2,
+    "rows": 2
+  },
+  "loop": {
+    "hydrate": true,
+    "script": "click[0] → wait → wait → wait → click[3] → click[0] → wait → wait → wait → click[1] → click[0] → wait",
+    "duration": 12000
+  },
+  "tags": [
+    "transition",
+    "page-transition",
+    "shader",
+    "webgl",
+    "view-transitions",
+    "iridescent"
+  ],
+  "props": [
+    {
+      "name": "palette",
+      "type": "\"prism\" | \"berry\" | \"lagoon\" | \"citrus\" | \"azure\" | \"ember\" | Palette",
+      "default": "\"prism\"",
+      "description": "GlimmProvider: the band's colors; also a per-sweep option. Build your own with accentPair, accentChain or shuffleAccentPalette."
+    },
+    {
+      "name": "direction",
+      "type": "\"ltr\" | \"rtl\" | \"ttb\" | \"btt\" | \"inline-start\" | \"inline-end\"",
+      "default": "\"ltr\"",
+      "description": "Which way the band travels. The first four are physical, as upstream; inline-end and inline-start follow the reading direction, so a forward sweep runs right to left in RTL."
+    },
+    {
+      "name": "sweepMs / outroMs / midpoint",
+      "type": "number",
+      "default": "1100 / 220 / 0.56",
+      "description": "Time for the band to cross, the fade after it, and the progress point (0 to 1) where the swap is committed."
+    },
+    {
+      "name": "easing",
+      "type": "\"ease\" | \"linear\" | \"easeOutQuart\" | \"easeOutCubic\" | \"easeInCubic\" | \"easeInOutCubic\" | \"easeOutExpo\" | \"easeInOutQuint\" | \"snap\" | \"back\" | (p) => number",
+      "default": "\"ease\"",
+      "description": "The band's progress curve."
+    },
+    {
+      "name": "bandTight / peakAlpha / brightness / swellAmount / waveAmount / rippleAmount / waveSpeed",
+      "type": "number",
+      "description": "The band's sharpness, peak opacity, brightness (lower it on dark pages), crest depth, edge wave, ripple texture and motion speed."
+    },
+    {
+      "name": "scope",
+      "type": "\"viewport\" | \"container\"",
+      "default": "\"viewport\"",
+      "description": "viewport (upstream): the band crosses the window and the page is held with View Transitions. container: the band crosses the provider's own box (set its size with className) and its content is held as a frozen copy, so a transition can live inside a card or dialog."
+    },
+    {
+      "name": "reducedMotion",
+      "type": "\"instant\" | \"sweep\" | \"crossfade\"",
+      "default": "\"instant\"",
+      "description": "Under prefers-reduced-motion: swap at once (upstream), play the sweep anyway, or fade the new view in over the old one."
+    },
+    {
+      "name": "fallback",
+      "type": "\"wipe\" | \"instant\"",
+      "default": "\"wipe\"",
+      "description": "When WebGL cannot draw (no context, or a lost one): wipe the view without the band, or swap at once (upstream)."
+    },
+    {
+      "name": "shaderFactory / onController / zIndex",
+      "type": "ShaderFactory / (ctrl) => void / number",
+      "description": "Swap the look (createMeshShader), receive the controller for live tuning, and set the overlay's z-index (9999 for the viewport, 2 in a container)."
+    },
+    {
+      "name": "useGlimm().sweep(navigate, options?)",
+      "type": "(navigate: () => void | Promise<void>, options?: SweepOptions & { focus?: string | HTMLElement | (() => HTMLElement | null) }) => { midpoint, done, cancel }",
+      "description": "Plays one transition: runs your navigation, waits for React to commit it, reveals the new view, and returns a handle. focus moves focus to the new view once it is committed."
+    }
+  ],
+  "a11y": [
+    "The canvas layer and the frozen copy of the outgoing view are aria-hidden, inert, and never reachable by keyboard; the live view underneath is the only interactive one.",
+    "Pass focus to sweep() to move focus to the new view's heading once it is committed (a heading gets tabindex -1); upstream does not move focus.",
+    "Reduced motion: the default swaps at once, or reducedMotion=\"crossfade\" fades the new view in over the old one in 180 ms; nothing travels across the view.",
+    "Without WebGL, or after the context is lost, a sweep runs the same masks without the band (fallback=\"wipe\"), or swaps at once (fallback=\"instant\").",
+    "inline-end and inline-start make the direction follow dir, so the band moves in reading order in right-to-left pages.",
+    "Pointer input is blocked while a transition runs and keyboard focus is never trapped."
+  ],
+  "usage": "<GlimmProvider palette=\"prism\">\n  <App />\n</GlimmProvider>\n\nconst { sweep } = useGlimm();\n<button onClick={() => sweep(() => setView(\"next\"))}>Next</button>"
+}

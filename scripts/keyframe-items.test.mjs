@@ -5,10 +5,20 @@ import assert from "node:assert/strict";
 import { test } from "node:test";
 import { loadComponents } from "./lib/content.mjs";
 
+// A keyframes rule whose frames never change anything moves nothing, so it
+// needs no reduced-motion fallback: Glimm's View Transition "hold" keeps a
+// snapshot pair alive for the length of the sweep (opacity 1 to opacity 1).
+// Glimm's own reduced-motion handling is in its provider (`reducedMotion`).
+const STATIC_HOLDS = ["glimm-snapshot-hold"];
+const moves = (content) =>
+  [...content.matchAll(/@keyframes\s+([\w-]+)/g)].some(
+    ([, name]) => !STATIC_HOLDS.includes(name),
+  );
+
 const withKeyframes = loadComponents().flatMap((entry) =>
   [...entry.items.values()].flatMap((item) =>
     (item.files ?? [])
-      .filter((file) => /@keyframes\s/.test(file.content ?? ""))
+      .filter((file) => moves(file.content ?? ""))
       .map((file) => ({ component: entry.meta?.name, item, file })),
   ),
 );

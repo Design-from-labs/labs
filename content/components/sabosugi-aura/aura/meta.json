@@ -1,0 +1,133 @@
+{
+  "$schema": "https://labs.designfrom.com/schemas/meta.schema.json",
+  "schemaVersion": 1,
+  "name": "aura",
+  "kind": "component",
+  "title": "Aura",
+  "description": "A raymarched field of glowing, winding light lines in one WebGL 2 shader: a spectral fan rising from a point, with tint, speed and exposure props.",
+  "status": "beta",
+  "category": "media",
+  "label": "Aura (CodePen)",
+  "variants": [
+    {
+      "name": "aura",
+      "primitive": "none",
+      "iconSet": "none",
+      "status": "beta"
+    }
+  ],
+  "defaultVariant": "aura",
+  "demo": "demo.tsx",
+  "preview": "preview.webp",
+  "source": {
+    "repo": "https://codepen.io/editor/sabosugi/pen/01a0ecd0-036b-7ae5-ba96-479b08e3331f",
+    "commit": "6ca7c583a9bf4b2a3a75767bdb013dcf9c528975",
+    "path": "upstream/index.html"
+  },
+  "author": "Sabo Sugi <https://codepen.io/sabosugi>",
+  "license": "MIT",
+  "attribution": "Copyright (c) 2026 Sabo Sugi (https://codepen.io/editor/sabosugi/pen/01a0ecd0-036b-7ae5-ba96-479b08e3331f). MIT License.",
+  "credits": [
+    "S-524",
+    "S-003",
+    "S-004",
+    "S-019",
+    "S-020",
+    "S-157",
+    "S-450",
+    "S-451",
+    "S-525",
+    "S-526",
+    "S-528"
+  ],
+  "date": "2026-10-13",
+  "tile": {
+    "span": 2,
+    "rows": 2,
+    "surface": "dark"
+  },
+  "tags": [
+    "shader",
+    "webgl",
+    "glsl",
+    "raymarching",
+    "glow",
+    "background"
+  ],
+  "props": [
+    {
+      "name": "playing",
+      "type": "boolean",
+      "default": "true",
+      "description": "Plays the animation; false holds the current frame."
+    },
+    {
+      "name": "speed",
+      "type": "number",
+      "default": "0.65",
+      "description": "Animation speed, 0 to 5 (upstream's default)."
+    },
+    {
+      "name": "time",
+      "type": "number",
+      "description": "Shows one moment (seconds of animation) and stops the clock, for stills."
+    },
+    {
+      "name": "tint",
+      "type": "string",
+      "default": "\"#ffffff\"",
+      "description": "Multiplies the light, as #rgb or #rrggbb."
+    },
+    {
+      "name": "exposure",
+      "type": "number",
+      "default": "2000",
+      "description": "Divides the light before tone mapping, 200 to 8000: lower is brighter."
+    },
+    {
+      "name": "lineWidth",
+      "type": "number",
+      "default": "0.0086",
+      "description": "Width of the bright line cores, 0 to 0.05."
+    },
+    {
+      "name": "lineHeight",
+      "type": "number",
+      "default": "1.84",
+      "description": "Vertical stretch of the lines, 0.1 to 5."
+    },
+    {
+      "name": "warpFrequency | warpSmoothness",
+      "type": "number",
+      "default": "2.42 | 2.32",
+      "description": "How tightly the lines wind (0.1 to 6) and how quickly the winding fades at fine detail (0 to 5)."
+    },
+    {
+      "name": "raySteps",
+      "type": "number",
+      "default": "50",
+      "description": "Ray marching steps, 21 to 150: more is smoother and slower."
+    },
+    {
+      "name": "dpr",
+      "type": "number",
+      "default": "1",
+      "description": "The exact pixel ratio of the drawing buffer, 0.5 to 3. Upstream draws at 1 on every screen."
+    },
+    {
+      "name": "fallback",
+      "type": "React.ReactNode",
+      "description": "Replaces the static picture shown without WebGL 2 and before the first frame."
+    },
+    {
+      "name": "onStatusChange",
+      "type": "(status: RenderLoopStatus) => void",
+      "description": "Reports the loop status, for example to hide playback controls without WebGL 2."
+    }
+  ],
+  "a11y": [
+    "Decorative by default (aria-hidden); with aria-label it is role=\"img\" with that name.",
+    "Reduced motion: the field stops on one still frame (the shader's picture at 12 s); nothing moves. Without WebGL 2 a CSS picture of the fan shows instead."
+  ],
+  "usage": "<Aura aria-label=\"A fan of glowing light lines\" className=\"rounded-lg\" />"
+}

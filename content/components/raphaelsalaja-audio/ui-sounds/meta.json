@@ -1,0 +1,131 @@
+{
+  "$schema": "https://labs.designfrom.com/schemas/meta.schema.json",
+  "schemaVersion": 1,
+  "name": "ui-sounds",
+  "kind": "component",
+  "title": "UI Sounds",
+  "description": "A declarative synthesizer for interface sounds: describe a sound as data, play it from React with a provider, hooks, mute and volume, or render it offline. Includes the Core sound pack and works offline.",
+  "status": "beta",
+  "category": "feedback",
+  "label": "audio by Raphael Salaja",
+  "variants": [
+    {
+      "name": "ui-sounds",
+      "primitive": "none",
+      "iconSet": "none",
+      "status": "beta"
+    }
+  ],
+  "defaultVariant": "ui-sounds",
+  "demo": "demo.tsx",
+  "preview": "preview.webp",
+  "source": {
+    "repo": "https://github.com/raphaelsalaja/audio",
+    "commit": "d8c04c77eff93e4ff8355b96dfa806f9a8c79b69",
+    "path": "packages/audio/src"
+  },
+  "author": "Raphael Salaja <https://github.com/raphaelsalaja>",
+  "license": "MIT",
+  "attribution": "audio, Copyright (c) 2026 Raphael Salaja. MIT License.",
+  "credits": [
+    "S-516",
+    "S-003",
+    "S-004",
+    "S-014",
+    "S-154",
+    "S-157",
+    "S-517",
+    "S-518",
+    "S-528"
+  ],
+  "date": "2026-10-13",
+  "tile": {
+    "span": 2,
+    "rows": 2
+  },
+  "loop": {
+    "script": "hover[3] → press[3] → release[3] → hover[9] → press[9] → release[9] → idle",
+    "duration": 6400
+  },
+  "tags": [
+    "audio",
+    "sound",
+    "web-audio",
+    "synthesizer",
+    "ui-sounds",
+    "hooks"
+  ],
+  "props": [
+    {
+      "name": "SoundProvider enabled",
+      "type": "boolean",
+      "default": "true",
+      "description": "Whether sounds may play. Controlled: keep it in your own state and update it from onEnabledChange."
+    },
+    {
+      "name": "SoundProvider volume",
+      "type": "number",
+      "default": "1",
+      "description": "Master volume multiplier from 0 to 1, applied to every sound played below the provider."
+    },
+    {
+      "name": "SoundProvider respectReducedMotion",
+      "type": "boolean",
+      "default": "true",
+      "description": "Labs addition. Upstream keeps the hooks silent while the user prefers reduced motion; pass false to let your own mute control decide."
+    },
+    {
+      "name": "SoundProvider onEnabledChange / onVolumeChange",
+      "type": "(value) => void",
+      "description": "Called when a child (such as SoundControls) asks for a change."
+    },
+    {
+      "name": "useSound(definition, options?)",
+      "type": "() => VoiceHandle | undefined",
+      "description": "A stable callback that plays one sound definition. Returns undefined when muted. Call it from an event handler."
+    },
+    {
+      "name": "usePatch(patch)",
+      "type": "AudioPatch",
+      "description": "A patch (an object, or a URL fetched on mount) whose play(name, options?) respects the provider. Pass corePatch for the bundled pack."
+    },
+    {
+      "name": "useSequence(steps, options?)",
+      "type": "{ play, stop }",
+      "description": "Stable play and stop callbacks for a timed sequence of sounds, optionally looping."
+    },
+    {
+      "name": "useSoundControls()",
+      "type": "{ enabled, volume, setEnabled, setVolume, silenced }",
+      "description": "Labs addition. Reads the provider so a switch and slider can sit anywhere below it. silenced is true while reduced motion keeps sounds off."
+    },
+    {
+      "name": "SoundControls",
+      "type": "{ label?, onOverride?, className? }",
+      "description": "Labs addition. A sound switch and volume slider; explains the reduced-motion silence and offers Play anyway when onOverride is set."
+    },
+    {
+      "name": "defineSound(definition)",
+      "type": "(options?) => VoiceHandle",
+      "description": "The vanilla API (@/lib/ui-sounds-api): bind a sound definition into a function that plays it on the shared audio context."
+    },
+    {
+      "name": "renderToBuffer(definition, { duration, sampleRate?, numberOfChannels? })",
+      "type": "Promise<AudioBuffer>",
+      "description": "Renders a sound offline with OfflineAudioContext, with no speakers involved; renderToWav encodes it as a WAV blob."
+    },
+    {
+      "name": "corePatch",
+      "type": "SoundPatch",
+      "description": "The Core pack, 62 interface sounds (click, toggle-on, success, error, swoosh and more), bundled as data."
+    }
+  ],
+  "a11y": [
+    "Nothing plays on its own: every sound starts from a handler you call (a click, key or tap), and the shared audio context is created the first time one plays.",
+    "SoundControls is a labelled switch and a labelled range input; both work with the keyboard and keep their visible text in their accessible name.",
+    "Sound is not motion, but upstream keeps the hooks silent under prefers-reduced-motion. That stays the default; SoundControls says so while it applies and offers Play anyway, and respectReducedMotion={false} turns the rule off.",
+    "Give users a way to turn sound off or lower it (WCAG 2.2 audio control): render SoundControls or your own switch bound to the provider.",
+    "Do not rely on a sound alone to convey information; pair it with a visible or announced change."
+  ],
+  "usage": "<SoundProvider enabled={on} volume={volume} onEnabledChange={setOn} onVolumeChange={setVolume}>\n  <SoundControls />\n  <PlayButton />\n</SoundProvider>\n\nfunction PlayButton() {\n  const patch = usePatch(corePatch);\n  return <button type=\"button\" onClick={() => patch.play(\"success\")}>Save</button>;\n}"
+}

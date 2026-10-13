@@ -1160,3 +1160,110 @@ oss:
         category: typography
         upstream: upstream/style.css
 
+  - id: raphaelsalaja-audio
+    name: audio by Raphael Salaja
+    repo: https://github.com/raphaelsalaja/audio
+    visibility: public
+    status: active
+    fetch: in-repo
+    ref: d8c04c77eff93e4ff8355b96dfa806f9a8c79b69
+    author: "Raphael Salaja <https://github.com/raphaelsalaja>"
+    license: MIT
+    attribution: "audio, Copyright (c) 2026 Raphael Salaja. MIT License."
+    credit: S-516
+    components:
+      - name: ui-sounds
+        upstream: packages/audio/src
+        status: beta
+        category: feedback
+  # A public CodePen 2.0 pen, MIT licensed by its own Details view. It has no
+  # git commit: `ref` is the git tree hash of the verbatim snapshot of its
+  # files in ports/sabosugi-aura/aura/upstream (the snapshot-pinning decision,
+  # 0028). The pen's debug panel (lil-gui) is not ported; its three.js
+  # ShaderMaterial is replaced by the same shader on raw WebGL 2.
+  - id: sabosugi-aura
+    name: Aura (CodePen)
+    repo: https://codepen.io/editor/sabosugi/pen/01a0ecd0-036b-7ae5-ba96-479b08e3331f
+    visibility: public
+    status: active
+    fetch: in-repo
+    ref: 6ca7c583a9bf4b2a3a75767bdb013dcf9c528975
+    author: "Sabo Sugi <https://codepen.io/sabosugi>"
+    license: MIT
+    attribution: "Copyright (c) 2026 Sabo Sugi (https://codepen.io/editor/sabosugi/pen/01a0ecd0-036b-7ae5-ba96-479b08e3331f). MIT License."
+    credit: S-524
+    components:
+      - name: aura
+        status: beta
+        category: media
+        upstream: upstream/index.html
+  - id: hiaaryan-sileo
+    name: sileo by Aaryan
+    repo: https://github.com/hiaaryan/sileo
+    visibility: public
+    status: active
+    fetch: in-repo
+    ref: fea6820dd34fe00aa9d68c956f2080464c6ab3b2
+    author: "Aaryan (hiaaryan) <https://github.com/hiaaryan>"
+    license: MIT
+    attribution: "sileo, Copyright (c) 2026 Aaryan (hiaaryan). MIT License, as declared by the published npm package sileo@0.1.6 (the repository carries no LICENSE file)."
+    credit: S-500
+    components:
+      - name: pill-toast
+        upstream: packages/sileo/src
+        status: beta
+        category: feedback
+  - id: angelolibero-surface-field
+    name: Surface Field by Angelo Libero
+    repo: https://github.com/angelolibero/surface-field
+    visibility: public
+    status: active
+    fetch: in-repo
+    ref: 1674954a249b2e76aac1a83c8bfa1c3a4e5d543f
+    author: "Angelo Libero <https://github.com/angelolibero>"
+    license: MIT
+    attribution: "Copyright (c) 2026 Angelo Libero. MIT License."
+    credit: S-512
+    components:
+      - name: surface-field
+        upstream: src
+        status: beta
+        category: media
+  # A CodePen pen has no commit: `ref` is the git tree hash of the verbatim
+  # snapshot in ports/creativeocean-scroll-map/scroll-map/upstream (the
+  # snapshot-pinning decision). The MIT notice is the pen's own. GSAP, with
+  # DrawSVG, MotionPath and ScrollTrigger (used upstream), is under a
+  # proprietary license, so the port's motion is rewritten with Motion and
+  # plain SVG; the pen's map photograph and web font are replaced.
+  - id: creativeocean-scroll-map
+    name: Scroll map
+    repo: https://codepen.io/creativeocean/pen/myOVZYO
+    visibility: public
+    status: active
+    fetch: in-repo
+    ref: 2f6c844a3a428256741dfdd4b55939bfdb0a4df5
+    author: "Tom Miller <https://codepen.io/creativeocean>"
+    license: MIT
+    attribution: "Copyright (c) 2026 by Tom Miller (https://codepen.io/creativeocean/pen/myOVZYO). MIT License."
+    credit: S-520
+    components:
+      - name: scroll-map
+        status: beta
+        category: media
+        upstream: upstream/debug.html
+  - id: nomanijaz-glimm
+    name: glimm by Noman Ijaz
+    repo: https://www.npmjs.com/package/glimm
+    visibility: public
+    status: active
+    fetch: in-repo
+    ref: ea7f5500b10979c1abd006b2462e38528fce1bb8
+    author: "Noman Ijaz <https://iamnoman.com>"
+    license: MIT
+    attribution: "glimm, Copyright (c) 2026 Noman Ijaz - iamnoman.com. MIT License."
+    credit: S-508
+    components:
+      - name: glimm
+        upstream: dist/index.js and dist/react.js (glimm 0.3.1)
+        status: beta
+        category: navigation

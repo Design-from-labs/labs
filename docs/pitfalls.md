@@ -2751,3 +2751,427 @@ Design From and Design From Labs (the guards enforce this).
   `LABS_INCLUDE_BETA=1` build before handing off; guard every test that looks
   for a beta tile by its presence, not by a page status.
 - Links: `e2e/magnet-menu.spec.ts`, `e2e/scroll-carousel.spec.ts`
+
+### P-WEB2-AUDIO-1
+
+- Date: 2026-10-13
+- Area: Ports (shape of a library with no UI)
+- Symptom: The audio library is hooks and a synthesis engine, which suggests a
+  `kind: "hook"` foundation item, but a hook item has no demo, so the gallery
+  would show nothing to see or hear.
+- Cause: `scripts/export-ports.mjs` always writes `kind: "component"`, and the
+  foundation kinds (`hook`, `lib`) are exported only from the Labs examples,
+  which carry no demo.
+- Fix: ship it as a component (`ui-sounds`, category feedback) whose demo
+  exercises the hooks; the engine files are `registry:lib` files of the same
+  item, the React hooks are the `registry:ui` file.
+- Prevention: when a port is mostly logic, decide the shape from what the
+  gallery needs to show; a port that needs a demo is a component.
+- Links: `ports/raphaelsalaja-audio/ui-sounds/component.json`
+
+### P-WEB2-AUDIO-2
+
+- Date: 2026-10-13
+- Area: Fidelity (Web Audio offline rendering)
+- Symptom: Rendering the same sound twice through the same unmodified upstream
+  code with `OfflineAudioContext` gave different samples (up to 9e-3 for a
+  sound with a chorus; 1.5e-8 for plain layered sounds), so a port-versus-
+  upstream comparison could not reach "bit-identical".
+- Cause: the engine's `onended` handler disconnects nodes and stops effect
+  LFOs, and Chromium fires `ended` on the main thread while the offline
+  render runs on the audio thread, so the cut-off lands at a different render
+  quantum each run. Summation order of connections adds 1-ulp noise on top.
+- Fix: the comparison harness replaces `AudioScheduledSourceNode.prototype
+  .onended` with a no-op on both sides (the handler is cleanup only), seeds
+  `Math.random` per sound, and reports the unmodified, racy run and the
+  upstream-versus-itself floor beside the deterministic one.
+- Prevention: for audio, measure the noise floor first (upstream against
+  itself) and remove nondeterministic cleanup from the measured path instead
+  of widening the tolerance.
+- Links: `docs/evidence/ports/ui-sounds/fidelity.md`
+
+### P-WEB2-AUDIO-3
+
+- Date: 2026-10-13
+- Area: Ports (server rendering, autoplay)
+- Symptom: Upstream's `useAnalyser` would throw during server rendering and
+  create the audio context before any user gesture.
+- Cause: it creates the master-bus analyser in a `useState` initializer, and
+  `getContext()` calls `new AudioContext` there. Nothing else in upstream
+  touches the context at import or render time.
+- Fix: kept as upstream (a different API would change behavior) and
+  documented in the item's `docs`; the demo creates its analyser inside the
+  first button press instead of calling the hook.
+- Prevention: when a hook wraps a browser-only constructor, check where it
+  runs (render, effect or handler) and grep for `new AudioContext` outside
+  handlers.
+- Links: `ports/raphaelsalaja-audio/ui-sounds/ui-sounds.tsx`
+
+### P-WEB2-AUDIO-4
+
+- Date: 2026-10-13
+- Area: Tooling (typecheck coverage)
+- Symptom: `pnpm typecheck` passed while a port file had a type error.
+- Cause: `tsconfig.json` excludes `content`, `.generated` and `examples`, and
+  ports live outside `src`, so no gate type-checks a ported item.
+- Fix: the port was checked with a throwaway strict `tsconfig` that maps the
+  `@/lib/*` and `@/components/ui/*` aliases to the port directory (TypeScript
+  6, `lib` ES2022 and DOM, `skipLibCheck`).
+- Prevention: type-check every port with strict mode before the commit; do
+  not read a green `pnpm typecheck` as a check of `ports/`.
+- Links: `tsconfig.json`
+
+### P-WEB2-AUDIO-5
+
+- Date: 2026-10-13
+- Area: Previews (beta entries)
+- Symptom: `node scripts/previews.mjs` writes nothing for a beta entry, and its
+  capture runs with `reducedMotion: "reduce"`, which makes UI Sounds draw its
+  "sounds are silent because your system asks for reduced motion" note into
+  the still.
+- Cause: the script skips entries whose status is not `ready`, and emulates
+  reduced motion for every still.
+- Fix: a copy of the capture for this one entry, served from a
+  `LABS_INCLUDE_BETA=1` build, without the reduced-motion emulation (the
+  component does not move until a sound plays).
+- Prevention: when a component's content depends on the reduced-motion
+  setting, capture its still in the default state and say so in the report.
+- Links: `scripts/previews.mjs`
+
+### P-WEB2-AURA-1
+
+- Date: 2026-10-13
+- Area: Sources (CodePen 2.0)
+- Symptom: Reading each of a pen's files in turn from the editor returned the same text (the contents of `index.html`, 15,706 characters) for `package.json`, `script.js` and `style.css`.
+- Cause: Clicking a file in the editor's file tree does not switch the one `cp-codemirror-editor` instance; only the `?file=%2F<name>` query selects the file. The `.codepen` file is listed in the tree but has no editor at all.
+- Fix: Navigate to `...?file=%2F<name>&panel=files&show=split` for each file and check the editor's `aria-label` names the file before reading it; record `.codepen` as not exposed.
+- Prevention: Verify the file name (`aria-label`) and the SHA-256 of every captured file; compare the pen's `package.json` with the import map (here `three ^0.186.1` and `lil-gui ^0.21.0` versus the 0.170.0 and 0.20.0 that `index.html` actually loads) and pin what runs.
+- Links: `docs/evidence/ports/aura/fidelity.md`
+
+### P-WEB2-AURA-2
+
+- Date: 2026-10-13
+- Area: Components (WebGL)
+- Symptom: An unchanged copy of the pen's fragment shader failed to compile in a WebGL 1 context: "Loop index cannot be compared with non-constant expression".
+- Cause: The ray loop's bound is a uniform (`uRaySteps`), which GLSL ES 1.00 forbids and GLSL ES 3.00 allows. three.js hides this by always using WebGL 2.
+- Fix: The port asks for `webgl2` only and writes out the ES 3.00 prelude three.js would add (`precision`, a `pc_fragColor` output, the `gl_FragColor` alias); without WebGL 2 it shows its CSS picture.
+- Prevention: A port of a three.js `ShaderMaterial` shader is a WebGL 2 port; compile it in WebGL 1 once to know.
+- Links: `ports/sabosugi-aura/aura/aura.tsx`
+
+### P-WEB2-AURA-3
+
+- Date: 2026-10-13
+- Area: Fidelity harness
+- Symptom: Pinning an animated shader's time by running its real clock needs thousands of software-rendered frames (every `requestAnimationFrame` under the fake clock draws one).
+- Cause: A software-rendered ray-marching frame at 1280x800 is slow (a page load with a few frames took 2.4 to 2.9 s here), and the page's own loop accumulates its time frame by frame, so reaching a time of 60 s at the page's pace means thousands of frames.
+- Fix: An init script on the upstream page wraps `uniform1f` for the `uTime` location and uploads the pinned value (the page's own code is untouched); the port is given the same value through `time`. The clock itself (the speed factor and the 0.1 s delta clamp) is verified separately, on the fake clock, by logging the uploaded values on both sides.
+- Prevention: Pin at the GL boundary, and log the value that actually reached the GPU on both sides in the evidence.
+- Links: `docs/evidence/ports/aura/fidelity.md`
+
+### P-WEB2-AURA-4
+
+- Date: 2026-10-13
+- Area: Components (render-loop)
+- Symptom: A `dpr` equal to the pen's (exactly 1.0) could not be expressed with `useRenderLoop`: its pixel ratio is the device ratio clamped to `[1, maxDpr]`, so a `dpr` of 2 on a 1x screen, or 0.5 anywhere, was impossible.
+- Cause: The pen's `dpr` is the exact buffer ratio (`setPixelRatio(min(dpr, 3))`), not a cap on the device ratio.
+- Fix: Aura passes its own `resize` (floor of the CSS size times the `dpr` prop, as three.js's `setSize`) and also fits the buffer at draw time so a changed prop takes effect.
+- Prevention: Read how an upstream derives its buffer size before choosing `maxDpr`; a custom `resize` exists for this.
+- Links: `ports/sabosugi-aura/aura/aura.tsx`
+
+### P-WEB2-AURA-5
+
+- Date: 2026-10-13
+- Area: Tests (WebGL)
+- Symptom: A test that read a still canvas back with `toDataURL` twice and compared them passed even when the canvas kept redrawing.
+- Cause: A WebGL canvas created without `preserveDrawingBuffer` reads back blank outside the frame that drew it, so both reads were the same blank image.
+- Fix: Count `drawArrays` calls with an init script and assert the count stops growing under reduced motion.
+- Prevention: Assert stillness on draw calls, not on pixels read back.
+- Links: `e2e/webgl.spec.ts`
+
+### P-WEB2-AURA-6
+
+- Date: 2026-10-13
+- Area: Components (WebGL context restore)
+- Symptom: After a lost context was restored, the console logged "delete: object does not belong to this context" for the shaders, program, buffer and vertex array.
+- Cause: `render-loop` disposes the old handle on restore, and the restored context's objects are a new generation; deleting the old ones logs a warning (Iridescent Ribbon's dispose deletes its objects the same way; its console output was not measured).
+- Fix: Aura's dispose guards each delete with `isShader`, `isProgram`, `isBuffer` and `isVertexArray`.
+- Prevention: Guard deletes in a dispose that can run after a restore.
+- Links: `ports/sabosugi-aura/aura/aura.tsx`
+
+### P-WEB2-SILEO-1
+
+- Date: 2026-10-13
+- Area: Components (nested interactive controls)
+- Symptom: Upstream's toast root is a `<button>` whose description holds the
+  action as `<a href="#">`, a link inside a button (axe: nested-interactive;
+  the action cannot be reached from the keyboard as a separate control).
+- Cause: the whole card is a button so a click anywhere can swipe it away;
+  the action had to live inside it.
+- Fix: the root is a `div` (a focusable named group when it has a
+  description) and the action is a real `<button>`. A `<button>` shrinks to
+  its content even with `display: flex`, where the `<a>` filled the row, so
+  the action also needs `width: 100%` and `box-sizing: border-box`; without
+  them the action diffed at 298 pixels (0.098% at 375x812) from the fidelity
+  frame.
+- Prevention: when swapping an element for a semantic one, diff the box, not
+  only the glyphs: buttons and links size themselves differently.
+- Links: `docs/evidence/ports/pill-toast/fidelity.md`
+
+### P-WEB2-SILEO-2
+
+- Date: 2026-10-13
+- Area: Fidelity harness (Vite and Playwright)
+- Symptom: A fidelity run died with "Execution context was destroyed", and
+  another hung for twenty minutes without output.
+- Cause: (1) editing the port's files while its Vite server was being
+  screenshotted reloaded the page mid-run; (2) the harness's `window.demo`
+  returned the promise from `promise()`, which stays pending until the toast
+  resolves, and `page.evaluate` awaits a returned promise.
+- Fix: edit sources only between runs (queue runs through one held
+  `heavy.sh` slot and edit while it idles); a harness trigger returns nothing.
+- Prevention: never return a toast's promise from a function passed to
+  `page.evaluate`.
+- Links: none
+
+### P-WEB2-SILEO-3
+
+- Date: 2026-10-13
+- Area: Styles (CSS filters)
+- Symptom: A focus ring drawn as a chain of `drop-shadow()` functions did not
+  render and the computed `filter` was `none`.
+- Cause: the filter functions were separated by commas; a `filter` list is
+  space-separated, so the whole declaration was invalid at parse time.
+- Fix: separate the functions with spaces. Four cardinal 2px shadows give a
+  2px ring that follows the gooey silhouette; adding the diagonals compounds
+  (each function filters the previous result) and made it 4 to 5px.
+- Prevention: print `getComputedStyle(el).filter`: `none` for a rule that
+  should apply means it was rejected.
+- Links: `ports/hiaaryan-sileo/pill-toast/src/shared/pill-toast-styles.ts`
+
+### P-WEB2-SILEO-4
+
+- Date: 2026-10-13
+- Area: Components (forced colors)
+- Symptom: Under forced colors the toast's pill and card vanished: text on
+  the page background, no shape.
+- Cause: forced colors replaces the SVG `fill`, so the shapes paint `Canvas`
+  on `Canvas`, and the gooey filter's composite does not draw an outline.
+- Fix: in `forced-colors: active` the filter on the shapes is dropped and the
+  two rectangles are drawn crisp, filled `Canvas` and stroked `CanvasText`
+  (`Highlight`, 3px, on keyboard focus).
+- Prevention: emulate `forcedColors: "active"` for any component drawn in SVG
+  with a filter, and look at the screenshot.
+- Links: `ports/hiaaryan-sileo/pill-toast/src/shared/pill-toast-styles.ts`
+
+### P-WEB2-SURFACE-1
+
+- Date: 2026-10-13
+- Area: Components (render-loop with a toggled second canvas)
+- Symptom: Turning `connected` on or off (a second canvas for the line fabric) would have left the render loop observing a canvas that was no longer in the page: no resize, no off-screen pause for the new one.
+- Cause: `useRenderLoop` binds its observers, context and size to the canvas element present when its effect runs, and the effect depends only on the ref object. Rendering the dots canvas in a different parent for the two modes replaces the element.
+- Fix: both modes render the same grid wrapper, the fabric canvas is a conditional first child and the dots canvas is always the last one, so React keeps that element.
+- Prevention: when a render-loop component toggles other elements around its canvas, keep the loop's canvas in one fixed place in the tree and check `canvas === canvasBefore` after a toggle.
+- Links: `ports/angelolibero-surface-field/surface-field/surface-field.tsx`
+
+### P-WEB2-SURFACE-2
+
+- Date: 2026-10-13
+- Area: Components (an engine that schedules its own frames)
+- Symptom: The obvious port of a canvas engine with its own frame chain, sleep and doze timers is either a rewrite to a per-frame draw function or a second loop beside render-loop.
+- Cause: render-loop owns frame scheduling (`continuous: true` draws every vsync, `false` draws after `invalidate()`); an engine that decides when its next frame is due needs the second mode and a way to hand its callbacks to the loop.
+- Fix: a frame queue: the engine's `frame(cb)` stores the callback and calls `invalidate()`, the loop's `render` runs the stored callbacks; `respectReducedMotion: false` because the engine draws its own still frame (decision 0099, to be renumbered).
+- Prevention: for an engine with an environment object, supply `frame` and `cancelFrame` from the loop instead of rewriting it; handles must never be 0 if the engine uses 0 for "none".
+- Links: `docs/decisions/0099-surface-field-frames-on-render-loop.md`
+
+### P-WEB2-SURFACE-3
+
+- Date: 2026-10-13
+- Area: Tooling (Playwright fake clock with Radix controls)
+- Symptom: A fidelity run that was meant to compare the Still preset compared upstream's Workspace against the port's Still: 0.6% differing, and nothing said why.
+- Cause: the upstream hook opened the preset select and pressed ArrowDown three times with no clock steps between the keys; on a paused fake clock Radix had not moved focus yet, so the selection stayed on Workspace. The hook never checked the select's value.
+- Fix: `page.clock.runFor(100)` after the opening key and after each ArrowDown (a forced click works too), and read the control's value back when debugging.
+- Prevention: when a hook drives a control on a paused clock, assert the control's resulting value; a diff that looks like "the whole picture differs" in only some presets is a configuration miss, so look at the before image first.
+- Links: `docs/evidence/ports/surface-field/fidelity.md`
+
+### P-WEB2-SURFACE-4
+
+- Date: 2026-10-13
+- Area: Tooling (shell)
+- Symptom: Renaming a type across a merged port with `sed -i '' 's/\bName\b/New/g'` changed nothing and reported success.
+- Cause: BSD sed on macOS does not support `\b`.
+- Fix: use perl (`perl -pi -e 's/\bName\b/New/g'`) and count the matches afterwards.
+- Prevention: grep the count of old and new names after any scripted rename.
+- Links: `ports/angelolibero-surface-field/surface-field/surface-field-engine.ts`
+
+### P-WEB2-SURFACE-5
+
+- Date: 2026-10-13
+- Area: Lint (Biome hook suppressions)
+- Symptom: `biome-ignore lint/correctness/useExhaustiveDependencies` placed inside the effect, after the last statement, was reported as "no effect" while the diagnostic stayed.
+- Cause: the suppression must sit on the line directly above the hook call, which is where the rule reports.
+- Fix: move the comment above `React.useEffect(`.
+- Prevention: put hook suppressions immediately before the call.
+- Links: `ports/angelolibero-surface-field/surface-field/surface-field.tsx`
+
+### P-WEB2-SURFACE-6
+
+- Date: 2026-10-13
+- Area: Demos (scaled specimens)
+- Symptom: In the gallery preview (`/preview/<item>` scales the demo by 1.6) the surfaces of the Surface Field demo were in the wrong places and the field cleared around other spots.
+- Cause: the demo placed its cards from `getBoundingClientRect()`, which is the scaled box, and gave the field rectangles in layout pixels; the field itself measures its canvas on screen, so the two frames disagreed by the scale. The wall tile scales demos too.
+- Fix: the demo places cards in layout pixels (`offsetWidth` and `offsetHeight`), sends the field scene rectangles and footprints multiplied by the measured scale, and divides pointer travel by it.
+- Prevention: a demo that mixes layout geometry with screen geometry must measure both and convert; look at `/preview/<item>` before generating the preview still.
+- Links: `ports/angelolibero-surface-field/surface-field/demo.tsx`
+
+### P-WEB2-MAP-1
+
+- Date: 2026-10-13
+- Area: Fidelity harness (upstream selectors)
+- Symptom: With the generated street map swapped into the pen, the upstream
+  side showed a blank page and one pale rectangle in a corner.
+- Cause: The pen moves the camera with `quickTo('.pov g', ...)`, a selector
+  that matches every `<g>` below `.pov`. The art was wrapped in a `<g>`, so it
+  was translated a second time and left the viewBox.
+- Fix: The art is a bare fragment (no group), so the pen's selector still finds
+  only the camera group, on both sides of the diff.
+- Prevention: Before swapping an upstream's media for a stand-in, read the
+  selectors its script uses and keep the stand-in out of their reach.
+- Links: `ports/creativeocean-scroll-map/scroll-map/scroll-map-art.tsx`
+
+### P-WEB2-MAP-2
+
+- Date: 2026-10-13
+- Area: Components (GSAP rewrite, ScrollTrigger scrub)
+- Symptom: The rewritten scrub caught up with the scroll about twice as slowly
+  as upstream's in the first frames.
+- Cause: The scrub's smoothing was written from memory as power3 out, as the
+  documentation describes it. Sampling the library's own tween (the timeline's
+  progress after one 16 ms frame) shows an expo-out curve over the scrub's
+  seconds, restarted from the current value on every change of the scroll
+  progress; the `quickTo` camera tweens restart the same way (from the value
+  the old tween has at that instant).
+- Fix: The scrub and the camera are expo-out glides that restart from where
+  they are; a model of the traces matches to 1e-4 over 140 frames.
+- Prevention: Read an upstream ease from its recorded values, not from the
+  docs, and write the model before the component.
+- Links: `ports/creativeocean-scroll-map/scroll-map/scroll-map-motion.ts`
+
+### P-WEB2-MAP-3
+
+- Date: 2026-10-13
+- Area: Components (Motion frame loop)
+- Symptom: A scroll change moved the map one frame later than upstream's, and
+  a tween started inside the loop's own tick doubled the animation frames
+  until the page stalled.
+- Cause: Motion delivers a scroll change in the read step of its frame; a
+  `requestAnimationFrame` loop of the component's own only ran in the next
+  frame. The loop also re-armed itself while a tween started during its tick
+  asked to wake it, so every tick scheduled two.
+- Fix: The clock ticks in Motion's own update step (`frame.update` with
+  keep-alive), so a change delivered in a frame is ticked in the same frame,
+  and it wakes only when asleep.
+- Prevention: Drive tweens from the frame loop that delivers their input, and
+  run a loop that tweens can start under a Node fake clock before a browser.
+- Links: `ports/creativeocean-scroll-map/scroll-map/scroll-map-motion.ts`
+
+### P-WEB2-MAP-4
+
+- Date: 2026-10-13
+- Area: Components (CSS ports, browser defaults)
+- Symptom: Behind a utility reset the content column lost the pen's look:
+  headings, paragraphs, lists, the icons (`display: block`) and the expand
+  button (inherited face, mixed case) all differed, and the map was half a
+  pixel narrower than upstream's on a 375 px viewport.
+- Cause: The pen leaned on the browser's own styles and on GSAP pinning the map
+  at a rounded pixel width (188 px for 187.5).
+- Fix: The values are written out from `getComputedStyle` on the upstream page
+  (the box and font dump of both sides, element by element); the pane's width
+  is `round(50%, 1px)` where supported.
+- Prevention: Dump boxes and key computed styles of both sides and diff them
+  before any pixel is compared.
+- Links: `ports/creativeocean-scroll-map/scroll-map/scroll-map-styles.tsx`
+
+### P-WEB2-GLIMM-1
+
+- Date: 2026-10-13
+- Area: Ports (a page-wide transition inside a gallery tile)
+- Symptom: Glimm's provider draws a `position: fixed` canvas and holds the
+  page with `document.startViewTransition`, so used as is inside a specimen
+  (a tile that is scaled down with a CSS transform, or a component page's
+  hero) the band would cross the whole window or be trapped in the scaled
+  box, and the old and new "pages" would be the entire site (found when
+  planning the demo, not measured).
+- Cause: a fixed element is laid out against the nearest transformed
+  ancestor, and View Transitions snapshot the document root, so neither can
+  be scoped to a demo.
+- Fix: the port keeps upstream's viewport scope as the default and adds
+  `scope="container"`: the canvas layer is `position: absolute` in the
+  provider's own box, and the outgoing view is a frozen, inert copy of the
+  content (`cloneNode`, ids dropped, form values and canvases copied) clipped
+  with upstream's own mask math. Anything with CSS animations restarts in the
+  copy, so a view that animates in on mount should not be swept this way.
+- Prevention: demos of page-level effects use the scoped mode; check a
+  fixed-position item at the tile's scale before trusting it.
+- Links: `ports/nomanijaz-glimm/glimm/glimm-contained.ts`
+
+### P-WEB2-GLIMM-2
+
+- Date: 2026-10-13
+- Area: Fidelity (Playwright's fake clock, View Transitions, WebGL)
+- Symptom: with the fake clock (`pauseAt`, then `runFor` to a matched frame)
+  the upstream compared with itself differed by up to 0.55% at a frame (a thin
+  column at the edge between the outgoing and the incoming view), and a port
+  that matched at one load was 0.7% off at the next. The animated progress read
+  back at the same `runFor` was 0.3347 on one load and 0.3327 on another.
+- Cause: with a sweep driven by `performance.now()` and `requestAnimationFrame`
+  the number and times of the frames that fire inside a `runFor` are not
+  repeatable between page loads, even with the clock paused (before the sweep
+  the clock read exactly the same on every load; stepping in 16 ms calls did
+  not help under machine load).
+- Fix: the harness replaces `requestAnimationFrame`, `cancelAnimationFrame` and
+  `performance.now` with a manual frame driver (`window.__step(n)` runs n
+  frames of 16 ms) in an init script on both sides. Every load of every side
+  then read the same progress at the same frame, the upstream's noise floor
+  was 0.000%, and the port matched at 0.000%.
+- Prevention: for an animation driven by `performance.now()` through a masked
+  boundary, drive the frames yourself and log the animated value (progress,
+  clip) for both sides before reading pixel diffs.
+- Links: `docs/evidence/ports/glimm/fidelity.md`
+
+### P-WEB2-GLIMM-3
+
+- Date: 2026-10-13
+- Area: Components (render-loop with a library that owns its animation)
+- Symptom: Porting a library whose shader controller runs its own
+  `requestAnimationFrame` loop and `ResizeObserver` onto `useRenderLoop` left
+  two loops (and, for the mesh and NameDrop looks, a loop that never stopped
+  while the band was invisible).
+- Cause: upstream controllers draw from inside their own tick; the render loop
+  can only own the frame if the controller exposes `draw()` and `resize()`.
+- Fix: the controllers keep every line of their drawing and take a
+  `draw`/`resize` pair plus an `invalidate` callback; the provider renders on
+  demand (`continuous: false`, `invalidate()` from `render` while the band has
+  alpha). Frame order is unchanged (draw, then the sweep's own tick), which
+  the matched-frame diff confirms. Time uses `performance.now()` as upstream:
+  with `continuous: false` the loop's `frame.time` does not advance.
+- Prevention: when moving a library onto the loop, keep its clock reads and
+  frame order, and compare frames before and after.
+- Links: `ports/nomanijaz-glimm/glimm/glimm-core.ts`
+
+### P-WEB2-GLIMM-4
+
+- Date: 2026-10-13
+- Area: E2E (beta pages, shared machine)
+- Symptom: a run of the new spec reported every test as skipped ("is not
+  published here") although `dist/ui/glimm.html` existed, and a script that
+  screenshots the page timed out waiting for the demo.
+- Cause: Playwright's `webServer` has `reuseExistingServer`, and the preview
+  port it was given was answered by another checkout's preview server, which
+  has no `/ui/glimm` (a 404 makes the specs skip by design for beta pages).
+- Fix: start `astro preview --ignore-lock --port <unused port>` from the
+  checkout under test, check `curl -s -o /dev/null -w '%{http_code}'
+  http://localhost:<port>/ui/<name>` is 200, then run Playwright with
+  `E2E_PORT=<port>`.
+- Prevention: a spec that skips on 404 can pass vacuously; read the "skipped"
+  count in the summary and confirm the port serves your own `dist/`.
+- Links: `e2e/glimm.spec.ts`, `playwright.config.ts`

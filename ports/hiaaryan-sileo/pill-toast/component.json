@@ -1,0 +1,127 @@
+{
+  "title": "Pill Toast",
+  "description": "A physics-based toast that grows from a small pill into a card with a description and an action, gooey-morphing between shapes, with promise states, swipe, hover and keyboard dismissal.",
+  "category": "feedback",
+  "type": "registry:ui",
+  "status": "beta",
+  "upstreamPath": "packages/sileo/src",
+  "iconSets": ["none"],
+  "dependencies": ["motion@>=12.34.0"],
+  "variants": [
+    {
+      "primitive": "none",
+      "roots": ["src/shared", "src/glyphs"],
+      "status": "beta"
+    },
+    {
+      "style": "icons",
+      "label": "Icon library",
+      "primitive": "none",
+      "roots": ["src/shared", "src/library"],
+      "iconSets": ["lucide", "phosphor"],
+      "status": "beta"
+    }
+  ],
+  "demo": "demo.tsx",
+  "stage": {
+    "device": "laptop",
+    "slot": "inline"
+  },
+  "loop": {
+    "hydrate": true,
+    "script": "click[0] → wait → wait → click[2] → wait → wait",
+    "duration": 8000
+  },
+  "cssVars": {
+    "light": {
+      "pill-toast-state-success": "oklch(0.723 0.219 142.136)",
+      "pill-toast-state-loading": "oklch(0.556 0 0)",
+      "pill-toast-state-error": "oklch(0.637 0.237 25.331)",
+      "pill-toast-state-warning": "oklch(0.795 0.184 86.047)",
+      "pill-toast-state-info": "oklch(0.685 0.169 237.323)",
+      "pill-toast-state-action": "oklch(0.623 0.214 259.815)",
+      "pill-toast-focus-ring": "#3b82f6"
+    },
+    "dark": {
+      "pill-toast-state-success": "oklch(0.723 0.219 142.136)",
+      "pill-toast-state-loading": "oklch(0.556 0 0)",
+      "pill-toast-state-error": "oklch(0.637 0.237 25.331)",
+      "pill-toast-state-warning": "oklch(0.795 0.184 86.047)",
+      "pill-toast-state-info": "oklch(0.685 0.169 237.323)",
+      "pill-toast-state-action": "oklch(0.623 0.214 259.815)",
+      "pill-toast-focus-ring": "#3b82f6"
+    }
+  },
+  "credits": [
+    "S-500",
+    "S-501",
+    "S-104",
+    "S-003",
+    "S-004",
+    "S-005",
+    "S-006",
+    "S-014",
+    "S-152",
+    "S-153",
+    "S-237",
+    "S-325",
+    "S-157",
+    "S-184",
+    "S-528"
+  ],
+  "tags": ["toast", "notification", "gooey", "physics", "motion", "feedback"],
+  "props": [
+    {
+      "name": "position",
+      "type": "\"top-left\" | \"top-center\" | \"top-right\" | \"bottom-left\" | \"bottom-center\" | \"bottom-right\"",
+      "default": "\"top-right\"",
+      "description": "PillToaster: the corner or edge toasts stack from. Positions are physical (right is right in both reading directions); toasts open away from that edge."
+    },
+    {
+      "name": "theme",
+      "type": "\"light\" | \"dark\" | \"system\"",
+      "description": "PillToaster: with a theme, toasts take its fill (near-black for light, near-white for dark; system follows the OS). Without one the fill is white and the text takes the page color."
+    },
+    {
+      "name": "offset",
+      "type": "number | string | { top?, right?, bottom?, left? }",
+      "description": "PillToaster: distance from the viewport edges, in pixels or any CSS length."
+    },
+    {
+      "name": "options",
+      "type": "Partial<PillToastOptions>",
+      "description": "PillToaster: defaults merged into every toast (fill, roundness, styles, duration)."
+    },
+    {
+      "name": "closeOnEscape",
+      "type": "boolean",
+      "default": "true",
+      "description": "PillToaster: Escape dismisses the focused toast, or the newest one."
+    },
+    {
+      "name": "pillToast.show / .success / .error / .warning / .info / .action",
+      "type": "(options: PillToastOptions) => string",
+      "description": "Show a toast and get its id. options: { title?, description?, type?, position?, duration?, icon?, fill?, roundness?, autopilot?, button?: { title, onClick }, styles?: { title?, description?, badge?, button? } }. An existing id is updated in place."
+    },
+    {
+      "name": "pillToast.promise",
+      "type": "(promise, { loading, success, error, action?, position? }) => Promise",
+      "description": "A loading toast that becomes the success, error or action toast when the promise settles. Each state is an options object or a function of the result."
+    },
+    {
+      "name": "pillToast.dismiss / .clear",
+      "type": "(id) => void / (position?) => void",
+      "description": "Dismiss one toast, or clear every toast (of one position)."
+    }
+  ],
+  "a11y": [
+    "Every toast and update is also announced through a persistent pair of visually hidden live regions: assertive (role=alert) for errors and warnings, polite (role=status) for the rest, with the title, the description and the action label. The toasts themselves are not live regions, so nothing is spoken twice.",
+    "A toast with a description is a focusable named group (named by its title): keyboard focus opens it, pauses its timer and reaches its action, a real button. Escape dismisses the focused toast, or the newest one when focus is elsewhere. Upstream's toast was a button holding an action link (nested interactive controls); the root is a div here.",
+    "The status icons and the gooey canvas are decorative (aria-hidden); the title carries the meaning, and each state also has its own color and icon.",
+    "Reduced motion: the pill and card jump to their end shapes, the title swap and the spinner lose their motion, and the toast appears without the slide.",
+    "Contrast on request: the default keeps upstream's state colors, whose titles on the white and near-white fills are below 4.5:1 (success, warning, info and others). Under prefers-contrast: more the state colors darken (or lighten on the dark fill) to at least 4.5:1, and the description text strengthens; under forced colors the toast uses Canvas, CanvasText and an outline. Set --pill-toast-state-<state> to change them for everyone.",
+    "Right to left: titles, badges and descriptions read right to left; the pill and the toast stay anchored to the physical position you pass."
+  ],
+  "usage": "pillToast.success({ title: \"Changes saved\", description: \"Your profile is up to date.\" })",
+  "docs": "Installed `PillToaster` and `pillToast` (`@/components/ui/pill-toast`).\n\nRender the toaster once, near the root:\n\n```tsx\nimport { PillToaster } from \"@/components/ui/pill-toast\";\n\n<PillToaster position=\"top-right\" theme=\"system\" />\n```\n\nThen call it from anywhere:\n\n```tsx\nimport { pillToast } from \"@/components/ui/pill-toast\";\n\npillToast.success({ title: \"Saved\" });\npillToast.error({ title: \"Upload failed\", description: \"The file is larger than 10 MB.\" });\npillToast.promise(save(), {\n  loading: { title: \"Saving\" },\n  success: { title: \"Saved\", description: \"All changes are stored.\" },\n  error: { title: \"Save failed\" },\n});\n```\n\nA toast with a description opens on hover or keyboard focus. The stylesheet is rendered by the toaster (a React 19 hoisted `<style>`); no CSS import is needed. The state colors are `--pill-toast-state-success`, `-loading`, `-error`, `-warning`, `-info` and `-action`. The `-icons-lucide` and `-icons-phosphor` items use icon-library glyphs instead of the toast's own.\n\nPorted from sileo by Aaryan (MIT, as declared in the published npm package); the license notice is at the end of every file."
+}

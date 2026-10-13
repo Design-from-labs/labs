@@ -43,7 +43,12 @@
       "!ports/libraries-dev/image-fx/image-fx-presets.ts",
       "!ports/libraries-dev/image-fx/image-fx-shaders.ts",
       "!ports/slot-text/slot-text/slot-text*.ts*",
-      "!ports/calligraph/calligraph/calligraph*.ts*"
+      "!ports/calligraph/calligraph/calligraph*.ts*",
+      "!ports/raphaelsalaja-audio/ui-sounds/ui-sounds*.ts",
+      "!ports/raphaelsalaja-audio/ui-sounds/ui-sounds.tsx",
+      "!ports/angelolibero-surface-field/surface-field/surface-field-*.ts",
+      "!ports/nomanijaz-glimm/glimm/glimm-core.ts",
+      "!ports/nomanijaz-glimm/glimm/glimm-sweeps.ts"
     ]
   },
   "formatter": {
