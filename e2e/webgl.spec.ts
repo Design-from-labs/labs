@@ -69,19 +69,24 @@ for (const name of EFFECTS) {
     test.skip(!webgl2, "no WebGL 2 in this browser");
     await expect(root).toHaveAttribute("data-status", "ready");
     // getContext returns the canvas's existing context (null for the other
-    // type), so this finds the effect's own context.
+    // type). A lost context returns no extensions, so the extension is kept
+    // on the canvas between losing and restoring.
+    type Lossy = HTMLCanvasElement & { lossExt?: WEBGL_lose_context | null };
     const lose = (restore: boolean) =>
       root
         .locator("canvas")
         .first()
         .evaluate((canvas, restore) => {
-          const c = canvas as HTMLCanvasElement;
-          const gl = (c.getContext("webgl2") ??
-            c.getContext("webgl")) as WebGLRenderingContext | null;
-          const ext = gl?.getExtension("WEBGL_lose_context");
-          if (restore) ext?.restoreContext();
-          else ext?.loseContext();
-          return !!ext;
+          const c = canvas as Lossy;
+          if (!restore) {
+            const gl = (c.getContext("webgl2") ??
+              c.getContext("webgl")) as WebGLRenderingContext | null;
+            c.lossExt = gl?.getExtension("WEBGL_lose_context") ?? null;
+            c.lossExt?.loseContext();
+          } else {
+            c.lossExt?.restoreContext();
+          }
+          return !!c.lossExt;
         }, restore);
     test.skip(!(await lose(false)), "no WEBGL_lose_context");
     await expect(root).toHaveAttribute("data-status", "lost");
