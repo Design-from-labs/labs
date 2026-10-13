@@ -1,0 +1,80 @@
+{
+  "$schema": "https://labs.designfrom.com/schemas/meta.schema.json",
+  "schemaVersion": 1,
+  "name": "elevation",
+  "kind": "component",
+  "title": "Elevation",
+  "description": "A stacked box-shadow elevation scale for surfaces: soft layered shadows on light, painted highlights on dark, eight levels to choose from.",
+  "status": "beta",
+  "category": "layout",
+  "label": "Shadow Stacking I (Josh Miller)",
+  "variants": [
+    {
+      "name": "elevation",
+      "primitive": "none",
+      "iconSet": "none",
+      "status": "beta"
+    }
+  ],
+  "defaultVariant": "elevation",
+  "demo": "demo.tsx",
+  "preview": "preview.webp",
+  "source": {
+    "repo": "https://codepen.io/editor/jshmllr/pen/019d8276-da5b-7365-a8fa-a8e929da3a6d",
+    "commit": "5fdcdb2351abaae531707bf910d538dbf571bb2e",
+    "path": "style.css and index.html"
+  },
+  "author": "Josh Miller <https://codepen.io/jshmllr>",
+  "license": "MIT",
+  "attribution": "Copyright (c) 2026 Josh Miller, Shadow Stacking I (a fork of Shadow Stacking II). MIT License.",
+  "credits": [
+    "S-461",
+    "S-003",
+    "S-004",
+    "S-008",
+    "S-152",
+    "S-157",
+    "S-237",
+    "S-450",
+    "S-451",
+    "S-462",
+    "S-464"
+  ],
+  "date": "2026-10-13",
+  "tile": {
+    "span": 2,
+    "rows": 2
+  },
+  "tags": [
+    "elevation",
+    "shadow",
+    "depth",
+    "surface",
+    "dark-mode"
+  ],
+  "props": [
+    {
+      "name": "level",
+      "type": "0 | 1 | 2 | 3 | 4 | 5 | 6 | 7",
+      "default": "2",
+      "description": "How far the surface lifts. Light scale: 0 flat ring, 2 card, 3 popover, 5 modal, 6 full overlay (7 repeats 6). Dark scale: 0 flat, 3 card, 4 popover, 6 modal, 7 full overlay."
+    },
+    {
+      "name": "mode",
+      "type": "\"light\" | \"dark\" | \"auto\"",
+      "default": "\"auto\"",
+      "description": "Which scale to paint: light shadows, dark inset highlights, or follow the theme."
+    },
+    {
+      "name": "className / children",
+      "type": "string / React.ReactNode",
+      "description": "Classes for the root (size, radius and background go here), and its content. All other div props pass through."
+    }
+  ],
+  "a11y": [
+    "A plain div with no role: elevation is decoration, so it adds nothing to the accessibility tree and never carries meaning alone.",
+    "Contrast (fidelity default, contrast on request): the pen's dark rings are 2% to 6% white and the light ring is 6% black, far under the 3:1 a visible edge needs. Under prefers-contrast: more every elevated surface gets a 1px edge at 60% black or white (about 5.7:1 on white, and above 3:1 on the dark surface); under forced colors it is a CanvasText outline. Set --elevation-edge-light and --elevation-edge-dark and an outline of your own to make it the default.",
+    "Reduced motion: a level change snaps instead of easing."
+  ],
+  "usage": "<Elevation level={3} mode=\"auto\" className=\"size-40 rounded-3xl bg-card\" />"
+}

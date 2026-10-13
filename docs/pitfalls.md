@@ -157,6 +157,33 @@ Design From and Design From Labs (the guards enforce this).
 | [P-144](#p-144) | Components (CSS) | Links ported to buttons lose their letter-spacing |
 | [P-145](#p-145) | Fidelity (dependency versions) | three.js 0.185 blends fading WebGPU planes differently from 0.184 |
 | [P-146](#p-146) | Ports (closure) | A bundler's metafile misses type-only modules |
+| [P-147](#p-147) | Components (Tailwind) | Tailwind's `ease-out` is not the CSS keyword `ease-out` |
+| [P-148](#p-148) | Fidelity harness | A screenshot after keyboard focus includes the focus ring |
+| [P-149](#p-149) | Fidelity harness | A crop at the viewport centre missed a component that is not centred |
+| [P-150](#p-150) | Fidelity harness (Vite) | A leftover dev server answered with a dead esbuild |
+| [P-151](#p-151) | Components (React effects) | An animation loop without cleanup runs twice under StrictMode |
+| [P-152](#p-152) | Fidelity harness (shared tools) | A nested heavy run waited on its own lock and could delete another run's slot |
+| [P-153](#p-153) | Sources (CodePen snapshots) | A saved debug view was a 5,648-byte challenge page with no pen code |
+| [P-154](#p-154) | Sources (CodePen 2.0 editor) | The editor page cannot post its files to a local receiver |
+| [P-155](#p-155) | Fidelity harness (page defaults) | Tailwind preflight on the port page changed the line height again (P-023) |
+| [P-156](#p-156) | Fidelity (faint shadows) | Faint shadow rings slip under pixelmatch's default threshold |
+| [P-157](#p-157) | Site (component page) and sources | A component page scrolled sideways at 320px although its demo fit |
+| [P-158](#p-158) | Components (CSS ports, focus ring) | A restated focus ring was one pixel thinner than the browser's |
+| [P-159](#p-159) | Tests (keyframe guard) | The keyframe-prefix guard read keyframe names inside comments |
+| [P-160](#p-160) | Gallery demos (previews) | A demo of only absolute children had no width in its preview |
+| [P-161](#p-161) | Fidelity harness (color schemes) | A pen with `light-dark()` and no `color-scheme` ignored the emulated dark scheme |
+| [P-162](#p-162) | Components (Base UI NavigationMenu, Radix NavigationMenu) | Navigation menus read direction from their own provider, not the page |
+| [P-163](#p-163) | Components (CSS color) | `color-mix()` with `transparent` is a 50% mix, not the full color |
+| [P-164](#p-164) | Components (3D transforms) | A script-driven 3D ring differed from the composited one at half pixels |
+| [P-165](#p-165) | Tests (wall and gallery specs) | Wall and gallery specs had bounds that a longer wall outgrew |
+| [P-166](#p-166) | Components and demos (landmarks) | A staged demo's header and a nav named "Main" duplicated the site's landmarks |
+| [P-167](#p-167) | Tests (staged demos) | A staged demo is scaled, so page measurements are off by a constant |
+| [P-168](#p-168) | Fidelity harness (browsers) | Cached WebKit builds hang under the current Playwright driver |
+| [P-169](#p-169) | Components (RTL animation) | `animation-direction: reverse` is not a mirror when the easing is not symmetric |
+| [P-170](#p-170) | Components (system colors) | `canvas` and `canvasText` follow `color-scheme`, not the site's theme class |
+| [P-171](#p-171) | Pen ports (durations) | A pen's `textContent` includes the markup's indentation, so lengths and durations differ from the visible text |
+| [P-172](#p-172) | Fidelity harness (RTL check) | A mirrored-render check built a URL without a `?`, and a wide block text overflowed one direction only |
+| [P-173](#p-173) | Tests (beta tiles on the wall) | A wall test for a beta tile timed out on a production build |
 
 ---
 
@@ -2333,3 +2360,394 @@ Design From and Design From Labs (the guards enforce this).
 - Prevention: Compute a port's file closure from the sources, not from a
   bundler's output.
 - Links: `ports/paperlab/paper/src`
+
+### P-147
+
+- Date: 2026-10-13
+- Area: Components (Tailwind)
+- Symptom: The port's press transition (`translate` and `scale`, 100 ms) matched the pen's end state but not its frames: 16 ms in, the translate was 0.43 px against the pen's 0.25 px.
+- Cause: The pen writes `transition-timing-function: ease-out`, the CSS keyword, `cubic-bezier(0, 0, 0.58, 1)`. Tailwind v4's `ease-out` utility is its own token, `cubic-bezier(0, 0, 0.2, 1)`, a different curve.
+- Fix: `ease-[ease-out]` (an arbitrary value, so the keyword itself).
+- Prevention: Record a transition's computed values every 16 ms on both sides, not only its end state, and spell a port's easing as the upstream spells it.
+- Links: `docs/evidence/ports/border-shine/fidelity.md`
+
+### P-148
+
+- Date: 2026-10-13
+- Area: Fidelity harness
+- Symptom: A keyboard test of the port against the pen showed 1,787 differing pixels at the same angle.
+- Cause: The port's button had keyboard focus when the screenshot was taken, so its focus ring was in the picture; the pen's button had none.
+- Fix: Blur the focused element, then settle two frames, before the screenshot.
+- Prevention: Compare pixels after focus is cleared; assert focus styles separately.
+- Links: `docs/evidence/ports/border-shine/fidelity.md`
+
+### P-149
+
+- Date: 2026-10-13
+- Area: Fidelity harness
+- Symptom: The evidence strips for Gooey Text were blank although the full-viewport diffs were measured correctly.
+- Cause: The strips were cropped around the viewport's centre, but the component's root has no height and sits at the top of an unstyled body, so the words were 100 px from the top.
+- Fix: Crop from where the component is (here, the top 160 px), checked by opening the strip.
+- Prevention: Look at every evidence image before committing it; take crops from the element's bounding box.
+- Links: `docs/evidence/ports/gooey-text/fidelity.md`
+
+### P-150
+
+- Date: 2026-10-13
+- Area: Fidelity harness (Vite)
+- Symptom: A harness page served by a Vite dev server left running by an earlier session failed with "The service is no longer running" for every `.tsx` file, while plain files still loaded.
+- Cause: The dev server's esbuild child had exited; Vite does not restart it.
+- Fix: Stop that server (it was this task's own) and start a new one.
+- Prevention: Check that a reused dev server transforms a `.tsx` file (`curl` it) before a run, and start servers per run.
+- Links: `docs/evidence/ports/gooey-text/fidelity.md`
+
+### P-151
+
+- Date: 2026-10-13
+- Area: Components (React effects)
+- Symptom: Under React StrictMode the upstream Gooey Text armed 180 animation frames in 1.5 s, the ported one 90.
+- Cause: The upstream effect starts a `requestAnimationFrame` loop and returns an empty cleanup, so StrictMode's second mount leaves the first loop running beside the new one (and any change of `texts` adds another).
+- Fix: The port keeps the frame id, cancels it and disconnects its observer in the cleanup, and keys the effect on the words' contents.
+- Prevention: Count `requestAnimationFrame` registrations per second in a StrictMode harness for every ported loop.
+- Links: `docs/evidence/ports/gooey-text/fidelity.md`
+
+### P-152
+
+- Date: 2026-10-13
+- Area: Fidelity harness (shared tools)
+- Symptom: A fidelity run wrapped in the shared heavy-run wrapper waited up
+  to 30 minutes, and a run under another slot could delete the slot-0 lock
+  that a different run held.
+- Cause: The wrapper and the fidelity script each took the machine-wide
+  slot-0 lock, so the script waited on its own wrapper; the script's unlock
+  removed the slot-0 lock directory whichever slot it actually ran under.
+- Fix: The wrapper exports `HEAVY_SLOT_HELD=1` and the fidelity script skips
+  its own lock when it is set; a run never removes a lock directory it does
+  not own (P-138).
+- Prevention: One layer owns a lock; nested tools check for an inherited
+  slot before locking, and only the owner unlocks. Drive many states from one
+  browser session under a single slot rather than one wait per state.
+- Links: `docs/evidence/ports/gooey-text/fidelity.md`,
+  `docs/evidence/ports/magnet-menu/fidelity.md`
+
+### P-153
+
+- Date: 2026-10-13
+- Area: Sources (CodePen snapshots)
+- Symptom: A pen's saved `debug.html` was 5,648 bytes and held no pen code.
+- Cause: The save was a Cloudflare "Just a moment..." page, not the pen: the
+  file name and the 200-looking save hid it. The pen's raw and export routes
+  (`.html`, `.css`, `.js`) and its author's public mirrors were the other ways
+  in; here every raw route was challenged and the author has no public
+  repository or gist.
+- Fix: The pen was not ported and is listed as blocked by a bot check, with the
+  routes tried. Nothing was retried, rotated or taken from another route.
+- Prevention: Check a snapshot's `<title>` and size before pinning it (a
+  challenge page is 5.6 KB and titled "Just a moment..."), and apply the WEB-1
+  bot-check rule: a challenged route is a hard stop, never a puzzle to solve.
+- Links: `docs/decisions/0030-pin-snapshot-sources.md`
+
+### P-154
+
+- Date: 2026-10-13
+- Area: Sources (CodePen 2.0 editor)
+- Symptom: A `fetch` to a local receiver from the editor page failed with
+  "Failed to fetch", so the files could not be copied out of the editor's
+  document.
+- Cause: The editor page's content security policy refuses connections to
+  other origins, `localhost` included.
+- Fix: Compare, not copy: the page hashes each file's text (SHA-256 of its
+  UTF-8 bytes) and the saved file is hashed locally; equal hashes mean the
+  snapshot is exactly what the editor shows. Mismatches would mean re-reading
+  the file from the editor.
+- Prevention: For a CodePen 2.0 pen, record the editor-side SHA-256 beside the
+  saved file's, in the fidelity notes.
+- Links: `docs/evidence/ports/elevation/fidelity.md`
+
+### P-155
+
+- Date: 2026-10-13
+- Area: Fidelity harness (page defaults)
+- Symptom: The Elevation page rendered 380 px taller on the port side (6,473
+  px against 6,093 px) with the cards' shadows already identical; and a text
+  effect that was line for line the pen's CSS differed by 8.7% to 8.9% of its
+  stage pixels at every frame, one pixel row off from the pen.
+- Cause: The port page loaded Tailwind's preflight, which sets `line-height:
+  1.5` on the page and a different `font-family` and size on `code`; the pen's
+  page has the browser defaults, and its labels rely on them (the same cause
+  as P-023).
+- Fix: The Elevation harness page does not load Tailwind at all: the
+  component is plain CSS, so the pen's page is reproduced as it is and only the
+  card element is the component. The Neumorphic Panel sets its own font and
+  line height and was unaffected. The text-effect harness repeats the pen
+  page's `html` line height and body margin as page chrome.
+- Prevention: Compare page heights and each element's rectangle first; a height
+  difference means the harness page, not the component, differs.
+- Links: `docs/evidence/ports/elevation/fidelity.md`,
+  `docs/evidence/ports/text-shimmer/fidelity.md`, P-023
+
+### P-156
+
+- Date: 2026-10-13
+- Area: Fidelity (faint shadows)
+- Symptom: Elevation's rings (2% to 6% white) are too faint for a pixelmatch
+  threshold of 0.1 to be a convincing check on its own.
+- Cause: pixelmatch compares colors in a perceptual space and forgives small
+  differences, which is what a faint ring is.
+- Fix: Three checks beside the percentage: every card's computed `box-shadow`,
+  radius, background and rectangle equal as strings; the screenshots equal
+  byte for byte; and the upstream page diffed against itself as the noise floor.
+- Prevention: For a shadow or other faint-effect port, also compare computed
+  values and raw buffers, not only pixelmatch's count.
+- Links: `docs/evidence/ports/elevation/fidelity.md`
+
+### P-157
+
+- Date: 2026-10-13
+- Area: Site (component page) and sources
+- Symptom: `/ui/elevation` scrolled sideways by 10px at 320px wide, although its
+  demo fit.
+- Cause: The credits section prints the source's attribution notice in a
+  paragraph that does not break words, and the notice held two 80-character
+  pen URLs (P-028 is the same family: one long unbreakable string widened the
+  page).
+- Fix: The notice is `Copyright (c) 2026 Josh Miller, Shadow Stacking I (a fork
+  of Shadow Stacking II). MIT License.`; both pen URLs stay in the source's
+  `LICENSE` (which every exported file carries) and in the credits entries
+  (S-461, S-462).
+- Prevention: Keep `attribution` free of long URLs, and check
+  `scrollWidth - innerWidth` on a new component page at 320px (the e2e spec
+  does); a site fix would be `break-words` on that paragraph.
+- Links: `e2e/shadow-ports.spec.ts`
+### P-158
+
+- Date: 2026-10-13
+- Area: Components (CSS ports, focus ring)
+- Symptom: A port restated the browser's focus ring so a host's global
+  `:focus-visible` rule could not restyle it, and the keyboard-focus state
+  differed from upstream by 0.05% to 0.17% of the pixels (a ring one pixel
+  thinner on every side).
+- Cause: The restatement copied `outline-offset: 0` from memory. Chromium's
+  default for a focused link is `auto`, 1px wide, with a 1px offset (measured
+  on a real keyboard focus in the upstream page: `auto 1px lch(0 0 none / 0.5)`
+  with `1px`).
+- Fix: State `outline-style: auto; outline-width: 1px; outline-offset: 1px`.
+- Prevention: Read a restated default from `getComputedStyle` on an element
+  focused with the keyboard in the upstream page, not from memory.
+- Links: `ports/jh3y-anchor-magnet-menu/magnet-menu/src/shared/magnet-menu-styles.tsx`
+
+### P-159
+
+- Date: 2026-10-13
+- Area: Tests (keyframe guard)
+- Symptom: `pnpm test` failed with "@keyframes carousel must start with
+  scroll-carousel-" although the shipped keyframes were already prefixed.
+- Cause: `scripts/keyframe-items.test.mjs` scans every exported file's text,
+  including comments, for `@keyframes <name>`; a provenance comment that quoted
+  upstream's rule name matched.
+- Fix: The comment says "the `carousel` keyframes" without the at-rule.
+- Prevention: Do not write `@keyframes` or `var(--` followed by an unprefixed
+  name in a comment of a port that ships keyframes.
+- Links: `ports/jh3y-scroll-carousel/scroll-carousel/scroll-carousel-styles.tsx`
+
+### P-160
+
+- Date: 2026-10-13
+- Area: Gallery demos (previews)
+- Symptom: A demo whose content is all absolutely positioned rendered with
+  zero width in `/preview/<item>` (a shrink-to-fit flex item) while it filled
+  the wall tile.
+- Cause: `w-full` on the demo's wrapper resolves against a width that depends
+  on the wrapper's own content, which is empty when every child is absolute.
+- Fix: The demo's wrapper has an explicit width with a cap
+  (`w-[40rem] max-w-full`), so it is the same in the tile, the page and the
+  preview.
+- Prevention: Give a demo that has no in-flow content a definite width.
+- Links: `ports/jh3y-scroll-carousel/scroll-carousel/demo.tsx`
+
+### P-161
+
+- Date: 2026-10-13
+- Area: Fidelity harness (color schemes)
+- Symptom: The dark and light evidence strips of a menu were byte for byte the
+  same file, and both were light.
+- Cause: The pen's page paints `light-dark(#fff, #000)` but never declares
+  `color-scheme`, so it ignores `prefers-color-scheme`; it turns dark only when
+  its theme button sets `html.dark`. Emulating the dark scheme changed nothing,
+  and the first run reported 0.000% for a "dark" state that was never dark.
+- Fix: The dark runs set `html.dark` on both sides after load and also emulate
+  the scheme.
+- Prevention: Compare the evidence files of two states (their hashes or a
+  crop) before trusting a table; a state that cannot differ from another one
+  is not a measurement.
+- Links: `docs/evidence/ports/magnet-menu/fidelity.md`
+
+### P-162
+
+- Date: 2026-10-13
+- Area: Components (Base UI NavigationMenu, Radix NavigationMenu)
+- Symptom: In a right-to-left page, ArrowLeft in the Base UI menu moved focus
+  to the visually right link; and a link focused with `element.focus()` did not
+  become the starting point of the next arrow key.
+- Cause: Base UI maps its composite arrow keys by the direction its
+  `DirectionProvider` holds (left to right by default), not by the document's
+  `dir`; its highlighted index follows keyboard and pointer focus, not a
+  programmatic `focus()`. Radix writes `dir="ltr"` on its root and list unless
+  told otherwise.
+- Fix: The component reads the page's direction after mount and hands it to the
+  provider (Base UI) or to the root (Radix, whose own `dir` attribute is
+  overridden so the first paint keeps the page's direction); keyboard behavior
+  was measured with real key presses, left to right and right to left.
+- Prevention: Test a primitive's keys with `keyboard.press` after real Tab
+  focus, in both directions, not with dispatched events.
+- Links: `ports/jh3y-anchor-magnet-menu/magnet-menu/src/base/magnet-menu.tsx`
+
+### P-163
+
+- Date: 2026-10-13
+- Area: Components (CSS color)
+- Symptom: A corner label was drawn at full strength in the port and half
+  strength upstream (708 differing pixels in every state, 0.23% at 375x812).
+- Cause: `color-mix(in lch, canvasText, transparent)` has no percentages, so it
+  is a 50% mix: the text color at half opacity, not the text color. The port
+  had simplified it to `canvasText`.
+- Fix: Keep the `color-mix` as upstream wrote it.
+- Prevention: Do not simplify a `color-mix` with `transparent`; the diff of a
+  text-only region is the quickest check of a color.
+- Links: `ports/jh3y-scroll-carousel/scroll-carousel/scroll-carousel-styles.tsx`
+
+### P-164
+
+- Date: 2026-10-13
+- Area: Components (3D transforms)
+- Symptom: A ring turned by a scroll listener (the fallback) differed from the
+  same ring turned by a CSS scroll timeline along every picture edge, only at
+  375x812 (up to 0.44%), while 1280x800 was identical.
+- Cause: Not isolated. Most likely an animated element gets its own composited
+  layer and the same transform written by script does not, and at an odd
+  viewport width the ring's centre sits on a half pixel, which the two paths
+  round differently; adding `will-change: transform` removed the difference.
+- Fix: `will-change: transform` on the script-driven ring (0 differing pixels
+  at both viewports, in every state).
+- Prevention: Compare a script-driven fallback with the CSS path at an odd
+  viewport width too.
+- Links: `ports/jh3y-scroll-carousel/scroll-carousel/scroll-carousel-styles.tsx`
+
+### P-165
+
+- Date: 2026-10-13
+- Area: Tests (wall and gallery specs)
+- Symptom: On a beta build two specs failed once two more tiles were on the
+  wall: one Tabs a fixed 40 times to reach the Tooltip tile (it is now the
+  35th tile, after the header's own stops), the other plays one loop cycle for
+  every staged tile in a 30 s test.
+- Cause: Both bounds were set for a shorter wall; every staged or tabbable
+  entry makes them tighter.
+- Fix: The Tab bound is 120 (the loop stops at the tile), and the staged-loop
+  spec has a 120 s timeout.
+- Prevention: Bound a loop over the wall by the wall's size, not by a count
+  that was true on the day it was written.
+- Links: `e2e/gallery.spec.ts`, `e2e/wall.spec.ts`
+
+### P-166
+
+- Date: 2026-10-13
+- Area: Components and demos (landmarks)
+- Symptom: axe reported `landmark-unique` on the component page of a staged
+  navigation: once for the demo's `header` (a second banner beside the site's)
+  and once for a navigation named "Main" (the site's own is called that).
+- Cause: A framed document counts as part of the page. The demo used a
+  `header` element for the slot it fills, and the component's default
+  `aria-label` was a common name.
+- Fix: The demo's slot is a `div`, the demo names its navigation, and the
+  component has no default name (upstream's `nav` had none).
+- Prevention: A staged demo is the content of a slot, not a landmark; name a
+  navigation only where the page needs it.
+- Links: `ports/jh3y-anchor-magnet-menu/magnet-menu/demo.tsx`
+
+### P-167
+
+- Date: 2026-10-13
+- Area: Tests (staged demos)
+- Symptom: An e2e check that a pill was as wide as its link failed by a
+  constant 41 px.
+- Cause: The stage scales its device frame down, so `boundingBox()` of an
+  element inside the frame is in scaled page pixels while the computed width of
+  a pseudo-element is in the frame's own pixels.
+- Fix: Measure both inside the frame (`getBoundingClientRect` evaluated in it).
+- Prevention: Never compare a Playwright box of a framed element with a
+  computed style of the same document.
+- Links: `e2e/magnet-menu.spec.ts`
+
+### P-168
+
+- Date: 2026-10-13
+- Area: Fidelity harness (browsers)
+- Symptom: A support probe against the WebKit builds in Playwright's cache
+  (`webkit-2272`, `-2336`, `-2359`, started with `executablePath`) hung for
+  sixteen minutes holding a shared slot.
+- Cause: The installed driver (1.64) expects revision 2370, which is not
+  installed; the older builds start but do not answer its protocol, and
+  `launch` has no timeout on the first command.
+- Fix: The probe measures Chromium only, and the fallback paths are exercised
+  in Chromium with the feature switched off (`CSS.supports` answering no and
+  the `@supports` block never matching).
+- Prevention: Give a probe an overall deadline, and install the revision the
+  driver names before claiming a cross-engine result.
+- Links: `docs/evidence/ports/magnet-menu/fidelity.md`
+### P-169
+
+- Date: 2026-10-13
+- Area: Components (RTL animation)
+- Symptom: The right-to-left render of Text Shimmer differed by up to 0.38% from the mirrored left-to-right render at mid-sweep frames only.
+- Cause: The first version mirrored the sweep with `animation-direction: reverse`, which also reverses the timing function; the default `ease` is not symmetric, so the shine was ahead of the mirrored position.
+- Fix: Right to left uses its own mirrored keyframes (`translate` from 100% to -100%) with the same easing. A symmetric easing such as `ease-in-out` could keep `reverse`.
+- Prevention: Prove a right-to-left animation by comparing it with the flipped left-to-right frames at several times, using glyphs that are symmetric (block characters), and check that the unflipped comparison differs.
+- Links: `ports/devongovett-text-shimmer/text-shimmer/text-shimmer.tsx`
+
+### P-170
+
+- Date: 2026-10-13
+- Area: Components (system colors)
+- Symptom: A pen colored with `canvas` and `canvasText` would show a dark band on a dark tile when the system theme is light, because the site's dark surfaces are a class, not a `color-scheme`.
+- Cause: The system color keywords resolve from the used `color-scheme`, which the site sets to `light dark` from the system setting only.
+- Fix: The colors are component variables whose light and dark values are the literal colors the keywords resolve to; the keywords stay as the fallback when the variables are absent.
+- Prevention: Use theme variables, not system color keywords, for a component's colors, and test it inside a `.dark` container on a light system.
+- Links: `ports/jh3y-text-shimmer/shimmer-lines/component.json`
+
+### P-171
+
+- Date: 2026-10-13
+- Area: Pen ports (durations)
+- Symptom: The pen's four lines swept for 4.56, 3.6, 2.76 and 2.28 s, not the 2.64, 1.68, 0.84 and 0.36 s their visible text would give.
+- Cause: The pen derives a line's duration from `element.textContent.length`, and its HTML text nodes carry the source's line breaks and indentation (16 extra characters).
+- Fix: The component counts the real text, or a `length` prop; the fidelity harness passes the pen's counts so the frames compare like for like, and the difference is listed under Deviations.
+- Prevention: Read computed durations on the upstream page before comparing frames, and do not assume a length measures only the visible text.
+- Links: `docs/evidence/ports/shimmer-lines/fidelity.md`
+
+### P-172
+
+- Date: 2026-10-13
+- Area: Fidelity harness (RTL check)
+- Symptom: The mirrored-render check of a pen port differed by 11% to 38%, identical to the unmirrored difference; and a block-glyph line differed by 4% at 375 px only.
+- Cause: The right-to-left URL was built as `page.html&dir=rtl` for a page with no query, so the page never switched direction; and a 22-glyph line is wider than 375 px, so it overflows to the right in one direction and to the left in the other.
+- Fix: Add `?` or `&` as the URL needs, and cap the glyph count so the line fits the narrow viewport.
+- Prevention: Assert that the unmirrored comparison differs and the mirrored one does not, and that the page's `dir` actually changed, before reading the numbers.
+- Links: `docs/evidence/ports/shimmer-lines/fidelity.md`
+
+### P-173
+
+- Date: 2026-10-13
+- Area: Tests (beta tiles on the wall)
+- Symptom: CI's e2e job failed twice at `scrollIntoViewIfNeeded` (30 s
+  timeouts) in two wall tests of new beta ports, while every other test of
+  those ports skipped.
+- Cause: The component-page tests skip when `/ui/<item>` answers 404, but the
+  wall tests open `/ui`, which always exists; on a production build the beta
+  tile is simply absent, so the locator never resolved.
+- Fix: Each wall test skips when its specimen is not on the wall, as
+  `wall.spec.ts` already does for beta ports.
+- Prevention: Run a new port's specs on a production build as well as on a
+  `LABS_INCLUDE_BETA=1` build before handing off; guard every test that looks
+  for a beta tile by its presence, not by a page status.
+- Links: `e2e/magnet-menu.spec.ts`, `e2e/scroll-carousel.spec.ts`

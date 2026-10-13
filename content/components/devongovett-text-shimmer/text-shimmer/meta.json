@@ -1,0 +1,93 @@
+{
+  "$schema": "https://labs.designfrom.com/schemas/meta.schema.json",
+  "schemaVersion": 1,
+  "name": "text-shimmer",
+  "kind": "component",
+  "title": "Text Shimmer",
+  "description": "Gray text with a light shine that sweeps across the glyphs on the GPU: a masked, translating gradient over an inert copy of any text.",
+  "status": "beta",
+  "category": "typography",
+  "label": "GPU accelerated text shimmer (CodePen)",
+  "variants": [
+    {
+      "name": "text-shimmer",
+      "primitive": "none",
+      "iconSet": "none",
+      "status": "beta"
+    }
+  ],
+  "defaultVariant": "text-shimmer",
+  "demo": "demo.tsx",
+  "preview": "preview.webp",
+  "source": {
+    "repo": "https://codepen.io/editor/devongovett/pen/01a0439c-4b7f-7f44-bf84-205c514ad139",
+    "commit": "33ec0fa624b1dd5e2f19c0f90baf11adbf5cf42b",
+    "path": "style.css and index.html of the project"
+  },
+  "author": "Devon Govett <https://codepen.io/devongovett>",
+  "license": "MIT",
+  "attribution": "Copyright (c) 2026 by Devon Govett (https://codepen.io/editor/devongovett/pen/01a0439c-4b7f-7f44-bf84-205c514ad139). MIT License.",
+  "credits": [
+    "S-456",
+    "S-003",
+    "S-004",
+    "S-008",
+    "S-014",
+    "S-015",
+    "S-035",
+    "S-152",
+    "S-153",
+    "S-155",
+    "S-156",
+    "S-157",
+    "S-161",
+    "S-237",
+    "S-450",
+    "S-451"
+  ],
+  "date": "2026-10-13",
+  "tile": {
+    "span": 1,
+    "rows": 1
+  },
+  "tags": [
+    "text",
+    "shimmer",
+    "mask",
+    "gpu",
+    "loading"
+  ],
+  "props": [
+    {
+      "name": "spread",
+      "type": "string",
+      "default": "\"4ch\"",
+      "description": "Half the shine's width, as a CSS length."
+    },
+    {
+      "name": "duration",
+      "type": "number",
+      "default": "2.5",
+      "description": "One sweep, in seconds."
+    },
+    {
+      "name": "paused",
+      "type": "boolean",
+      "default": "false",
+      "description": "Holds the shine on its current frame."
+    },
+    {
+      "name": "className",
+      "type": "string",
+      "description": "Extra classes for the root (an inline-block span)."
+    }
+  ],
+  "a11y": [
+    "The words you pass are real text, selectable and read by screen readers once; the copy that carries the shine is inert and aria-hidden.",
+    "Reduced motion: the shine is not drawn, only the plain gray text remains.",
+    "The gray (#777) is 4.48:1 on white and fails AA by 0.02, as in the original. Under prefers-contrast: more it moves a quarter toward the highlight color, and under forced colors the shine is hidden.",
+    "Right to left: the shine sweeps from the inline start edge; left to right is unchanged.",
+    "paused holds the shine for people who need the animation stopped (WCAG 2.2.2)."
+  ],
+  "usage": "<TextShimmer>Thinking in progress</TextShimmer>"
+}

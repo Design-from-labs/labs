@@ -1,0 +1,121 @@
+{
+  "$schema": "https://labs.designfrom.com/schemas/meta.schema.json",
+  "schemaVersion": 1,
+  "name": "shimmer-lines",
+  "kind": "component",
+  "title": "Shimmer Lines",
+  "description": "Text that shimmers as a band of light sweeps across its glyphs, then rests; longer lines sweep for longer. Wraps any text, in classic, aurora or flame.",
+  "status": "beta",
+  "category": "typography",
+  "label": "Text Shimmer Lines (CodePen)",
+  "variants": [
+    {
+      "name": "shimmer-lines",
+      "primitive": "none",
+      "iconSet": "none",
+      "status": "beta"
+    }
+  ],
+  "defaultVariant": "shimmer-lines",
+  "demo": "demo.tsx",
+  "preview": "preview.webp",
+  "source": {
+    "repo": "https://codepen.io/jh3y/pen/Exqbaem",
+    "commit": "0cb5373d804aea412b690a490e4dfa945978038c",
+    "path": "debug view: the main p rule and its shimmer keyframes"
+  },
+  "author": "Jhey <https://codepen.io/jh3y>",
+  "license": "MIT",
+  "attribution": "Copyright (c) 2026 by Jhey (https://codepen.io/jh3y/pen/Exqbaem). MIT License.",
+  "credits": [
+    "S-455",
+    "S-003",
+    "S-004",
+    "S-008",
+    "S-014",
+    "S-015",
+    "S-035",
+    "S-152",
+    "S-153",
+    "S-155",
+    "S-156",
+    "S-157",
+    "S-161",
+    "S-237",
+    "S-450",
+    "S-451"
+  ],
+  "date": "2026-10-13",
+  "tile": {
+    "span": 1,
+    "rows": 1,
+    "surface": "dark"
+  },
+  "tags": [
+    "text",
+    "shimmer",
+    "gradient",
+    "loading",
+    "background-clip"
+  ],
+  "props": [
+    {
+      "name": "variant",
+      "type": "\"classic\" | \"aurora\" | \"flame\"",
+      "default": "\"classic\"",
+      "description": "The band: one color, a multi-color aurora, or a flame."
+    },
+    {
+      "name": "speed",
+      "type": "number",
+      "default": "0.12",
+      "description": "Seconds per character of text; the sweep takes longer on longer lines."
+    },
+    {
+      "name": "duration",
+      "type": "number",
+      "description": "A fixed duration in seconds, instead of one derived from the text."
+    },
+    {
+      "name": "length",
+      "type": "number",
+      "description": "The character count the duration is derived from; defaults to the length of the text in children. Pass it for text you edit in place."
+    },
+    {
+      "name": "spread",
+      "type": "number",
+      "default": "3",
+      "description": "Half the band's width, in ch."
+    },
+    {
+      "name": "angle",
+      "type": "number",
+      "default": "295",
+      "description": "The band's angle in degrees (mirrored in right-to-left)."
+    },
+    {
+      "name": "position",
+      "type": "number",
+      "description": "Holds the band at this position, 0 to 100, without animating."
+    },
+    {
+      "name": "paused",
+      "type": "boolean",
+      "default": "false",
+      "description": "Holds the animation on its current frame."
+    },
+    {
+      "name": "className",
+      "type": "string",
+      "description": "Extra classes for the root (an inline-block span)."
+    }
+  ],
+  "a11y": [
+    "The text stays real text: selectable, searchable and read by screen readers as it is; only its color is painted by the gradient.",
+    "Reduced motion: no band and no animation, the text shows in the full-contrast highlight color.",
+    "The resting color is a faint gray (it fails 4.5:1 by design, like the original). Under prefers-contrast: more it becomes the highlight color, and under forced colors the system text color.",
+    "Right to left: the band sweeps from the inline start edge with its slant mirrored; left to right is unchanged.",
+    "paused holds the band for people who need the animation stopped (WCAG 2.2.2)."
+  ],
+  "usage": "<ShimmerLines variant=\"aurora\">Generating your report</ShimmerLines>"
+}

@@ -1,0 +1,88 @@
+{
+  "title": "Elevation",
+  "description": "A stacked box-shadow elevation scale for surfaces: soft layered shadows on light, painted highlights on dark, eight levels to choose from.",
+  "category": "layout",
+  "type": "registry:ui",
+  "status": "beta",
+  "upstreamPath": "style.css and index.html",
+  "iconSets": ["none"],
+  "files": [
+    {
+      "file": "elevation.tsx",
+      "type": "registry:ui"
+    }
+  ],
+  "cssVars": {
+    "light": {
+      "elevation-shadow-color": "rgb(0 0 0 / 0.06)",
+      "elevation-dark-hi-base": "rgba(255, 255, 255, 0.02)",
+      "elevation-dark-hi-mid": "rgba(255, 255, 255, 0.05)",
+      "elevation-dark-hi-high": "rgba(255, 255, 255, 0.08)",
+      "elevation-dark-hi-peak": "rgba(255, 255, 255, 0.11)",
+      "elevation-dark-ring-base": "rgba(255, 255, 255, 0.02)",
+      "elevation-dark-ring-mid": "rgba(255, 255, 255, 0.04)",
+      "elevation-dark-ring-high": "rgba(255, 255, 255, 0.06)",
+      "elevation-dark-drop": "rgba(0, 0, 0, 0.18)",
+      "elevation-edge-light": "rgb(0 0 0 / 0.6)",
+      "elevation-edge-dark": "rgb(255 255 255 / 0.6)"
+    },
+    "dark": {
+      "elevation-shadow-color": "rgb(0 0 0 / 0.06)",
+      "elevation-dark-hi-base": "rgba(255, 255, 255, 0.02)",
+      "elevation-dark-hi-mid": "rgba(255, 255, 255, 0.05)",
+      "elevation-dark-hi-high": "rgba(255, 255, 255, 0.08)",
+      "elevation-dark-hi-peak": "rgba(255, 255, 255, 0.11)",
+      "elevation-dark-ring-base": "rgba(255, 255, 255, 0.02)",
+      "elevation-dark-ring-mid": "rgba(255, 255, 255, 0.04)",
+      "elevation-dark-ring-high": "rgba(255, 255, 255, 0.06)",
+      "elevation-dark-drop": "rgba(0, 0, 0, 0.18)",
+      "elevation-edge-light": "rgb(0 0 0 / 0.6)",
+      "elevation-edge-dark": "rgb(255 255 255 / 0.6)"
+    }
+  },
+  "demo": "demo.tsx",
+  "tile": {
+    "span": 2,
+    "rows": 2
+  },
+  "credits": [
+    "S-003",
+    "S-004",
+    "S-008",
+    "S-152",
+    "S-157",
+    "S-237",
+    "S-450",
+    "S-451",
+    "S-461",
+    "S-462",
+    "S-464"
+  ],
+  "tags": ["elevation", "shadow", "depth", "surface", "dark-mode"],
+  "docs": "Installed `Elevation`. Import it from `@/components/ui/elevation` and give it a size, a radius and a background: `<Elevation level={2} className=\"size-40 rounded-3xl bg-card\" />`. It sets only the shadow.\n\n`level` is 0 to 7. The light scale (0 to 6) stacks one more soft layer per step, doubling offset and blur; the dark scale (0 to 7) paints light instead (an inset top highlight and ring) because shadows barely show on dark. `mode=\"auto\"` (the default) follows the theme (`.dark`, `[data-theme=\"dark\"]` or the system); `\"light\"` or `\"dark\"` picks a scale outright. Level 7 repeats level 6 on the light scale.\n\nColors are the `--elevation-*` variables (light and dark). Under `prefers-contrast: more` an edge is drawn; under forced colors it is a system-colored outline.\n\nPorted from the CodePen \"Shadow Stacking I\" by Josh Miller (MIT, copyright 2026 Josh Miller, a fork of his \"Shadow Stacking II\"); the license text is in the file.",
+  "props": [
+    {
+      "name": "level",
+      "type": "0 | 1 | 2 | 3 | 4 | 5 | 6 | 7",
+      "default": "2",
+      "description": "How far the surface lifts. Light scale: 0 flat ring, 2 card, 3 popover, 5 modal, 6 full overlay (7 repeats 6). Dark scale: 0 flat, 3 card, 4 popover, 6 modal, 7 full overlay."
+    },
+    {
+      "name": "mode",
+      "type": "\"light\" | \"dark\" | \"auto\"",
+      "default": "\"auto\"",
+      "description": "Which scale to paint: light shadows, dark inset highlights, or follow the theme."
+    },
+    {
+      "name": "className / children",
+      "type": "string / React.ReactNode",
+      "description": "Classes for the root (size, radius and background go here), and its content. All other div props pass through."
+    }
+  ],
+  "a11y": [
+    "A plain div with no role: elevation is decoration, so it adds nothing to the accessibility tree and never carries meaning alone.",
+    "Contrast (fidelity default, contrast on request): the pen's dark rings are 2% to 6% white and the light ring is 6% black, far under the 3:1 a visible edge needs. Under prefers-contrast: more every elevated surface gets a 1px edge at 60% black or white (about 5.7:1 on white, and above 3:1 on the dark surface); under forced colors it is a CanvasText outline. Set --elevation-edge-light and --elevation-edge-dark and an outline of your own to make it the default.",
+    "Reduced motion: a level change snaps instead of easing."
+  ],
+  "usage": "<Elevation level={3} mode=\"auto\" className=\"size-40 rounded-3xl bg-card\" />"
+}

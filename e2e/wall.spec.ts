@@ -110,6 +110,9 @@ test("loops play on tiles in view", async ({ page }) => {
 });
 
 test("a staged tile's loop never takes the page's focus", async ({ page }) => {
+  // One full loop cycle per staged tile, one after the other: the time grows
+  // with every staged entry.
+  test.setTimeout(120_000);
   await page.goto("/ui");
   const staged = page.locator("[data-specimen]:has(iframe[data-stage-frame])");
   const count = await staged.count();

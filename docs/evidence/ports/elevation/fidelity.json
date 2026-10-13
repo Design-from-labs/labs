@@ -1,0 +1,48 @@
+{
+  "page": {
+    "upstream": "/upstream/elevation/index.html",
+    "port": "/elevation-port.html",
+    "scheme": "light",
+    "threshold": 0.1,
+    "results": {
+      "1280x800": {
+        "differingPixels": 0,
+        "totalPixels": 7816960,
+        "percent": 0,
+        "sizes": {
+          "upstream": [1280, 6107],
+          "port": [1280, 6107]
+        },
+        "pass": true
+      },
+      "375x812": {
+        "differingPixels": 0,
+        "totalPixels": 2310375,
+        "percent": 0,
+        "sizes": {
+          "upstream": [375, 6161],
+          "port": [375, 6161]
+        },
+        "pass": true
+      }
+    }
+  },
+  "noise": {
+    "upstream": "/upstream/elevation/index.html",
+    "port": "/upstream/elevation/index.html",
+    "scheme": "light",
+    "threshold": 0.1,
+    "results": {
+      "1280x800": {
+        "differingPixels": 0,
+        "totalPixels": 7816960,
+        "percent": 0,
+        "sizes": {
+          "upstream": [1280, 6107],
+          "port": [1280, 6107]
+        },
+        "pass": true
+      }
+    }
+  }
+}
