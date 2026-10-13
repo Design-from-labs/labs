@@ -161,7 +161,7 @@ jobs:
 
       # Beta items publish only to previews (decision 0014), and their
       # multi-file ports are what a `verbatimModuleSyntax` project breaks on.
-      # A second local build includes them, on its own port (decision 0027).
+      # A second local build includes them, on its own port (decision 0031).
       - name: Build the site with beta items for a second local registry
         env:
           LABS_INCLUDE_BETA: "1"

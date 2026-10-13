@@ -1,4 +1,4 @@
-# 0027: Install beta port items into a fresh Vite app in CI and run its own build
+# 0031: Install beta port items into a fresh Vite app in CI and run its own build
 
 - Status: Accepted
 - Date: 2026-10-13

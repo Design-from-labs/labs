@@ -2358,9 +2358,9 @@ Design From and Design From Labs (the guards enforce this).
   `registry-install` job only built a Next.js app with ready items.
 - Fix: `import type` in the six shared files; `scripts/registry-install-vite-test.sh`
   installs beta port items into a pinned Vite template and runs its
-  `tsc -b && vite build` (decision 0027).
+  `tsc -b && vite build` (decision 0031).
 - Prevention: The Vite scenario fails on TS1484 and on `MISSING_EXPORT`.
-- Links: `scripts/registry-install-vite-test.sh`, `docs/decisions/0027-vite-install-check-on-beta-items.md`
+- Links: `scripts/registry-install-vite-test.sh`, `docs/decisions/0031-vite-install-check-on-beta-items.md`
 
 ### P-148
 

@@ -54,7 +54,7 @@ includes beta items (decision 0014), creates a Vite app with the pinned
 by namespace, renders each item's demo, and runs the app's own
 `tsc -b && vite build`. The Vite template sets `verbatimModuleSyntax` (the
 Next.js template does not), so a type imported without `import type` fails
-there: TS1484 in `tsc`, a missing export in the bundle (decision 0027).
+there: TS1484 in `tsc`, a missing export in the bundle (decision 0031).
 
 ## With Claude Code (shadcn MCP server)
 
