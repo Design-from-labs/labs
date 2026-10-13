@@ -42,9 +42,13 @@ inside comments ignored).
 
 ## Consequences
 
-A bundler that does not define `process.env.NODE_ENV` in the browser (rare
-today) would throw a ReferenceError; items reading it guard with
-`typeof process !== "undefined"`.
+Write the read literally as `process.env.NODE_ENV`: `process.env?.NODE_ENV`
+or a destructured read fails the check. Do not guard it with
+`typeof process !== "undefined"`: Vite replaces the literal but defines no
+runtime `process`, so the guard would report development in a Vite
+production build. Put the read in a `try`/`catch` instead, so a bundler that
+replaces nothing (no `process` at runtime) falls back to development without
+throwing to the caller.
 
 ## Re-test when
 
