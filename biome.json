@@ -29,7 +29,13 @@
       "!ports/cloudflare-kumo/flow-diagram/flow-diagram*.ts*",
       "!ports/shpigford-dither/vector-dither/vector-dither-core.ts",
       "!ports/yousuf-viscose-carousel/viscose-carousel/viscose-carousel-engine.ts",
-      "!ports/yousuf-viscose-carousel/viscose-carousel/viscose-carousel-shaders.ts"
+      "!ports/yousuf-viscose-carousel/viscose-carousel/viscose-carousel-shaders.ts",
+      "!ports/iconiq/reasoning-steps/*/reasoning-steps.tsx",
+      "!ports/aicss/message-actions/shared/message-actions-emojis.ts",
+      "!ports/aicss/message-actions/glyphs/message-actions-icons.tsx",
+      "!ports/generative-loaders/*/*-loader.tsx",
+      "!ports/shimmer-trace/shimmer-trace/shimmer-trace*.ts*",
+      "!ports/gradient-spin/gradient-spin/gradient-spin*.ts*"
     ]
   },
   "formatter": {

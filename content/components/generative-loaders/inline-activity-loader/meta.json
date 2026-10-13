@@ -1,0 +1,102 @@
+{
+  "$schema": "https://labs.designfrom.com/schemas/meta.schema.json",
+  "schemaVersion": 1,
+  "name": "inline-activity-loader",
+  "kind": "component",
+  "title": "Inline Activity Loader",
+  "description": "A tiny loader that sits inline with text to show an agent is working: 18 CSS figures (orbit, signal, glyph, snake, vortex, a count-up and more) sized in em by default.",
+  "status": "beta",
+  "category": "feedback",
+  "label": "Generative Loaders by Kasturi Khanke",
+  "variants": [
+    {
+      "name": "inline-activity-loader",
+      "primitive": "none",
+      "iconSet": "none",
+      "status": "beta"
+    }
+  ],
+  "defaultVariant": "inline-activity-loader",
+  "demo": "demo.tsx",
+  "preview": "preview.webp",
+  "source": {
+    "repo": "https://github.com/kasturibuilds/generative-loaders",
+    "commit": "4d34499e850b5f062bc6b88283f211150a15c78d",
+    "path": "packages/generative-loaders/src"
+  },
+  "author": "Kasturi Khanke <https://github.com/kasturibuilds>",
+  "license": "MIT",
+  "attribution": "Generative Loaders, Copyright (c) 2026 Kasturi Khanke and Generative Loaders contributors. MIT License.",
+  "credits": [
+    "S-322",
+    "S-003",
+    "S-004",
+    "S-104",
+    "S-152",
+    "S-155",
+    "S-156",
+    "S-157",
+    "S-325"
+  ],
+  "date": "2026-10-13",
+  "tile": {
+    "span": 2,
+    "rows": 2
+  },
+  "tags": [
+    "ai",
+    "loader",
+    "spinner",
+    "inline",
+    "activity",
+    "css-animation"
+  ],
+  "props": [
+    {
+      "name": "variant",
+      "type": "\"glyph\" | \"matrix\" | \"orbit\" | \"ripple\" | \"signal\" | \"spark\" | \"rotor\" | \"pixel-drift\" | \"chomp\" | \"snake\" | \"fold\" | \"gravity\" | \"domino\" | \"aperture\" | \"dot-pulse\" | \"vortex\" | \"halo\" | \"count-up\"",
+      "description": "The figure."
+    },
+    {
+      "name": "size",
+      "type": "number | string",
+      "default": "\"1.15em\"",
+      "description": "Width and height (a number is pixels). The em default scales with the surrounding text."
+    },
+    {
+      "name": "speed",
+      "type": "number",
+      "default": "1",
+      "description": "Playback rate (one cycle is 1.2 s at 1)."
+    },
+    {
+      "name": "color",
+      "type": "string",
+      "default": "\"currentColor\"",
+      "description": "Figure color."
+    },
+    {
+      "name": "paused",
+      "type": "boolean",
+      "default": "false",
+      "description": "Hold the figure still."
+    },
+    {
+      "name": "className",
+      "type": "string",
+      "description": "Classes on the root element."
+    },
+    {
+      "name": "label",
+      "type": "string",
+      "description": "Makes it a polite status with this text. Omit it when adjacent text already names the activity."
+    }
+  ],
+  "a11y": [
+    "With `label`, the loader is a status region (role=\"status\") whose visually hidden content is the label, so screen readers announce it (a Labs addition; upstream only set aria-label).",
+    "Without `label` it stays aria-hidden, as upstream: the adjacent text (\"Searching the web\") names the activity, and a second announcement would repeat it.",
+    "Under prefers-reduced-motion the figure stops on a static frame.",
+    "The figure draws the same in right-to-left pages (rows and grids keep their timing order)."
+  ],
+  "usage": "<p><InlineActivityLoader variant=\"orbit\" /> Searching the web</p>"
+}

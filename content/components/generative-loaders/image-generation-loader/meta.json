@@ -1,0 +1,107 @@
+{
+  "$schema": "https://labs.designfrom.com/schemas/meta.schema.json",
+  "schemaVersion": 1,
+  "name": "image-generation-loader",
+  "kind": "component",
+  "title": "Image Generation Loader",
+  "description": "A square placeholder that animates while an image is generated: 12 CSS styles (skeleton, scan, pixel grid, resolution, coalesce, diffusion, shutter and more).",
+  "status": "beta",
+  "category": "feedback",
+  "label": "Generative Loaders by Kasturi Khanke",
+  "variants": [
+    {
+      "name": "image-generation-loader",
+      "primitive": "none",
+      "iconSet": "none",
+      "status": "beta"
+    }
+  ],
+  "defaultVariant": "image-generation-loader",
+  "demo": "demo.tsx",
+  "preview": "preview.webp",
+  "source": {
+    "repo": "https://github.com/kasturibuilds/generative-loaders",
+    "commit": "4d34499e850b5f062bc6b88283f211150a15c78d",
+    "path": "packages/generative-loaders/src"
+  },
+  "author": "Kasturi Khanke <https://github.com/kasturibuilds>",
+  "license": "MIT",
+  "attribution": "Generative Loaders, Copyright (c) 2026 Kasturi Khanke and Generative Loaders contributors. MIT License.",
+  "credits": [
+    "S-322",
+    "S-003",
+    "S-004",
+    "S-104",
+    "S-152",
+    "S-155",
+    "S-156",
+    "S-157",
+    "S-325"
+  ],
+  "date": "2026-10-13",
+  "tile": {
+    "span": 2,
+    "rows": 1
+  },
+  "tags": [
+    "ai",
+    "loader",
+    "image",
+    "placeholder",
+    "css-animation"
+  ],
+  "props": [
+    {
+      "name": "variant",
+      "type": "\"skeleton\" | \"bands\" | \"tiles\" | \"scan\" | \"pixel-grid\" | \"resolution\" | \"coalesce\" | \"diffusion\" | \"raster\" | \"bloom\" | \"focus\" | \"shutter\"",
+      "description": "The animation style."
+    },
+    {
+      "name": "size",
+      "type": "number | string",
+      "default": "\"10rem\"",
+      "description": "Width and height (a number is pixels)."
+    },
+    {
+      "name": "speed",
+      "type": "number",
+      "default": "1",
+      "description": "Playback rate (one cycle is 2.35 s at 1)."
+    },
+    {
+      "name": "color",
+      "type": "string",
+      "default": "\"currentColor\"",
+      "description": "Color every layer is mixed from."
+    },
+    {
+      "name": "radius",
+      "type": "number | string",
+      "default": "\"10%\"",
+      "description": "Corner radius (a number is pixels)."
+    },
+    {
+      "name": "paused",
+      "type": "boolean",
+      "default": "false",
+      "description": "Hold the animation still."
+    },
+    {
+      "name": "className",
+      "type": "string",
+      "description": "Classes on the root element."
+    },
+    {
+      "name": "label",
+      "type": "string",
+      "default": "\"Generating image\"",
+      "description": "The status text screen readers announce."
+    }
+  ],
+  "a11y": [
+    "A status region (role=\"status\") whose visually hidden content is the label (default \"Generating image\"), so screen readers announce it; the figure is aria-hidden.",
+    "Under prefers-reduced-motion the figure stops on a static frame.",
+    "In right-to-left pages the skeleton sweep runs right to left; grids keep their timing order."
+  ],
+  "usage": "<ImageGenerationLoader variant=\"pixel-grid\" size={240} />"
+}

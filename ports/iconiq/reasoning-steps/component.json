@@ -1,0 +1,117 @@
+{
+  "title": "Reasoning Steps",
+  "description": "A collapsible reasoning trace for AI replies: a shimmering trigger label with a self-timing readout, steps that pop from a dot into a check, nested details and source pills, and the active step announced to screen readers.",
+  "category": "feedback",
+  "type": "registry:ui",
+  "status": "beta",
+  "upstreamPath": "registry/reasoning-steps.tsx",
+  "iconSets": ["lucide", "phosphor"],
+  "dependencies": ["motion@>=12.34.0"],
+  "registryDependencies": ["utils"],
+  "variants": [
+    {
+      "primitive": "radix",
+      "dependencies": ["radix-ui@^1"],
+      "status": "beta",
+      "roots": ["radix"]
+    },
+    {
+      "primitive": "base",
+      "dependencies": ["@base-ui/react@^1"],
+      "status": "beta",
+      "roots": ["base"]
+    },
+    {
+      "primitive": "aria",
+      "dependencies": ["react-aria-components@^1"],
+      "status": "beta",
+      "roots": ["aria"]
+    }
+  ],
+  "defaultVariant": "reasoning-steps-base-lucide",
+  "demo": "demo.tsx",
+  "credits": [
+    "S-003",
+    "S-004",
+    "S-005",
+    "S-006",
+    "S-032",
+    "S-033",
+    "S-034",
+    "S-104",
+    "S-152",
+    "S-157",
+    "S-325"
+  ],
+  "tags": [
+    "ai",
+    "reasoning",
+    "chat",
+    "collapsible",
+    "disclosure",
+    "timeline",
+    "motion"
+  ],
+  "props": [
+    {
+      "name": "ReasoningSteps duration",
+      "type": "number",
+      "description": "Elapsed reasoning time in seconds for the readout. Leave unset and the trigger times itself while any step is active."
+    },
+    {
+      "name": "ReasoningSteps open / defaultOpen / onOpenChange",
+      "type": "boolean / boolean / (open: boolean) => void",
+      "default": "none / false / none",
+      "description": "Controlled or uncontrolled expanded state of the timeline."
+    },
+    {
+      "name": "ReasoningStepsTrigger children",
+      "type": "ReactNode",
+      "default": "\"Reasoning\"",
+      "description": "The trigger label; it shimmers while a step is active. Collapsed, the active step's label slides in under it."
+    },
+    {
+      "name": "ReasoningStep status",
+      "type": "\"pending\" | \"active\" | \"done\"",
+      "default": "\"done\"",
+      "description": "Pending steps render nothing until they become active or done; an active step shows a dot that pops into a check once done."
+    },
+    {
+      "name": "ReasoningStep label / description / id",
+      "type": "ReactNode / ReactNode / string",
+      "description": "The step's line, an optional second line, and a stable identity (generated when omitted)."
+    },
+    {
+      "name": "ReasoningStepDetails summary / defaultOpen",
+      "type": "ReactNode / boolean",
+      "default": "none / false",
+      "description": "A nested disclosure inside a step for the longer explanation."
+    },
+    {
+      "name": "ReasoningStepSources, ReasoningStepSource href",
+      "type": "string",
+      "description": "Citation pills under a step; with href a pill is a link that opens in a new tab."
+    },
+    {
+      "name": "ReasoningStepImage src / alt / caption",
+      "type": "string / string / ReactNode",
+      "description": "A small figure inside a step."
+    }
+  ],
+  "a11y": [
+    "The trigger is a button with aria-expanded and aria-controls (from the primitive); Enter and Space toggle the timeline, and the nested details work the same way.",
+    "A polite live region announces the active step's label as it changes, so screen-reader users hear the reasoning progress without opening the timeline (a Labs addition).",
+    "Source pills that link out say so to screen readers (\"opens in a new tab\"), and the step glyphs and connector lines are decorative.",
+    "React Aria: the collapsed panel is hidden with hidden=\"until-found\", so find-in-page can still reveal a step.",
+    "Under prefers-reduced-motion the shimmer, pops and height animations are off: the panel opens and closes instantly."
+  ],
+  "usage": "<ReasoningSteps>\n  <ReasoningStepsTrigger>Reasoning</ReasoningStepsTrigger>\n  <ReasoningStepsContent>\n    <ReasoningStep label=\"Reading the request\" status=\"done\" />\n    <ReasoningStep label=\"Drafting the answer\" status=\"active\" />\n  </ReasoningStepsContent>\n</ReasoningSteps>",
+  "docs": "Installed `ReasoningSteps` and its parts (`@/components/ui/reasoning-steps`).\n\n```tsx\nimport {\n  ReasoningStep,\n  ReasoningSteps,\n  ReasoningStepsContent,\n  ReasoningStepsTrigger,\n} from \"@/components/ui/reasoning-steps\";\n\n<ReasoningSteps>\n  <ReasoningStepsTrigger>Reasoning</ReasoningStepsTrigger>\n  <ReasoningStepsContent>\n    <ReasoningStep label=\"Reading the request\" status=\"done\" />\n    <ReasoningStep label=\"Drafting the answer\" status=\"active\" />\n  </ReasoningStepsContent>\n</ReasoningSteps>\n```\n\nRender one `ReasoningStep` per step as your model reports progress: mark the current one `active` and flip it to `done` when the next starts. Leave future steps out (or `pending`). Colors come from your theme tokens (`card`, `foreground`, `muted-foreground`, `ring`).\n\nPorted from Reasoning Steps in Iconiq by Edwin Vakayil (MIT); the license notice is at the end of the file.",
+  "tile": {
+    "span": 1,
+    "rows": 1
+  },
+  "loop": {
+    "hydrate": true
+  }
+}

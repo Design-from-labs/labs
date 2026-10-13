@@ -687,3 +687,99 @@ oss:
         status: beta
         category: media
         upstream: components/Carousel.jsx
+
+  # AI interface states and loaders (port batch ai-states), ported by hand
+  # from the pinned commits with `pnpm ports`. Fidelity evidence:
+  # docs/evidence/ports/<component>/fidelity.md.
+  - id: iconiq
+    name: Iconiq by Edwin Vakayil
+    repo: https://github.com/edwinvakayil/iconiq
+    visibility: public
+    status: active
+    fetch: in-repo
+    ref: 236a851dd5ebb4c3a079d81c4646e19ab57d7574
+    author: "Edwin Vakayil <https://github.com/edwinvakayil>"
+    license: MIT
+    attribution: "Iconiq, Copyright (c) 2024-2026 Edwin Vakayil. MIT License."
+    credit: S-320
+    components:
+      - name: reasoning-steps
+        upstream: registry/reasoning-steps.tsx
+        status: beta
+        category: feedback
+
+  - id: aicss
+    name: AICSS by Kevin (kvnkld)
+    repo: https://github.com/kvnkld/aicss
+    visibility: public
+    status: active
+    fetch: in-repo
+    ref: 3ca50a3611b988d85eac6ffce662369494061674
+    author: "Kevin (kvnkld) <https://github.com/kvnkld>"
+    license: MIT
+    attribution: "AICSS, Copyright (c) 2026 AICSS. MIT License."
+    credit: S-321
+    components:
+      - name: message-actions
+        upstream: packages/react/src/message-actions
+        status: beta
+        category: actions
+
+  - id: generative-loaders
+    name: Generative Loaders by Kasturi Khanke
+    repo: https://github.com/kasturibuilds/generative-loaders
+    visibility: public
+    status: active
+    fetch: in-repo
+    ref: 4d34499e850b5f062bc6b88283f211150a15c78d
+    author: "Kasturi Khanke <https://github.com/kasturibuilds>"
+    license: MIT
+    attribution: "Generative Loaders, Copyright (c) 2026 Kasturi Khanke and Generative Loaders contributors. MIT License."
+    credit: S-322
+    components:
+      - name: streamed-text-loader
+        upstream: packages/generative-loaders/src (TextLoader)
+        status: beta
+        category: feedback
+      - name: inline-activity-loader
+        upstream: packages/generative-loaders/src (InlineLoader)
+        status: beta
+        category: feedback
+      - name: image-generation-loader
+        upstream: packages/generative-loaders/src (ImageLoader)
+        status: beta
+        category: feedback
+
+  - id: shimmer-trace
+    name: shimmer-trace by Jeet Vora
+    repo: https://github.com/jeetvora331/shimmer-trace
+    visibility: public
+    status: active
+    fetch: in-repo
+    ref: e473c07f6ab3836e5d2110872a85c2d34093c466
+    author: "Jeet Vora <https://github.com/jeetvora331>"
+    license: MIT
+    attribution: "shimmer-trace, Copyright (c) 2026 Jeet Vora. MIT License."
+    credit: S-323
+    components:
+      - name: shimmer-trace
+        upstream: src
+        status: beta
+        category: feedback
+
+  - id: gradient-spin
+    name: gradient-spin by Ziye Lu (BIAsia)
+    repo: https://github.com/BIAsia/gradient-spin
+    visibility: public
+    status: active
+    fetch: in-repo
+    ref: 3fc9ef08fa0d2d4e0aba84a9ba00848a93e216e2
+    author: "Ziye Lu (BIAsia) <https://github.com/BIAsia>"
+    license: MIT
+    attribution: "gradient-spin, Copyright (c) 2026 ziye. MIT License."
+    credit: S-324
+    components:
+      - name: gradient-spin
+        upstream: src
+        status: beta
+        category: feedback

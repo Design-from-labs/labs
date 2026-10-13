@@ -1,0 +1,118 @@
+{
+  "$schema": "https://labs.designfrom.com/schemas/meta.schema.json",
+  "schemaVersion": 1,
+  "name": "gradient-spin",
+  "kind": "component",
+  "title": "Gradient Spin",
+  "description": "A matrix loading spinner: a grid of cells swept by a gradient wavefront (arrow, diagonal, snake, ripple), with 8 gradient presets. One CSS keyframe, opacity only, no dependencies.",
+  "status": "beta",
+  "category": "feedback",
+  "label": "gradient-spin by Ziye Lu (BIAsia)",
+  "variants": [
+    {
+      "name": "gradient-spin",
+      "primitive": "none",
+      "iconSet": "none",
+      "status": "beta"
+    }
+  ],
+  "defaultVariant": "gradient-spin",
+  "demo": "demo.tsx",
+  "preview": "preview.webp",
+  "source": {
+    "repo": "https://github.com/BIAsia/gradient-spin",
+    "commit": "3fc9ef08fa0d2d4e0aba84a9ba00848a93e216e2",
+    "path": "src"
+  },
+  "author": "Ziye Lu (BIAsia) <https://github.com/BIAsia>",
+  "license": "MIT",
+  "attribution": "gradient-spin, Copyright (c) 2026 ziye. MIT License.",
+  "credits": [
+    "S-324",
+    "S-003",
+    "S-004",
+    "S-152",
+    "S-156",
+    "S-157",
+    "S-325"
+  ],
+  "date": "2026-10-13",
+  "tile": {
+    "span": 1,
+    "rows": 1
+  },
+  "tags": [
+    "loader",
+    "spinner",
+    "gradient",
+    "grid",
+    "css-animation"
+  ],
+  "props": [
+    {
+      "name": "gradient",
+      "type": "GradientStop[] | \"sunrise\" | \"bubble\" | \"peach\" | \"tonic\" | \"mint\" | \"spring\" | \"twilight\" | \"bay\"",
+      "default": "\"sunrise\"",
+      "description": "A preset, or stops `{ position: 0..1, color: hex }` (interpolated in OKLab)."
+    },
+    {
+      "name": "pattern",
+      "type": "\"arrow-up\" | \"diagonal\" | \"snake\" | \"ripple\"",
+      "default": "\"arrow-up\"",
+      "description": "The wavefront shape."
+    },
+    {
+      "name": "rows / cols",
+      "type": "number",
+      "default": "3 / 3",
+      "description": "Grid size."
+    },
+    {
+      "name": "cellSize / cellGap / cellRadius",
+      "type": "number",
+      "default": "4 / 2 / 1",
+      "description": "Cell edge, gap and corner radius in pixels."
+    },
+    {
+      "name": "period",
+      "type": "number",
+      "default": "750",
+      "description": "One sweep in milliseconds."
+    },
+    {
+      "name": "dim",
+      "type": "number",
+      "default": "0.1",
+      "description": "Opacity of unlit cells (0 to 1)."
+    },
+    {
+      "name": "colorBy",
+      "type": "\"row\" | \"path\"",
+      "default": "\"row\"",
+      "description": "Map the gradient top to bottom, or along the wave's travel order."
+    },
+    {
+      "name": "label",
+      "type": "string",
+      "default": "\"Loading\"",
+      "description": "The status text screen readers announce."
+    },
+    {
+      "name": "respectReducedMotion",
+      "type": "boolean",
+      "default": "true",
+      "description": "Freeze to a static 0.6 opacity under prefers-reduced-motion."
+    },
+    {
+      "name": "...props",
+      "type": "React.HTMLAttributes<HTMLSpanElement>",
+      "description": "Native span attributes (className, style)."
+    }
+  ],
+  "a11y": [
+    "A status region (role=\"status\") whose visually hidden content is the label (default \"Loading\"), so screen readers announce it (a Labs addition; upstream set only aria-label, which live regions do not announce).",
+    "Under prefers-reduced-motion the cells hold still at 0.6 opacity (respectReducedMotion, on by default).",
+    "In right-to-left pages the grid mirrors, so diagonal and snake waves run in the reading direction."
+  ],
+  "usage": "<GradientSpin gradient=\"mint\" pattern=\"snake\" rows={5} cols={5} cellSize={8} />"
+}

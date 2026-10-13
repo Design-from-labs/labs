@@ -1,0 +1,81 @@
+{
+  "title": "Inline Activity Loader",
+  "description": "A tiny loader that sits inline with text to show an agent is working: 18 CSS figures (orbit, signal, glyph, snake, vortex, a count-up and more) sized in em by default.",
+  "category": "feedback",
+  "type": "registry:ui",
+  "status": "beta",
+  "upstreamPath": "packages/generative-loaders/src",
+  "iconSets": ["none"],
+  "dependencies": ["motion@>=12.34.0"],
+  "files": [
+    {
+      "file": "inline-activity-loader.tsx",
+      "type": "registry:ui"
+    }
+  ],
+  "demo": "demo.tsx",
+  "credits": [
+    "S-003",
+    "S-004",
+    "S-104",
+    "S-152",
+    "S-155",
+    "S-156",
+    "S-157",
+    "S-325"
+  ],
+  "tags": ["ai", "loader", "spinner", "inline", "activity", "css-animation"],
+  "props": [
+    {
+      "name": "variant",
+      "type": "\"glyph\" | \"matrix\" | \"orbit\" | \"ripple\" | \"signal\" | \"spark\" | \"rotor\" | \"pixel-drift\" | \"chomp\" | \"snake\" | \"fold\" | \"gravity\" | \"domino\" | \"aperture\" | \"dot-pulse\" | \"vortex\" | \"halo\" | \"count-up\"",
+      "description": "The figure."
+    },
+    {
+      "name": "size",
+      "type": "number | string",
+      "default": "\"1.15em\"",
+      "description": "Width and height (a number is pixels). The em default scales with the surrounding text."
+    },
+    {
+      "name": "speed",
+      "type": "number",
+      "default": "1",
+      "description": "Playback rate (one cycle is 1.2 s at 1)."
+    },
+    {
+      "name": "color",
+      "type": "string",
+      "default": "\"currentColor\"",
+      "description": "Figure color."
+    },
+    {
+      "name": "paused",
+      "type": "boolean",
+      "default": "false",
+      "description": "Hold the figure still."
+    },
+    {
+      "name": "className",
+      "type": "string",
+      "description": "Classes on the root element."
+    },
+    {
+      "name": "label",
+      "type": "string",
+      "description": "Makes it a polite status with this text. Omit it when adjacent text already names the activity."
+    }
+  ],
+  "a11y": [
+    "With `label`, the loader is a status region (role=\"status\") whose visually hidden content is the label, so screen readers announce it (a Labs addition; upstream only set aria-label).",
+    "Without `label` it stays aria-hidden, as upstream: the adjacent text (\"Searching the web\") names the activity, and a second announcement would repeat it.",
+    "Under prefers-reduced-motion the figure stops on a static frame.",
+    "The figure draws the same in right-to-left pages (rows and grids keep their timing order)."
+  ],
+  "usage": "<p><InlineActivityLoader variant=\"orbit\" /> Searching the web</p>",
+  "docs": "Installed `InlineActivityLoader` (`@/components/ui/inline-activity-loader`), with its CSS keyframes inside the file (React 19 hoists them into `<head>` once).\n\n```tsx\nimport { InlineActivityLoader } from \"@/components/ui/inline-activity-loader\";\n\n<p>\n  <InlineActivityLoader variant=\"orbit\" /> Searching the web\n</p>\n```\n\nIt is `1.15em` and `currentColor` by default, so it matches the text it sits in. Give it a `label` when no text next to it names the activity. Motion stops under `prefers-reduced-motion`.\n\nPorted from generative-loaders (`InlineLoader`) by Kasturi Khanke (MIT); the license notice is at the end of the file.",
+  "tile": {
+    "span": 2,
+    "rows": 2
+  }
+}

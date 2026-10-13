@@ -1,0 +1,94 @@
+{
+  "title": "Gradient Spin",
+  "description": "A matrix loading spinner: a grid of cells swept by a gradient wavefront (arrow, diagonal, snake, ripple), with 8 gradient presets. One CSS keyframe, opacity only, no dependencies.",
+  "category": "feedback",
+  "type": "registry:ui",
+  "status": "beta",
+  "upstreamPath": "src",
+  "iconSets": ["none"],
+  "files": [
+    {
+      "file": "gradient-spin.tsx",
+      "type": "registry:ui"
+    },
+    {
+      "file": "gradient-spin-core.ts",
+      "type": "registry:ui"
+    }
+  ],
+  "demo": "demo.tsx",
+  "credits": ["S-003", "S-004", "S-152", "S-156", "S-157", "S-325"],
+  "tags": ["loader", "spinner", "gradient", "grid", "css-animation"],
+  "props": [
+    {
+      "name": "gradient",
+      "type": "GradientStop[] | \"sunrise\" | \"bubble\" | \"peach\" | \"tonic\" | \"mint\" | \"spring\" | \"twilight\" | \"bay\"",
+      "default": "\"sunrise\"",
+      "description": "A preset, or stops `{ position: 0..1, color: hex }` (interpolated in OKLab)."
+    },
+    {
+      "name": "pattern",
+      "type": "\"arrow-up\" | \"diagonal\" | \"snake\" | \"ripple\"",
+      "default": "\"arrow-up\"",
+      "description": "The wavefront shape."
+    },
+    {
+      "name": "rows / cols",
+      "type": "number",
+      "default": "3 / 3",
+      "description": "Grid size."
+    },
+    {
+      "name": "cellSize / cellGap / cellRadius",
+      "type": "number",
+      "default": "4 / 2 / 1",
+      "description": "Cell edge, gap and corner radius in pixels."
+    },
+    {
+      "name": "period",
+      "type": "number",
+      "default": "750",
+      "description": "One sweep in milliseconds."
+    },
+    {
+      "name": "dim",
+      "type": "number",
+      "default": "0.1",
+      "description": "Opacity of unlit cells (0 to 1)."
+    },
+    {
+      "name": "colorBy",
+      "type": "\"row\" | \"path\"",
+      "default": "\"row\"",
+      "description": "Map the gradient top to bottom, or along the wave's travel order."
+    },
+    {
+      "name": "label",
+      "type": "string",
+      "default": "\"Loading\"",
+      "description": "The status text screen readers announce."
+    },
+    {
+      "name": "respectReducedMotion",
+      "type": "boolean",
+      "default": "true",
+      "description": "Freeze to a static 0.6 opacity under prefers-reduced-motion."
+    },
+    {
+      "name": "...props",
+      "type": "React.HTMLAttributes<HTMLSpanElement>",
+      "description": "Native span attributes (className, style)."
+    }
+  ],
+  "a11y": [
+    "A status region (role=\"status\") whose visually hidden content is the label (default \"Loading\"), so screen readers announce it (a Labs addition; upstream set only aria-label, which live regions do not announce).",
+    "Under prefers-reduced-motion the cells hold still at 0.6 opacity (respectReducedMotion, on by default).",
+    "In right-to-left pages the grid mirrors, so diagonal and snake waves run in the reading direction."
+  ],
+  "usage": "<GradientSpin gradient=\"mint\" pattern=\"snake\" rows={5} cols={5} cellSize={8} />",
+  "docs": "Installed `GradientSpin` (`@/components/ui/gradient-spin`), with its presets, patterns and color sampling in `@/components/ui/gradient-spin-core` (`gradientPresets`, `spinPatterns`, `cellWaveOrder`, `sampleGradient` and the types). No dependencies; the keyframe is inside the file and React 19 hoists it into `<head>` once.\n\n```tsx\nimport { GradientSpin } from \"@/components/ui/gradient-spin\";\n\n<GradientSpin gradient=\"mint\" pattern=\"snake\" rows={5} cols={5} cellSize={8} />\n```\n\nThe default is a 16 px 3x3 spinner that fits beside text; raise `rows`, `cols` and `cellSize` for a larger one. Pass a preset name or your own stops as `gradient`.\n\nPorted from gradient-spin by Ziye Lu (BIAsia) (MIT); the license notice is at the end of every file.",
+  "tile": {
+    "span": 1,
+    "rows": 1
+  }
+}

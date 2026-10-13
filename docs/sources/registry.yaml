@@ -1314,3 +1314,63 @@ sources:
     visibility: public
     note: "Embedded by the cobe npm package as a small bitmap and credited in its README; no file of this repository contains it. Credited because every rendered globe shows it."
     used-in: [content/components/shuding-cobe/globe, docs/evidence/ports/globe]
+  - id: S-320
+    title: "Iconiq: Reasoning Steps block (registry/reasoning-steps.tsx)"
+    author: "Edwin Vakayil"
+    kind: library
+    url: "https://github.com/edwinvakayil/iconiq"
+    license: "MIT"
+    accessed: 2026-10-12
+    visibility: public
+    used-in: [sources.yaml, ports/iconiq, content/components/iconiq/reasoning-steps]
+    note: "Ported at commit 236a851dd5ebb4c3a079d81c4646e19ab57d7574 (registry/reasoning-steps.tsx, Base UI); the Radix and React Aria variants are Labs rewrites of the same file."
+  - id: S-321
+    title: "AICSS: Message Actions (packages/react/src/message-actions)"
+    author: "Kevin (kvnkld), AICSS"
+    kind: library
+    url: "https://github.com/kvnkld/aicss"
+    license: "MIT"
+    accessed: 2026-10-12
+    visibility: public
+    used-in: [sources.yaml, ports/aicss, content/components/aicss/message-actions]
+    note: "Ported at commit 3ca50a3611b988d85eac6ffce662369494061674, including its emoji data (emojis.ts); upstream uses no headless primitive, so the Radix, Base UI and React Aria variants are Labs rewrites of its tooltip, popover and menu."
+  - id: S-322
+    title: "Generative Loaders: text, inline and image loaders for React"
+    author: "Kasturi Khanke and Generative Loaders contributors"
+    kind: library
+    url: "https://github.com/kasturibuilds/generative-loaders"
+    license: "MIT"
+    accessed: 2026-10-12
+    visibility: public
+    used-in: [sources.yaml, ports/generative-loaders, content/components/generative-loaders]
+    note: "Ported at commit 4d34499e850b5f062bc6b88283f211150a15c78d (packages/generative-loaders/src) as three components: StreamedTextLoader, InlineActivityLoader and ImageGenerationLoader."
+  - id: S-323
+    title: "shimmer-trace: skeleton loaders traced from rendered layout"
+    author: "Jeet Vora"
+    kind: library
+    url: "https://github.com/jeetvora331/shimmer-trace"
+    license: "MIT"
+    accessed: 2026-10-12
+    visibility: public
+    used-in: [sources.yaml, ports/shimmer-trace, content/components/shimmer-trace/shimmer-trace]
+    note: "Ported at commit e473c07f6ab3836e5d2110872a85c2d34093c466 (src)."
+  - id: S-324
+    title: "gradient-spin: gradient matrix loading spinner"
+    author: "Ziye Lu (BIAsia)"
+    kind: library
+    url: "https://github.com/BIAsia/gradient-spin"
+    license: "MIT"
+    accessed: 2026-10-12
+    visibility: public
+    used-in: [sources.yaml, ports/gradient-spin, content/components/gradient-spin/gradient-spin]
+    note: "Ported at commit 3fc9ef08fa0d2d4e0aba84a9ba00848a93e216e2 (src)."
+  - id: S-325
+    title: "WAI-ARIA live regions and the status role (MDN)"
+    author: "Mozilla and individual contributors"
+    kind: doc
+    url: "https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Roles/status_role"
+    license: "CC-BY-SA-2.5"
+    accessed: 2026-10-12
+    visibility: public
+    used-in: [content/components/iconiq/reasoning-steps, content/components/aicss/message-actions, content/components/generative-loaders, content/components/shimmer-trace/shimmer-trace, content/components/gradient-spin/gradient-spin]
+    note: "Reference for the loaders' and AI states' screen-reader announcements; documentation only, nothing copied."

@@ -1,0 +1,90 @@
+{
+  "title": "Streamed Text Loader",
+  "description": "Text that animates in as a model streams it: only the newly received characters reveal, in one of 16 styles (focus, decode, typewriter, skeleton, wipe, terminal and more).",
+  "category": "feedback",
+  "type": "registry:ui",
+  "status": "beta",
+  "upstreamPath": "packages/generative-loaders/src",
+  "iconSets": ["none"],
+  "dependencies": ["motion@>=12.34.0"],
+  "files": [
+    {
+      "file": "streamed-text-loader.tsx",
+      "type": "registry:ui"
+    }
+  ],
+  "demo": "demo.tsx",
+  "credits": [
+    "S-003",
+    "S-004",
+    "S-104",
+    "S-152",
+    "S-155",
+    "S-156",
+    "S-157",
+    "S-325"
+  ],
+  "tags": ["ai", "loader", "streaming", "text", "animation", "motion"],
+  "props": [
+    {
+      "name": "text",
+      "type": "string",
+      "description": "The text received so far. Append to it as chunks arrive: only the new characters animate. A text that does not start with the previous one replays from the start."
+    },
+    {
+      "name": "variant",
+      "type": "\"decode\" | \"typewriter\" | \"skeleton\" | \"cascade\" | \"focus\" | \"wipe\" | \"flip\" | \"redact\" | \"line\" | \"terminal\" | \"wave\" | \"dissolve\" | \"slice\" | \"tracking\" | \"coalesce\" | \"fragments\"",
+      "description": "The reveal style. `skeleton` shows two shimmering bars while `text` is empty."
+    },
+    {
+      "name": "speed",
+      "type": "number",
+      "default": "1",
+      "description": "Playback rate: 2 is twice as fast. Non-positive or non-finite values fall back to 1."
+    },
+    {
+      "name": "color",
+      "type": "string",
+      "default": "\"#111111\"",
+      "description": "Text color. Pass \"currentColor\" to follow the surrounding text (and your theme)."
+    },
+    {
+      "name": "paused",
+      "type": "boolean",
+      "default": "false",
+      "description": "Render the text without motion (new text appears at once)."
+    },
+    {
+      "name": "className",
+      "type": "string",
+      "description": "Classes on the root element."
+    },
+    {
+      "name": "aria-label",
+      "type": "string",
+      "default": "the text, whitespace collapsed",
+      "description": "The live region's accessible name."
+    },
+    {
+      "name": "dir",
+      "type": "\"auto\" | \"ltr\" | \"rtl\"",
+      "default": "\"auto\"",
+      "description": "Labs addition: text direction. `auto` follows the text, so Latin stays in order in a right-to-left page and wipes reveal in reading order."
+    }
+  ],
+  "a11y": [
+    "The root is a polite live region (role=\"status\", aria-live=\"polite\"); the received text is its visually hidden content, so screen readers announce new text as it arrives (a Labs addition: upstream relied on aria-label, which live regions do not announce).",
+    "The animated layer, built from per-character spans, is aria-hidden, so the text is read as words, not letters.",
+    "Under prefers-reduced-motion the text appears without motion, and the skeleton bars stop: a static state.",
+    "dir=\"auto\" keeps Latin text in order inside right-to-left pages; right-to-left text wipes and redacts in its reading direction."
+  ],
+  "usage": "<StreamedTextLoader text={partialReply} variant=\"focus\" color=\"currentColor\" />",
+  "docs": "Installed `StreamedTextLoader` (`@/components/ui/streamed-text-loader`), with its styles inside the file (React 19 hoists them into `<head>` once) and `motion` for the reveals.\n\n```tsx\nimport { StreamedTextLoader } from \"@/components/ui/streamed-text-loader\";\n\n<StreamedTextLoader text={partialReply} variant=\"focus\" color=\"currentColor\" />\n```\n\nPass the reply received so far as `text` and append to it as chunks stream in: only the new characters animate. `color=\"currentColor\"` follows your theme; `variant=\"skeleton\"` shows placeholder bars while `text` is empty. Motion stops under `prefers-reduced-motion`. Motion renders each reveal's first frame on the server (fresh characters start transparent), so for server-rendered text pass `paused` until the page hydrates, as the demo does.\n\nPorted from generative-loaders (`TextLoader`) by Kasturi Khanke (MIT); the license notice is at the end of the file.",
+  "tile": {
+    "span": 2,
+    "rows": 1
+  },
+  "loop": {
+    "hydrate": true
+  }
+}

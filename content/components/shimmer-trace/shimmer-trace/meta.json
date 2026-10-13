@@ -1,0 +1,138 @@
+{
+  "$schema": "https://labs.designfrom.com/schemas/meta.schema.json",
+  "schemaVersion": 1,
+  "name": "shimmer-trace",
+  "kind": "component",
+  "title": "Shimmer Trace",
+  "description": "Skeleton loading that traces your real markup: wrap content in Shimmer and it measures the rendered elements and paints one synchronized shimmer over them. Five animations, list cloning, Suspense.",
+  "status": "beta",
+  "category": "feedback",
+  "label": "shimmer-trace by Jeet Vora",
+  "variants": [
+    {
+      "name": "shimmer-trace",
+      "primitive": "none",
+      "iconSet": "none",
+      "status": "beta"
+    }
+  ],
+  "defaultVariant": "shimmer-trace",
+  "demo": "demo.tsx",
+  "preview": "preview.webp",
+  "source": {
+    "repo": "https://github.com/jeetvora331/shimmer-trace",
+    "commit": "e473c07f6ab3836e5d2110872a85c2d34093c466",
+    "path": "src"
+  },
+  "author": "Jeet Vora <https://github.com/jeetvora331>",
+  "license": "MIT",
+  "attribution": "shimmer-trace, Copyright (c) 2026 Jeet Vora. MIT License.",
+  "credits": [
+    "S-323",
+    "S-003",
+    "S-004",
+    "S-152",
+    "S-155",
+    "S-156",
+    "S-157",
+    "S-325"
+  ],
+  "date": "2026-10-13",
+  "tile": {
+    "span": 2,
+    "rows": 1
+  },
+  "loop": {
+    "script": "click[0] → wait → wait",
+    "duration": 6000,
+    "hydrate": true
+  },
+  "tags": [
+    "skeleton",
+    "loader",
+    "placeholder",
+    "suspense",
+    "shimmer"
+  ],
+  "props": [
+    {
+      "name": "loading",
+      "type": "boolean",
+      "default": "false",
+      "description": "Show the skeleton. False renders the children untouched."
+    },
+    {
+      "name": "children",
+      "type": "React.ReactNode",
+      "description": "The content to trace (rendered hidden while loading)."
+    },
+    {
+      "name": "animation",
+      "type": "\"wave\" | \"pulse\" | \"shine\" | \"glow\" | \"gradient\"",
+      "default": "\"wave\"",
+      "description": "The shimmer style."
+    },
+    {
+      "name": "baseColor / highlightColor",
+      "type": "string",
+      "default": "\"#e0e0e0\" / \"#f5f5f5\"",
+      "description": "Block and highlight colors (any CSS color, including var(--token))."
+    },
+    {
+      "name": "speed",
+      "type": "number",
+      "default": "1.5",
+      "description": "Animation duration in seconds."
+    },
+    {
+      "name": "borderRadius",
+      "type": "string",
+      "description": "One radius for every block. Unset: each element's own radius (4px when it has none)."
+    },
+    {
+      "name": "preserveBackground",
+      "type": "boolean",
+      "default": "true",
+      "description": "Keep card backgrounds, borders and spacing visible and hide only text and media. False hides the whole tree."
+    },
+    {
+      "name": "dummyData",
+      "type": "Record<string, any>",
+      "description": "Props merged into each child while loading, so it renders a realistic shape without data."
+    },
+    {
+      "name": "dummyLength",
+      "type": "number",
+      "description": "Clone the first child this many times while loading (lists)."
+    },
+    {
+      "name": "as",
+      "type": "React.ComponentType<any>",
+      "description": "Render this component (dummyLength times, with dummyData) instead of the children while loading."
+    },
+    {
+      "name": "stopPropagation",
+      "type": "boolean",
+      "default": "false",
+      "description": "Paint its own overlay even when nested in another Shimmer (nested ones report to the outer one by default)."
+    },
+    {
+      "name": "className / style",
+      "type": "string / React.CSSProperties",
+      "description": "On the container (it is always position: relative)."
+    },
+    {
+      "name": "loadingLabel",
+      "type": "string",
+      "default": "\"Loading content\"",
+      "description": "Labs addition: what screen readers announce while loading."
+    }
+  ],
+  "a11y": [
+    "While loading, the traced content is aria-hidden and a polite live region next to it (role=\"status\", visually hidden, outside the hidden subtree) announces `loadingLabel`. Upstream's own status sat inside the aria-hidden container, so it was never announced (a Labs fix). The live region is absolutely positioned, so block, flex and grid parents lay out exactly as before.",
+    "While loading the container ignores pointer events and selection, as upstream; the controls inside are hidden from assistive technology until the content loads.",
+    "Under prefers-reduced-motion the blocks are static and base-colored: no sweep, pulse or glow (a Labs addition).",
+    "In right-to-left pages the blocks follow the mirrored layout and the sweep runs right to left."
+  ],
+  "usage": "<Shimmer loading={isLoading}><ProfileCard user={user} /></Shimmer>"
+}
