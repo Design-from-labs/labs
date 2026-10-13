@@ -47,17 +47,17 @@ const current = (href: string) =>
       <div class="mx-auto flex h-14 max-w-6xl items-center justify-between gap-4 px-4 sm:px-6">
         <a href="/" class="flex items-center gap-2 font-medium tracking-tight">
           <img src="/favicon.svg" alt="" width="22" height="22" />
-          <span>Design From <span class="text-muted-foreground">Labs</span></span>
+          <span class="text-[15px] min-[360px]:whitespace-nowrap sm:text-base">Design From <span class="text-muted-foreground">Labs</span></span>
         </a>
         <nav aria-label="Main">
           <ul class="flex items-center gap-1 text-sm">
             {
               nav.map((item) => (
-                <li>
+                <li class:list={[item.href === "/" && "max-[399px]:hidden"]}>
                   <a
                     href={item.href}
                     aria-current={current(item.href) ? "page" : undefined}
-                    class="rounded-md px-2.5 py-1.5 text-muted-foreground transition-colors hover:text-foreground aria-[current=page]:text-foreground aria-[current=page]:font-medium"
+                    class="rounded-md px-1.5 py-1.5 text-muted-foreground sm:px-2.5 transition-colors hover:text-foreground aria-[current=page]:text-foreground aria-[current=page]:font-medium"
                   >
                     {item.label}
                   </a>
@@ -67,7 +67,7 @@ const current = (href: string) =>
             <li>
               <a
                 href="https://github.com/Design-from-labs/labs"
-                class="rounded-md px-2.5 py-1.5 text-muted-foreground transition-colors hover:text-foreground"
+                class="rounded-md px-1.5 py-1.5 text-muted-foreground sm:px-2.5 transition-colors hover:text-foreground"
                 >GitHub</a
               >
             </li>

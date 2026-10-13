@@ -67,5 +67,13 @@
     "sidebar-phosphor": "demo.phosphor.tsx"
   },
   "defaultVariant": "sidebar-lucide",
-  "docs": "Installed `Sidebar`, `SidebarGroup` and `SidebarItem`. Import them from `@/components/ui/sidebar`.\n\nPut `Sidebar` first in a flex row that fills the viewport (`flex h-dvh flex-col md:flex-row`): from 768px it is a rail at the inline start, below that a top bar with a menu button. Mark the current link with `active`."
+  "docs": "Installed `Sidebar`, `SidebarGroup` and `SidebarItem`. Import them from `@/components/ui/sidebar`.\n\nPut `Sidebar` first in a flex row that fills the viewport (`flex h-dvh flex-col md:flex-row`): from 768px it is a rail at the inline start, below that a top bar with a menu button. Mark the current link with `active`.",
+  "tile": {
+    "span": 2,
+    "rows": 2
+  },
+  "loop": {
+    "script": "hover[2] → press[2] → release[2] → idle → hover[3] → idle → hover[5] → idle",
+    "duration": 6400
+  }
 }

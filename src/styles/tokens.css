@@ -112,3 +112,26 @@
   --stage-base-edge: oklch(0.42 0 0);
   --stage-chrome: oklch(0.24 0 0);
 }
+
+/*
+ * Specimen wall tokens (site only; docs/decisions/0019-specimen-wall.md):
+ * the tile surfaces, the hairline gap and the tile radius.
+ */
+:root {
+  --tile-surface: oklch(0.955 0 0);
+  --tile-surface-dark: oklch(0.19 0 0);
+  --tile-radius: 8px;
+  --tile-lift-shadow: 0 14px 28px -16px oklch(0 0 0 / 0.28);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --tile-surface: oklch(0.205 0 0);
+    --tile-surface-dark: oklch(0.1 0 0);
+    --tile-lift-shadow: 0 14px 28px -16px oklch(0 0 0 / 0.7);
+  }
+}
+:root[data-theme="dark"] {
+  --tile-surface: oklch(0.205 0 0);
+  --tile-surface-dark: oklch(0.1 0 0);
+  --tile-lift-shadow: 0 14px 28px -16px oklch(0 0 0 / 0.7);
+}

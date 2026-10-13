@@ -54,7 +54,7 @@
   "preview": "preview.webp",
   "source": {
     "repo": "https://github.com/Design-from-labs/labs",
-    "commit": "803b92c1a30e0d513e1cb1ff5ca984b2a5f9b492",
+    "commit": "37f363688209a0be349354e43119d3058e484845",
     "path": "examples/button"
   },
   "author": "Design From Labs <https://labs.designfrom.com>",
@@ -113,5 +113,13 @@
     "While loading, focus stays on the button: Radix uses aria-disabled with a click guard, Base UI keeps a disabled button focusable, React Aria uses isPending, which also announces the pending state.",
     "The spinner is aria-hidden and only spins when the user allows motion (motion-safe)."
   ],
-  "usage": "<Button onClick={save} loading={saving}>Save changes</Button>"
+  "usage": "<Button onClick={save} loading={saving}>Save changes</Button>",
+  "tile": {
+    "span": 2,
+    "rows": 1
+  },
+  "loop": {
+    "script": "hover[4] → press[4] → release[4] → idle → focus[0] → blur[0] → hover[2] → idle",
+    "duration": 5600
+  }
 }

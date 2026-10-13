@@ -238,6 +238,8 @@ function exportOne(name) {
     ...(spec.a11y ? { a11y: spec.a11y } : {}),
     ...(spec.usage ? { usage: spec.usage } : {}),
     ...(spec.stage ? { stage: spec.stage } : {}),
+    ...(spec.tile ? { tile: spec.tile } : {}),
+    ...(spec.loop ? { loop: spec.loop } : {}),
   };
   out["meta.json"] = json(meta);
   return out;

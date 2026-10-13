@@ -8,8 +8,14 @@
   "iconSets": ["none"],
   "registryDependencies": ["utils"],
   "files": [
-    { "file": "dot-morph.tsx", "type": "registry:ui" },
-    { "file": "dot-morph-motion.ts", "type": "registry:ui" }
+    {
+      "file": "dot-morph.tsx",
+      "type": "registry:ui"
+    },
+    {
+      "file": "dot-morph-motion.ts",
+      "type": "registry:ui"
+    }
   ],
   "demo": "demo.tsx",
   "credits": ["S-003", "S-004", "S-008", "S-152"],
@@ -86,5 +92,14 @@
     "Under prefers-reduced-motion every step jumps to its resting frame, with no spin, blur or goo."
   ],
   "usage": "<DotMorph size={8} />",
-  "docs": "Installed `DotMorph` (`@/components/ui/dot-morph`) and its frame math (`@/components/ui/dot-morph-motion`).\n\n```tsx\nimport { DotMorph } from \"@/components/ui/dot-morph\";\n\n<DotMorph size={8} className=\"text-foreground\" />\n```\n\nThe icon draws in `currentColor`; set the text color to theme it. Hover splits the dot, a press morphs the three dots into the mark and back. Pass `mark` (three closed paths in a 24-unit viewBox) for your own shape, and `colors` to bloom into color.\n\nPorted from the chrome-morph experiment in peckz/playground by Petar Cirkovic (MIT), renamed, with the third-party logo replaced by an original mark; the license notice is at the end of every file."
+  "docs": "Installed `DotMorph` (`@/components/ui/dot-morph`) and its frame math (`@/components/ui/dot-morph-motion`).\n\n```tsx\nimport { DotMorph } from \"@/components/ui/dot-morph\";\n\n<DotMorph size={8} className=\"text-foreground\" />\n```\n\nThe icon draws in `currentColor`; set the text color to theme it. Hover splits the dot, a press morphs the three dots into the mark and back. Pass `mark` (three closed paths in a 24-unit viewBox) for your own shape, and `colors` to bloom into color.\n\nPorted from the chrome-morph experiment in peckz/playground by Petar Cirkovic (MIT), renamed, with the third-party logo replaced by an original mark; the license notice is at the end of every file.",
+  "tile": {
+    "span": 1,
+    "rows": 2
+  },
+  "loop": {
+    "hydrate": true,
+    "script": "click[0] → wait → wait → wait → click[0] → wait → wait → wait",
+    "duration": 6400
+  }
 }

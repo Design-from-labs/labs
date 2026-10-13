@@ -250,6 +250,50 @@
         }
       }
     },
+    "tile": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Optional (contract revision 4). The entry's tile on the /ui specimen wall: columns spanned, rows tall, and the surface it sits on. Defaults: span 1, rows 1, light; a staged layout part defaults to span 2, rows 2.",
+      "properties": {
+        "span": {
+          "enum": [1, 2],
+          "description": "Columns the tile spans (a phone shows two columns, so span 2 is full width there)."
+        },
+        "rows": {
+          "enum": [1, 2, 3],
+          "description": "Row units the tile is tall; one unit is four fifths of a column's width."
+        },
+        "surface": {
+          "enum": ["light", "dark"],
+          "description": "The tile's surface. dark also renders the specimen with the dark theme tokens, for components that read better on dark."
+        }
+      }
+    },
+    "loop": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Optional (contract revision 4). How the specimen moves on the wall: a short script of fake pointer and focus states played on repeat, never real input. Without it, a specimen with its own CSS animation keeps it, one with controls cycles a hover state, and anything else gets a gentle spotlight.",
+      "properties": {
+        "script": {
+          "type": "string",
+          "maxLength": 400,
+          "pattern": "^\\s*(hover|press|release|focus|blur|click|idle|wait)(\\[\\d{1,2}\\])?(\\s*(→|->)\\s*(hover|press|release|focus|blur|click|idle|wait)(\\[\\d{1,2}\\])?)*\\s*$",
+          "description": "Steps separated by → (or ->), played evenly over the duration. hover, press, release, focus, blur and click take the index of a control in the specimen ([0] when omitted; controls are buttons, links, inputs and widgets with a role, in document order); idle clears every state; wait holds. click needs hydrate."
+        },
+        "duration": {
+          "type": "integer",
+          "minimum": 1500,
+          "maximum": 20000,
+          "default": 4000,
+          "description": "One pass of the script, in milliseconds."
+        },
+        "hydrate": {
+          "type": "boolean",
+          "default": false,
+          "description": "Hydrate the specimen as a lazy island on the wall (client:visible): for click steps, or a demo whose own motion needs JavaScript. A demo with its own timer skips its step while an ancestor has data-loop-paused."
+        }
+      }
+    },
     "kind": {
       "enum": ["component", "theme", "font", "base", "hook", "lib"],
       "default": "component",

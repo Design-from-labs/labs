@@ -60,6 +60,10 @@ Design From and Design From Labs (the guards enforce this).
 | [P-047](#p-047) | Ports (process) | Unfinished sibling content breaks a shared worktree's site build |
 | [P-048](#p-048) | Components | A dev overlay shown in production when env reads are banned |
 | [P-049](#p-049) | Site (demo aliases) | A directory import in a demo did not resolve |
+| [P-050](#p-050) | Site (loops) | A scripted click inside a tile followed the tile's link |
+| [P-051](#p-051) | Site (view transitions) | Unpartnered named tiles lingered through the morph |
+| [P-052](#p-052) | Site (header) | A no-wrap brand pushed the header past 320px |
+| [P-053](#p-053) | Tests | A check that passed on the CI build failed on a beta build |
 
 ---
 
@@ -790,3 +794,62 @@ Design From and Design From Labs (the guards enforce this).
 - Prevention: Resolve demo imports the way the installing app's bundler would.
 - Links: `astro.config.mjs`
 
+### P-050
+
+- Date: 2026-10-12
+- Area: Site (specimen loops)
+- Symptom: On a beta build, a few seconds after opening `/ui` the browser
+  navigated to a component page by itself, and loop tests timed out.
+- Cause: The loop driver's `click` step calls `click()` on a control inside
+  the specimen, and the specimen sits inside the tile's `<a>`. The click
+  bubbled to the link and ran its activation behaviour: a navigation.
+- Fix: The driver cancels the click at the tile (`preventDefault` in a
+  listener on the tile, added just for the scripted click). The component's
+  own handlers have already run by then, so only the navigation stops.
+- Prevention: `e2e/wall.spec.ts` checks the URL after a full loop cycle. Any
+  synthetic event inside a link must be cancelled at the link.
+- Links: `src/scripts/specimens.ts`
+
+### P-051
+
+- Date: 2026-10-12
+- Area: Site (view transitions)
+- Symptom: During the morph from a wall tile, the other staged tiles' device
+  frames and the dark tile hung over the new page for most of the
+  transition.
+- Cause: Every tile has a static view-transition name, so each is captured
+  as its own group. A tile with no partner on the next page still took its
+  class's crossfade timing (400 ms), not the page's quick fade-out.
+- Fix: `::view-transition-old(*):only-child` and
+  `::view-transition-new(*):only-child` (an image without a partner is the
+  only child of its pair) fade with the outgoing and incoming page.
+- Prevention: When a class gets its own old/new animation, check a frame
+  captured mid-transition with other named elements on the page.
+- Links: `src/styles/global.css`, `docs/decisions/0019-specimen-wall.md`
+
+### P-052
+
+- Date: 2026-10-12
+- Area: Site (header)
+- Symptom: Every page scrolled sideways at 320px after the brand text was
+  set to `whitespace-nowrap` (to stop it wrapping at 375px).
+- Cause: Brand plus four navigation links need about 355px on one line.
+- Fix: The brand may wrap below 360px, and below 400px the duplicate "Labs"
+  link is hidden (the logo already links home).
+- Prevention: `e2e/layout.spec.ts` checks every page at 320 and 375px; run
+  it after any header change.
+- Links: `src/layouts/Base.astro`
+
+### P-053
+
+- Date: 2026-10-12
+- Area: Tests (beta builds)
+- Symptom: "The gallery renders server-side demos without hydrating" passed
+  on the CI build and failed on a `LABS_INCLUDE_BETA=1` build.
+- Cause: The beta ports have `loop.hydrate`, so the wall rightly has
+  islands there; the test asserted none at all.
+- Fix: The test asserts no island outside a specimen marked
+  `data-loop-hydrate`.
+- Prevention: Run e2e on a beta build too before merging a change to the
+  wall: `LABS_INCLUDE_BETA=1 pnpm build:site && pnpm e2e`.
+- Links: `e2e/site.spec.ts`

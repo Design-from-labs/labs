@@ -43,7 +43,7 @@ test("the gallery tile shows the device frame, statically", async ({
   ).toBe("tile-preview-sidebar");
   expect(
     await tile
-      .locator("[data-tile-preview]")
+      .locator("[data-specimen]")
       .evaluate((el) => getComputedStyle(el).viewTransitionName),
   ).toBe("none");
 });

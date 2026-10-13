@@ -15,7 +15,7 @@ export default defineConfig({
     {
       name: "chromium",
       use: { ...devices["Desktop Chrome"] },
-      testIgnore: /gallery\.spec\.ts/,
+      testIgnore: /(gallery|wall)\.spec\.ts/,
     },
     {
       name: "mobile",
@@ -28,7 +28,7 @@ export default defineConfig({
     {
       name: "transitions",
       use: { ...devices["Desktop Chrome"] },
-      testMatch: /gallery\.spec\.ts/,
+      testMatch: /(gallery|wall)\.spec\.ts/,
       fullyParallel: false,
       dependencies: ["chromium", "mobile"],
     },

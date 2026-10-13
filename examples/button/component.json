@@ -86,5 +86,13 @@
     "aria": "demo.aria.tsx"
   },
   "defaultVariant": "button-radix-lucide",
-  "docs": "Installed `Button`. Import it from `@/components/ui/button`.\n\n- `variant`: default, secondary, outline, ghost, destructive.\n- `loading` shows a spinner and keeps focus on the button.\n\nColors come from your theme tokens (`--primary`, `--ring`, ...). Install `designfrom-theme` for the Design From palette."
+  "docs": "Installed `Button`. Import it from `@/components/ui/button`.\n\n- `variant`: default, secondary, outline, ghost, destructive.\n- `loading` shows a spinner and keeps focus on the button.\n\nColors come from your theme tokens (`--primary`, `--ring`, ...). Install `designfrom-theme` for the Design From palette.",
+  "tile": {
+    "span": 2,
+    "rows": 1
+  },
+  "loop": {
+    "script": "hover[4] → press[4] → release[4] → idle → focus[0] → blur[0] → hover[2] → idle",
+    "duration": 5600
+  }
 }

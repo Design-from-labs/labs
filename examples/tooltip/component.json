@@ -72,5 +72,9 @@
     "aria": "demo.aria.tsx"
   },
   "defaultVariant": "tooltip-radix",
-  "docs": "Installed `Tooltip`. Import it from `@/components/ui/tooltip`.\n\nRadix and Base UI: wrap your app once in `TooltipProvider`, then compose `Tooltip`, `TooltipTrigger` and `TooltipContent`. React Aria: put the trigger and `Tooltip` inside `TooltipTrigger`."
+  "docs": "Installed `Tooltip`. Import it from `@/components/ui/tooltip`.\n\nRadix and Base UI: wrap your app once in `TooltipProvider`, then compose `Tooltip`, `TooltipTrigger` and `TooltipContent`. React Aria: put the trigger and `Tooltip` inside `TooltipTrigger`.",
+  "loop": {
+    "script": "hover[0] → focus[0] → blur[0] → idle → hover[1] → idle",
+    "duration": 4800
+  }
 }

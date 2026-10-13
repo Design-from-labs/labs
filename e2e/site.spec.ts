@@ -36,7 +36,11 @@ test("the gallery renders server-side demos without hydrating", async ({
   await expect(
     gallery.locator("button", { hasText: "Save changes" }),
   ).toHaveCount(1);
-  await expect(page.locator("astro-island")).toHaveCount(0);
+  // Only a specimen whose loop needs JavaScript (meta loop.hydrate) is an
+  // island; everything else on the wall is static markup.
+  await expect(
+    page.locator("astro-island:not([data-loop-hydrate] astro-island)"),
+  ).toHaveCount(0);
 });
 
 test("the variant switcher changes the demo, install commands and source", async ({

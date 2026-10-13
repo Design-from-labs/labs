@@ -37,7 +37,7 @@
   "preview": "preview.webp",
   "source": {
     "repo": "https://github.com/Design-from-labs/labs",
-    "commit": "803b92c1a30e0d513e1cb1ff5ca984b2a5f9b492",
+    "commit": "37f363688209a0be349354e43119d3058e484845",
     "path": "examples/tooltip"
   },
   "author": "Design From Labs <https://labs.designfrom.com>",
@@ -89,5 +89,9 @@
     "Keep the hint short and non-interactive; use a popover for links or buttons.",
     "The fade animates opacity only and is disabled when the user prefers reduced motion."
   ],
-  "usage": "<Tooltip>\n  <TooltipTrigger>Share</TooltipTrigger>\n  <TooltipContent>Copies a link</TooltipContent>\n</Tooltip>"
+  "usage": "<Tooltip>\n  <TooltipTrigger>Share</TooltipTrigger>\n  <TooltipContent>Copies a link</TooltipContent>\n</Tooltip>",
+  "loop": {
+    "script": "hover[0] → focus[0] → blur[0] → idle → hover[1] → idle",
+    "duration": 4800
+  }
 }

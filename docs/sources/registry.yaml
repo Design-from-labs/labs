@@ -719,3 +719,48 @@ sources:
     accessed: 2026-10-12
     visibility: private-cited-only
     used-in: [ports/README.md, docs/decisions/0017-port-variants-and-nested-targets.md, docs/evidence/ports]
+  - id: S-158
+    title: "Owner brief: a specimen wall for /ui, with looping tiles"
+    author: "Owner"
+    kind: brief
+    private-file: "Owner instructions relayed in the build session; not in the repository"
+    license: "All rights reserved (owner)"
+    accessed: 2026-10-12
+    visibility: private-cited-only
+    used-in: [docs/decisions/0019-specimen-wall.md, docs/decisions/0020-specimen-loops.md, docs/contract.md]
+  - id: S-159
+    title: "Reference screenshot of a component specimen grid (owner upload)"
+    author: "Owner"
+    kind: design-reference
+    private-file: "Image shared by the owner in the build session; not in the repository"
+    license: "All rights reserved (third party; viewed only)"
+    accessed: 2026-10-12
+    visibility: private-cited-only
+    used-in: [docs/decisions/0019-specimen-wall.md]
+  - id: S-160
+    title: "The owner's own grid layout code (private, read only)"
+    author: "Owner"
+    kind: design-reference
+    private-file: "Owner's private source code, read for layout rules; nothing copied but the rules"
+    license: "All rights reserved (owner)"
+    accessed: 2026-10-12
+    visibility: private-cited-only
+    used-in: [docs/decisions/0019-specimen-wall.md, src/styles/global.css]
+  - id: S-161
+    title: "Understanding WCAG 2.2: Success Criterion 2.2.2 Pause, Stop, Hide"
+    author: "W3C Web Accessibility Initiative"
+    kind: doc
+    url: "https://www.w3.org/WAI/WCAG22/Understanding/pause-stop-hide.html"
+    license: "W3C Document License"
+    accessed: 2026-10-12
+    visibility: public
+    used-in: [docs/decisions/0020-specimen-loops.md, src/scripts/specimens.ts]
+  - id: S-162
+    title: "Tailwind CSS v4: adding custom variants (@custom-variant)"
+    author: "Tailwind Labs"
+    kind: doc
+    url: "https://tailwindcss.com/docs/adding-custom-styles#adding-custom-variants"
+    license: "MIT (Tailwind CSS repository)"
+    accessed: 2026-10-12
+    visibility: public
+    used-in: [docs/decisions/0020-specimen-loops.md, src/styles/global.css]

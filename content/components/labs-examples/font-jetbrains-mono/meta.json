@@ -21,7 +21,7 @@
   "preview": "preview.webp",
   "source": {
     "repo": "https://github.com/Design-from-labs/labs",
-    "commit": "803b92c1a30e0d513e1cb1ff5ca984b2a5f9b492",
+    "commit": "37f363688209a0be349354e43119d3058e484845",
     "path": "examples/font-jetbrains-mono"
   },
   "author": "Design From Labs <https://labs.designfrom.com>",
@@ -32,5 +32,9 @@
     "S-025"
   ],
   "date": "2026-10-12",
-  "usage": "npx shadcn@latest add https://labs.designfrom.com/r/font-jetbrains-mono.json"
+  "usage": "npx shadcn@latest add https://labs.designfrom.com/r/font-jetbrains-mono.json",
+  "tile": {
+    "span": 2,
+    "rows": 1
+  }
 }
