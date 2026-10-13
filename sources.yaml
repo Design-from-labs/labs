@@ -1123,3 +1123,40 @@ oss:
         status: beta
         category: media
         upstream: upstream/debug.html
+  # CodePen pens have no git commit: `ref` is the git tree hash of the verbatim
+  # snapshot in ports/<id>/<component>/upstream (docs/decisions/0027-pin-snapshot-sources.md).
+  # Verify with `git rev-parse <commit>:ports/<id>/<component>/upstream`.
+  - id: jh3y-text-shimmer
+    name: Text Shimmer Lines (CodePen)
+    repo: https://codepen.io/jh3y/pen/Exqbaem
+    visibility: public
+    status: active
+    fetch: in-repo
+    ref: 0cb5373d804aea412b690a490e4dfa945978038c
+    author: "Jhey <https://codepen.io/jh3y>"
+    license: MIT
+    attribution: "Copyright (c) 2026 by Jhey (https://codepen.io/jh3y/pen/Exqbaem). MIT License."
+    credit: S-455
+    components:
+      - name: shimmer-lines
+        status: beta
+        category: typography
+        upstream: upstream/debug.html
+
+  - id: devongovett-text-shimmer
+    name: GPU accelerated text shimmer (CodePen)
+    repo: https://codepen.io/editor/devongovett/pen/01a0439c-4b7f-7f44-bf84-205c514ad139
+    visibility: public
+    status: active
+    fetch: in-repo
+    ref: 33ec0fa624b1dd5e2f19c0f90baf11adbf5cf42b
+    author: "Devon Govett <https://codepen.io/devongovett>"
+    license: MIT
+    attribution: "Copyright (c) 2026 by Devon Govett (https://codepen.io/editor/devongovett/pen/01a0439c-4b7f-7f44-bf84-205c514ad139). MIT License."
+    credit: S-456
+    components:
+      - name: text-shimmer
+        status: beta
+        category: typography
+        upstream: upstream/style.css
+

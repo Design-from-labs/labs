@@ -162,6 +162,10 @@ Design From and Design From Labs (the guards enforce this).
 | [P-WEB1-A3-3](#p-web1-a3-3) | Fidelity harness | A crop at the viewport centre missed a component that is not centred |
 | [P-WEB1-A3-4](#p-web1-a3-4) | Fidelity harness (Vite) | A leftover dev server answered with a dead esbuild |
 | [P-WEB1-A3-5](#p-web1-a3-5) | Components (React effects) | An animation loop without cleanup runs twice under StrictMode |
+| [P-WEB1-A1-2](#p-web1-a1-2) | Components (RTL animation) | `animation-direction: reverse` is not a mirror when the easing is not symmetric |
+| [P-WEB1-A1-3](#p-web1-a1-3) | Components (system colors) | `canvas` and `canvasText` follow `color-scheme`, not the site's theme class |
+| [P-WEB1-A1-4](#p-web1-a1-4) | Pen ports (durations) | A pen's `textContent` includes the markup's indentation, so lengths and durations differ from the visible text |
+| [P-WEB1-A1-5](#p-web1-a1-5) | Fidelity harness (RTL check) | A mirrored-render check built a URL without a `?`, and a wide block text overflowed one direction only |
 
 ---
 
@@ -2447,7 +2451,9 @@ Design From and Design From Labs (the guards enforce this).
 - Date: 2026-10-13
 - Area: Fidelity harness (page defaults)
 - Symptom: The Elevation page rendered 380 px taller on the port side (6,473
-  px against 6,093 px) with the cards' shadows already identical.
+  px against 6,093 px) with the cards' shadows already identical; and a text
+  effect that was line for line the pen's CSS differed by 8.7% to 8.9% of its
+  stage pixels at every frame, one pixel row off from the pen.
 - Cause: The port page loaded Tailwind's preflight, which sets `line-height:
   1.5` on the page and a different `font-family` and size on `code`; the pen's
   page has the browser defaults, and its labels rely on them (the same cause
@@ -2455,10 +2461,12 @@ Design From and Design From Labs (the guards enforce this).
 - Fix: The Elevation harness page does not load Tailwind at all: the
   component is plain CSS, so the pen's page is reproduced as it is and only the
   card element is the component. The Neumorphic Panel sets its own font and
-  line height and was unaffected.
+  line height and was unaffected. The text-effect harness repeats the pen
+  page's `html` line height and body margin as page chrome.
 - Prevention: Compare page heights and each element's rectangle first; a height
   difference means the harness page, not the component, differs.
-- Links: `docs/evidence/ports/elevation/fidelity.md`, P-023
+- Links: `docs/evidence/ports/elevation/fidelity.md`,
+  `docs/evidence/ports/text-shimmer/fidelity.md`, P-023
 
 ### P-WEB1-A2-4
 
@@ -2669,3 +2677,42 @@ Design From and Design From Labs (the guards enforce this).
 - Prevention: Give a probe an overall deadline, and install the revision the
   driver names before claiming a cross-engine result.
 - Links: `docs/evidence/ports/magnet-menu/fidelity.md`
+### P-WEB1-A1-2
+
+- Date: 2026-10-13
+- Area: Components (RTL animation)
+- Symptom: The right-to-left render of Text Shimmer differed by up to 0.38% from the mirrored left-to-right render at mid-sweep frames only.
+- Cause: The first version mirrored the sweep with `animation-direction: reverse`, which also reverses the timing function; the default `ease` is not symmetric, so the shine was ahead of the mirrored position.
+- Fix: Right to left uses its own mirrored keyframes (`translate` from 100% to -100%) with the same easing. A symmetric easing such as `ease-in-out` could keep `reverse`.
+- Prevention: Prove a right-to-left animation by comparing it with the flipped left-to-right frames at several times, using glyphs that are symmetric (block characters), and check that the unflipped comparison differs.
+- Links: `ports/devongovett-text-shimmer/text-shimmer/text-shimmer.tsx`
+
+### P-WEB1-A1-3
+
+- Date: 2026-10-13
+- Area: Components (system colors)
+- Symptom: A pen colored with `canvas` and `canvasText` would show a dark band on a dark tile when the system theme is light, because the site's dark surfaces are a class, not a `color-scheme`.
+- Cause: The system color keywords resolve from the used `color-scheme`, which the site sets to `light dark` from the system setting only.
+- Fix: The colors are component variables whose light and dark values are the literal colors the keywords resolve to; the keywords stay as the fallback when the variables are absent.
+- Prevention: Use theme variables, not system color keywords, for a component's colors, and test it inside a `.dark` container on a light system.
+- Links: `ports/jh3y-text-shimmer/shimmer-lines/component.json`
+
+### P-WEB1-A1-4
+
+- Date: 2026-10-13
+- Area: Pen ports (durations)
+- Symptom: The pen's four lines swept for 4.56, 3.6, 2.76 and 2.28 s, not the 2.64, 1.68, 0.84 and 0.36 s their visible text would give.
+- Cause: The pen derives a line's duration from `element.textContent.length`, and its HTML text nodes carry the source's line breaks and indentation (16 extra characters).
+- Fix: The component counts the real text, or a `length` prop; the fidelity harness passes the pen's counts so the frames compare like for like, and the difference is listed under Deviations.
+- Prevention: Read computed durations on the upstream page before comparing frames, and do not assume a length measures only the visible text.
+- Links: `docs/evidence/ports/shimmer-lines/fidelity.md`
+
+### P-WEB1-A1-5
+
+- Date: 2026-10-13
+- Area: Fidelity harness (RTL check)
+- Symptom: The mirrored-render check of a pen port differed by 11% to 38%, identical to the unmirrored difference; and a block-glyph line differed by 4% at 375 px only.
+- Cause: The right-to-left URL was built as `page.html&dir=rtl` for a page with no query, so the page never switched direction; and a 22-glyph line is wider than 375 px, so it overflows to the right in one direction and to the left in the other.
+- Fix: Add `?` or `&` as the URL needs, and cap the glyph count so the line fits the narrow viewport.
+- Prevention: Assert that the unmirrored comparison differs and the mirrored one does not, and that the page's `dir` actually changed, before reading the numbers.
+- Links: `docs/evidence/ports/shimmer-lines/fidelity.md`

@@ -126,3 +126,5 @@ paths (pitfall P-044); until then they are reviewed on preview deployments.
 | `jshmllr-shadow-stacking` | `elevation` | Josh Miller's CodePen 2.0 "Shadow Stacking I" (a fork of "Shadow Stacking II"), `style.css` and `index.html` (a verbatim snapshot, pinned by tree hash) |
 | `jh3y-anchor-magnet-menu` | `magnet-menu` | CodePen pen jh3y/GRapZqO, pinned by the snapshot in `upstream/` (decision 0027; variants shape, Radix and Base UI NavigationMenu, a script fallback without anchor positioning) |
 | `jh3y-scroll-carousel` | `scroll-carousel` | CodePen pen jh3y/PovoorJ, pinned by the snapshot in `upstream/` (decision 0027; GSAP fallback rewritten as a scroll listener, photos replaced, a flat strip under reduced motion) |
+| `jh3y-text-shimmer` | `shimmer-lines` | Jhey's CodePen "Text Shimmer Lines" (a snapshot of the pen's debug view; tweakpane left out, defaults pinned) |
+| `devongovett-text-shimmer` | `text-shimmer` | Devon Govett's CodePen 2.0 "GPU accelerated text shimmer" (a snapshot of its files) |

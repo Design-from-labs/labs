@@ -1728,3 +1728,34 @@ sources:
     accessed: 2026-10-13
     visibility: public
     used-in: [docs/evidence/ports/scroll-carousel, content/components/jh3y-scroll-carousel/scroll-carousel]
+  - id: S-455
+    title: "Text Shimmer Lines [contenteditable] (CodePen pen by Jhey)"
+    author: "Jhey"
+    kind: library
+    url: "https://codepen.io/jh3y/pen/Exqbaem"
+    license: "MIT"
+    accessed: 2026-10-13
+    visibility: public
+    note: "No git commit: pinned by the tree hash of the verbatim debug-view snapshot in ports/jh3y-text-shimmer/shimmer-lines/upstream."
+    used-in: [ports/jh3y-text-shimmer, content/components/jh3y-text-shimmer, sources.yaml, docs/evidence/ports/shimmer-lines]
+  - id: S-456
+    title: "GPU accelerated text shimmer (CodePen 2.0 project by Devon Govett)"
+    author: "Devon Govett"
+    kind: library
+    url: "https://codepen.io/editor/devongovett/pen/01a0439c-4b7f-7f44-bf84-205c514ad139"
+    license: "MIT"
+    accessed: 2026-10-13
+    visibility: public
+    note: "No git commit: pinned by the tree hash of the verbatim snapshot of its files (index.html, style.css, an empty script.js) in ports/devongovett-text-shimmer/text-shimmer/upstream."
+    used-in: [ports/devongovett-text-shimmer, content/components/devongovett-text-shimmer, sources.yaml, docs/evidence/ports/text-shimmer]
+  - id: S-458
+    title: "normalize.css 8.0.1 (the stylesheet the shimmer lines pen loads from a CDN)"
+    author: "Nicolas Gallagher and Jonathan Neal"
+    kind: library
+    url: "https://github.com/necolas/normalize.css"
+    package: "normalize.css@8.0.1"
+    license: "MIT"
+    accessed: 2026-10-13
+    visibility: public
+    note: "Loaded only on the upstream side of the fidelity diff, as a local copy of the file the pen links; nothing from it ships."
+    used-in: [docs/evidence/ports/shimmer-lines]
