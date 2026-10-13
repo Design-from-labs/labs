@@ -24,7 +24,9 @@
       "!ports/samasante-liquid-glass/glass/glass*.ts*",
       "!ports/jal-co-holosticker/holo-sticker/holo-sticker-renderer.ts",
       "!ports/dmitrykurash-holocloth/holo-foil/holo-foil-scene.ts",
-      "!ports/dmitrykurash-holocloth/holo-foil/holo-foil-pose.ts"
+      "!ports/dmitrykurash-holocloth/holo-foil/holo-foil-pose.ts",
+      "!ports/lisse/smooth-corners/smooth-corners*.ts*",
+      "!ports/cloudflare-kumo/flow-diagram/flow-diagram*.ts*"
     ]
   },
   "formatter": {

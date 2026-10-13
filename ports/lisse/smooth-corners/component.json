@@ -1,0 +1,96 @@
+{
+  "title": "Smooth Corners",
+  "description": "Smooth (squircle) corners for any element: a clip-path from four corner curves, with SVG borders and shadows that follow the shape.",
+  "category": "layout",
+  "type": "registry:ui",
+  "status": "beta",
+  "upstreamPath": "packages/core/src and packages/react/src",
+  "iconSets": ["none"],
+  "files": [
+    {
+      "file": "smooth-corners.tsx",
+      "type": "registry:ui"
+    },
+    {
+      "file": "smooth-corners-path.ts",
+      "type": "registry:lib"
+    },
+    {
+      "file": "smooth-corners-effects.ts",
+      "type": "registry:lib"
+    }
+  ],
+  "demo": "demo.tsx",
+  "tile": {
+    "span": 1,
+    "rows": 1
+  },
+  "loop": {
+    "hydrate": true,
+    "duration": 4000
+  },
+  "credits": [
+    "S-406",
+    "S-412",
+    "S-413",
+    "S-407",
+    "S-003",
+    "S-004",
+    "S-157",
+    "S-184",
+    "S-152",
+    "S-014"
+  ],
+  "tags": ["squircle", "corners", "clip-path", "svg", "shape"],
+  "props": [
+    {
+      "name": "corners",
+      "type": "SmoothCornerOptions | LogicalCornerConfig",
+      "default": "{ radius: 0 }",
+      "description": "Uniform `{ radius, smoothing?, curve?, exponent?, preserveSmoothing? }`, or per corner: `topLeft`, `topRight`, `bottomRight`, `bottomLeft`, or the logical `topStart`, `topEnd`, `bottomStart`, `bottomEnd` (a number is a radius). Curves: `squircle` (default), `arc`, `superellipse`, `clothoid`."
+    },
+    {
+      "name": "as",
+      "type": "React.ElementType",
+      "default": "\"div\"",
+      "description": "The element or component to render; other props are typed against it."
+    },
+    {
+      "name": "asChild",
+      "type": "boolean",
+      "default": "false",
+      "description": "Merge onto the single child element instead of rendering one (`as` is ignored)."
+    },
+    {
+      "name": "innerBorder / outerBorder / middleBorder",
+      "type": "BorderConfig",
+      "description": "An SVG border inside, outside or centred on the edge: `{ width, color, opacity, style? }`; `color` may be a linear or radial gradient; styles solid, dashed, dotted, double, groove, ridge."
+    },
+    {
+      "name": "shadow / innerShadow",
+      "type": "ShadowConfig | ShadowConfig[]",
+      "description": "Drop and inner shadows that follow the shape: `{ offsetX, offsetY, blur, spread, color, opacity }`."
+    },
+    {
+      "name": "autoEffects",
+      "type": "boolean",
+      "default": "true",
+      "description": "Turn the element's CSS `border` and `box-shadow` into the matching SVG effects (they would otherwise be clipped)."
+    },
+    {
+      "name": "shadowStrategy",
+      "type": "\"svg\" | \"box-shadow\"",
+      "default": "\"svg\"",
+      "description": "`box-shadow` draws the shadow as a rounded-rectangle CSS shadow on a sibling, avoiding an SVG filter rasterisation bug in WebKit."
+    }
+  ],
+  "a11y": [
+    "Purely presentational: the clip-path and the SVG overlays add no roles, and every overlay is aria-hidden with pointer events off. Semantics come from `as` or the `asChild` child.",
+    "clip-path also clips focus outlines: give a focusable element an inset focus ring (`focus-visible:ring-inset`), or draw the ring as an `outerBorder` while focused (the useSmoothCorners pattern in the docs).",
+    "Right to left: logical corner names (`topStart`, ...) follow the element's computed direction; upstream's physical names are unchanged.",
+    "Forced colors: backgrounds become the system Canvas color, so a shape whose edge is only a background change disappears against the page. The SVG border effects keep their colors (measured in Chromium with forced colors on), so give such surfaces an `innerBorder` or `outerBorder`, or a CSS border (converted by `autoEffects`).",
+    "No motion of its own; the demo's sweep stops under reduced motion and has a Pause control."
+  ],
+  "usage": "<SmoothCorners corners={{ radius: 20, smoothing: 0.6 }} className=\"bg-card p-6\">Hello, squircle</SmoothCorners>",
+  "docs": "Installed `SmoothCorners` and `useSmoothCorners` in `components/ui/smooth-corners.tsx`, with the path generator (`lib/smooth-corners-path.ts`, server safe, no DOM) and the SVG effects (`lib/smooth-corners-effects.ts`). Render `<SmoothCorners corners={{ radius: 20, smoothing: 0.6 }} className=\"bg-card p-6\">...</SmoothCorners>`.\n\nThe shape is a `clip-path`, so anything outside it (a CSS `border`, `box-shadow`, `outline`) is clipped: by default the element's CSS border and box-shadow are converted to SVG effects that follow the curve (`autoEffects`), or pass `innerBorder`, `outerBorder`, `middleBorder`, `shadow` and `innerShadow` yourself. Before hydration the element shows a plain `border-radius`.\n\nTo keep an element (a grid item, a button with its own focus ring) unwrapped, use the hook: `useSmoothCorners(ref, { radius: 18 }, { effects })`. For a path only (SVG, canvas, server), call `generatePath(width, height, options)` or `generateClipPath(...)` from `lib/smooth-corners-path`. For right-to-left layouts use logical corner names (`topStart`, `topEnd`, `bottomStart`, `bottomEnd`), or `resolveLogicalCorners(options, direction)` with the hook.\n\nPorted from JaceThings/Lisse (MIT, copyright 2026 Jace Attard); the license text is in each file."
+}

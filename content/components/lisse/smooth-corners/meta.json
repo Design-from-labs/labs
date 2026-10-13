@@ -1,0 +1,108 @@
+{
+  "$schema": "https://labs.designfrom.com/schemas/meta.schema.json",
+  "schemaVersion": 1,
+  "name": "smooth-corners",
+  "kind": "component",
+  "title": "Smooth Corners",
+  "description": "Smooth (squircle) corners for any element: a clip-path from four corner curves, with SVG borders and shadows that follow the shape.",
+  "status": "beta",
+  "category": "layout",
+  "label": "Lisse",
+  "variants": [
+    {
+      "name": "smooth-corners",
+      "primitive": "none",
+      "iconSet": "none",
+      "status": "beta"
+    }
+  ],
+  "defaultVariant": "smooth-corners",
+  "demo": "demo.tsx",
+  "preview": "preview.webp",
+  "source": {
+    "repo": "https://github.com/JaceThings/Lisse",
+    "commit": "173846978ed806e14c78154ec914a9645a991932",
+    "path": "packages/core/src and packages/react/src"
+  },
+  "author": "Jace Attard <https://github.com/JaceThings>",
+  "license": "MIT",
+  "attribution": "Copyright (c) 2026 Jace Attard. MIT License.",
+  "credits": [
+    "S-406",
+    "S-412",
+    "S-413",
+    "S-407",
+    "S-003",
+    "S-004",
+    "S-157",
+    "S-184",
+    "S-152",
+    "S-014"
+  ],
+  "date": "2026-10-13",
+  "tile": {
+    "span": 1,
+    "rows": 1
+  },
+  "loop": {
+    "hydrate": true,
+    "duration": 4000
+  },
+  "tags": [
+    "squircle",
+    "corners",
+    "clip-path",
+    "svg",
+    "shape"
+  ],
+  "props": [
+    {
+      "name": "corners",
+      "type": "SmoothCornerOptions | LogicalCornerConfig",
+      "default": "{ radius: 0 }",
+      "description": "Uniform `{ radius, smoothing?, curve?, exponent?, preserveSmoothing? }`, or per corner: `topLeft`, `topRight`, `bottomRight`, `bottomLeft`, or the logical `topStart`, `topEnd`, `bottomStart`, `bottomEnd` (a number is a radius). Curves: `squircle` (default), `arc`, `superellipse`, `clothoid`."
+    },
+    {
+      "name": "as",
+      "type": "React.ElementType",
+      "default": "\"div\"",
+      "description": "The element or component to render; other props are typed against it."
+    },
+    {
+      "name": "asChild",
+      "type": "boolean",
+      "default": "false",
+      "description": "Merge onto the single child element instead of rendering one (`as` is ignored)."
+    },
+    {
+      "name": "innerBorder / outerBorder / middleBorder",
+      "type": "BorderConfig",
+      "description": "An SVG border inside, outside or centred on the edge: `{ width, color, opacity, style? }`; `color` may be a linear or radial gradient; styles solid, dashed, dotted, double, groove, ridge."
+    },
+    {
+      "name": "shadow / innerShadow",
+      "type": "ShadowConfig | ShadowConfig[]",
+      "description": "Drop and inner shadows that follow the shape: `{ offsetX, offsetY, blur, spread, color, opacity }`."
+    },
+    {
+      "name": "autoEffects",
+      "type": "boolean",
+      "default": "true",
+      "description": "Turn the element's CSS `border` and `box-shadow` into the matching SVG effects (they would otherwise be clipped)."
+    },
+    {
+      "name": "shadowStrategy",
+      "type": "\"svg\" | \"box-shadow\"",
+      "default": "\"svg\"",
+      "description": "`box-shadow` draws the shadow as a rounded-rectangle CSS shadow on a sibling, avoiding an SVG filter rasterisation bug in WebKit."
+    }
+  ],
+  "a11y": [
+    "Purely presentational: the clip-path and the SVG overlays add no roles, and every overlay is aria-hidden with pointer events off. Semantics come from `as` or the `asChild` child.",
+    "clip-path also clips focus outlines: give a focusable element an inset focus ring (`focus-visible:ring-inset`), or draw the ring as an `outerBorder` while focused (the useSmoothCorners pattern in the docs).",
+    "Right to left: logical corner names (`topStart`, ...) follow the element's computed direction; upstream's physical names are unchanged.",
+    "Forced colors: backgrounds become the system Canvas color, so a shape whose edge is only a background change disappears against the page. The SVG border effects keep their colors (measured in Chromium with forced colors on), so give such surfaces an `innerBorder` or `outerBorder`, or a CSS border (converted by `autoEffects`).",
+    "No motion of its own; the demo's sweep stops under reduced motion and has a Pause control."
+  ],
+  "usage": "<SmoothCorners corners={{ radius: 20, smoothing: 0.6 }} className=\"bg-card p-6\">Hello, squircle</SmoothCorners>"
+}

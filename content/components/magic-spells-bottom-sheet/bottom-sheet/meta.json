@@ -1,0 +1,146 @@
+{
+  "$schema": "https://labs.designfrom.com/schemas/meta.schema.json",
+  "schemaVersion": 1,
+  "name": "bottom-sheet",
+  "kind": "component",
+  "title": "Bottom Sheet",
+  "description": "A bottom sheet on the native dialog: it follows the finger, settles on snap points with a velocity-aware spring, dismisses on a flick, and grows from its content before the list scrolls.",
+  "status": "beta",
+  "category": "overlays",
+  "label": "magic-spells bottom-sheet",
+  "variants": [
+    {
+      "name": "bottom-sheet",
+      "primitive": "none",
+      "iconSet": "none",
+      "status": "beta"
+    },
+    {
+      "name": "bottom-sheet-radix",
+      "primitive": "radix",
+      "iconSet": "none",
+      "status": "beta"
+    },
+    {
+      "name": "bottom-sheet-base",
+      "primitive": "base",
+      "iconSet": "none",
+      "status": "beta"
+    },
+    {
+      "name": "bottom-sheet-aria",
+      "primitive": "aria",
+      "iconSet": "none",
+      "status": "beta"
+    }
+  ],
+  "defaultVariant": "bottom-sheet",
+  "demo": "demo.tsx",
+  "preview": "preview.webp",
+  "source": {
+    "repo": "https://github.com/magic-spells/bottom-sheet",
+    "commit": "75b6ca04d93a11d83918a54cb3562a1a6d906242",
+    "path": "src"
+  },
+  "author": "Cory Schulz (Magic Spells) <https://github.com/magic-spells>",
+  "license": "MIT",
+  "attribution": "Copyright (c) 2024 Magic Spells (Cory Schulz). MIT License.",
+  "credits": [
+    "S-401",
+    "S-402",
+    "S-408",
+    "S-407",
+    "S-003",
+    "S-032",
+    "S-033",
+    "S-034",
+    "S-019",
+    "S-020",
+    "S-157",
+    "S-184",
+    "S-047",
+    "S-158"
+  ],
+  "date": "2026-10-13",
+  "stage": {
+    "device": "phone",
+    "slot": "sheet-bottom"
+  },
+  "tile": {
+    "span": 1,
+    "rows": 2
+  },
+  "loop": {
+    "script": "click[3] → wait → click[4] → wait → click[2] → wait → click[1] → wait → click[0] → wait",
+    "duration": 10000,
+    "hydrate": true
+  },
+  "tags": [
+    "sheet",
+    "drawer",
+    "dialog",
+    "modal",
+    "snap-points",
+    "gesture",
+    "mobile"
+  ],
+  "props": [
+    {
+      "name": "snapPoints",
+      "type": "number[]",
+      "description": "On BottomSheet. Resting heights in percent of the viewport (dvh), for example [40, 70, 100]. Without them the sheet is as tall as its content (up to --bottom-sheet-panel-max-height) and only opens or closes."
+    },
+    {
+      "name": "snap / defaultSnap",
+      "type": "number",
+      "description": "On BottomSheet. The snap to rest at (controlled) or to open at first; defaults to the shortest."
+    },
+    {
+      "name": "onSnapChange",
+      "type": "({ from, to }) => void",
+      "description": "On BottomSheet. Called when the sheet settles on a different snap; never mid-drag."
+    },
+    {
+      "name": "open / defaultOpen / onOpenChange",
+      "type": "boolean / boolean / (open: boolean) => void",
+      "default": "uncontrolled, closed",
+      "description": "On BottomSheet. `defaultOpen` renders the sheet already at rest (also in the server render); `onOpenChange(false)` fires as the close starts."
+    },
+    {
+      "name": "spring",
+      "type": "boolean | [attraction, friction]",
+      "default": "true ([0.065, 0.3])",
+      "description": "On BottomSheet. Settle on a velocity-aware spring, or on the CSS snap transition (false)."
+    },
+    {
+      "name": "maxDisplayWidth",
+      "type": "number",
+      "description": "On BottomSheet. Viewport width in px above which the sheet refuses to open, and closes itself when the window widens past it."
+    },
+    {
+      "name": "onBeforeShow / onShown / onBeforeHide / onHidden",
+      "type": "(event) => void",
+      "description": "On BottomSheet. Lifecycle; call event.preventDefault() in onBeforeShow or onBeforeHide to refuse. onHidden gets the closing button's data-result as event.result."
+    },
+    {
+      "name": "inset",
+      "type": "boolean",
+      "default": "false",
+      "description": "On BottomSheetDialog. Detached from the screen edges with all four corners rounded."
+    },
+    {
+      "name": "useBottomSheet()",
+      "type": "{ show, hide, snapTo, snap, state }",
+      "description": "Inside BottomSheet. Imperative controls for buttons in or near the sheet."
+    }
+  ],
+  "a11y": [
+    "A modal dialog: the default variant calls showModal() on a native <dialog>, so the page behind is inert, focus moves to the first control in the sheet, Escape closes it and focus returns to the trigger; Tab cycles through the sheet and the browser's own controls, never the page behind. The Radix, Base UI and React Aria variants trap Tab inside the sheet and hide the page from assistive technology (React Aria focuses the dialog itself on open).",
+    "Name it with BottomSheetTitle (or aria-label on BottomSheetDialog). Keep a visible BottomSheetClose: dragging is never the only way out. The demo also offers buttons for each height (useBottomSheet().snapTo), a keyboard path for the snap points.",
+    "The trigger reports aria-haspopup=\"dialog\" and aria-expanded.",
+    "A sheet that is open from the first render (defaultOpen) never takes focus in a document that does not have it (an embedded frame, a background tab): there it stays non-modal until the first pointer, key or focus in that document, then becomes modal (the Radix and Base UI variants skip their initial focus the same way).",
+    "Under prefers-reduced-motion the sheet and its scrim appear and leave in place and settles land without travel or bounce; drags still follow the finger.",
+    "Contrast (fidelity default, contrast on request): the handle keeps upstream's faint #bbb on white (about 1.9:1), a decorative affordance next to the close button; under prefers-contrast: more it becomes #767676 (4.5:1), and under forced colors the panel gets an edge and the handle the system text color."
+  ],
+  "usage": "<BottomSheet snapPoints={[40, 70, 100]}>\n  <BottomSheetTrigger>Open</BottomSheetTrigger>\n  <BottomSheetDialog>\n    <BottomSheetHeader><BottomSheetTitle>Details</BottomSheetTitle></BottomSheetHeader>\n    <BottomSheetContent>…</BottomSheetContent>\n  </BottomSheetDialog>\n</BottomSheet>"
+}

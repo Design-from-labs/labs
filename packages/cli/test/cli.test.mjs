@@ -95,6 +95,30 @@ describe("designfrom add (dry run)", () => {
     assert.equal(result.stdout, shadcn("badge-lucide"));
   });
 
+  it("resolves the icon axis within the requested style", async () => {
+    const plain = await cli(["add", "player", "--dry-run"]);
+    assert.equal(plain.code, 0);
+    assert.equal(plain.stdout, shadcn("player"));
+    const styled = await cli([
+      "add",
+      "player",
+      "--style",
+      "icons",
+      "--dry-run",
+    ]);
+    assert.equal(styled.stdout, shadcn("player-icons-lucide"));
+    const phosphor = await cli([
+      "add",
+      "player",
+      "--style",
+      "icons",
+      "--icons",
+      "phosphor",
+      "--dry-run",
+    ]);
+    assert.equal(phosphor.stdout, shadcn("player-icons-phosphor"));
+  });
+
   it("ignores --icons for icon-free components", async () => {
     const result = await cli([
       "add",
@@ -258,6 +282,7 @@ describe("designfrom list", () => {
       "badge",
       "button",
       "designfrom-theme",
+      "player",
       "tooltip",
     ]);
     assert.deepEqual(byName.button.primitives, ["radix", "base", "aria"]);

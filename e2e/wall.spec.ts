@@ -109,6 +109,44 @@ test("loops play on tiles in view", async ({ page }) => {
   await expect(badge).toHaveAttribute("data-spotlight", "");
 });
 
+test("a staged tile's loop never takes the page's focus", async ({ page }) => {
+  await page.goto("/ui");
+  const staged = page.locator("[data-specimen]:has(iframe[data-stage-frame])");
+  const count = await staged.count();
+  test.skip(count === 0, "no staged tiles published here");
+  for (let index = 0; index < count; index += 1) {
+    const specimen = staged.nth(index);
+    const name = await specimen.getAttribute("data-specimen");
+    await specimen.scrollIntoViewIfNeeded();
+    const frame = specimen.locator("iframe[data-stage-frame]");
+    // The framed document is inert too: inert stops at the frame boundary.
+    await expect
+      .poll(() =>
+        frame.evaluate(
+          (el: HTMLIFrameElement) =>
+            el.contentDocument?.documentElement.inert ?? false,
+        ),
+      )
+      .toBe(true);
+    const duration = await specimen.evaluate((el) => {
+      try {
+        return JSON.parse((el as HTMLElement).dataset.loop ?? "{}").duration;
+      } catch {
+        return undefined;
+      }
+    });
+    // One full cycle: the active element is never the stage's iframe.
+    const end = Date.now() + Math.min(20_000, (duration ?? 4000) + 800);
+    while (Date.now() < end) {
+      const active = await page.evaluate(
+        () => document.activeElement?.tagName ?? "",
+      );
+      expect(active, `${name} moved focus into its stage`).not.toBe("IFRAME");
+      await page.waitForTimeout(150);
+    }
+  }
+});
+
 test("loops stop offscreen and in a hidden tab", async ({ page }) => {
   await page.setViewportSize({ width: 1280, height: 700 });
   await page.goto("/ui");

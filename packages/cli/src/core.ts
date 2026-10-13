@@ -356,8 +356,12 @@ export function resolveComponent(
   query: string,
   wanted: Wanted,
 ): RegistryItem {
-  // A full item name such as "button-radix-lucide" bypasses resolution.
-  const exact = items.find((item) => item.name === query);
+  // A full item name such as "button-radix-lucide" bypasses resolution,
+  // unless it is also the component's name (an icon-free default item named
+  // like its component), which resolves by style like any component.
+  const exact = items.find(
+    (item) => item.name === query && item.meta.component !== query,
+  );
   if (exact) return exact;
 
   const candidates = items.filter((item) => item.meta.component === query);
@@ -368,13 +372,16 @@ export function resolveComponent(
     );
   }
 
-  // Ignore a flag when the component has nothing to choose along that axis.
+  // Ignore a flag when the requested style has nothing to choose along that
+  // axis (a style may draw its own glyphs while another uses an icon set).
+  const style = wanted.style ?? DEFAULT_STYLE;
+  const inStyle = candidates.filter((item) => styleOf(item) === style);
+  const pool = inStyle.length > 0 ? inStyle : candidates;
   const axes = {
-    primitive: candidates.some((item) => item.meta.primitive !== "none"),
-    icons: candidates.some((item) => item.meta.iconSet !== "none"),
+    primitive: pool.some((item) => item.meta.primitive !== "none"),
+    icons: pool.some((item) => item.meta.iconSet !== "none"),
     style: candidates.some((item) => item.meta.style !== undefined),
   };
-  const style = wanted.style ?? DEFAULT_STYLE;
   const match = candidates.find(
     (item) =>
       (!axes.primitive || item.meta.primitive === wanted.primitive) &&

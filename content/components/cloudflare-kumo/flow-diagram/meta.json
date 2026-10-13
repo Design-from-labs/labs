@@ -1,0 +1,134 @@
+{
+  "$schema": "https://labs.designfrom.com/schemas/meta.schema.json",
+  "schemaVersion": 1,
+  "name": "flow-diagram",
+  "kind": "component",
+  "title": "Flow Diagram",
+  "description": "A directed flow diagram: nodes, parallel branches and rounded connectors laid out from the JSX tree, pannable by drag, wheel or arrow keys when it overflows.",
+  "status": "beta",
+  "category": "data-display",
+  "label": "Cloudflare (flow)",
+  "variants": [
+    {
+      "name": "flow-diagram",
+      "primitive": "none",
+      "iconSet": "none",
+      "status": "beta"
+    }
+  ],
+  "defaultVariant": "flow-diagram",
+  "demo": "demo.tsx",
+  "preview": "preview.webp",
+  "source": {
+    "repo": "https://github.com/cloudflare/kumo",
+    "commit": "f46e8bc9922c37dc1d3e7da779e589fe171df306",
+    "path": "packages/kumo/src/components/flow"
+  },
+  "author": "Cloudflare, Inc. <https://github.com/cloudflare>",
+  "license": "MIT",
+  "attribution": "Copyright (c) 2026 Cloudflare, Inc. MIT License.",
+  "credits": [
+    "S-405",
+    "S-003",
+    "S-004",
+    "S-019",
+    "S-020",
+    "S-104",
+    "S-014",
+    "S-015",
+    "S-152",
+    "S-153",
+    "S-157",
+    "S-158",
+    "S-184",
+    "S-407"
+  ],
+  "date": "2026-10-13",
+  "tile": {
+    "span": 2,
+    "rows": 1
+  },
+  "loop": {
+    "hydrate": true,
+    "script": "wait",
+    "duration": 12000
+  },
+  "tags": [
+    "flow",
+    "diagram",
+    "workflow",
+    "graph",
+    "pipeline",
+    "pan",
+    "motion"
+  ],
+  "props": [
+    {
+      "name": "orientation",
+      "type": "\"horizontal\" | \"vertical\"",
+      "default": "\"horizontal\"",
+      "description": "Flow: nodes progress along the inline axis or top to bottom."
+    },
+    {
+      "name": "align",
+      "type": "\"start\" | \"center\"",
+      "default": "\"start\"",
+      "description": "Flow: cross-axis alignment of nodes of different sizes."
+    },
+    {
+      "name": "padding",
+      "type": "{ x?: number; y?: number }",
+      "default": "{ x: 16, y: 64 }",
+      "description": "Flow: space around the diagram inside the canvas, in pixels."
+    },
+    {
+      "name": "canvas",
+      "type": "boolean",
+      "default": "true",
+      "description": "Flow: measure the canvas and enable panning, wheel scrolling and the scrollbars."
+    },
+    {
+      "name": "onOverflowChange",
+      "type": "(overflow: { x: boolean; y: boolean }) => void",
+      "description": "Flow: called when the diagram starts or stops overflowing its canvas."
+    },
+    {
+      "name": "aria-label / aria-labelledby",
+      "type": "string",
+      "description": "Flow: names the canvas group; name it whenever it can pan (it is then focusable)."
+    },
+    {
+      "name": "className",
+      "type": "string",
+      "description": "Flow: classes for the canvas (a border, a height)."
+    },
+    {
+      "name": "Flow.Node: render / disabled / id",
+      "type": "ReactElement / boolean / string",
+      "description": "A custom element instead of the default card; greys the node's connectors; a stable data-node-id."
+    },
+    {
+      "name": "Flow.Parallel: align",
+      "type": "\"end\"",
+      "description": "Aligns the branches to the end of the widest one."
+    },
+    {
+      "name": "Flow.List",
+      "type": "children",
+      "description": "A sequence of nodes inside a parallel branch."
+    },
+    {
+      "name": "Flow.Anchor: type / render",
+      "type": "\"start\" | \"end\" / ReactElement",
+      "description": "Marks where connectors leave (start) or arrive (end) inside a custom node; both when omitted."
+    }
+  ],
+  "a11y": [
+    "The flow is a nested list: the diagram is a <ul>, each node an <li>, and each parallel group and branch sequence a nested list, so screen readers announce its order and branches. Connectors are an aria-hidden SVG.",
+    "When the diagram overflows, the canvas is a focusable group (name it with aria-label): arrow keys pan by 40 px, Home and End jump to the start and end, and the scrollbars show while it has keyboard focus. Focus moving to a control inside a node pans that control into view.",
+    "Panning is immediate (pointer, wheel and keys alike), with no animation or inertia, so reduced motion needs no change.",
+    "Fidelity default, contrast on request: the connectors (2.6:1 on white, 4.4:1 in dark) and the node ring (1.2:1 light, 1.5:1 dark) keep the upstream colors; under prefers-contrast: more they rise to 4.7:1 (light) and 7.4:1 or more (dark). In forced colors the connectors follow CanvasText and nodes get an outline (shadows are removed there). Override the --flow-diagram-* variables to raise them for everyone.",
+    "Right to left, the flow mirrors: it progresses from the right, the connectors are mirrored and the pan range follows."
+  ],
+  "usage": "<Flow aria-label=\"Pipeline\">\n  <Flow.Node>Build</Flow.Node>\n  <Flow.Parallel>\n    <Flow.Node>Test</Flow.Node>\n    <Flow.Node>Lint</Flow.Node>\n  </Flow.Parallel>\n  <Flow.Node>Release</Flow.Node>\n</Flow>"
+}

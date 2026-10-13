@@ -1,0 +1,511 @@
+{
+  "method": "Playwright 1.64 screenshots of #stage (the docs' preview box), pixelmatch threshold 0.1, deviceScaleFactor 1; upstream = upstream flow sources and FlowDemo.tsx with the upstream token stylesheet; port = the port with its cssVars and the same demos (token names neutralised).",
+  "frames": {
+    "Anchor-dark-1280x800": {
+      "percent": 0,
+      "differingPixels": 0,
+      "totalPixels": 188512,
+      "compare": "upstream vs port"
+    },
+    "Anchor-dark-375x812": {
+      "percent": 0,
+      "differingPixels": 0,
+      "totalPixels": 93982,
+      "compare": "upstream vs port"
+    },
+    "Anchor-light-1280x800": {
+      "percent": 0,
+      "differingPixels": 0,
+      "totalPixels": 188512,
+      "compare": "upstream vs port"
+    },
+    "Anchor-light-375x812": {
+      "percent": 0,
+      "differingPixels": 0,
+      "totalPixels": 93982,
+      "compare": "upstream vs port"
+    },
+    "Basic-dark-1280x800": {
+      "percent": 0,
+      "differingPixels": 0,
+      "totalPixels": 149984,
+      "compare": "upstream vs port"
+    },
+    "Basic-dark-375x812": {
+      "percent": 0,
+      "differingPixels": 0,
+      "totalPixels": 74774,
+      "compare": "upstream vs port"
+    },
+    "Basic-light-1280x800": {
+      "percent": 0,
+      "differingPixels": 0,
+      "totalPixels": 149984,
+      "compare": "upstream vs port"
+    },
+    "Basic-light-375x812": {
+      "percent": 0,
+      "differingPixels": 0,
+      "totalPixels": 74774,
+      "compare": "upstream vs port"
+    },
+    "Centered-dark-1280x800": {
+      "percent": 0,
+      "differingPixels": 0,
+      "totalPixels": 172000,
+      "compare": "upstream vs port"
+    },
+    "Centered-dark-375x812": {
+      "percent": 0,
+      "differingPixels": 0,
+      "totalPixels": 85750,
+      "compare": "upstream vs port"
+    },
+    "Centered-light-1280x800": {
+      "percent": 0,
+      "differingPixels": 0,
+      "totalPixels": 172000,
+      "compare": "upstream vs port"
+    },
+    "Centered-light-375x812": {
+      "percent": 0,
+      "differingPixels": 0,
+      "totalPixels": 85750,
+      "compare": "upstream vs port"
+    },
+    "Complex-dark-1280x800": {
+      "percent": 0,
+      "differingPixels": 0,
+      "totalPixels": 227040,
+      "compare": "upstream vs port"
+    },
+    "Complex-dark-375x812": {
+      "percent": 0,
+      "differingPixels": 0,
+      "totalPixels": 113190,
+      "compare": "upstream vs port"
+    },
+    "Complex-light-1280x800": {
+      "percent": 0,
+      "differingPixels": 0,
+      "totalPixels": 227040,
+      "compare": "upstream vs port"
+    },
+    "Complex-light-375x812": {
+      "percent": 0,
+      "differingPixels": 0,
+      "totalPixels": 113190,
+      "compare": "upstream vs port"
+    },
+    "CustomContent-dark-1280x800": {
+      "percent": 0,
+      "differingPixels": 0,
+      "totalPixels": 149984,
+      "compare": "upstream vs port"
+    },
+    "CustomContent-dark-375x812": {
+      "percent": 0,
+      "differingPixels": 0,
+      "totalPixels": 74774,
+      "compare": "upstream vs port"
+    },
+    "CustomContent-light-1280x800": {
+      "percent": 0,
+      "differingPixels": 0,
+      "totalPixels": 149984,
+      "compare": "upstream vs port"
+    },
+    "CustomContent-light-375x812": {
+      "percent": 0,
+      "differingPixels": 0,
+      "totalPixels": 74774,
+      "compare": "upstream vs port"
+    },
+    "Disabled-dark-1280x800": {
+      "percent": 0,
+      "differingPixels": 0,
+      "totalPixels": 188512,
+      "compare": "upstream vs port"
+    },
+    "Disabled-dark-375x812": {
+      "percent": 0,
+      "differingPixels": 0,
+      "totalPixels": 93982,
+      "compare": "upstream vs port"
+    },
+    "Disabled-light-1280x800": {
+      "percent": 0,
+      "differingPixels": 0,
+      "totalPixels": 188512,
+      "compare": "upstream vs port"
+    },
+    "Disabled-light-375x812": {
+      "percent": 0,
+      "differingPixels": 0,
+      "totalPixels": 93982,
+      "compare": "upstream vs port"
+    },
+    "DynamicNode-added-dark-1280x800": {
+      "percent": 0,
+      "differingPixels": 0,
+      "totalPixels": 185760,
+      "compare": "upstream vs port"
+    },
+    "DynamicNode-added-dark-375x812": {
+      "percent": 0,
+      "differingPixels": 0,
+      "totalPixels": 92610,
+      "compare": "upstream vs port"
+    },
+    "DynamicNode-added-light-1280x800": {
+      "percent": 0,
+      "differingPixels": 0,
+      "totalPixels": 185760,
+      "compare": "upstream vs port"
+    },
+    "DynamicNode-added-light-375x812": {
+      "percent": 0,
+      "differingPixels": 0,
+      "totalPixels": 92610,
+      "compare": "upstream vs port"
+    },
+    "DynamicNode-dark-1280x800": {
+      "percent": 0,
+      "differingPixels": 0,
+      "totalPixels": 185760,
+      "compare": "upstream vs port"
+    },
+    "DynamicNode-dark-375x812": {
+      "percent": 0,
+      "differingPixels": 0,
+      "totalPixels": 92610,
+      "compare": "upstream vs port"
+    },
+    "DynamicNode-light-1280x800": {
+      "percent": 0,
+      "differingPixels": 0,
+      "totalPixels": 185760,
+      "compare": "upstream vs port"
+    },
+    "DynamicNode-light-375x812": {
+      "percent": 0,
+      "differingPixels": 0,
+      "totalPixels": 92610,
+      "compare": "upstream vs port"
+    },
+    "Expandable-dark-1280x800": {
+      "percent": 0,
+      "differingPixels": 0,
+      "totalPixels": 177504,
+      "compare": "upstream vs port"
+    },
+    "Expandable-dark-375x812": {
+      "percent": 0,
+      "differingPixels": 0,
+      "totalPixels": 88494,
+      "compare": "upstream vs port"
+    },
+    "Expandable-light-1280x800": {
+      "percent": 0,
+      "differingPixels": 0,
+      "totalPixels": 177504,
+      "compare": "upstream vs port"
+    },
+    "Expandable-light-375x812": {
+      "percent": 0,
+      "differingPixels": 0,
+      "totalPixels": 88494,
+      "compare": "upstream vs port"
+    },
+    "Expandable-open-dark-1280x800": {
+      "percent": 0,
+      "differingPixels": 0,
+      "totalPixels": 213280,
+      "compare": "upstream vs port"
+    },
+    "Expandable-open-dark-375x812": {
+      "percent": 0,
+      "differingPixels": 0,
+      "totalPixels": 106330,
+      "compare": "upstream vs port"
+    },
+    "Expandable-open-light-1280x800": {
+      "percent": 0,
+      "differingPixels": 0,
+      "totalPixels": 213280,
+      "compare": "upstream vs port"
+    },
+    "Expandable-open-light-375x812": {
+      "percent": 0,
+      "differingPixels": 0,
+      "totalPixels": 106330,
+      "compare": "upstream vs port"
+    },
+    "Panning-dark-1280x800": {
+      "percent": 0,
+      "differingPixels": 0,
+      "totalPixels": 151360,
+      "compare": "upstream vs port"
+    },
+    "Panning-dark-375x812": {
+      "percent": 0,
+      "differingPixels": 0,
+      "totalPixels": 75460,
+      "compare": "upstream vs port"
+    },
+    "Panning-drag-dark-1280x800": {
+      "percent": 0,
+      "differingPixels": 0,
+      "totalPixels": 151360,
+      "compare": "upstream vs port"
+    },
+    "Panning-drag-dark-375x812": {
+      "percent": 0,
+      "differingPixels": 0,
+      "totalPixels": 75460,
+      "compare": "upstream vs port"
+    },
+    "Panning-drag-light-1280x800": {
+      "percent": 0,
+      "differingPixels": 0,
+      "totalPixels": 151360,
+      "compare": "upstream vs port"
+    },
+    "Panning-drag-light-375x812": {
+      "percent": 0,
+      "differingPixels": 0,
+      "totalPixels": 75460,
+      "compare": "upstream vs port"
+    },
+    "Panning-light-1280x800": {
+      "percent": 0,
+      "differingPixels": 0,
+      "totalPixels": 151360,
+      "compare": "upstream vs port"
+    },
+    "Panning-light-375x812": {
+      "percent": 0,
+      "differingPixels": 0,
+      "totalPixels": 75460,
+      "compare": "upstream vs port"
+    },
+    "Panning-wheel-hover-dark-1280x800": {
+      "percent": 0,
+      "differingPixels": 0,
+      "totalPixels": 151360,
+      "compare": "upstream vs port"
+    },
+    "Panning-wheel-hover-dark-375x812": {
+      "percent": 0,
+      "differingPixels": 0,
+      "totalPixels": 75460,
+      "compare": "upstream vs port"
+    },
+    "Panning-wheel-hover-light-1280x800": {
+      "percent": 0,
+      "differingPixels": 0,
+      "totalPixels": 151360,
+      "compare": "upstream vs port"
+    },
+    "Panning-wheel-hover-light-375x812": {
+      "percent": 0,
+      "differingPixels": 0,
+      "totalPixels": 75460,
+      "compare": "upstream vs port"
+    },
+    "Parallel-dark-1280x800": {
+      "percent": 0,
+      "differingPixels": 0,
+      "totalPixels": 227040,
+      "compare": "upstream vs port"
+    },
+    "Parallel-dark-375x812": {
+      "percent": 0,
+      "differingPixels": 0,
+      "totalPixels": 113190,
+      "compare": "upstream vs port"
+    },
+    "Parallel-light-1280x800": {
+      "percent": 0,
+      "differingPixels": 0,
+      "totalPixels": 227040,
+      "compare": "upstream vs port"
+    },
+    "Parallel-light-375x812": {
+      "percent": 0,
+      "differingPixels": 0,
+      "totalPixels": 113190,
+      "compare": "upstream vs port"
+    },
+    "ParallelAlignEnd-dark-1280x800": {
+      "percent": 0,
+      "differingPixels": 0,
+      "totalPixels": 227040,
+      "compare": "upstream vs port"
+    },
+    "ParallelAlignEnd-dark-375x812": {
+      "percent": 0,
+      "differingPixels": 0,
+      "totalPixels": 113190,
+      "compare": "upstream vs port"
+    },
+    "ParallelAlignEnd-light-1280x800": {
+      "percent": 0,
+      "differingPixels": 0,
+      "totalPixels": 227040,
+      "compare": "upstream vs port"
+    },
+    "ParallelAlignEnd-light-375x812": {
+      "percent": 0,
+      "differingPixels": 0,
+      "totalPixels": 113190,
+      "compare": "upstream vs port"
+    },
+    "ParallelNestedList-dark-1280x800": {
+      "percent": 0,
+      "differingPixels": 0,
+      "totalPixels": 265568,
+      "compare": "upstream vs port"
+    },
+    "ParallelNestedList-dark-375x812": {
+      "percent": 0,
+      "differingPixels": 0,
+      "totalPixels": 132398,
+      "compare": "upstream vs port"
+    },
+    "ParallelNestedList-light-1280x800": {
+      "percent": 0,
+      "differingPixels": 0,
+      "totalPixels": 265568,
+      "compare": "upstream vs port"
+    },
+    "ParallelNestedList-light-375x812": {
+      "percent": 0,
+      "differingPixels": 0,
+      "totalPixels": 132398,
+      "compare": "upstream vs port"
+    },
+    "SequentialParallel-dark-1280x800": {
+      "percent": 0,
+      "differingPixels": 0,
+      "totalPixels": 188512,
+      "compare": "upstream vs port"
+    },
+    "SequentialParallel-dark-375x812": {
+      "percent": 0,
+      "differingPixels": 0,
+      "totalPixels": 93982,
+      "compare": "upstream vs port"
+    },
+    "SequentialParallel-light-1280x800": {
+      "percent": 0,
+      "differingPixels": 0,
+      "totalPixels": 188512,
+      "compare": "upstream vs port"
+    },
+    "SequentialParallel-light-375x812": {
+      "percent": 0,
+      "differingPixels": 0,
+      "totalPixels": 93982,
+      "compare": "upstream vs port"
+    },
+    "Vertical-dark-1280x800": {
+      "percent": 0,
+      "differingPixels": 0,
+      "totalPixels": 293088,
+      "compare": "upstream vs port"
+    },
+    "Vertical-dark-375x812": {
+      "percent": 0,
+      "differingPixels": 0,
+      "totalPixels": 146118,
+      "compare": "upstream vs port"
+    },
+    "Vertical-light-1280x800": {
+      "percent": 0,
+      "differingPixels": 0,
+      "totalPixels": 293088,
+      "compare": "upstream vs port"
+    },
+    "Vertical-light-375x812": {
+      "percent": 0,
+      "differingPixels": 0,
+      "totalPixels": 146118,
+      "compare": "upstream vs port"
+    },
+    "VerticalParallel-dark-1280x800": {
+      "percent": 0,
+      "differingPixels": 0,
+      "totalPixels": 293088,
+      "compare": "upstream vs port"
+    },
+    "VerticalParallel-dark-375x812": {
+      "percent": 0,
+      "differingPixels": 0,
+      "totalPixels": 146118,
+      "compare": "upstream vs port"
+    },
+    "VerticalParallel-light-1280x800": {
+      "percent": 0,
+      "differingPixels": 0,
+      "totalPixels": 293088,
+      "compare": "upstream vs port"
+    },
+    "VerticalParallel-light-375x812": {
+      "percent": 0,
+      "differingPixels": 0,
+      "totalPixels": 146118,
+      "compare": "upstream vs port"
+    },
+    "noise-Panning-light-1280x800": {
+      "percent": 0,
+      "differingPixels": 0,
+      "totalPixels": 151360,
+      "compare": "upstream vs upstream"
+    },
+    "noise-Panning-light-375x812": {
+      "percent": 0,
+      "differingPixels": 0,
+      "totalPixels": 75460,
+      "compare": "upstream vs upstream"
+    },
+    "noise-Parallel-light-1280x800": {
+      "percent": 0,
+      "differingPixels": 0,
+      "totalPixels": 227040,
+      "compare": "upstream vs upstream"
+    },
+    "noise-Parallel-light-375x812": {
+      "percent": 0,
+      "differingPixels": 0,
+      "totalPixels": 113190,
+      "compare": "upstream vs upstream"
+    }
+  },
+  "rtlMirror": {
+    "rtl-mirror-Parallel": {
+      "differingPixels": 143,
+      "percent": 0.063
+    },
+    "rtl-mirror-Complex": {
+      "differingPixels": 1,
+      "percent": 0.0004
+    },
+    "rtl-mirror-VerticalParallel": {
+      "differingPixels": 51,
+      "percent": 0.0174
+    },
+    "rtl-mirror-Anchor": {
+      "differingPixels": 315,
+      "percent": 0.1671
+    },
+    "rtl-mirror-Disabled": {
+      "differingPixels": 9,
+      "percent": 0.0048
+    },
+    "rtl-mirror-ParallelNestedList": {
+      "differingPixels": 5,
+      "percent": 0.0019
+    }
+  }
+}

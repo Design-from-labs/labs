@@ -1,0 +1,163 @@
+{
+  "title": "Product Tour",
+  "description": "A guided tour that highlights parts of the page one step at a time, with a popover, progress and keyboard navigation, as a React hook and component over driver.js.",
+  "category": "overlays",
+  "type": "registry:ui",
+  "status": "beta",
+  "upstreamPath": "packages/driver/src",
+  "iconSets": ["none"],
+  "dependencies": ["driver.js@^1.9.0"],
+  "files": [
+    {
+      "file": "product-tour.tsx",
+      "type": "registry:ui"
+    }
+  ],
+  "cssVars": {
+    "light": {
+      "product-tour-popover": "#fff",
+      "product-tour-popover-foreground": "#2d2d2d",
+      "product-tour-muted-foreground": "#727272",
+      "product-tour-close": "#d2d2d2",
+      "product-tour-button": "#fff",
+      "product-tour-button-hover": "#f7f7f7",
+      "product-tour-button-border": "#ccc",
+      "product-tour-shadow": "0 1px 10px #0006",
+      "product-tour-overlay": "#000",
+      "product-tour-ring": "#2d2d2d"
+    },
+    "dark": {
+      "product-tour-popover": "#262626",
+      "product-tour-popover-foreground": "#ededed",
+      "product-tour-muted-foreground": "#a3a3a3",
+      "product-tour-close": "#737373",
+      "product-tour-button": "#262626",
+      "product-tour-button-hover": "#333",
+      "product-tour-button-border": "#525252",
+      "product-tour-shadow": "0 1px 10px #000c",
+      "product-tour-overlay": "#000",
+      "product-tour-ring": "#ededed"
+    }
+  },
+  "demo": "demo.tsx",
+  "stage": {
+    "device": "laptop",
+    "slot": "overlay"
+  },
+  "tile": {
+    "span": 2,
+    "rows": 2,
+    "surface": "light"
+  },
+  "loop": {
+    "hydrate": true,
+    "script": "wait → click[0] → wait → click[5] → wait → click[5] → wait → click[5] → wait",
+    "duration": 10800
+  },
+  "credits": [
+    "S-407",
+    "S-003",
+    "S-004",
+    "S-014",
+    "S-015",
+    "S-152",
+    "S-153",
+    "S-157",
+    "S-184",
+    "S-047",
+    "S-158",
+    "S-409",
+    "S-410"
+  ],
+  "tags": ["tour", "onboarding", "walkthrough", "highlight", "popover"],
+  "props": [
+    {
+      "name": "steps",
+      "type": "ProductTourStep[]",
+      "description": "The steps, read when the tour starts. Each has an `element` (a CSS selector, an element, a function or a React ref; none for a centered step) and a `popover` (`title`, `description`, `side`, `align`, button texts and hooks), as in driver.js."
+    },
+    {
+      "name": "open",
+      "type": "boolean",
+      "description": "ProductTour: shows the tour while true."
+    },
+    {
+      "name": "onOpenChange",
+      "type": "(open: boolean) => void",
+      "description": "ProductTour: called with false when the tour ends on its own (done, close, Escape or an overlay click)."
+    },
+    {
+      "name": "startIndex",
+      "type": "number",
+      "default": "0",
+      "description": "ProductTour: the step to open at."
+    },
+    {
+      "name": "dir",
+      "type": "\"ltr\" | \"rtl\" | \"auto\"",
+      "default": "\"auto\"",
+      "description": "Popover direction; auto follows the page. In right to left, left and right sides, start and end alignment of top and bottom popovers, the arrow keys and arrow glyphs in button texts are mirrored."
+    },
+    {
+      "name": "label",
+      "type": "string",
+      "default": "\"Product tour\"",
+      "description": "The accessible name of a step's popover when it has no title."
+    },
+    {
+      "name": "onStepChange / onClose",
+      "type": "(index: number) => void / () => void",
+      "description": "Called when a step is highlighted, and once the tour has ended however it ended."
+    },
+    {
+      "name": "animate",
+      "type": "boolean",
+      "default": "true (false under reduced motion)",
+      "description": "Fades the overlay and moves the highlight between steps. Labs default follows prefers-reduced-motion; driver.js's own default is always true."
+    },
+    {
+      "name": "showProgress / progressText",
+      "type": "boolean / string",
+      "default": "false / \"{{current}} of {{total}}\"",
+      "description": "The step counter in the popover footer."
+    },
+    {
+      "name": "showButtons / disableButtons",
+      "type": "(\"next\" | \"previous\" | \"close\")[]",
+      "default": "[\"next\", \"previous\", \"close\"] / []",
+      "description": "Which popover buttons show, and which are disabled."
+    },
+    {
+      "name": "nextBtnText / prevBtnText / doneBtnText / closeBtnLabel",
+      "type": "string",
+      "default": "\"Next\" / \"Previous\" / \"Done\" / \"Close\"",
+      "description": "Button texts (HTML) and the close button's accessible name."
+    },
+    {
+      "name": "overlayColor / overlayOpacity / stagePadding / stageRadius / popoverOffset",
+      "type": "string / number / number / number / number",
+      "default": "var(--product-tour-overlay) / 0.7 / 10 / 5 / 10",
+      "description": "The overlay and the cutout around the highlighted element."
+    },
+    {
+      "name": "allowClose / overlayClickBehavior / allowKeyboardControl / allowScroll",
+      "type": "boolean / \"close\" | \"nextStep\" | \"none\" | hook / boolean / boolean",
+      "default": "true / \"close\" / true / true",
+      "description": "How the tour can be closed and navigated."
+    },
+    {
+      "name": "...driver.js config",
+      "type": "Config",
+      "description": "Every other driver.js option and hook (popoverClass, smoothScroll, disableActiveInteraction, advanceOnClick, waitForElement, onHighlightStarted, onDestroyStarted, onNextClick and more) passes through."
+    }
+  ],
+  "a11y": [
+    "Each popover is a role=\"dialog\" named by its title (or by `label` when it has none) and described by its description; the close, previous and next controls are native buttons with names.",
+    "Focus moves into the popover on every step and Tab cycles between the popover and the highlighted element; Escape closes the tour, the arrow keys move between steps (mirrored in right to left), and focus returns to the control that started the tour.",
+    "The overlay is aria-hidden and the popover's header and footer are not landmarks; the aria-expanded and aria-haspopup attributes driver.js puts on the highlighted element are kept only on roles that support them.",
+    "Under prefers-reduced-motion the tour does not animate. Buttons show a focus ring when focused from the keyboard.",
+    "The default palette is driver.js's: the close glyph (#d2d2d2 on white, 1.5:1) and button borders are faint. prefers-contrast: more raises them, forced colors use system colors, and the --product-tour-* tokens raise them for everyone."
+  ],
+  "usage": "const tour = useProductTour({\n  steps: [{ element: \"#search\", popover: { title: \"Search\" } }],\n});\n\n<button onClick={() => tour.start()}>Take the tour</button>",
+  "docs": "Installed `ProductTour` and `useProductTour` (`@/components/ui/product-tour`), a React wrapper over [driver.js](https://github.com/nilbuild/driver.js) 1.9.0. Its stylesheet is injected once when the hook mounts, so there is no CSS file to import.\n\nStart a tour from a button, so focus returns to it when the tour ends:\n\n```tsx\nimport { useProductTour } from \"@/components/ui/product-tour\";\n\nconst tour = useProductTour({\n  showProgress: true,\n  steps: [\n    { element: \"#search\", popover: { title: \"Search\", description: \"Find anything from here.\" } },\n    { element: newButtonRef, popover: { title: \"New\", description: \"Start a project.\", side: \"bottom\", align: \"end\" } },\n    { popover: { title: \"All set\", description: \"A step without an element is centered.\" } },\n  ],\n});\n\n<button type=\"button\" onClick={() => tour.start()}>Take the tour</button>\n```\n\nOr control it: `<ProductTour open={open} onOpenChange={setOpen} steps={steps} />`.\n\nThe hook returns `start(index?)`, `stop()`, `moveNext()`, `movePrevious()`, `moveTo(index)`, `active`, `stepIndex` and `getDriver()`. Every driver.js option and hook passes through. Steps are read when the tour starts; unmounting ends the tour without calling back.\n\nTitles, descriptions and button texts are set as HTML by driver.js: never pass untrusted text. The injected `<style>` needs `style-src 'unsafe-inline'` (or a nonce policy that allows it) under a strict Content Security Policy.\n\nTheme it with the `--product-tour-*` variables (popover, popover-foreground, muted-foreground, close, button, button-hover, button-border, shadow, overlay, ring, and `--product-tour-font`); their defaults are driver.js's look. Wraps driver.js by Kamran Ahmed (MIT); the license notice is at the end of the file."
+}

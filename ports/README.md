@@ -65,7 +65,7 @@ ports/<source-id>/<component>/
 
 | Field | Meaning |
 | --- | --- |
-| `variants[]` | `{ primitive, roots, exclude?, dependencies?, registryDependencies?, status }`: one item per primitive and icon set; later `roots` override earlier ones file by file |
+| `variants[]` | `{ primitive, roots, exclude?, dependencies?, registryDependencies?, status, style?, label?, iconSets? }`: one item per primitive and icon set; later `roots` override earlier ones file by file. A `style` (with a switcher `label`) names a non-default style, and a variant's own `iconSets` override the component's, so one style can draw its own glyphs (icon set none) while another uses an icon library (decision 0025) |
 | `target` | install root, such as `components/data-table`; each file keeps its path below it |
 | `registryDependencies` | `{primitive}` and `{iconSet}` are substituted, so `@designfrom/data-table-{primitive}-{iconSet}` follows the variant |
 | `icons.json` | per-component Lucide to Phosphor names, merged over `ports/icons.json`; type imports (`LucideIcon`) map too |
@@ -94,3 +94,9 @@ paths (pitfall P-044); until then they are reviewed on preview deployments.
 | `obta1ner-lenticular` | `lenticular` | obta1ner/lenticular, `index.html` (rewritten as React) |
 | `mark-x64-ribbon-shader` | `iridescent-ribbon` | mark-x64/siri-ribbon-shader, `src/ribbon.frag` (renamed, no branding) |
 
+| `joshpuckett-stepper` | `stepper` | Josh Puckett's fluid stepper, `packages/*/src` (core, React adapter, stylesheet; the package name is not written here, the guard matches it) |
+| `magic-spells-bottom-sheet` | `bottom-sheet` | magic-spells/bottom-sheet `src` with dialog-panel and physics-engine (web components rewritten as React; variants shape, primitives) |
+| `driver-js` | `product-tour` | nilbuild/driver.js 1.9.0 (a wrapper over npm `driver.js`, its stylesheet adapted) |
+| `simpleplayer` | `video-player` | grizzshutsdown/simpleplayer, `src/player` (web component rewritten as React; variants shape, an `icons` style) |
+| `cloudflare-kumo` | `flow-diagram` | cloudflare/kumo, `packages/kumo/src/components/flow` (de-branded) |
+| `lisse` | `smooth-corners` | JaceThings/Lisse, `packages/core/src` and `packages/react/src` |

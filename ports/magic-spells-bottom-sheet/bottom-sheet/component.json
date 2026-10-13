@@ -1,0 +1,159 @@
+{
+  "title": "Bottom Sheet",
+  "description": "A bottom sheet on the native dialog: it follows the finger, settles on snap points with a velocity-aware spring, dismisses on a flick, and grows from its content before the list scrolls.",
+  "category": "overlays",
+  "type": "registry:ui",
+  "status": "beta",
+  "date": "2026-10-13",
+  "entry": "bottom-sheet.tsx",
+  "target": "components/bottom-sheet",
+  "sourcePath": "src",
+  "iconSets": ["none"],
+  "registryDependencies": ["utils"],
+  "variants": [
+    {
+      "primitive": "none",
+      "roots": ["src/shared", "src/none"],
+      "exclude": ["presence-panel.ts", "presence-root.tsx"],
+      "status": "beta"
+    },
+    {
+      "primitive": "radix",
+      "roots": ["src/shared", "src/radix"],
+      "status": "beta"
+    },
+    {
+      "primitive": "base",
+      "roots": ["src/shared", "src/base"],
+      "status": "beta"
+    },
+    {
+      "primitive": "aria",
+      "roots": ["src/shared", "src/aria"],
+      "status": "beta"
+    }
+  ],
+  "defaultVariant": "bottom-sheet",
+  "demo": "demo.tsx",
+  "credits": [
+    "S-402",
+    "S-408",
+    "S-407",
+    "S-003",
+    "S-032",
+    "S-033",
+    "S-034",
+    "S-019",
+    "S-020",
+    "S-157",
+    "S-184",
+    "S-047",
+    "S-158"
+  ],
+  "tags": [
+    "sheet",
+    "drawer",
+    "dialog",
+    "modal",
+    "snap-points",
+    "gesture",
+    "mobile"
+  ],
+  "stage": {
+    "device": "phone",
+    "slot": "sheet-bottom"
+  },
+  "tile": {
+    "span": 1,
+    "rows": 2
+  },
+  "loop": {
+    "script": "click[3] → wait → click[4] → wait → click[2] → wait → click[1] → wait → click[0] → wait",
+    "duration": 10000,
+    "hydrate": true
+  },
+  "cssVars": {
+    "theme": {
+      "color-bottom-sheet-panel-background": "var(--bottom-sheet-panel-background)",
+      "color-bottom-sheet-panel-foreground": "var(--bottom-sheet-panel-foreground)",
+      "color-bottom-sheet-handle-color": "var(--bottom-sheet-handle-color)",
+      "color-bottom-sheet-overlay-background": "var(--bottom-sheet-overlay-background)"
+    },
+    "light": {
+      "bottom-sheet-panel-background": "#ffffff",
+      "bottom-sheet-panel-foreground": "#000000",
+      "bottom-sheet-handle-color": "#bbbbbb",
+      "bottom-sheet-handle-color-contrast": "#767676",
+      "bottom-sheet-overlay-background": "rgba(0, 0, 0, 0.5)",
+      "bottom-sheet-panel-box-shadow": "0 1px 20px -4px rgba(0, 0, 0, 0.3), 0 0 7px 0 rgba(0, 0, 0, 0.1)"
+    },
+    "dark": {
+      "bottom-sheet-panel-background": "#1c1c1f",
+      "bottom-sheet-panel-foreground": "#f4f4f5",
+      "bottom-sheet-handle-color": "#5b5b63",
+      "bottom-sheet-handle-color-contrast": "#a1a1aa",
+      "bottom-sheet-overlay-background": "rgba(0, 0, 0, 0.6)",
+      "bottom-sheet-panel-box-shadow": "0 1px 20px -4px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.06)"
+    }
+  },
+  "docs": "Installed the Bottom Sheet in `components/bottom-sheet/`: `bottom-sheet.tsx` (the parts), the gesture and snap code it runs (`sheet-controller.ts`, `drag-gesture.ts`, `snap-points.ts`, `spring.ts`), its dialog layer and its stylesheet (`bottom-sheet-styles.tsx`, rendered by the sheet itself), plus `--bottom-sheet-*` color tokens for light and dark.\n\nFirst, give it a trigger, a title and some content:\n\n```tsx\nimport {\n  BottomSheet,\n  BottomSheetClose,\n  BottomSheetContent,\n  BottomSheetDialog,\n  BottomSheetHeader,\n  BottomSheetTitle,\n  BottomSheetTrigger,\n} from \"@/components/bottom-sheet/bottom-sheet\"\n\n<BottomSheet snapPoints={[40, 70, 100]}>\n  <BottomSheetTrigger>Open</BottomSheetTrigger>\n  <BottomSheetDialog>\n    <BottomSheetHeader>\n      <BottomSheetTitle>Details</BottomSheetTitle>\n      <BottomSheetClose aria-label=\"Close\">×</BottomSheetClose>\n    </BottomSheetHeader>\n    <BottomSheetContent>…</BottomSheetContent>\n  </BottomSheetDialog>\n</BottomSheet>\n```\n\n- The header (and an optional `BottomSheetFooter`) is always a drag surface; the content scrolls, and a downward drag at the top of its scroll moves the sheet. With snap points, an upward drag on the content grows the sheet before the list scrolls.\n- `snapPoints` are percentages of the viewport height; a flick steps one snap, a slow drag lands on the nearest, and dragging below the shortest dismisses. `useBottomSheet().snapTo(70)` moves it from code.\n- Restyle it with the `--bottom-sheet-*` properties (colors, radius, handle, padding, durations, `--bottom-sheet-panel-max-width`); its rules are unlayered, as upstream's are, so a utility like `[--bottom-sheet-panel-max-width:36rem]` works where `max-w-*` does not.\n- The default (no primitive) variant uses the native `<dialog>`; the Radix, Base UI and React Aria variants keep the same API on those dialogs.\n- Reduced motion: no slide, no settle travel; drags still follow the finger.",
+  "props": [
+    {
+      "name": "snapPoints",
+      "type": "number[]",
+      "description": "On BottomSheet. Resting heights in percent of the viewport (dvh), for example [40, 70, 100]. Without them the sheet is as tall as its content (up to --bottom-sheet-panel-max-height) and only opens or closes."
+    },
+    {
+      "name": "snap / defaultSnap",
+      "type": "number",
+      "description": "On BottomSheet. The snap to rest at (controlled) or to open at first; defaults to the shortest."
+    },
+    {
+      "name": "onSnapChange",
+      "type": "({ from, to }) => void",
+      "description": "On BottomSheet. Called when the sheet settles on a different snap; never mid-drag."
+    },
+    {
+      "name": "open / defaultOpen / onOpenChange",
+      "type": "boolean / boolean / (open: boolean) => void",
+      "default": "uncontrolled, closed",
+      "description": "On BottomSheet. `defaultOpen` renders the sheet already at rest (also in the server render); `onOpenChange(false)` fires as the close starts."
+    },
+    {
+      "name": "spring",
+      "type": "boolean | [attraction, friction]",
+      "default": "true ([0.065, 0.3])",
+      "description": "On BottomSheet. Settle on a velocity-aware spring, or on the CSS snap transition (false)."
+    },
+    {
+      "name": "maxDisplayWidth",
+      "type": "number",
+      "description": "On BottomSheet. Viewport width in px above which the sheet refuses to open, and closes itself when the window widens past it."
+    },
+    {
+      "name": "onBeforeShow / onShown / onBeforeHide / onHidden",
+      "type": "(event) => void",
+      "description": "On BottomSheet. Lifecycle; call event.preventDefault() in onBeforeShow or onBeforeHide to refuse. onHidden gets the closing button's data-result as event.result."
+    },
+    {
+      "name": "inset",
+      "type": "boolean",
+      "default": "false",
+      "description": "On BottomSheetDialog. Detached from the screen edges with all four corners rounded."
+    },
+    {
+      "name": "useBottomSheet()",
+      "type": "{ show, hide, snapTo, snap, state }",
+      "description": "Inside BottomSheet. Imperative controls for buttons in or near the sheet."
+    }
+  ],
+  "a11y": [
+    "A modal dialog: the default variant calls showModal() on a native <dialog>, so the page behind is inert, focus moves to the first control in the sheet, Escape closes it and focus returns to the trigger; Tab cycles through the sheet and the browser's own controls, never the page behind. The Radix, Base UI and React Aria variants trap Tab inside the sheet and hide the page from assistive technology (React Aria focuses the dialog itself on open).",
+    "Name it with BottomSheetTitle (or aria-label on BottomSheetDialog). Keep a visible BottomSheetClose: dragging is never the only way out. The demo also offers buttons for each height (useBottomSheet().snapTo), a keyboard path for the snap points.",
+    "The trigger reports aria-haspopup=\"dialog\" and aria-expanded.",
+    "A sheet that is open from the first render (defaultOpen) never takes focus in a document that does not have it (an embedded frame, a background tab): there it stays non-modal until the first pointer, key or focus in that document, then becomes modal (the Radix and Base UI variants skip their initial focus the same way).",
+    "Under prefers-reduced-motion the sheet and its scrim appear and leave in place and settles land without travel or bounce; drags still follow the finger.",
+    "Contrast (fidelity default, contrast on request): the handle keeps upstream's faint #bbb on white (about 1.9:1), a decorative affordance next to the close button; under prefers-contrast: more it becomes #767676 (4.5:1), and under forced colors the panel gets an edge and the handle the system text color."
+  ],
+  "usage": "<BottomSheet snapPoints={[40, 70, 100]}>\n  <BottomSheetTrigger>Open</BottomSheetTrigger>\n  <BottomSheetDialog>\n    <BottomSheetHeader><BottomSheetTitle>Details</BottomSheetTitle></BottomSheetHeader>\n    <BottomSheetContent>…</BottomSheetContent>\n  </BottomSheetDialog>\n</BottomSheet>"
+}

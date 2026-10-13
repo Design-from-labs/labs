@@ -26,6 +26,21 @@ const lines = ["w-11/12", "w-10/12", "w-9/12", "w-11/12", "w-7/12"];
     <meta name="robots" content="noindex" />
     <title>{title} (stage)</title>
     <script is:inline>
+      // A stage inside a wall tile is decoration (the tile is inert), but
+      // inert does not reach into a framed document: a demo that calls
+      // focus() while it loops would move the page's focus into this frame.
+      // Make the whole document inert before any demo script runs.
+      (() => {
+        try {
+          if (window.frameElement?.closest("[inert]")) {
+            document.documentElement.inert = true;
+          }
+        } catch {
+          // A cross-origin parent: nothing to inherit.
+        }
+      })();
+    </script>
+    <script is:inline>
       // ?dir=rtl from the page that frames this stage; it also sets the
       // direction live through the same-origin iframe.
       (() => {

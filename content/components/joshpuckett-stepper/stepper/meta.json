@@ -1,0 +1,141 @@
+{
+  "$schema": "https://labs.designfrom.com/schemas/meta.schema.json",
+  "schemaVersion": 1,
+  "name": "stepper",
+  "kind": "component",
+  "title": "Stepper",
+  "description": "Dots whose active step stretches into a pill, with an optional autoplay fill, windowing for long flows and a vertical layout. Pure CSS transitions.",
+  "status": "beta",
+  "category": "navigation",
+  "label": "Josh Puckett fluid stepper",
+  "variants": [
+    {
+      "name": "stepper",
+      "primitive": "none",
+      "iconSet": "none",
+      "status": "beta"
+    }
+  ],
+  "defaultVariant": "stepper",
+  "demo": "demo.tsx",
+  "preview": "preview.webp",
+  "source": {
+    "repo": "https://github.com/joshpuckett",
+    "commit": "764823ffdcc21f44d5205b8e9e995707d4f72756",
+    "path": "packages/*/src (core, react, styles)"
+  },
+  "author": "Josh Puckett <https://github.com/joshpuckett>",
+  "license": "MIT",
+  "attribution": "Copyright (c) 2026 Josh Puckett. MIT License.",
+  "credits": [
+    "S-400",
+    "S-407",
+    "S-003",
+    "S-004",
+    "S-014",
+    "S-015",
+    "S-024",
+    "S-047",
+    "S-152",
+    "S-153",
+    "S-155",
+    "S-156",
+    "S-157",
+    "S-158",
+    "S-161",
+    "S-184"
+  ],
+  "date": "2026-10-13",
+  "stage": {
+    "device": "phone",
+    "slot": "inline",
+    "height": 560
+  },
+  "tile": {
+    "span": 1,
+    "rows": 2
+  },
+  "loop": {
+    "hydrate": true,
+    "script": "click[0] → wait → wait → wait → wait",
+    "duration": 10000
+  },
+  "tags": [
+    "stepper",
+    "progress",
+    "dots",
+    "carousel",
+    "onboarding",
+    "autoplay"
+  ],
+  "props": [
+    {
+      "name": "count",
+      "type": "number",
+      "description": "Total number of steps."
+    },
+    {
+      "name": "active",
+      "type": "number",
+      "description": "Zero-based active step. The stepper is controlled: update it from onStepClick or useAutoPlay."
+    },
+    {
+      "name": "onStepClick",
+      "type": "(index: number) => void",
+      "description": "Makes the steps buttons (arrow keys, Home and End move between them). Without it the stepper is a progress indicator."
+    },
+    {
+      "name": "orientation",
+      "type": "\"horizontal\" | \"vertical\"",
+      "default": "\"horizontal\"",
+      "description": "Layout direction."
+    },
+    {
+      "name": "maxVisible",
+      "type": "number",
+      "description": "Steps shown before the row windows around the active one. Assumes the default dot, pill and gap sizes."
+    },
+    {
+      "name": "transitionDuration / easing",
+      "type": "number / string",
+      "default": "500 / \"cubic-bezier(0.215, 0.61, 0.355, 1)\"",
+      "description": "Length in ms and timing function of the pill and dot transitions."
+    },
+    {
+      "name": "filling / fillDuration",
+      "type": "boolean / number",
+      "default": "false / 3000",
+      "description": "Fill the active pill over fillDuration ms (pass both from useAutoPlay)."
+    },
+    {
+      "name": "getStepLabel",
+      "type": "(index: number, count: number) => string",
+      "default": "\"Step 2 of 5\"",
+      "description": "Accessible name of each step, for translations."
+    },
+    {
+      "name": "aria-label",
+      "type": "string",
+      "default": "\"Progress steps\"",
+      "description": "Name of the group (with onStepClick) or of the indicator, which also reads the current step."
+    },
+    {
+      "name": "...props",
+      "type": "React.ComponentProps<\"div\">",
+      "description": "Other attributes go on the container; className and style are where to set the --stepper-* variables."
+    },
+    {
+      "name": "useAutoPlay(options)",
+      "type": "{ count, active, onStepChange, stepDuration?: 3000, loop?: true, enabled?: true, autoStart?: false, paused?: false } => { playing, toggle, filling, fillDuration }",
+      "description": "Advances active every stepDuration while playing. autoStart starts it on mount unless the user prefers reduced motion; paused holds it (no timer, no fill) without stopping it."
+    }
+  ],
+  "a11y": [
+    "With onStepClick the steps are native buttons named \"Step 2 of 5\" in a labelled group; the active one has aria-current=\"step\" and is the only one in the tab order. Arrow keys (mirrored in right to left, Up and Down when vertical) move to the next or previous step and select it; Home and End jump to the ends (Labs additions; upstream used tab roles without panels and had no arrow keys).",
+    "Without onStepClick the stepper is one labelled image that reads the current step (\"Progress steps: Step 2 of 5\"); its dots are not focusable.",
+    "Under prefers-reduced-motion every transition and the autoplay fill resolve at once, and useAutoPlay's autoStart does not start playback.",
+    "Anything that autoplays for more than five seconds needs a visible pause control (WCAG 2.2.2): render a button that calls toggle, as the demo does.",
+    "Fidelity default, contrast on request: upstream's inactive dots (1.3:1 against the container) and focus ring (2.1:1 against white) are kept, and lifted under prefers-contrast: more (a ring in the active color, 11.9:1) and forced colors (system colors, outlined dots). Raise --stepper-bg and --stepper-focus-ring to lift them for everyone."
+  ],
+  "usage": "<Stepper count={5} active={active} onStepClick={setActive} />"
+}
