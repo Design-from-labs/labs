@@ -27,3 +27,4 @@ record has a `- Sources:` line (registry ids, or `none: <reason>`).
 | [0019](0019-specimen-wall.md) | Show /ui as a wall of specimens with no text on the tiles | Accepted |
 | [0020](0020-specimen-loops.md) | Loop each specimen with scripted fake states, in view only, pausable | Accepted |
 | [0021](0021-webgl-render-loop.md) | Run WebGL effects through one render-loop helper, with a static fallback and a measured noise floor | Accepted |
+| [0022](0022-library-picks-shapes.md) | Library picks: prefixed flat files, rebuilt primitive variants, close buttons outside the tablist | Accepted |

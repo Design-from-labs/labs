@@ -1,0 +1,109 @@
+{
+  "title": "Fluid Tooltip",
+  "description": "Grouped tooltips with a deliberate first appearance and fast directional handoffs: moving between related controls glides one surface to the next.",
+  "category": "overlays",
+  "type": "registry:ui",
+  "status": "beta",
+  "upstreamPath": "src/registry/sonaui/fluid-tooltip/fluid-tooltip.tsx",
+  "iconSets": ["none"],
+  "dependencies": ["motion@>=12.43.0"],
+  "registryDependencies": ["utils"],
+  "cssVars": {
+    "light": {
+      "fluid-tooltip-surface": "var(--foreground)",
+      "fluid-tooltip-label": "var(--background)",
+      "fluid-tooltip-shadow": "rgb(0 0 0 / 0.28)"
+    },
+    "dark": {
+      "fluid-tooltip-surface": "var(--foreground)",
+      "fluid-tooltip-label": "var(--background)",
+      "fluid-tooltip-shadow": "rgb(0 0 0 / 0.28)"
+    }
+  },
+  "variants": [
+    {
+      "primitive": "base",
+      "roots": ["src/base"],
+      "status": "beta"
+    },
+    {
+      "primitive": "radix",
+      "roots": ["src/radix"],
+      "status": "beta"
+    },
+    {
+      "primitive": "aria",
+      "roots": ["src/aria"],
+      "status": "beta"
+    }
+  ],
+  "defaultVariant": "fluid-tooltip-base",
+  "demo": "demo.tsx",
+  "credits": [
+    "S-003",
+    "S-004",
+    "S-008",
+    "S-019",
+    "S-020",
+    "S-104",
+    "S-032",
+    "S-033",
+    "S-034",
+    "S-027",
+    "S-238",
+    "S-152",
+    "S-157",
+    "S-237"
+  ],
+  "tags": ["tooltip", "toolbar", "motion", "handoff", "reduced-motion"],
+  "docs": "Installed `FluidTooltip`. Import it from `@/components/ui/fluid-tooltip` and wrap related controls in one group: `FluidTooltip.Group` > `FluidTooltip.Root id` > `FluidTooltip.Trigger asChild` (your button) and `FluidTooltip.Content` (a short label).\n\nThe first tooltip waits `openDelay` (350 ms); moving to a neighbour glides the surface there and slides the label in from the side of travel. The API is the same on Base UI, Radix and React Aria. Colors are `--fluid-tooltip-surface`, `-label` and `-shadow`. Under reduced motion it appears and switches without movement.\n\nPorted from Dinil-Thilakarathne/sona-ui (MIT, copyright 2026 Dinil Thilakarathne); the license text is in the file.",
+  "props": [
+    {
+      "name": "Group orientation",
+      "type": "\"horizontal\" | \"vertical\" | \"auto\"",
+      "default": "\"auto\"",
+      "description": "The axis of directional entry; vertical groups open on the inline-end side."
+    },
+    {
+      "name": "Group openDelay / closeDelay",
+      "type": "number",
+      "default": "350 / 100",
+      "description": "Milliseconds before the first tooltip opens, and the grace before one closes."
+    },
+    {
+      "name": "Group disabled / className",
+      "type": "boolean / string",
+      "description": "Disables every trigger's tooltip; extra classes for the surface."
+    },
+    {
+      "name": "Root id",
+      "type": "string",
+      "description": "A stable id per tooltip (keys the handoff)."
+    },
+    {
+      "name": "Root side / align / sideOffset",
+      "type": "\"top\" | \"right\" | \"bottom\" | \"left\" | \"inline-start\" | \"inline-end\" / \"start\" | \"center\" | \"end\" / number",
+      "default": "group default / \"center\" / 8",
+      "description": "Placement relative to the trigger."
+    },
+    {
+      "name": "Trigger asChild / keepOpenOnClick",
+      "type": "boolean",
+      "default": "true / false",
+      "description": "Use the child element as the trigger; keep the tooltip open when it is pressed."
+    },
+    {
+      "name": "Content showArrow / className",
+      "type": "boolean / string",
+      "default": "true",
+      "description": "The arrow, and extra classes for this tooltip's surface."
+    }
+  ],
+  "a11y": [
+    "Each trigger is described by its tooltip (aria-describedby, role=tooltip), as the WAI-ARIA tooltip pattern describes.",
+    "Opens on keyboard focus without the hover delay and closes with Escape; hover keeps the primitive's grace behaviour.",
+    "Keep the content a short, non-interactive label; icon-only triggers still need their own aria-label.",
+    "Reduced motion: no glide, scale or slide; the tooltip appears and changes in place."
+  ],
+  "usage": "<FluidTooltip.Group orientation=\"horizontal\">\n  <FluidTooltip.Root id=\"search\">\n    <FluidTooltip.Trigger asChild>\n      <button type=\"button\" aria-label=\"Search\">…</button>\n    </FluidTooltip.Trigger>\n    <FluidTooltip.Content>Search</FluidTooltip.Content>\n  </FluidTooltip.Root>\n</FluidTooltip.Group>"
+}

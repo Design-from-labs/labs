@@ -329,3 +329,124 @@ oss:
         status: beta
         category: media
         upstream: src/ribbon.frag
+
+  # Batch F (library picks): one linked component per library, ported from the
+  # pinned commit; sources in ports/<id>/ (decisions 0016 and 0017), the rest
+  # of each library is out of scope. Fidelity: docs/evidence/ports/<component>/.
+  - id: libraries-dev
+    name: Libraries.dev
+    repo: https://github.com/Jakubantalik/Libraries.dev
+    visibility: public
+    status: active
+    fetch: in-repo
+    ref: bcaf88f8a16a75fd95bf21e0747193ee3380a927
+    author: "Jakub Antalik <https://github.com/Jakubantalik>"
+    license: MIT
+    attribution: "Copyright (c) 2026 Jakub Antalik. MIT License."
+    credit: S-230
+    components:
+      - name: border-beam
+        status: beta
+        category: feedback
+        upstream: packages/border-beam
+        port: ports/libraries-dev/border-beam
+      - name: liquid-gooey
+        status: beta
+        category: actions
+        upstream: packages/liquid-gooey
+        port: ports/libraries-dev/liquid-gooey
+
+  - id: magicui
+    name: Magic UI
+    repo: https://github.com/magicuidesign/magicui
+    visibility: public
+    status: active
+    fetch: in-repo
+    ref: 85f97fd27b053339af74ba9dd4ca428ee25989fb
+    author: "Magic UI <https://magicui.design>"
+    license: MIT
+    attribution: "Copyright (c) Magic UI. MIT License."
+    credit: S-231
+    components:
+      - name: progressive-blur
+        status: beta
+        category: layout
+        upstream: apps/www/registry/magicui/progressive-blur.tsx
+        port: ports/magicui/progressive-blur
+
+  - id: beui
+    name: beUI
+    repo: https://github.com/starc007/ui-components
+    visibility: public
+    status: active
+    fetch: in-repo
+    ref: 7bb802bc0123fa8944bc327060e60a5bae8c65bc
+    author: "Saurabh Chauhan <https://github.com/starc007>"
+    license: MIT
+    attribution: "Copyright (c) 2026 Saurabh Chauhan. MIT License."
+    credit: S-232
+    components:
+      - name: morphing-tabs
+        status: beta
+        category: navigation
+        upstream: components/motion/morphing-tabs.tsx
+        port: ports/beui/morphing-tabs
+      - name: bounce-sidebar
+        status: beta
+        category: navigation
+        upstream: components/motion/bounce-sidebar.tsx
+        port: ports/beui/bounce-sidebar
+
+  - id: spell-ui
+    name: Spell UI
+    repo: https://github.com/xxtomm/spell-ui
+    visibility: public
+    status: active
+    fetch: in-repo
+    ref: a6441b7742b47d99932a8d687e895100bdf736be
+    author: "Spell UI <https://github.com/xxtomm>"
+    license: MIT
+    attribution: "Copyright (c) 2025 Spell UI. MIT License."
+    credit: S-233
+    components:
+      - name: tilt-card
+        status: beta
+        category: data-display
+        upstream: registry/spell-ui/tilt-card.tsx
+        port: ports/spell-ui/tilt-card
+
+  - id: sona-ui
+    name: Sona UI
+    repo: https://github.com/Dinil-Thilakarathne/sona-ui
+    visibility: public
+    status: active
+    fetch: in-repo
+    ref: 9a72ffe9648f3ea893acff13a957383a95158f07
+    author: "Dinil Thilakarathne <https://github.com/Dinil-Thilakarathne>"
+    license: MIT
+    attribution: "Copyright (c) 2026 Dinil Thilakarathne. MIT License."
+    credit: S-234
+    components:
+      - name: fluid-tooltip
+        status: beta
+        category: overlays
+        upstream: src/registry/sonaui/fluid-tooltip/fluid-tooltip.tsx
+        port: ports/sona-ui/fluid-tooltip
+
+  - id: interior
+    name: interior
+    repo: https://github.com/ddoemonn/interior
+    visibility: public
+    status: active
+    fetch: in-repo
+    ref: 314800833bf01e23e6ae74c2a17fbdaac3688c84
+    author: "ozzy <https://github.com/ddoemonn>"
+    license: MIT
+    attribution: "Copyright (c) 2026 ozzy. MIT License."
+    credit: S-235
+    components:
+      - name: show-more
+        status: beta
+        category: data-display
+        upstream: components/interior/show-more.tsx
+        port: ports/interior/show-more

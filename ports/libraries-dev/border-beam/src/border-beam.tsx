@@ -1,0 +1,364 @@
+"use client";
+
+import {
+  forwardRef,
+  useId,
+  useEffect,
+  useSyncExternalStore,
+  useState,
+  useCallback,
+  useMemo,
+  useRef,
+  type CSSProperties,
+  type ForwardedRef,
+  type AnimationEvent,
+  type MutableRefObject,
+} from 'react';
+import type { BorderBeamProps, BorderBeamTheme } from './border-beam-types';
+import { sizePresets, sizeThemePresets, generateBeamCSS, getPulseDriverConfig } from './border-beam-styles';
+import { registerPulseInstance } from './border-beam-pulse-driver';
+
+/*
+ * Ported from Jakubantalik/Libraries.dev, packages/border-beam/src/BorderBeam.tsx and index.ts,
+ * at commit bcaf88f8a16a: https://github.com/Jakubantalik/Libraries.dev
+ * (border-beam 1.4.1).
+ *
+ * Changes from upstream (the default look is unchanged):
+ * - theme="auto" follows the page's own theme first (data-theme="dark" or
+ *   "light" on <html>, or a .dark class), then the system setting, and is
+ *   read through useSyncExternalStore, so the server render (dark) hydrates
+ *   without a mismatch;
+ * - the rotating sizes hold still under reduced motion (see
+ *   border-beam-styles.ts);
+ * - custom properties and keyframes carry the component name
+ *   (--border-beam-strength, --border-beam-hue-base, border-beam-spin-<id>);
+ * - the package entry's exports (index.ts) are at the end of this file.
+ */
+
+const DARK_QUERY = '(prefers-color-scheme: dark)';
+
+/** The page's explicit theme (data-theme or a .dark class), else the system's. */
+function readTheme(): 'dark' | 'light' {
+  const root = document.documentElement;
+  const explicit = root.getAttribute('data-theme');
+  if (explicit === 'dark' || explicit === 'light') return explicit;
+  if (root.classList.contains('dark')) return 'dark';
+  return window.matchMedia(DARK_QUERY).matches ? 'dark' : 'light';
+}
+
+function subscribeTheme(onChange: () => void) {
+  const mediaQuery = window.matchMedia(DARK_QUERY);
+  mediaQuery.addEventListener('change', onChange);
+  const observer = new MutationObserver(onChange);
+  observer.observe(document.documentElement, {
+    attributes: true,
+    attributeFilter: ['class', 'data-theme'],
+  });
+  return () => {
+    mediaQuery.removeEventListener('change', onChange);
+    observer.disconnect();
+  };
+}
+
+function useSystemTheme(): 'dark' | 'light' {
+  return useSyncExternalStore(subscribeTheme, readTheme, () => 'dark');
+}
+
+function resolveTheme(theme: BorderBeamTheme, systemTheme: 'dark' | 'light'): 'dark' | 'light' {
+  return theme === 'auto' ? systemTheme : theme;
+}
+
+/**
+ * BorderBeam component - Animated border beam effect for React
+ *
+ * @example
+ * ```tsx
+ * <BorderBeam>
+ *   <Card>Content</Card>
+ * </BorderBeam>
+ * ```
+ */
+export const BorderBeam = forwardRef<HTMLDivElement, BorderBeamProps>(
+  function BorderBeam(
+    {
+      children,
+      size = 'md',
+      colorVariant = 'colorful',
+      theme = 'dark',
+      staticColors = false,
+      duration,
+      active = true,
+      borderRadius: customBorderRadius,
+      brightness: brightnessProp,
+      saturation,
+      hueRange = 30,
+      glowSize = 1,
+      strength = 1,
+      className,
+      style,
+      css: extraCss,
+      onActivate,
+      onDeactivate,
+      onAnimationEnd: consumerOnAnimationEnd,
+      ...props
+    }: BorderBeamProps,
+    ref: ForwardedRef<HTMLDivElement>
+  ) {
+    const baseId = useId();
+    const id = baseId.replace(/:/g, '-');
+    const systemTheme = useSystemTheme();
+    const internalRef = useRef<HTMLDivElement>(null);
+
+    const [isActive, setIsActive] = useState(active);
+    const [isFading, setIsFading] = useState(false);
+    const [isVisible, setIsVisible] = useState(true);
+    const [detectedRadius, setDetectedRadius] = useState<number | null>(null);
+    const [pulseGlowScale, setPulseGlowScale] = useState<{ x: number; y: number }>({ x: 1, y: 1 });
+
+    // Auto-detect child border radius when no explicit value is provided
+    useEffect(() => {
+      if (customBorderRadius != null) return;
+      const el = internalRef.current;
+      if (!el) return;
+
+      const detect = () => {
+        const child = el.firstElementChild as HTMLElement | null;
+        if (!child) return;
+        const computed = getComputedStyle(child);
+        const raw = parseFloat(computed.borderTopLeftRadius);
+        if (!isNaN(raw) && raw > 0) {
+          setDetectedRadius(raw);
+        }
+      };
+
+      detect();
+
+      // Re-detect if child layout changes (e.g. CSS loaded late)
+      const observer = new MutationObserver(detect);
+      observer.observe(el, { childList: true, subtree: false });
+      return () => observer.disconnect();
+    }, [customBorderRadius, children]);
+
+    useEffect(() => {
+      if (active && !isActive && !isFading) {
+        setIsActive(true);
+      } else if (!active && isActive && !isFading) {
+        setIsFading(true);
+      }
+    }, [active, isActive, isFading]);
+
+    // Pause the (paint-heavy) animations while the element is scrolled offscreen.
+    // This stops per-frame painting entirely for hidden instances without changing
+    // their logical active/fading state, so it never fires onActivate/onDeactivate.
+    useEffect(() => {
+      const el = internalRef.current;
+      if (!el || typeof IntersectionObserver === 'undefined') return;
+
+      const observer = new IntersectionObserver(
+        entries => {
+          for (const entry of entries) setIsVisible(entry.isIntersecting);
+        },
+        // Start animating slightly before the element scrolls into view.
+        { rootMargin: '256px' }
+      );
+
+      observer.observe(el);
+      return () => observer.disconnect();
+    }, []);
+
+    // Pulse Outside glow geometry is authored in fixed pixels for a reference
+    // element (~350x140). Measure the actual wrapped element and scale the glow
+    // per-axis so the halo grows/shrinks to fit any component it's applied to.
+    useEffect(() => {
+      if (size !== 'pulse-outside') {
+        setPulseGlowScale({ x: 1, y: 1 });
+        return;
+      }
+
+      const el = internalRef.current;
+      if (!el) return;
+
+      const REF_WIDTH = 350;
+      const REF_HEIGHT = 140;
+      // Allow the glow to both shrink (small buttons) and grow (large cards),
+      // with generous bounds to avoid degenerate geometry at the extremes.
+      const MIN_SCALE = 0.35;
+      const MAX_SCALE = 4;
+      const clamp = (value: number) => Math.max(MIN_SCALE, Math.min(MAX_SCALE, value));
+
+      const measure = () => {
+        const child = el.firstElementChild as HTMLElement | null;
+        if (!child) return;
+        const rect = child.getBoundingClientRect();
+        if (!rect.width || !rect.height) return;
+        const x = +clamp(rect.width / REF_WIDTH).toFixed(3);
+        const y = +clamp(rect.height / REF_HEIGHT).toFixed(3);
+        setPulseGlowScale(prev => (prev.x === x && prev.y === y ? prev : { x, y }));
+      };
+
+      measure();
+      if (typeof ResizeObserver === 'undefined') return;
+
+      const child = el.firstElementChild as HTMLElement | null;
+      if (!child) return;
+
+      const resizeObserver = new ResizeObserver(measure);
+      resizeObserver.observe(child);
+      return () => resizeObserver.disconnect();
+    }, [size, children]);
+
+    const handleAnimationEnd = useCallback(
+      (e: AnimationEvent<HTMLDivElement>) => {
+        const animationName = e.animationName;
+
+        if (animationName.includes('fade-out')) {
+          setIsActive(false);
+          setIsFading(false);
+          onDeactivate?.();
+        } else if (animationName.includes('fade-in')) {
+          onActivate?.();
+        }
+
+        consumerOnAnimationEnd?.(e);
+      },
+      [onActivate, onDeactivate, consumerOnAnimationEnd]
+    );
+
+    const resolvedTheme = resolveTheme(theme, systemTheme);
+    const themeConfig = sizeThemePresets[size][resolvedTheme];
+    const sizeConfig = sizePresets[size];
+
+    const isPulse = size === 'pulse-inner' || size === 'pulse-outside';
+
+    const finalBorderRadius = customBorderRadius ?? detectedRadius ?? sizeConfig.borderRadius;
+    const finalDuration = duration ?? (size === 'line' ? 3.1 : isPulse ? 2.3 : 1.96);
+    const finalSaturation = saturation ?? themeConfig.saturation;
+    const finalBrightness = brightnessProp ?? themeConfig.brightness ?? 1.3;
+    const finalHueRange = size === 'line' ? Math.min(hueRange, 13) : hueRange;
+    const finalStaticColors = colorVariant === 'mono' ? true : staticColors;
+
+    const cssStyles = useMemo(
+      () =>
+        generateBeamCSS({
+          id,
+          borderRadius: finalBorderRadius,
+          borderWidth: sizeConfig.borderWidth,
+          duration: finalDuration,
+          strokeOpacity: themeConfig.strokeOpacity,
+          innerOpacity: themeConfig.innerOpacity,
+          bloomOpacity: themeConfig.bloomOpacity,
+          innerShadow: themeConfig.innerShadow,
+          size,
+          colorVariant,
+          staticColors: finalStaticColors,
+          brightness: finalBrightness,
+          saturation: finalSaturation,
+          hueRange: finalHueRange,
+          theme: resolvedTheme,
+          hairlineOpacity: themeConfig.hairlineOpacity,
+          glowSize,
+        }),
+      [
+        id,
+        finalBorderRadius,
+        sizeConfig.borderWidth,
+        finalDuration,
+        themeConfig.strokeOpacity,
+        themeConfig.innerOpacity,
+        themeConfig.bloomOpacity,
+        themeConfig.innerShadow,
+        themeConfig.hairlineOpacity,
+        size,
+        colorVariant,
+        finalStaticColors,
+        finalBrightness,
+        finalSaturation,
+        finalHueRange,
+        glowSize,
+        resolvedTheme,
+      ]
+    );
+
+    // Runtime config for the JS breathing driver (null for non-pulse sizes).
+    const driverConfig = useMemo(
+      () =>
+        isPulse
+          ? getPulseDriverConfig(size, resolvedTheme, finalDuration, finalHueRange, finalStaticColors, id)
+          : null,
+      [isPulse, size, resolvedTheme, finalDuration, finalHueRange, finalStaticColors, id]
+    );
+
+    // Drive the Pulse breathing from the shared, fps-capped rAF loop while the
+    // instance is on, onscreen, and the user hasn't requested reduced motion.
+    useEffect(() => {
+      if (!driverConfig) return;
+      if (!(isActive || isFading) || !isVisible) return;
+
+      const el = internalRef.current;
+      if (!el) return;
+
+      if (
+        typeof window !== 'undefined' &&
+        window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
+      ) {
+        return;
+      }
+
+      return registerPulseInstance(el, driverConfig);
+    }, [driverConfig, isActive, isFading, isVisible]);
+
+    const setRefs = useCallback(
+      (node: HTMLDivElement | null) => {
+        (internalRef as MutableRefObject<HTMLDivElement | null>).current = node;
+        if (typeof ref === 'function') {
+          ref(node);
+        } else if (ref) {
+          (ref as MutableRefObject<HTMLDivElement | null>).current = node;
+        }
+      },
+      [ref]
+    );
+
+    const mergedStyle = {
+      ...(style ?? {}),
+      '--border-beam-strength': Math.max(0, Math.min(1, strength)),
+      ...(size === 'pulse-outside'
+        ? { '--border-beam-pulse-glow-sx': pulseGlowScale.x, '--border-beam-pulse-glow-sy': pulseGlowScale.y }
+        : {}),
+    } as CSSProperties;
+
+    return (
+      <>
+        <style>{extraCss ? `${cssStyles}\n${extraCss.split('{id}').join(id)}` : cssStyles}</style>
+        <div
+          {...props}
+          ref={setRefs}
+          data-beam={id}
+          data-active={isActive && !isFading ? '' : undefined}
+          data-fading={isFading ? '' : undefined}
+          data-paused={isActive && !isFading && !isVisible ? '' : undefined}
+          className={className}
+          style={mergedStyle}
+          onAnimationEnd={handleAnimationEnd}
+        >
+          {children}
+          <div data-beam-bloom />
+        </div>
+      </>
+    );
+  }
+);
+
+export default BorderBeam;
+
+// From index.ts (the package entry).
+export type {
+  BorderBeamProps,
+  BorderBeamSize,
+  BorderBeamTheme,
+  BorderBeamColorVariant,
+  SizeConfig,
+  ThemeColors,
+} from './border-beam-types';
+
+export { sizePresets, sizeThemePresets, themeColors } from './border-beam-styles';

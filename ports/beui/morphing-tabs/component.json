@@ -1,0 +1,103 @@
+{
+  "title": "Morphing Tabs",
+  "description": "Browser-style tabs on a liquid surface that flows into the active tab, with drag and keyboard reordering and optional close buttons.",
+  "category": "navigation",
+  "type": "registry:ui",
+  "status": "beta",
+  "upstreamPath": "components/motion/morphing-tabs.tsx",
+  "iconSets": ["lucide", "phosphor"],
+  "dependencies": ["motion@>=12.43.0"],
+  "registryDependencies": ["utils"],
+  "variants": [
+    {
+      "primitive": "radix",
+      "roots": ["src/radix"],
+      "status": "beta"
+    },
+    {
+      "primitive": "base",
+      "roots": ["src/base"],
+      "status": "beta"
+    },
+    {
+      "primitive": "aria",
+      "roots": ["src/aria"],
+      "status": "beta"
+    }
+  ],
+  "defaultVariant": "morphing-tabs-radix-lucide",
+  "demo": "demo.tsx",
+  "tile": {
+    "span": 2,
+    "rows": 2
+  },
+  "loop": {
+    "script": "click[2] → wait → click[3] → wait → click[1] → wait",
+    "duration": 6000,
+    "hydrate": true
+  },
+  "credits": [
+    "S-003",
+    "S-004",
+    "S-008",
+    "S-019",
+    "S-020",
+    "S-104",
+    "S-032",
+    "S-033",
+    "S-034",
+    "S-005",
+    "S-006",
+    "S-239",
+    "S-152",
+    "S-157",
+    "S-237"
+  ],
+  "tags": ["tabs", "motion", "drag", "reorder", "spring", "reduced-motion"],
+  "docs": "Installed `MorphingTabs`. Import it from `@/components/ui/morphing-tabs` and pass `items` (`id`, `label`, `content`, optional `icon` and `disabled`), with `value`/`onValueChange` for control, `onOrderChange` to keep a reordered list and `onClose` to show close buttons.\n\nTabs reorder by dragging or with Alt and the arrow keys; the arrows, Home and End move between tabs and select them. The rail never scrolls: tabs narrow to fit. It follows the reading direction and snaps instead of springing under reduced motion.\n\nPorted from starc007/ui-components, beUI (MIT, copyright 2026 Saurabh Chauhan); the license text is in the file.",
+  "props": [
+    {
+      "name": "items",
+      "type": "{ id: string; label: string; icon?: React.ReactNode; content: React.ReactNode; disabled?: boolean }[]",
+      "description": "The tabs and their panels."
+    },
+    {
+      "name": "value / defaultValue",
+      "type": "string | null",
+      "description": "The selected tab (controlled or initial)."
+    },
+    {
+      "name": "onValueChange",
+      "type": "(id: string | null) => void",
+      "description": "Called when the selection changes."
+    },
+    {
+      "name": "onOrderChange",
+      "type": "(ids: string[]) => void",
+      "description": "Called once after a drag or keyboard reorder."
+    },
+    {
+      "name": "onClose",
+      "type": "(id: string) => void",
+      "description": "Shows a close button on every tab."
+    },
+    {
+      "name": "ariaLabel",
+      "type": "string",
+      "default": "\"Tabs\"",
+      "description": "The tablist's accessible name."
+    },
+    {
+      "name": "classNames",
+      "type": "{ root?, rail?, tab?, activeTab?, icon?, label?, close?, content? }",
+      "description": "Classes per part."
+    }
+  ],
+  "a11y": [
+    "The primitive's tabs pattern: role=tablist/tab/tabpanel, roving focus, Arrow keys (in the reading direction), Home and End, automatic activation.",
+    "Alt+Arrow moves the focused tab; the order change is reported once through onOrderChange.",
+    "Close buttons are named \"Close <label>\" and sit outside the tablist, so the tablist owns only tabs.",
+    "Reduced motion: the springs and the liquid surface snap; panels cross-fade without blur or movement."
+  ],
+  "usage": "<MorphingTabs\n  items={items}\n  value={value}\n  onValueChange={setValue}\n  onOrderChange={reorder}\n  ariaLabel=\"Rooms\"\n/>"
+}

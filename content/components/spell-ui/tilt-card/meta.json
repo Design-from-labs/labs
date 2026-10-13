@@ -1,0 +1,95 @@
+{
+  "$schema": "https://labs.designfrom.com/schemas/meta.schema.json",
+  "schemaVersion": 1,
+  "name": "tilt-card",
+  "kind": "component",
+  "title": "Tilt Card",
+  "description": "A card that tilts in 3D toward or away from the pointer and scales up slightly, with an optional spotlight that follows it.",
+  "status": "beta",
+  "category": "data-display",
+  "label": "Spell UI",
+  "variants": [
+    {
+      "name": "tilt-card",
+      "primitive": "none",
+      "iconSet": "none",
+      "status": "beta"
+    }
+  ],
+  "defaultVariant": "tilt-card",
+  "demo": "demo.tsx",
+  "preview": "preview.webp",
+  "source": {
+    "repo": "https://github.com/xxtomm/spell-ui",
+    "commit": "a6441b7742b47d99932a8d687e895100bdf736be",
+    "path": "registry/spell-ui/tilt-card.tsx"
+  },
+  "author": "Spell UI <https://github.com/xxtomm>",
+  "license": "MIT",
+  "attribution": "Copyright (c) 2025 Spell UI. MIT License.",
+  "credits": [
+    "S-233",
+    "S-003",
+    "S-004",
+    "S-008",
+    "S-019",
+    "S-020",
+    "S-152",
+    "S-157",
+    "S-237"
+  ],
+  "date": "2026-10-13",
+  "tile": {
+    "span": 2
+  },
+  "tags": [
+    "card",
+    "3d",
+    "pointer",
+    "hover",
+    "reduced-motion"
+  ],
+  "props": [
+    {
+      "name": "tiltLimit",
+      "type": "number",
+      "default": "15",
+      "description": "Maximum tilt, in degrees."
+    },
+    {
+      "name": "scale",
+      "type": "number",
+      "default": "1.05",
+      "description": "Scale while hovered."
+    },
+    {
+      "name": "perspective",
+      "type": "number",
+      "default": "1200",
+      "description": "Perspective distance, in px."
+    },
+    {
+      "name": "effect",
+      "type": "\"gravitate\" | \"evade\"",
+      "default": "\"evade\"",
+      "description": "Tilt toward the pointer, or away from it."
+    },
+    {
+      "name": "spotlight",
+      "type": "boolean",
+      "default": "true",
+      "description": "A soft light that follows the pointer."
+    },
+    {
+      "name": "className / style / children",
+      "type": "string / React.CSSProperties / React.ReactNode",
+      "description": "The card's own styling and content."
+    }
+  ],
+  "a11y": [
+    "Decorative motion only: it adds no role, and the spotlight layer is aria-hidden; give interactive cards their own button or link inside.",
+    "Reduced motion: no tilt and no scale; the spotlight still fades in and follows the pointer.",
+    "Pointer driven: keyboard users see the resting card, which carries all of the content."
+  ],
+  "usage": "<TiltCard tiltLimit={10} className=\"aspect-video w-[360px] rounded-2xl bg-card p-6\">\n  …\n</TiltCard>"
+}

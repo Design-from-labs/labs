@@ -1,0 +1,74 @@
+{
+  "title": "Border Beam",
+  "description": "A traveling or breathing glow around any element: rotating beams (md, sm, line) and pulse halos (inner, outside), in eight palettes.",
+  "category": "feedback",
+  "type": "registry:ui",
+  "status": "beta",
+  "upstreamPath": "packages/border-beam",
+  "iconSets": ["none"],
+  "variants": [
+    {
+      "primitive": "none",
+      "roots": ["src"],
+      "status": "beta"
+    }
+  ],
+  "defaultVariant": "border-beam",
+  "demo": "demo.tsx",
+  "credits": ["S-003", "S-004", "S-008", "S-152", "S-157", "S-237"],
+  "tags": ["animation", "glow", "border", "css", "reduced-motion"],
+  "docs": "Installed `BorderBeam` (four files in `components/ui`). Import it from `@/components/ui/border-beam` and wrap one element: `<BorderBeam size=\"md\" theme=\"auto\"><Card /></BorderBeam>`.\n\nIt measures the first child's border radius, renders its keyframes in a per-instance `<style>` and pauses while scrolled offscreen. Its CSS hooks carry the component prefix: `--border-beam-strength`, `--border-beam-core-blur`, `--border-beam-bloom-blur`, `--border-beam-glow-brightness`, `--border-beam-hue-base` and the rest of upstream's `--beam-*` hooks. `theme=\"auto\"` follows the page's `data-theme` or `.dark` class, then the system setting. Under reduced motion the rotating sizes hold still and only fade.\n\nPorted from Jakubantalik/Libraries.dev (border-beam 1.4.1, MIT, copyright 2026 Jakub Antalik); the license text is in each file.",
+  "props": [
+    {
+      "name": "size",
+      "type": "\"md\" | \"sm\" | \"line\" | \"pulse-inner\" | \"pulse-outside\"",
+      "default": "\"md\"",
+      "description": "The effect: a full rotating border, a compact one, a bottom-only travelling glow, or a breathing glow inside or outside the element."
+    },
+    {
+      "name": "colorVariant",
+      "type": "\"colorful\" | \"mono\" | \"ocean\" | \"sunset\" | \"forest\" | \"candy\" | \"ice\" | \"gold\"",
+      "default": "\"colorful\"",
+      "description": "The palette."
+    },
+    {
+      "name": "theme",
+      "type": "\"dark\" | \"light\" | \"auto\"",
+      "default": "\"dark\"",
+      "description": "Tunes opacity and blending for the background; auto follows the page, then the system."
+    },
+    {
+      "name": "active",
+      "type": "boolean",
+      "default": "true",
+      "description": "Fades the effect in or out; onActivate and onDeactivate fire when the fade ends."
+    },
+    {
+      "name": "duration",
+      "type": "number",
+      "description": "Seconds per loop (default 1.96, line 3.1, pulse 2.3)."
+    },
+    {
+      "name": "strength",
+      "type": "number",
+      "default": "1",
+      "description": "0 to 1, scales every layer's opacity."
+    },
+    {
+      "name": "borderRadius",
+      "type": "number",
+      "description": "Overrides the radius measured from the child."
+    },
+    {
+      "name": "children",
+      "type": "React.ReactNode",
+      "description": "The element to wrap; give it a background (pulse-outside needs an opaque one)."
+    }
+  ],
+  "a11y": [
+    "Decorative: it adds no roles or text, and the wrapped element keeps its own semantics and focus.",
+    "Reduced motion: the rotating sizes hold still and only fade in and out; the pulse sizes do not animate (upstream's rule).",
+    "Loops while active: pass active={false} from a visible control when it plays next to reading content (WCAG 2.2.2). The demo's toggle is a native button with aria-pressed."
+  ],
+  "usage": "<BorderBeam size=\"md\" theme=\"auto\">\n  <div className=\"rounded-2xl border bg-card p-4\">Working…</div>\n</BorderBeam>"
+}

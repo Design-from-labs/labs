@@ -1,0 +1,116 @@
+{
+  "$schema": "https://labs.designfrom.com/schemas/meta.schema.json",
+  "schemaVersion": 1,
+  "name": "fluid-tooltip",
+  "kind": "component",
+  "title": "Fluid Tooltip",
+  "description": "Grouped tooltips with a deliberate first appearance and fast directional handoffs: moving between related controls glides one surface to the next.",
+  "status": "beta",
+  "category": "overlays",
+  "label": "Sona UI",
+  "variants": [
+    {
+      "name": "fluid-tooltip-base",
+      "primitive": "base",
+      "iconSet": "none",
+      "status": "beta"
+    },
+    {
+      "name": "fluid-tooltip-radix",
+      "primitive": "radix",
+      "iconSet": "none",
+      "status": "beta"
+    },
+    {
+      "name": "fluid-tooltip-aria",
+      "primitive": "aria",
+      "iconSet": "none",
+      "status": "beta"
+    }
+  ],
+  "defaultVariant": "fluid-tooltip-base",
+  "demo": "demo.tsx",
+  "preview": "preview.webp",
+  "source": {
+    "repo": "https://github.com/Dinil-Thilakarathne/sona-ui",
+    "commit": "9a72ffe9648f3ea893acff13a957383a95158f07",
+    "path": "src/registry/sonaui/fluid-tooltip/fluid-tooltip.tsx"
+  },
+  "author": "Dinil Thilakarathne <https://github.com/Dinil-Thilakarathne>",
+  "license": "MIT",
+  "attribution": "Copyright (c) 2026 Dinil Thilakarathne. MIT License.",
+  "credits": [
+    "S-234",
+    "S-003",
+    "S-004",
+    "S-008",
+    "S-019",
+    "S-020",
+    "S-104",
+    "S-032",
+    "S-033",
+    "S-034",
+    "S-027",
+    "S-238",
+    "S-152",
+    "S-157",
+    "S-237"
+  ],
+  "date": "2026-10-13",
+  "tags": [
+    "tooltip",
+    "toolbar",
+    "motion",
+    "handoff",
+    "reduced-motion"
+  ],
+  "props": [
+    {
+      "name": "Group orientation",
+      "type": "\"horizontal\" | \"vertical\" | \"auto\"",
+      "default": "\"auto\"",
+      "description": "The axis of directional entry; vertical groups open on the inline-end side."
+    },
+    {
+      "name": "Group openDelay / closeDelay",
+      "type": "number",
+      "default": "350 / 100",
+      "description": "Milliseconds before the first tooltip opens, and the grace before one closes."
+    },
+    {
+      "name": "Group disabled / className",
+      "type": "boolean / string",
+      "description": "Disables every trigger's tooltip; extra classes for the surface."
+    },
+    {
+      "name": "Root id",
+      "type": "string",
+      "description": "A stable id per tooltip (keys the handoff)."
+    },
+    {
+      "name": "Root side / align / sideOffset",
+      "type": "\"top\" | \"right\" | \"bottom\" | \"left\" | \"inline-start\" | \"inline-end\" / \"start\" | \"center\" | \"end\" / number",
+      "default": "group default / \"center\" / 8",
+      "description": "Placement relative to the trigger."
+    },
+    {
+      "name": "Trigger asChild / keepOpenOnClick",
+      "type": "boolean",
+      "default": "true / false",
+      "description": "Use the child element as the trigger; keep the tooltip open when it is pressed."
+    },
+    {
+      "name": "Content showArrow / className",
+      "type": "boolean / string",
+      "default": "true",
+      "description": "The arrow, and extra classes for this tooltip's surface."
+    }
+  ],
+  "a11y": [
+    "Each trigger is described by its tooltip (aria-describedby, role=tooltip), as the WAI-ARIA tooltip pattern describes.",
+    "Opens on keyboard focus without the hover delay and closes with Escape; hover keeps the primitive's grace behaviour.",
+    "Keep the content a short, non-interactive label; icon-only triggers still need their own aria-label.",
+    "Reduced motion: no glide, scale or slide; the tooltip appears and changes in place."
+  ],
+  "usage": "<FluidTooltip.Group orientation=\"horizontal\">\n  <FluidTooltip.Root id=\"search\">\n    <FluidTooltip.Trigger asChild>\n      <button type=\"button\" aria-label=\"Search\">…</button>\n    </FluidTooltip.Trigger>\n    <FluidTooltip.Content>Search</FluidTooltip.Content>\n  </FluidTooltip.Root>\n</FluidTooltip.Group>"
+}

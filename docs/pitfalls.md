@@ -76,6 +76,14 @@ Design From and Design From Labs (the guards enforce this).
 | [P-063](#p-063) | Components (hydration) | Reduced motion read through a hook still runs one WebGL setup on hydration |
 | [P-064](#p-064) | Tests (axe) | axe's region rule takes over 30 s on a page with a large highlighted source |
 | [P-065](#p-065) | Components (TypeScript) | A type imported without `type` breaks hydration under `verbatimModuleSyntax` |
+| [P-066](#p-066) | Components (React Aria) | A TabList drops every element that wraps a Tab |
+| [P-067](#p-067) | Components (Radix Tooltip) | The arrow's height is added to `sideOffset` |
+| [P-068](#p-068) | Components (tabs) | Radix and Base UI tabs select on mousedown, so a drag selects |
+| [P-069](#p-069) | Components (Radix Tabs) | `Tabs.Root` writes its own `dir`, hiding the page direction |
+| [P-070](#p-070) | Fidelity harness (Vite) | A dependency found mid-run reloads the page with two Reacts |
+| [P-071](#p-071) | Registry (validator) | Icon names in a shared comment fail the icon-pair check |
+| [P-072](#p-072) | Tests (axe) | Text on an SVG surface reads as low contrast |
+| [P-073](#p-073) | Registry (shadcn CLI) | A base-style project rewrites `asChild` in Radix items |
 
 ---
 
@@ -1055,3 +1063,117 @@ Design From and Design From Labs (the guards enforce this).
   exporting them, and keep the `hydrates without page errors` checks in
   `e2e/webgl.spec.ts`.
 - Links: `ports/samasante-liquid-glass/glass`, `e2e/webgl.spec.ts`
+
+### P-066
+
+- Date: 2026-10-12
+- Area: Components (React Aria collections)
+- Symptom: The React Aria Morphing Tabs rendered an empty tablist.
+- Cause: A TabList builds its collection from Tab elements only; a Tab
+  wrapped in another element (the spring's `motion.div`) is dropped
+  (S-241).
+- Fix: Each Tab is the moving element: the spring lives in a component
+  inside the Tab and writes the Tab's transform.
+- Prevention: Keep React Aria collection items as direct children; put
+  per-item logic inside the item.
+- Links: `content/components/beui/morphing-tabs`, decision 0022
+
+### P-067
+
+- Date: 2026-10-12
+- Area: Components (Radix Tooltip)
+- Symptom: The Radix Fluid Tooltip sat 8px further from its trigger than
+  the Base UI original.
+- Cause: Radix adds the measured arrow height to `sideOffset`; the upstream
+  arrow overlaps the gap instead.
+- Fix: Pass `sideOffset - 8` when the arrow shows.
+- Prevention: Diff a Radix port's open state against its source.
+- Links: `content/components/sona-ui/fluid-tooltip`
+
+### P-068
+
+- Date: 2026-10-12
+- Area: Components (Radix and Base UI tabs)
+- Symptom: Starting to drag an inactive Morphing Tab selected it.
+- Cause: Radix tabs select on mousedown, and Base UI tabs with
+  `activateOnFocus` select when the mousedown focuses them.
+- Fix: `preventDefault()` on mousedown (Radix also skips its own handler),
+  select on click unless the press became a drag, then
+  `focus({ focusVisible: false })` so focus lands without a ring, as a native
+  click would.
+- Prevention: The drag states in the Morphing Tabs fidelity run.
+- Links: `content/components/beui/morphing-tabs`
+
+### P-069
+
+- Date: 2026-10-12
+- Area: Components (Radix Tabs)
+- Symptom: Morphing Tabs stayed left to right inside a right-to-left frame.
+- Cause: `Tabs.Root` writes `dir="ltr"` unless told otherwise, so reading the
+  direction from the root reads its own attribute; and the component page's
+  direction toggle changes `dir` without a resize.
+- Fix: Read the direction from the root's parent and also re-read it when
+  any `dir` attribute in the document changes.
+- Prevention: Check right to left by toggling the direction after mount, not
+  only by loading the page that way.
+- Links: `content/components/beui/morphing-tabs`
+
+### P-070
+
+- Date: 2026-10-12
+- Area: Fidelity harness (Vite)
+- Symptom: `Cannot read properties of null (reading 'useMemo')` and an
+  "execution context was destroyed" error, the first time a page imported
+  the Base UI variant.
+- Cause: Vite found a new dependency mid-run, re-optimized and reloaded; the
+  page briefly had two copies of React.
+- Fix: List every dependency in `optimizeDeps.include`.
+- Prevention: Pre-bundle the whole dependency set before screenshots.
+- Links: none (harness outside the repository)
+
+### P-071
+
+- Date: 2026-10-12
+- Area: Registry (validator)
+- Symptom: "the lucide and phosphor items differ beyond their icon imports"
+  for two files that differed only in the icon.
+- Cause: The check replaces the imported icon names everywhere, comments
+  included; a shared comment naming one icon component changed in one file
+  only.
+- Fix: Describe the icons in words in shared comments.
+- Prevention: Do not write imported icon identifiers in comments.
+- Links: `content/components/interior/show-more`
+
+### P-072
+
+- Date: 2026-10-12
+- Area: Tests (axe)
+- Symptom: axe reported color-contrast on the active Morphing Tab's label on
+  the bare `/preview` page.
+- Cause: The white surface under the label is an SVG with
+  `pointer-events: none`, which axe's background lookup does not see, so it
+  measured the dark label against the dark root (the real contrast is about
+  17:1). The component page (`/ui/morphing-tabs`) reports no violation.
+- Fix: None in the component; recorded in its fidelity notes.
+- Prevention: Check contrast by hand where text sits on an SVG or canvas
+  surface.
+- Links: `docs/evidence/ports/morphing-tabs/fidelity.md`
+
+### P-073
+
+- Date: 2026-10-12
+- Area: Registry (shadcn CLI install)
+- Symptom: Radix items installed into a project made with
+  `shadcn init --defaults` failed to typecheck (`render` is not a prop of
+  `Tabs.Trigger`), and `asChild={asChild}` disappeared, nesting a button in a
+  button.
+- Cause: The default style is now `base-nova`; for base styles the CLI
+  rewrites every JSX `asChild` attribute into Base UI's `render` prop, and
+  drops one it cannot convert. Radix code needs `asChild`.
+- Fix: Radix items avoid the attribute: render the primitive's own element
+  where it already is the right one (`Tabs.Trigger` is a button), and pass
+  a computed value as a spread (`{...{ asChild }}`), which the CLI leaves
+  alone.
+- Prevention: Install a new Radix item into a `--defaults` project and
+  typecheck it before publishing.
+- Links: `content/components/beui/morphing-tabs`, `content/components/sona-ui/fluid-tooltip`

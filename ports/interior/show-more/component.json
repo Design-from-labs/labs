@@ -1,0 +1,108 @@
+{
+  "title": "Show More",
+  "description": "A disclosure that clamps text to a few lines and springs open to its full height, capped and scrollable when long, with a cross-fading toggle.",
+  "category": "data-display",
+  "type": "registry:ui",
+  "status": "beta",
+  "upstreamPath": "components/interior/show-more.tsx",
+  "iconSets": ["lucide", "phosphor"],
+  "dependencies": ["motion@>=12.43.0"],
+  "cssVars": {
+    "light": {
+      "show-more-foreground": "oklch(37.4% 0.01 67.558)",
+      "show-more-muted": "oklch(55.3% 0.013 58.071)",
+      "show-more-surface": "#ffffff",
+      "show-more-button": "#ffffff",
+      "show-more-border": "oklch(92.3% 0.003 48.717)",
+      "show-more-border-hover": "oklch(86.9% 0.005 56.366)",
+      "show-more-accent": "#4568ff",
+      "show-more-focus": "rgb(69 104 255 / 0.06)",
+      "show-more-lift": "rgba(28, 25, 23, 0.08)",
+      "show-more-glow": "rgba(69, 104, 255, 0.6)"
+    },
+    "dark": {
+      "show-more-foreground": "oklch(92.3% 0.003 48.717)",
+      "show-more-muted": "oklch(70.9% 0.01 56.259)",
+      "show-more-surface": "oklch(21.6% 0.006 56.043)",
+      "show-more-button": "#1d1d1a",
+      "show-more-border": "rgb(255 255 255 / 0.16)",
+      "show-more-border-hover": "rgb(255 255 255 / 0.2)",
+      "show-more-accent": "#93b0ff",
+      "show-more-focus": "rgb(147 176 255 / 0.1)",
+      "show-more-lift": "transparent",
+      "show-more-glow": "rgba(147, 176, 255, 0.5)"
+    }
+  },
+  "variants": [
+    {
+      "primitive": "none",
+      "roots": ["src"],
+      "status": "beta"
+    }
+  ],
+  "defaultVariant": "show-more-phosphor",
+  "demo": "demo.tsx",
+  "tile": {
+    "span": 2
+  },
+  "loop": {
+    "script": "click[1] → wait → wait → click[1] → wait",
+    "duration": 5000,
+    "hydrate": true
+  },
+  "credits": [
+    "S-003",
+    "S-004",
+    "S-008",
+    "S-104",
+    "S-005",
+    "S-006",
+    "S-152",
+    "S-157",
+    "S-237"
+  ],
+  "tags": ["disclosure", "clamp", "motion", "spring", "reduced-motion"],
+  "docs": "Installed `ShowMore` and its hook `useShowMore`. Import them from `@/components/ui/show-more` and wrap text: `<ShowMore lines={3} maxHeight={320} label=\"Release notes\"><p>…</p></ShowMore>`.\n\nThe toggle only appears when the text is longer than `lines`; opened text taller than `maxHeight` scrolls inside a named, focusable region. Build your own design on `useShowMore`, which holds all the behaviour. Colors are the `--show-more-*` variables (light and dark). Under reduced motion it opens instantly.\n\nPorted from ddoemonn/interior (MIT, copyright 2026 ozzy); the license text is in the file.",
+  "props": [
+    {
+      "name": "lines",
+      "type": "number",
+      "default": "3",
+      "description": "Lines shown while collapsed."
+    },
+    {
+      "name": "maxHeight",
+      "type": "number",
+      "default": "320",
+      "description": "Opened height cap, in px; taller content scrolls."
+    },
+    {
+      "name": "expanded / defaultExpanded / onExpandedChange",
+      "type": "boolean / boolean / (expanded: boolean) => void",
+      "description": "Controlled or initial state, and its change callback."
+    },
+    {
+      "name": "moreLabel / lessLabel",
+      "type": "string",
+      "default": "\"Show more\" / \"Show less\"",
+      "description": "The toggle's two labels (cross-faded in place, so its width never jumps)."
+    },
+    {
+      "name": "label",
+      "type": "string",
+      "default": "\"Details\"",
+      "description": "The accessible name of the scrollable region."
+    },
+    {
+      "name": "className / children",
+      "type": "string / React.ReactNode",
+      "description": "Classes for the root, and the text."
+    }
+  ],
+  "a11y": [
+    "A native button with aria-expanded and aria-controls; it is hidden when the text already fits.",
+    "When opened text scrolls, the region becomes role=region with its label and tabindex=0, so keyboard users can scroll it.",
+    "Reduced motion: the height and the labels change instantly."
+  ],
+  "usage": "<ShowMore lines={3} maxHeight={168} label=\"Release notes\">\n  <p>…</p>\n</ShowMore>"
+}

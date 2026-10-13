@@ -553,7 +553,7 @@ sources:
     license: "MIT"
     accessed: 2026-10-12
     visibility: public
-    used-in: [package.json, content/components/goey-toast/gooey-toast]
+    used-in: [package.json, content/components/goey-toast/gooey-toast, content/components/beui, content/components/sona-ui, content/components/interior]
   - id: S-105
     title: "Sonner toast library, and shadcn's sonner registry item"
     author: "Emil Kowalski"
@@ -959,3 +959,119 @@ sources:
     accessed: 2026-10-12
     visibility: public
     used-in: [content/components/obta1ner-lenticular]
+  - id: S-230
+    title: "Jakubantalik/Libraries.dev (border-beam and liquid-gooey packages)"
+    author: "Jakub Antalik"
+    kind: library
+    url: "https://github.com/Jakubantalik/Libraries.dev"
+    license: "MIT"
+    accessed: 2026-10-12
+    visibility: public
+    used-in: [sources.yaml, content/components/libraries-dev, docs/evidence/ports/border-beam, docs/evidence/ports/liquid-gooey]
+    note: "Pinned at bcaf88f8a16a75fd95bf21e0747193ee3380a927. Ported: packages/border-beam (1.4.1) and packages/liquid-gooey (0.2.2), both MIT. The paid Pro content (Studio exports, Pro presets) is not ported."
+  - id: S-231
+    title: "magicuidesign/magicui (Progressive Blur)"
+    author: "Magic UI"
+    kind: library
+    url: "https://github.com/magicuidesign/magicui"
+    license: "MIT"
+    accessed: 2026-10-12
+    visibility: public
+    used-in: [sources.yaml, content/components/magicui, docs/evidence/ports/progressive-blur]
+    note: "Pinned at 85f97fd27b053339af74ba9dd4ca428ee25989fb. Ported: apps/www/registry/magicui/progressive-blur.tsx only; the paid Pro tier is not used."
+  - id: S-232
+    title: "starc007/ui-components, beUI (Morphing Tabs and Bounce Sidebar)"
+    author: "Saurabh Chauhan"
+    kind: library
+    url: "https://github.com/starc007/ui-components"
+    license: "MIT"
+    accessed: 2026-10-12
+    visibility: public
+    used-in: [sources.yaml, content/components/beui, docs/evidence/ports/morphing-tabs, docs/evidence/ports/bounce-sidebar]
+    note: "Pinned at 7bb802bc0123fa8944bc327060e60a5bae8c65bc. Ported: components/motion/morphing-tabs.tsx and components/motion/bounce-sidebar.tsx, with the easing, spring and touch tokens they import (lib/ease.ts, lib/touch.ts) inlined. The paid Pro tier is not used."
+  - id: S-233
+    title: "xxtomm/spell-ui (Tilt Card)"
+    author: "Spell UI"
+    kind: library
+    url: "https://github.com/xxtomm/spell-ui"
+    license: "MIT"
+    accessed: 2026-10-12
+    visibility: public
+    used-in: [sources.yaml, content/components/spell-ui, docs/evidence/ports/tilt-card]
+    note: "Pinned at a6441b7742b47d99932a8d687e895100bdf736be. Ported: registry/spell-ui/tilt-card.tsx only. The upstream demo's brand marks are not used."
+  - id: S-234
+    title: "Dinil-Thilakarathne/sona-ui (Fluid Tooltip)"
+    author: "Dinil Thilakarathne"
+    kind: library
+    url: "https://github.com/Dinil-Thilakarathne/sona-ui"
+    license: "MIT"
+    accessed: 2026-10-12
+    visibility: public
+    used-in: [sources.yaml, content/components/sona-ui, docs/evidence/ports/fluid-tooltip]
+    note: "Pinned at 9a72ffe9648f3ea893acff13a957383a95158f07. Ported: src/registry/sonaui/fluid-tooltip/fluid-tooltip.tsx (the Base UI original); the Radix and React Aria variants are rebuilt here on the same API."
+  - id: S-235
+    title: "ddoemonn/interior (Show More)"
+    author: "ozzy"
+    kind: library
+    url: "https://github.com/ddoemonn/interior"
+    license: "MIT"
+    accessed: 2026-10-12
+    visibility: public
+    used-in: [sources.yaml, content/components/interior, docs/evidence/ports/show-more]
+    note: "Pinned at 314800833bf01e23e6ae74c2a17fbdaac3688c84. Ported: components/interior/show-more.tsx only."
+  - id: S-236
+    title: "Next.js (create-next-app)"
+    author: "Vercel and Next.js contributors"
+    kind: library
+    url: "https://github.com/vercel/next.js"
+    license: "MIT"
+    accessed: 2026-10-12
+    visibility: public
+    used-in: [docs/evidence/ports]
+    note: "Install check only: the ports were added with the shadcn CLI to a fresh create-next-app project (base-nova style), typechecked and built with next build; not a repository dependency."
+  - id: S-237
+    title: "Vite"
+    author: "VoidZero and Vite contributors"
+    kind: library
+    url: "https://github.com/vitejs/vite"
+    license: "MIT"
+    accessed: 2026-10-12
+    visibility: public
+    used-in: [docs/evidence/ports]
+    note: "Fidelity harness only (served the upstream demos and the ports side by side); not a repository dependency."
+  - id: S-238
+    title: "MDN: Web Animations API"
+    author: "MDN contributors"
+    kind: doc
+    url: "https://developer.mozilla.org/en-US/docs/Web/API/Web_Animations_API"
+    license: "CC-BY-SA-2.5"
+    accessed: 2026-10-12
+    visibility: public
+    used-in: [content/components/sona-ui/fluid-tooltip, docs/decisions/0022-library-picks-shapes.md]
+  - id: S-239
+    title: "WAI-ARIA Authoring Practices: Tabs pattern"
+    author: "W3C"
+    kind: doc
+    url: "https://www.w3.org/WAI/ARIA/apg/patterns/tabs/"
+    license: "W3C Software and Document License"
+    accessed: 2026-10-12
+    visibility: public
+    used-in: [content/components/beui/morphing-tabs, docs/decisions/0022-library-picks-shapes.md]
+  - id: S-240
+    title: "Playwright: Clock"
+    author: "Microsoft"
+    kind: doc
+    url: "https://playwright.dev/docs/clock"
+    license: "Apache-2.0"
+    accessed: 2026-10-12
+    visibility: public
+    used-in: [docs/pitfalls.md, docs/evidence/ports]
+  - id: S-241
+    title: "React Aria: Collections"
+    author: "Adobe"
+    kind: doc
+    url: "https://react-spectrum.adobe.com/react-aria/collections.html"
+    license: "Apache-2.0"
+    accessed: 2026-10-12
+    visibility: public
+    used-in: [docs/pitfalls.md, content/components/beui/morphing-tabs]
