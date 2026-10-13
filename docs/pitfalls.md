@@ -1807,9 +1807,7 @@ Design From and Design From Labs (the guards enforce this).
   watches for animations before animating a child.
 - Links: `ports/iconiq/reasoning-steps/aria/reasoning-steps.tsx`
 
-### P-139
-
-### P-140
+### P-109
 
 - Date: 2026-10-12
 - Area: Components (Radix Tooltip)
@@ -1825,7 +1823,7 @@ Design From and Design From Labs (the guards enforce this).
   changes on press.
 - Links: `ports/aicss/message-actions/radix/message-actions.tsx`
 
-### P-141
+### P-110
 
 - Date: 2026-10-12
 - Area: Fidelity harness (React Aria hover)
@@ -1838,7 +1836,7 @@ Design From and Design From Labs (the guards enforce this).
 - Prevention: start every hover scenario with a real pointer move.
 - Links: `docs/evidence/ports/message-actions/fidelity.md`
 
-### P-142
+### P-111
 
 - Date: 2026-10-12
 - Area: Components (portaled popups)
@@ -1855,7 +1853,7 @@ Design From and Design From Labs (the guards enforce this).
   inherited in place and pass it on.
 - Links: `ports/aicss/message-actions/shared/message-actions-shared.tsx`
 
-### P-143
+### P-112
 
 - Date: 2026-10-12
 - Area: Components (focus return and tooltips)
@@ -1873,7 +1871,7 @@ Design From and Design From Labs (the guards enforce this).
 - Prevention: diff the state after a popup closes, with the pointer away.
 - Links: `ports/aicss/message-actions/base/message-actions.tsx`
 
-### P-144
+### P-113
 
 - Date: 2026-10-12
 - Area: Icons (Lucide 1.x)
@@ -1887,7 +1885,7 @@ Design From and Design From Labs (the guards enforce this).
   with a library icon.
 - Links: `ports/aicss/message-actions/shared/message-actions-icons.tsx`
 
-### P-145
+### P-114
 
 - Date: 2026-10-12
 - Area: Components (React Aria tooltips)
@@ -1902,7 +1900,7 @@ Design From and Design From Labs (the guards enforce this).
   static text in the text itself.
 - Links: `ports/aicss/message-actions/aria/message-actions.tsx`
 
-### P-146
+### P-115
 
 - Date: 2026-10-12
 - Area: Fidelity (screenshot diffs)
@@ -2219,6 +2217,9 @@ Design From and Design From Labs (the guards enforce this).
   and let the stale-owner check clear it.
 - Prevention: One heavy run per component; only the owner releases a lock.
 - Links: the shared port tools (outside the repository)
+
+### P-139
+
 - Date: 2026-10-13
 - Area: Fidelity harness (Playwright clock)
 - Symptom: Two loads of the same upstream differed by up to 13.8% in frames
@@ -2234,7 +2235,7 @@ Design From and Design From Labs (the guards enforce this).
   animation.
 - Links: `docs/evidence/ports/smooth-scroll/fidelity.md`
 
-### P-109
+### P-140
 
 - Date: 2026-10-13
 - Area: Fidelity harness (Playwright clock)
@@ -2248,7 +2249,7 @@ Design From and Design From Labs (the guards enforce this).
 - Prevention: Align every `pauseAt` to the fake frame grid.
 - Links: `docs/evidence/ports/fold-carousel/fidelity.md`
 
-### P-110
+### P-141
 
 - Date: 2026-10-13
 - Area: Fidelity harness (CSS)
@@ -2262,7 +2263,7 @@ Design From and Design From Labs (the guards enforce this).
   frames are sampled on a fake clock.
 - Links: `docs/evidence/ports/fold-carousel/fidelity.md`
 
-### P-111
+### P-142
 
 - Date: 2026-10-13
 - Area: Components (GSAP rewrite)
@@ -2277,7 +2278,7 @@ Design From and Design From Labs (the guards enforce this).
   `parseEase`) before rewriting it.
 - Links: `ports/hiro-kiii-scroll-transition/svg-mask-scroll-transition/svg-mask-scroll-transition.tsx`
 
-### P-112
+### P-143
 
 - Date: 2026-10-13
 - Area: Components (GSAP rewrite)
@@ -2293,7 +2294,7 @@ Design From and Design From Labs (the guards enforce this).
   from scroll or callbacks.
 - Links: `ports/theoplawinski-sticky-grid/sticky-grid-scroll/sticky-grid-scroll.tsx`
 
-### P-113
+### P-144
 
 - Date: 2026-10-13
 - Area: Components (CSS)
@@ -2305,7 +2306,7 @@ Design From and Design From Labs (the guards enforce this).
   alignment as well as the font.
 - Links: `ports/bnpne-webgpu-transitions/webgpu-page-transition/src/webgpu-page-transition.tsx`
 
-### P-114
+### P-145
 
 - Date: 2026-10-13
 - Area: Fidelity (dependency versions)
@@ -2319,7 +2320,7 @@ Design From and Design From Labs (the guards enforce this).
   upstream, add the upstream on that version as a second reference.
 - Links: `docs/evidence/ports/webgpu-page-transition/fidelity.md`
 
-### P-115
+### P-146
 
 - Date: 2026-10-13
 - Area: Ports (closure)
@@ -2332,18 +2333,3 @@ Design From and Design From Labs (the guards enforce this).
 - Prevention: Compute a port's file closure from the sources, not from a
   bundler's output.
 - Links: `ports/paperlab/paper/src`
-
-### P-116
-
-- Date: 2026-10-13
-- Area: Site (component pages, e2e)
-- Symptom: axe on `/ui/paper` ran for over two minutes and timed out, while
-  the same checks on other pages take seconds.
-- Cause: The component page renders every file of every variant as
-  highlighted source; Paper's 75 files make a 5.7 MB page with about 87,000
-  spans.
-- Fix: Paper's axe tests exclude the source listings (`[data-source]`),
-  which are the site's own SourceView, checked on every other page.
-- Prevention: Before promoting an item of many files, consider loading its
-  source listings on demand; check `dist/ui/<name>.html`'s size.
-- Links: `e2e/scroll-3d.spec.ts`
