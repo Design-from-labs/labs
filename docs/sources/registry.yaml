@@ -1564,3 +1564,22 @@ sources:
     accessed: 2026-10-13
     visibility: public
     used-in: [content/components/paperlab, package.json]
+  - id: S-450
+    title: "Owner brief: port pod WEB-1 (the remaining web-sourced items: pens, gallery items and npm-only packages, fidelity first, GSAP rewritten)"
+    author: "Owner"
+    kind: brief
+    private-file: "Owner instructions relayed to port pod WEB-1; not in the repository"
+    license: "All rights reserved (owner)"
+    accessed: 2026-10-13
+    visibility: private-cited-only
+    used-in: [docs/decisions, docs/evidence/ports, content/components]
+  - id: S-451
+    title: "CodePen documentation: Licensing (public Pens are MIT licensed by default)"
+    author: "CodePen"
+    kind: doc
+    url: "https://blog.codepen.io/documentation/licensing/"
+    license: "All rights reserved (CodePen); cited for the license terms only"
+    accessed: 2026-10-13
+    visibility: public
+    note: "Each pen ported here was also checked on its own Details view, which shows its MIT notice and copyright line."
+    used-in: [sources.yaml, docs/decisions, ports]
