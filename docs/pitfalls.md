@@ -2209,3 +2209,116 @@ Design From and Design From Labs (the guards enforce this).
   and let the stale-owner check clear it.
 - Prevention: One heavy run per component; only the owner releases a lock.
 - Links: the shared port tools (outside the repository)
+- Date: 2026-10-13
+- Area: Fidelity harness (Playwright clock)
+- Symptom: Two loads of the same upstream differed by up to 13.8% in frames
+  sampled under `page.clock`; Lenis and GSAP tweens advanced more than 16 ms
+  per `runFor(16)`.
+- Cause: `page.clock.install()` installs fake timers that still flow with
+  real time until `pauseAt` is called, so real waits between steps advanced
+  the clock too.
+- Fix: `install`, wait for the page, then `pauseAt` before stepping with
+  `runFor`.
+- Prevention: Every in-flight fidelity sample pauses the clock first; the
+  noise floor (a second upstream load) should be 0.000% for code-driven
+  animation.
+- Links: `docs/evidence/ports/smooth-scroll/fidelity.md`
+
+### P-109
+
+- Date: 2026-10-13
+- Area: Fidelity harness (Playwright clock)
+- Symptom: A carousel fold started by a click was a fraction of a frame
+  ahead or behind between loads (up to 2.4% upstream against upstream).
+- Cause: The fake clock fires animation frames on a 16 ms grid counted from
+  `install`; `pauseAt(now + 500)` paused at a random phase of that grid, and
+  a click-started animation begins at the paused time.
+- Fix: Pause on the grid: `pauseAt(installTime + 16 * ceil((now + 500 -
+  installTime) / 16))`.
+- Prevention: Align every `pauseAt` to the fake frame grid.
+- Links: `docs/evidence/ports/fold-carousel/fidelity.md`
+
+### P-110
+
+- Date: 2026-10-13
+- Area: Fidelity harness (CSS)
+- Symptom: Button hover and press styles differed between loads in frames
+  sampled on a frozen clock.
+- Cause: CSS transitions run on the compositor clock, which Playwright's
+  fake clock does not drive.
+- Fix: Inject `*, *::before, *::after { transition: none !important }` on
+  both sides when sampling code-driven animation.
+- Prevention: Freeze or disable CSS transitions and animations whenever
+  frames are sampled on a fake clock.
+- Links: `docs/evidence/ports/fold-carousel/fidelity.md`
+
+### P-111
+
+- Date: 2026-10-13
+- Area: Components (GSAP rewrite)
+- Symptom: A scrubbed text reveal settled 0.3 px off upstream (0.206% at one
+  scroll position); the scrub's catch-up looked slower.
+- Cause: GSAP 3.12's expo is `2^(10(t - 1))·t + t^6·(1 - t)` (ease-in), not
+  the textbook `2^(10(t - 1))`, and ScrollTrigger's numeric `scrub` uses ease
+  `"expo"` (expo.out), not `power3`.
+- Fix: Write GSAP's eases from its source (`Sb`, `Ub`, `Vb` in gsap.min.js)
+  and measure them in the upstream page (`gsap.parseEase`).
+- Prevention: Read the upstream timeline from the page (`getChildren()`,
+  `parseEase`) before rewriting it.
+- Links: `ports/hiro-kiii-scroll-transition/svg-mask-scroll-transition/svg-mask-scroll-transition.tsx`
+
+### P-112
+
+- Date: 2026-10-13
+- Area: Components (GSAP rewrite)
+- Symptom: Tweens fired by scrolling past a trigger ran one frame behind
+  GSAP (0.274% mid-flight).
+- Cause: ScrollTrigger fires callbacks from its own frame callback, and a
+  tween created there starts at GSAP's last tick, so its first frame already
+  shows one frame of progress; a Motion animation started inside a frame
+  starts on that frame.
+- Fix: Start it one frame early: `delay: -frameData.delta / 1000` when
+  `frameData.isProcessing`.
+- Prevention: Compare recorded values frame by frame (P-106) for tweens fired
+  from scroll or callbacks.
+- Links: `ports/theoplawinski-sticky-grid/sticky-grid-scroll/sticky-grid-scroll.tsx`
+
+### P-113
+
+- Date: 2026-10-13
+- Area: Components (CSS)
+- Symptom: Navigation links ported to buttons were narrower than upstream.
+- Cause: The user-agent stylesheet sets `letter-spacing: normal` (and
+  `text-align: center`) on buttons; `font: inherit` does not cover either.
+- Fix: `letter-spacing: inherit; text-align: inherit` on the buttons.
+- Prevention: When a link becomes a button, inherit letter-spacing and
+  alignment as well as the font.
+- Links: `ports/bnpne-webgpu-transitions/webgpu-page-transition/src/webgpu-page-transition.tsx`
+
+### P-114
+
+- Date: 2026-10-13
+- Area: Fidelity (dependency versions)
+- Symptom: Fading WebGPU planes differed from upstream by up to 12% while
+  every frame at rest matched.
+- Cause: three.js 0.185 composites transparent planes differently from
+  0.184 (the upstream's version); the site pins 0.185.1.
+- Fix: Measure a control: the upstream's own code on three.js 0.185.1, which
+  gives exactly the port's pixels.
+- Prevention: When the port must use a newer pinned dependency than
+  upstream, add the upstream on that version as a second reference.
+- Links: `docs/evidence/ports/webgpu-page-transition/fidelity.md`
+
+### P-115
+
+- Date: 2026-10-13
+- Area: Ports (closure)
+- Symptom: Rewriting Paperlab's import paths failed on a module that
+  esbuild's metafile did not list.
+- Cause: esbuild drops type-only imports (`import type`) before bundling, so
+  its metafile is not a module closure.
+- Fix: Walk every relative `import`, `import type` and `export ... from`
+  statement from the entry instead.
+- Prevention: Compute a port's file closure from the sources, not from a
+  bundler's output.
+- Links: `ports/paperlab/paper/src`

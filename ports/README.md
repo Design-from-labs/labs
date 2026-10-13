@@ -9,6 +9,7 @@ author, license, attribution and credit.
 ```text
 ports/<source-id>/
   LICENSE                   the upstream license, verbatim
+  NOTICE                    the upstream NOTICE, verbatim, when it has one
   <component>/
     component.json          sidecar fields, files and their registry types,
                             dependencies, docs, demo, optional stage
@@ -71,6 +72,8 @@ ports/<source-id>/<component>/
 | `icons.json` | per-component Lucide to Phosphor names, merged over `ports/icons.json`; type imports (`LucideIcon`) map too |
 | `demo` | a path, or a map keyed by variant or primitive |
 | `sourcePath` | the upstream path shown as `source.path` (same as `upstreamPath`) |
+| `licenseFile` | either shape: the one file that carries the full license text and upstream NOTICE; the others get a short notice pointing to it (decision 0027) |
+| `changeNotice` | either shape: a sentence appended to every file's footer saying the files were modified (Apache-2.0, section 4(b)) |
 
 `src/` is upstream code kept line for line, so Biome skips `ports/*/*/src`.
 Nested files cannot be promoted to `ready` until the npm library keeps target
@@ -111,3 +114,9 @@ paths (pitfall P-044); until then they are reviewed on preview deployments.
 | `componentry` | `annotated-text` | harshjdhv/componentry, `packages/ui/src/components/annotated-text.tsx` |
 | `morphicons` | `morph-icon` | guillermolg00/morphicons, `src` (core, DOM driver and React adapter) |
 | `libraries-dev` | `image-fx` | Jakubantalik/Libraries.dev, `packages/img-fx/src` (engine, presets and shaders merged into three files; renamed from ImageGeneration) |
+| `lenis` | `smooth-scroll` | darkroomengineering/lenis v1.3.26, `packages/react/src` (four modules merged, plus the Lenis stylesheet) |
+| `theoplawinski-sticky-grid` | `sticky-grid-scroll` | theoplawinski/codrops-sticky-grid-scroll, `src/scripts/index.js` and `src/styles/index.css` (GSAP rewritten with Motion; scroll containers) |
+| `hiro-kiii-scroll-transition` | `svg-mask-scroll-transition` | Hiro-kiii/Scroll-Transition, `js/script.js` to `script4.js` (four patterns as a prop; GSAP rewritten with Motion) |
+| `kareem-aez-fold-carousel` | `fold-carousel` | Kareem-AEz's fold carousel, `src/registry/fold-carousel` (variants shape, primitives; de-branded) |
+| `bnpne-webgpu-transitions` | `webgpu-page-transition` | bnpne/page-transitions-with-webgpu-vanilla-js, `src` (one component; WebGPU, WebGL 2 and DOM tiers; GSAP and SplitText rewritten) |
+| `paperlab` | `paper` | NourMtir0722/Paperlab, `packages/paperlab/src/Paper.tsx` and its closure (Apache-2.0 with NOTICE; GSAP rewritten with Motion) |

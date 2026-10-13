@@ -34,3 +34,4 @@ record has a `- Sources:` line (registry ids, or `none: <reason>`).
 | [0026](0026-canvas-and-3d-ports.md) | Every canvas loop on render-loop, GSAP rewritten with Motion, library contexts from the loop | Accepted |
 | [0027](0027-message-actions-primitive-default.md) | Default a primitive-free port to the primitive that keeps its behavior | Accepted |
 | [0028](0028-text-splitters-and-icon-agnostic-morph.md) | Two text splitters (Griffo and kugiri); Morph Icon ships without icon-set items | Accepted |
+| [0027](0027-scroll-transition-and-3d-ports.md) | Scroll effects in scroll containers, render-loop for renderers that own their context, Apache notices once | Accepted |
