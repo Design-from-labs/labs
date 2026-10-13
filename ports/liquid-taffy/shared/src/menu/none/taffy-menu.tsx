@@ -51,7 +51,7 @@ function useMenu() {
 function itemsOf(list: HTMLElement | null) {
   return list
     ? [...list.querySelectorAll<HTMLElement>('[role^="menuitem"]')].filter(
-        (item) => !item.hasAttribute("aria-disabled"),
+        (item) => item.getAttribute("aria-disabled") !== "true",
       )
     : [];
 }
@@ -122,7 +122,7 @@ export function TaffyMenuRoot({
         const node =
           target === "first" ? items[0] : target === "last" ? items[items.length - 1] : listRef.current;
         node?.focus({ preventScroll: true });
-        if (node && document.activeElement !== node && tries < 30) {
+        if ((!node || document.activeElement !== node) && tries < 30) {
           tries += 1;
           frame = requestAnimationFrame(attempt);
         }

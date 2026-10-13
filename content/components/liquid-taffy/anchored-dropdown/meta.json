@@ -16,6 +16,24 @@
       "status": "beta"
     },
     {
+      "name": "anchored-dropdown-radix",
+      "primitive": "radix",
+      "iconSet": "none",
+      "status": "beta"
+    },
+    {
+      "name": "anchored-dropdown-base",
+      "primitive": "base",
+      "iconSet": "none",
+      "status": "beta"
+    },
+    {
+      "name": "anchored-dropdown-aria",
+      "primitive": "aria",
+      "iconSet": "none",
+      "status": "beta"
+    },
+    {
       "name": "anchored-dropdown-icons-lucide",
       "style": "icons",
       "label": "Icon library",
@@ -139,7 +157,8 @@
     "The press-and-drag gesture is pointer-only and decorative: the liquid finger never changes state, so keyboard and screen reader use is complete without it. The goo, the seam light and the glyph burst are aria-hidden, and a ticked row is announced by aria-checked, not by its shape.",
     "Reduced motion: no goo choreography, stretch or springs; the panel and the ticks switch state in place.",
     "Contrast on request: under prefers-contrast: more the rim and the selection wash darken; under forced colors the liquid picture steps aside for system-colour borders and a Highlight selection. The default keeps upstream's pale rim and ink.",
-    "Right to left: the panel is centered over the trigger, so it does not move; each row's glyph and label follow the page direction."
+    "Right to left: the panel is centered over the trigger, so it does not move; each row's glyph and label follow the page direction.",
+    "Primitive variants: the `-radix`, `-base` and `-aria` items put the same surface on Radix's DropdownMenu, Base UI's Menu or React Aria's Menu, which then supply the roles, the roving focus and the typeahead. The panel is never portalled (the liquid is drawn as one mass with its button), so the primitive's overlay positioning is switched off and the surface places the panel. Tab closes the menu in every variant; in the Radix variant focus goes back to the button first. The React Aria rows are `div` elements with the menu roles, the others are buttons."
   ],
   "usage": "<AnchoredDropdown onValueChange={(ids) => console.log(ids)} />"
 }

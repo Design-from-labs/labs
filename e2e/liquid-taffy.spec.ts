@@ -299,3 +299,109 @@ for (const name of NAMES) {
     });
   }
 }
+
+// The primitive variants (Radix, Base UI, React Aria): the same API and the same
+// behaviour as the default menu wiring, built on the primitive's own menu.
+for (const name of NAMES) {
+  for (const primitive of ["Radix", "Base UI", "React Aria"] as const) {
+    const slug =
+      primitive === "Radix"
+        ? "radix"
+        : primitive === "Base UI"
+          ? "base"
+          : "aria";
+    test(`/ui/${name}: the ${primitive} variant opens, ticks, drags and closes`, async ({
+      page,
+    }) => {
+      test.setTimeout(90_000);
+      const errors: string[] = [];
+      page.on("pageerror", (error) => errors.push(error.message));
+      page.on("console", (message) => {
+        if (message.type() === "error") {
+          errors.push(message.text());
+        }
+      });
+      await open(page, `/ui/${name}`);
+      await page.getByText(primitive, { exact: true }).click();
+      await expect(hero(page)).toHaveAttribute(
+        "data-variant-demo",
+        `${name}-${slug}`,
+      );
+      const speed = name === "speed-dial";
+      const button = await trigger(page, speed ? "Shapes" : "Add shape");
+      const rows = hero(page).getByRole(
+        speed ? "menuitem" : "menuitemcheckbox",
+      );
+      // The menu is named by the surface, and closed to the page until open.
+      const menu = hero(page).getByRole("menu", { name: "Shapes menu" });
+      if (!speed) {
+        await expect(menu).toBeHidden();
+      }
+      // A click opens it and a second click closes it.
+      await button.click();
+      await expect(button).toHaveAttribute("aria-expanded", "true");
+      await expect(rows.first()).toBeVisible();
+      if (!speed) {
+        await expect(menu).toBeVisible();
+      }
+      // The morphing dropdown's button is under its panel while it is open.
+      const covered = name === "morphing-dropdown";
+      if (!speed) {
+        await rows.nth(1).click();
+        await expect(rows.nth(1)).toHaveAttribute("aria-checked", "true");
+        await expect(button).toHaveAttribute("aria-expanded", "true");
+        // A press that drags on the button pulls the liquid finger and does
+        // not toggle the menu.
+        const box = covered ? null : await button.boundingBox();
+        if (box) {
+          const x = box.x + box.width / 2;
+          const y = box.y + box.height / 2;
+          await page.mouse.move(x, y);
+          await page.mouse.down();
+          await page.mouse.move(x + 14, y + 22, { steps: 6 });
+          await page.mouse.up();
+          await page.waitForTimeout(500);
+          await expect(button).toHaveAttribute("aria-expanded", "true");
+        }
+      }
+      if (covered) {
+        await page.keyboard.press("Escape");
+      } else {
+        await button.click();
+      }
+      await expect(button).toHaveAttribute("aria-expanded", "false");
+      // Keyboard: ArrowDown opens on the first row, Escape closes and
+      // returns focus to the trigger.
+      await button.focus();
+      await page.keyboard.press("ArrowDown");
+      await expect(button).toHaveAttribute("aria-expanded", "true");
+      await expect(rows.first()).toBeFocused();
+      await page.keyboard.press("ArrowDown");
+      await expect(rows.nth(1)).toBeFocused();
+      if (speed) {
+        await page.keyboard.press("ArrowRight");
+        await expect(rows.nth(2)).toBeFocused();
+      } else {
+        await page.keyboard.press("Space");
+        await expect(rows.nth(1)).toHaveAttribute("aria-checked", /true|false/);
+      }
+      await page.keyboard.press("Escape");
+      await expect(button).toHaveAttribute("aria-expanded", "false");
+      await expect(button).toBeFocused();
+      // A press outside closes it.
+      await button.click();
+      await expect(button).toHaveAttribute("aria-expanded", "true");
+      await page.mouse.click(5, 300);
+      await expect(button).toHaveAttribute("aria-expanded", "false");
+      // Tab closes it.
+      await button.focus();
+      await page.keyboard.press("ArrowDown");
+      await expect(button).toHaveAttribute("aria-expanded", "true");
+      await expect(rows.first()).toBeFocused();
+      await page.keyboard.press("Tab");
+      await expect(button).toHaveAttribute("aria-expanded", "false");
+      expect(await axe(page)).toEqual([]);
+      expect(errors).toEqual([]);
+    });
+  }
+}

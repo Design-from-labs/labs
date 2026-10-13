@@ -19,6 +19,36 @@
       "status": "beta"
     },
     {
+      "primitive": "radix",
+      "roots": [
+        "../shared/src/dropdown",
+        "../shared/src/glyphs/none",
+        "../shared/src/menu/radix",
+        "src"
+      ],
+      "status": "beta"
+    },
+    {
+      "primitive": "base",
+      "roots": [
+        "../shared/src/dropdown",
+        "../shared/src/glyphs/none",
+        "../shared/src/menu/base",
+        "src"
+      ],
+      "status": "beta"
+    },
+    {
+      "primitive": "aria",
+      "roots": [
+        "../shared/src/dropdown",
+        "../shared/src/glyphs/none",
+        "../shared/src/menu/aria",
+        "src"
+      ],
+      "status": "beta"
+    },
+    {
       "style": "icons",
       "label": "Icon library",
       "primitive": "none",
@@ -146,8 +176,9 @@
     "The press-and-drag gesture is pointer-only and decorative: the liquid finger never changes state, so keyboard and screen reader use is complete without it. The goo, the seam light and the glyph burst are aria-hidden, and a ticked row is announced by aria-checked, not by its shape.",
     "Reduced motion: no goo choreography, stretch or springs; the panel and the ticks switch state in place.",
     "Contrast on request: under prefers-contrast: more the rim and the selection wash darken; under forced colors the liquid picture steps aside for system-colour borders and a Highlight selection. The default keeps upstream's pale rim and ink.",
-    "Right to left: the panel is centered over the trigger, so it does not move; each row's glyph and label follow the page direction."
+    "Right to left: the panel is centered over the trigger, so it does not move; each row's glyph and label follow the page direction.",
+    "Primitive variants: the `-radix`, `-base` and `-aria` items put the same surface on Radix's DropdownMenu, Base UI's Menu or React Aria's Menu, which then supply the roles, the roving focus and the typeahead. The panel is never portalled (the liquid is drawn as one mass with its button), so the primitive's overlay positioning is switched off and the surface places the panel. Tab closes the menu in every variant; in the Radix variant focus goes back to the button first. The React Aria rows are `div` elements with the menu roles, the others are buttons."
   ],
   "usage": "<MorphingDropdown onValueChange={(ids) => console.log(ids)} />",
-  "docs": "Installed `MorphingDropdown` in `components/ui/` with its stylesheet, glyphs, menu wiring, row hover and tick burst next to it, and the shared engine (`liquid-taffy-engine`, in `lib/`) as a dependency; install one engine for all three liquid surfaces.\n\n```tsx\nimport { MorphingDropdown } from \"@/components/ui/morphing-dropdown\";\n\n<MorphingDropdown onValueChange={(ids) => console.log(ids)} />\n```\n\nThe button becomes the dropdown: the circle stretches up into the panel and closing gathers it back. It is a 32px circle: place it with `className` and leave room around it for the panel. Rows are multi-select. It follows the page's theme (a `.dark` ancestor makes it dark) or the `theme` prop; the palette is the `--morphing-dropdown-*` variables. Sound is off unless you pass `sound`.\n\nThe `-icons-lucide` and `-icons-phosphor` items draw the plus, the shapes and the tick from an icon library instead of the component's own glyphs.\n\nPress and hold the button or the panel and drag: a liquid finger stretches out of the edge and snaps back on release.\n\nPorted from liquid-taffy by arknow91 (MIT); the license notice is at the end of every file."
+  "docs": "Installed `MorphingDropdown` in `components/ui/` with its stylesheet, glyphs, menu wiring, row hover and tick burst next to it, and the shared engine (`liquid-taffy-engine`, in `lib/`) as a dependency; install one engine for all three liquid surfaces.\n\n```tsx\nimport { MorphingDropdown } from \"@/components/ui/morphing-dropdown\";\n\n<MorphingDropdown onValueChange={(ids) => console.log(ids)} />\n```\n\nThe button becomes the dropdown: the circle stretches up into the panel and closing gathers it back. It is a 32px circle: place it with `className` and leave room around it for the panel. Rows are multi-select. It follows the page's theme (a `.dark` ancestor makes it dark) or the `theme` prop; the palette is the `--morphing-dropdown-*` variables. Sound is off unless you pass `sound`.\n\nThe `-icons-lucide` and `-icons-phosphor` items draw the plus, the shapes and the tick from an icon library instead of the component's own glyphs.\n\nPress and hold the button or the panel and drag: a liquid finger stretches out of the edge and snaps back on release.\n\nThe `-radix`, `-base` and `-aria` items build the same component on Radix's DropdownMenu, Base UI's Menu or React Aria's Menu (same props, same look); the default item writes the WAI-ARIA menu button pattern itself and needs none of them.\n\nPorted from liquid-taffy by arknow91 (MIT); the license notice is at the end of every file."
 }

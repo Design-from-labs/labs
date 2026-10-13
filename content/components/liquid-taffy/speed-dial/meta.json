@@ -16,6 +16,24 @@
       "status": "beta"
     },
     {
+      "name": "speed-dial-radix",
+      "primitive": "radix",
+      "iconSet": "none",
+      "status": "beta"
+    },
+    {
+      "name": "speed-dial-base",
+      "primitive": "base",
+      "iconSet": "none",
+      "status": "beta"
+    },
+    {
+      "name": "speed-dial-aria",
+      "primitive": "aria",
+      "iconSet": "none",
+      "status": "beta"
+    },
+    {
       "name": "speed-dial-icons-lucide",
       "style": "icons",
       "label": "Icon library",
@@ -133,7 +151,8 @@
     "A tooltip shows each action's name on hover and on keyboard focus; the name is also the accessible name, so the tooltip is a convenience, not the only label. The press-and-drag gesture is pointer-only and decorative.",
     "Reduced motion: the satellites appear and leave in place, without the ooze, the stretch or the springs.",
     "Contrast on request: under prefers-contrast: more the rim darkens; under forced colors the liquid picture steps aside for system-colour borders. The default keeps upstream's pale rim and ink.",
-    "Right to left: the fan mirrors, so the first action sits at the inline start."
+    "Right to left: the fan mirrors, so the first action sits at the inline start.",
+    "Primitive variants: the `-radix`, `-base` and `-aria` items put the same surface on Radix's DropdownMenu, Base UI's Menu or React Aria's Menu, which then supply the roles, the roving focus and the typeahead. The panel is never portalled (the liquid is drawn as one mass with its button), so the primitive's overlay positioning is switched off and the surface places the panel. Tab closes the menu in every variant; in the Radix variant focus goes back to the button first. The React Aria rows are `div` elements with the menu roles, the others are buttons."
   ],
   "usage": "<SpeedDial onAction={(id) => console.log(id)} />"
 }

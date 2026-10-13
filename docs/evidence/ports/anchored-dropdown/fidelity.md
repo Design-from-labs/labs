@@ -97,6 +97,67 @@ style (`enhance-icons-lucide-1280x800.webp`, `enhance-icons-phosphor-1280x800.we
 Install either style on its own: both write `taffy-glyphs.tsx`, so a project uses one
 style for all three surfaces.
 
+## Primitive variants (enhancement)
+
+The default item writes the WAI-ARIA menu button pattern itself (`taffy-menu.tsx`).
+The `-radix`, `-base` and `-aria` items replace that one file with the same exports
+built on Radix's DropdownMenu, Base UI's Menu or React Aria's Menu; the surface, its
+stylesheet and the choreography are the same files, so the props and the look are the
+same (decision 0022). They are measured against upstream like the default item, on
+the frames that exercise the menu (open, ticked rows, reclosed, hovered satellite;
+light and dark; both sizes; 16 frames each):
+
+| Primitive | Frames | Worst frame | Frames above 0.1% |
+| --- | ---: | --- | --- |
+| Radix | 16 | 0.1652% (sel4, dark, 375x812) | sel4 dark 375x812: 503 px (0.1652%) |
+| Base UI | 16 | 0.1025% (sel4, dark, 375x812) | sel4 dark 375x812: 312 px (0.1025%) |
+| React Aria | 16 | 0.1015% (sel4, dark, 375x812) | sel4 dark 375x812: 309 px (0.1015%) |
+
+The only frame above 0.1% is the four-row dark frame at 375x812, the same frame (and the same label anti-aliasing) as the default item's; the
+other primitives sit within the noise of that frame (0.10 to 0.17% against 0.00 to
+0.10% upstream against itself, section above).
+
+How each is made to keep the liquid in one layer with its button (the goo filter
+draws both as one mass, so a portalled or floating panel cannot be used):
+
+- **Radix.** `DropdownMenu` with `forceMount`, `modal={false}` and no `Portal`; the
+  content stays mounted, the surface runs its own open and close, and Radix's
+  positioner box is turned into a plain layer over the anchor by a stylesheet rule
+  (`[data-radix-popper-content-wrapper]:has(> [data-taffy-menu])`), so the panel keeps
+  the surface's geometry. Radix owns the roles, ids, roving focus, typeahead, Home
+  and End, Escape and outside dismissal. The trigger opens on click, not Radix's
+  pointer down, so a press-and-drag on the button pulls the liquid finger without
+  toggling the menu. Radix keeps Tab inside an open menu; here Tab closes it and
+  returns focus to the button.
+- **Base UI.** `Menu.Root` (`modal={false}`), `Menu.Portal` into the surface's own
+  root (`container`, `keepMounted`) and `Menu.Positioner` made a plain layer by a
+  stylesheet rule with `!important` (Base UI writes its position inline); the popup's
+  initial and final focus are off because the surface hands focus over. Same click
+  trigger. The portal target exists after the first commit, so the panel is not in the
+  server markup (it is hidden when closed).
+- **React Aria.** `Menu` and `MenuItem` for the rows (roles, `aria-checked`, roving
+  focus, typeahead, selection), inside the panel box the surface animates, with the
+  travelling hover pill beside the Menu. React Aria's `Popover` is not used: it
+  portals the panel to the body and hides the rest of the page from assistive
+  technology, and the goo needs the panel beside its button. The trigger and the Escape
+  and outside dismissal are the default wiring. The speed dial's arrow keys are
+  handled by the surface (an arc has no vertical order).
+
+Measured facts that shaped the React Aria variant (a probe page, not shipped):
+
+- A `Menu` with any child that is not an item (a plain `span` here) renders no
+  items at all, so the hover pill cannot be a child of the Menu.
+- Selection happens on press, before the click: the order is `pressStart`,
+  `onSelectionChange`, `press`, `click`. A click handler that cancels the toggle
+  (the surfaces do this for the click that ends a press-and-drag) cannot cancel a
+  tick. A press on a row is a selection gesture and never starts a drag (only the
+  button, the panel's padding and the satellites do), so the cancel has nothing to
+  cancel on a row; it is kept for the other variants.
+- The rows are `div` elements with the menu roles (the Radix and Base UI rows, and the
+  default ones, are buttons).
+
+`enhance-<primitive>-open-dark-1280x800-diff.webp` is the pixelmatch overlay of each primitive's open frame against upstream.
+
 ## Deviations from upstream
 
 - **Tween engine.** Upstream choreographs with GSAP, which is proprietary and is not
