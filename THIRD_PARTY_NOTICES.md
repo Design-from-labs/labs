@@ -103,3 +103,25 @@ nothing else; MediaPipe's own usage logging (odml.pa.googleapis.com) is
 blocked by it, and `pnpm test:hands` fails if either that endpoint or any
 other stranger is contacted.
 ```
+
+## Lightweight Charts (the `financial-chart` component)
+
+- Source: https://github.com/tradingview/lightweight-charts at
+  `b2ce010e4ad59f6556c9ed60e2b2b30feccdd2d1`, npm `lightweight-charts`
+  5.2.1 (S-435)
+- License: Apache License 2.0, in
+  [`ports/lightweight-charts/LICENSE`](ports/lightweight-charts/LICENSE)
+- Port: [`ports/lightweight-charts/financial-chart`](ports/lightweight-charts/financial-chart),
+  exported to `content/components/lightweight-charts/financial-chart`. It is a
+  wrapper that installs the library from npm and contains no upstream source
+  file. The chart keeps the library's attribution logo on (its README asks for
+  a visible link). Evidence:
+  [`docs/evidence/ports/financial-chart/fidelity.md`](docs/evidence/ports/financial-chart/fidelity.md).
+
+The upstream NOTICE file, reproduced verbatim (the "с" in the copyright line is
+the upstream's own character, kept byte for byte):
+
+```text
+TradingView Lightweight Charts™
+Copyright (с) 2025 TradingView, Inc. https://www.tradingview.com/
+```

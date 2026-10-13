@@ -1,0 +1,68 @@
+{
+  "top-1280x800": {
+    "rawDifferingPixels": 0,
+    "maxChannelDelta": 0,
+    "noiseRawPixels": 0,
+    "differingPixels": 0,
+    "percent": 0,
+    "identical": true,
+    "noisePixels": 0,
+    "noisePercent": 0,
+    "sizes": [1280, 800, 1280, 800]
+  },
+  "top-375x812": {
+    "rawDifferingPixels": 0,
+    "maxChannelDelta": 0,
+    "noiseRawPixels": 0,
+    "differingPixels": 0,
+    "percent": 0,
+    "identical": true,
+    "noisePixels": 0,
+    "noisePercent": 0,
+    "sizes": [375, 812, 375, 812]
+  },
+  "scrolled-1234-1280x800": {
+    "rawDifferingPixels": 0,
+    "maxChannelDelta": 0,
+    "noiseRawPixels": 0,
+    "differingPixels": 0,
+    "percent": 0,
+    "identical": true,
+    "noisePixels": 0,
+    "noisePercent": 0,
+    "sizes": [1280, 800, 1280, 800]
+  },
+  "scrolled-1234-375x812": {
+    "rawDifferingPixels": 0,
+    "maxChannelDelta": 0,
+    "noiseRawPixels": 0,
+    "differingPixels": 0,
+    "percent": 0,
+    "identical": true,
+    "noisePixels": 0,
+    "noisePercent": 0,
+    "sizes": [375, 812, 375, 812]
+  },
+  "bottom-1280x800": {
+    "rawDifferingPixels": 0,
+    "maxChannelDelta": 0,
+    "noiseRawPixels": 0,
+    "differingPixels": 0,
+    "percent": 0,
+    "identical": true,
+    "noisePixels": 0,
+    "noisePercent": 0,
+    "sizes": [1280, 800, 1280, 800]
+  },
+  "bottom-375x812": {
+    "rawDifferingPixels": 0,
+    "maxChannelDelta": 0,
+    "noiseRawPixels": 0,
+    "differingPixels": 0,
+    "percent": 0,
+    "identical": true,
+    "noisePixels": 0,
+    "noisePercent": 0,
+    "sizes": [375, 812, 375, 812]
+  }
+}

@@ -137,3 +137,6 @@ paths (pitfall P-044); until then they are reviewed on preview deployments.
 | `pshihn-rough-notation` | `rough-annotation` | rough-stuff/rough-notation, `src` (merged into one core file plus a React wrapper; depends on roughjs 4.3.1) |
 | `segmented-pill` | `segmented-pill` | Danilaa1/segmented-pill, `src` (core, React adapter, stylesheet; variants shape, primitives; beside the stock toggle group) |
 | `balloons-js` | `balloons` | arturbien/balloons-js, `src` (its embedded font is not shipped) |
+| `number-flow` | `number-flow` | barvian/number-flow 0.6.2 (a wrapper over npm `@number-flow/react`) |
+| `lightweight-charts` | `financial-chart` | tradingview/lightweight-charts 5.2.1 (a wrapper over npm `lightweight-charts`; Apache-2.0 with a NOTICE, attribution logo kept) |
+| `react-virtuoso` | `virtual-list` | petyosi/react-virtuoso 4.18.16 (a wrapper over npm `react-virtuoso`) |

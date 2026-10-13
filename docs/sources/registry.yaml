@@ -1998,6 +1998,93 @@ sources:
     visibility: public
     note: "Not ported and not a dependency: the panel's starting values are the component's defaults, and its collapsed title bar is hidden on the upstream side of the fidelity diff."
     used-in: [ports/sabosugi-aura, docs/evidence/ports/aura]
+  - id: S-434
+    title: "NumberFlow: an animated number component (@number-flow/react)"
+    author: "Maxwell Barvian"
+    kind: library
+    url: "https://github.com/barvian/number-flow"
+    license: "MIT"
+    accessed: 2026-10-13
+    visibility: public
+    used-in: [sources.yaml, package.json, ports/number-flow, content/components/number-flow/number-flow, docs/evidence/ports/number-flow]
+    note: "The item depends on npm @number-flow/react 0.6.2 (and its number-flow 0.6.2), tag @number-flow/react@0.6.2, commit a7b78f5d4d4b1e2cd4cb53d09d7158461bad493a, and wraps it. Fidelity ran against the repository's React 19 test app (packages/react/test/apps/react-19)."
+  - id: S-435
+    title: "Lightweight Charts: canvas financial charts (TradingView Lightweight Charts)"
+    author: "TradingView, Inc."
+    kind: library
+    url: "https://github.com/tradingview/lightweight-charts"
+    license: "Apache-2.0"
+    accessed: 2026-10-13
+    visibility: public
+    used-in: [sources.yaml, package.json, ports/lightweight-charts, content/components/lightweight-charts/financial-chart, docs/evidence/ports/financial-chart]
+    note: "The item depends on npm lightweight-charts 5.2.1 (tag v5.2.1, commit b2ce010e4ad59f6556c9ed60e2b2b30feccdd2d1) and wraps it. Its NOTICE ships verbatim in ports/lightweight-charts/NOTICE and in every item file; its license asks for a visible link to https://www.tradingview.com/, which the chart's attributionLogo option (kept on) provides. The npm build incorporates parts of tslib (0BSD), per its README."
+  - id: S-436
+    title: "React Virtuoso: virtualized lists for React (react-virtuoso)"
+    author: "Petyo Ivanov"
+    kind: library
+    url: "https://github.com/petyosi/react-virtuoso"
+    license: "MIT"
+    accessed: 2026-10-13
+    visibility: public
+    used-in: [sources.yaml, package.json, ports/react-virtuoso, content/components/react-virtuoso/virtual-list, docs/evidence/ports/virtual-list]
+    note: "The item depends on npm react-virtuoso 4.18.16 (tag react-virtuoso@4.18.16, commit 6650ec4a4397cc2670d3e1f77ddba1ddcfc0d731), MIT (packages/react-virtuoso/LICENSE), and wraps it. No other package from the same repository or author is used."
+  - id: S-437
+    title: "esm-env: environment conditions for ES modules (a dependency of @number-flow/react)"
+    author: "Ben McCann"
+    kind: library
+    url: "https://github.com/benmccann/esm-env"
+    license: "MIT"
+    accessed: 2026-10-13
+    visibility: public
+    used-in: [pnpm-lock.yaml, content/components/number-flow/number-flow]
+    note: "Installed transitively (1.2.2); decides whether NumberFlow renders its server markup."
+  - id: S-438
+    title: "fancy-canvas: canvas size and pixel ratio helpers (a dependency of lightweight-charts)"
+    author: "TradingView, Inc."
+    kind: library
+    url: "https://www.npmjs.com/package/fancy-canvas"
+    license: "MIT"
+    accessed: 2026-10-13
+    visibility: public
+    used-in: [pnpm-lock.yaml, content/components/lightweight-charts/financial-chart]
+    note: "Installed transitively (2.1.0)."
+  - id: S-439
+    title: "WAI-ARIA Authoring Practices: Slider pattern (the chart's keyboard cursor)"
+    author: "W3C"
+    kind: doc
+    url: "https://www.w3.org/WAI/ARIA/apg/patterns/slider/"
+    license: "W3C Software and Document License"
+    accessed: 2026-10-13
+    visibility: public
+    used-in: [content/components/lightweight-charts/financial-chart, docs/evidence/ports/financial-chart]
+  - id: S-440
+    title: "Apache License 2.0 (section 4(d): NOTICE attribution in derivative works)"
+    author: "The Apache Software Foundation"
+    kind: doc
+    url: "https://www.apache.org/licenses/LICENSE-2.0"
+    license: "Apache-2.0"
+    accessed: 2026-10-13
+    visibility: public
+    used-in: [ports/lightweight-charts, scripts/export-ports.mjs, docs/evidence/ports/financial-chart]
+  - id: S-441
+    title: "WAI-ARIA 1.2: list, listitem, aria-setsize and aria-posinset"
+    author: "W3C"
+    kind: doc
+    url: "https://www.w3.org/TR/wai-aria-1.2/#aria-setsize"
+    license: "W3C Software and Document License"
+    accessed: 2026-10-13
+    visibility: public
+    used-in: [content/components/react-virtuoso/virtual-list, docs/evidence/ports/virtual-list]
+  - id: S-442
+    title: "ElementInternals: role and ARIA properties of custom elements (MDN)"
+    author: "MDN contributors"
+    kind: doc
+    url: "https://developer.mozilla.org/en-US/docs/Web/API/ElementInternals"
+    license: "CC-BY-SA-2.5"
+    accessed: 2026-10-13
+    visibility: public
+    used-in: [content/components/number-flow/number-flow, docs/evidence/ports/number-flow]
+    note: "How NumberFlow names itself (role img, aria-label = the formatted value); read for the accessibility notes only."
   - id: S-444
     title: "Owner brief: port batch K (anchored dropdown, morphing dropdown, speed dial, balloons, number flow, segmented pill, financial chart, virtual list)"
     author: "Owner"

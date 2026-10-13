@@ -1,0 +1,153 @@
+{
+  "$schema": "https://labs.designfrom.com/schemas/meta.schema.json",
+  "schemaVersion": 1,
+  "name": "number-flow",
+  "kind": "component",
+  "title": "Number Flow",
+  "description": "An animated number: digits roll, signs and symbols fade and the width eases when the value changes, formatted with Intl.NumberFormat, as a React wrapper over NumberFlow.",
+  "status": "beta",
+  "category": "typography",
+  "label": "NumberFlow",
+  "variants": [
+    {
+      "name": "number-flow",
+      "primitive": "none",
+      "iconSet": "none",
+      "status": "beta"
+    }
+  ],
+  "defaultVariant": "number-flow",
+  "demo": "demo.tsx",
+  "preview": "preview.webp",
+  "source": {
+    "repo": "https://github.com/barvian/number-flow",
+    "commit": "a7b78f5d4d4b1e2cd4cb53d09d7158461bad493a",
+    "path": "packages/react/src"
+  },
+  "author": "Maxwell Barvian <https://github.com/barvian>",
+  "license": "MIT",
+  "attribution": "Copyright (c) 2024 Maxwell Barvian. MIT License.",
+  "credits": [
+    "S-434",
+    "S-437",
+    "S-442",
+    "S-003",
+    "S-004",
+    "S-014",
+    "S-015",
+    "S-152",
+    "S-153",
+    "S-157",
+    "S-184",
+    "S-158",
+    "S-444"
+  ],
+  "date": "2026-10-13",
+  "tile": {
+    "span": 1,
+    "rows": 1
+  },
+  "loop": {
+    "hydrate": true,
+    "script": "wait → click → wait → click",
+    "duration": 6000
+  },
+  "tags": [
+    "number",
+    "counter",
+    "animation",
+    "price",
+    "intl"
+  ],
+  "props": [
+    {
+      "name": "value",
+      "type": "number | bigint | string",
+      "description": "The number to show. Change it to animate; a decimal string is formatted exactly."
+    },
+    {
+      "name": "format / locales",
+      "type": "Intl.NumberFormatOptions / Intl.LocalesArgument",
+      "description": "Formatting, as Intl.NumberFormat takes it (currency, percent, compact, units, sign display). Most options are supported; see NumberFlow's documentation for the exceptions."
+    },
+    {
+      "name": "prefix / suffix",
+      "type": "string",
+      "description": "Text before and after the number (\"/mo\"), part of its accessible name."
+    },
+    {
+      "name": "trend",
+      "type": "number | ((oldValue, value) => number)",
+      "default": "the sign of the change",
+      "description": "Which way digits spin: 1 up, -1 down, 0 each digit on its own (by its own change)."
+    },
+    {
+      "name": "plugins",
+      "type": "Plugin[]",
+      "description": "`[continuous]` makes a change pass through the numbers in between (exported as `continuous`)."
+    },
+    {
+      "name": "animated",
+      "type": "boolean",
+      "default": "true",
+      "description": "false shows changes at once and finishes running animations."
+    },
+    {
+      "name": "respectMotionPreference",
+      "type": "boolean",
+      "default": "true",
+      "description": "With prefers-reduced-motion: reduce, changes show at once. Leave it on."
+    },
+    {
+      "name": "transformTiming / spinTiming / opacityTiming",
+      "type": "EffectTiming",
+      "default": "900 ms spring-like curve / transformTiming / 450 ms ease-out",
+      "description": "Timing of the slide and resize, the digit spin and the fades."
+    },
+    {
+      "name": "digits",
+      "type": "Record<number, { max?: number }>",
+      "description": "Per-position digit limits (for example `{ 1: { max: 5 } }` for minutes and seconds). Not reactive."
+    },
+    {
+      "name": "isolate / willChange",
+      "type": "boolean",
+      "default": "false / false",
+      "description": "Do not move with sibling layout changes; hint `will-change` for numbers that change often."
+    },
+    {
+      "name": "onAnimationsStart / onAnimationsFinish",
+      "type": "(event: CustomEvent) => void",
+      "description": "Called when a change starts and finishes animating."
+    },
+    {
+      "name": "announce",
+      "type": "boolean",
+      "default": "false",
+      "description": "Labs addition: also announces each new value through a polite live region. The number is always named by its value; this makes changes heard."
+    },
+    {
+      "name": "format.numberingSystem",
+      "type": "string",
+      "description": "NumberFlow draws only the digits 0 to 9. A number whose numbering system is not \"latn\" (ar-EG and fa-IR default to their own digits) is shown as plain text without the animation; pass `format={{ numberingSystem: \"latn\" }}` to animate it."
+    },
+    {
+      "name": "NumberFlowGroup",
+      "type": "component",
+      "description": "Wrap numbers that move each other (a price beside its change) so their transitions stay in sync."
+    },
+    {
+      "name": "useCanAnimate",
+      "type": "({ respectMotionPreference? }) => boolean",
+      "description": "Whether NumberFlow can animate in this browser and motion setting (false on the server)."
+    }
+  ],
+  "a11y": [
+    "NumberFlow names itself: the element has role img and an accessible name equal to the formatted value with its prefix and suffix (\"$1,240.50\"), set through ElementInternals; the server markup carries the same role and label. The rolling digits are not read one by one.",
+    "A change of that name is not announced. Set `announce` for a value the reader should hear change; it adds a polite, atomic live region with the new value (it is then also present in browse mode).",
+    "Pass `aria-label` for more context (\"Balance: $1,240.50\"); an explicit attribute takes precedence over NumberFlow's own name, so keep it in step with the value.",
+    "Under prefers-reduced-motion: reduce the value changes without animation (respectMotionPreference, on by default). Changes in a hidden tab or off screen do not animate either.",
+    "The number is laid out left to right (direction: ltr) in every language, as numerals are; locales that use other digits (ar-EG, fa-IR) are formatted by Intl. The demo's change is signed (+/−), so its color is not the only cue."
+  ],
+  "usage": "<NumberFlow\n  value={price}\n  format={{ style: \"currency\", currency: \"USD\" }}\n/>"
+}

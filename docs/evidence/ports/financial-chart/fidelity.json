@@ -1,0 +1,112 @@
+{
+  "candlestick-snippet-1280x800": {
+    "rawDifferingPixels": 0,
+    "maxChannelDelta": 0,
+    "noiseRawPixels": 0,
+    "differingPixels": 0,
+    "percent": 0,
+    "identical": true,
+    "noisePixels": 0,
+    "noisePercent": 0,
+    "sizes": [1280, 800, 1280, 800]
+  },
+  "candlestick-snippet-375x812": {
+    "rawDifferingPixels": 8,
+    "maxChannelDelta": 3,
+    "noiseRawPixels": 0,
+    "differingPixels": 0,
+    "percent": 0,
+    "identical": false,
+    "noisePixels": 0,
+    "noisePercent": 0,
+    "sizes": [375, 812, 375, 812]
+  },
+  "price-and-volume-1280x800": {
+    "rawDifferingPixels": 0,
+    "maxChannelDelta": 0,
+    "noiseRawPixels": 0,
+    "differingPixels": 0,
+    "percent": 0,
+    "identical": true,
+    "noisePixels": 0,
+    "noisePercent": 0,
+    "sizes": [1280, 800, 1280, 800]
+  },
+  "price-and-volume-375x812": {
+    "rawDifferingPixels": 0,
+    "maxChannelDelta": 0,
+    "noiseRawPixels": 0,
+    "differingPixels": 0,
+    "percent": 0,
+    "identical": true,
+    "noisePixels": 0,
+    "noisePercent": 0,
+    "sizes": [375, 812, 375, 812]
+  },
+  "library-defaults-1280x800": {
+    "rawDifferingPixels": 0,
+    "maxChannelDelta": 0,
+    "noiseRawPixels": 0,
+    "differingPixels": 0,
+    "percent": 0,
+    "identical": true,
+    "noisePixels": 0,
+    "noisePercent": 0,
+    "sizes": [1280, 800, 1280, 800]
+  },
+  "library-defaults-375x812": {
+    "rawDifferingPixels": 8,
+    "maxChannelDelta": 3,
+    "noiseRawPixels": 0,
+    "differingPixels": 0,
+    "percent": 0,
+    "identical": false,
+    "noisePixels": 0,
+    "noisePercent": 0,
+    "sizes": [375, 812, 375, 812]
+  },
+  "react-area-1280x800": {
+    "rawDifferingPixels": 0,
+    "maxChannelDelta": 0,
+    "noiseRawPixels": 0,
+    "differingPixels": 0,
+    "percent": 0,
+    "identical": true,
+    "noisePixels": 0,
+    "noisePercent": 0,
+    "sizes": [1280, 800, 1280, 800]
+  },
+  "react-area-375x812": {
+    "rawDifferingPixels": 0,
+    "maxChannelDelta": 0,
+    "noiseRawPixels": 0,
+    "differingPixels": 0,
+    "percent": 0,
+    "identical": true,
+    "noisePixels": 0,
+    "noisePercent": 0,
+    "sizes": [375, 812, 375, 812]
+  },
+  "crosshair-1280x800": {
+    "rawDifferingPixels": 0,
+    "maxChannelDelta": 0,
+    "noiseRawPixels": 0,
+    "differingPixels": 0,
+    "percent": 0,
+    "identical": true,
+    "noisePixels": 0,
+    "noisePercent": 0,
+    "sizes": [1280, 800, 1280, 800]
+  },
+  "crosshair-375x812": {
+    "rawDifferingPixels": 0,
+    "maxChannelDelta": 0,
+    "noiseRawPixels": 0,
+    "differingPixels": 0,
+    "percent": 0,
+    "identical": true,
+    "noisePixels": 0,
+    "noisePercent": 0,
+    "sizes": [375, 812, 375, 812]
+  }
+}

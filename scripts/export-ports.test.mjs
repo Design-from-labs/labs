@@ -152,6 +152,19 @@ test("exportPort (variants): an item per icon set, nested targets, the notice in
   }
 });
 
+test("exportPort: an Apache-2.0 source carries its NOTICE in every file", () => {
+  const files = exportPort(
+    "lightweight-charts",
+    "financial-chart",
+    source("lightweight-charts"),
+  );
+  const item = JSON.parse(files["items/financial-chart.json"]);
+  for (const file of item.files) {
+    assert.match(file.content, /Copyright \(\u0441\) 2025 TradingView, Inc\./);
+    assert.match(file.content, /Apache License\n \* {26,}Version 2\.0/);
+  }
+});
+
 test("licenseFooter normalises CRLF license text", () => {
   const footer = licenseFooter(
     "Copyright (c) 2025 Acme.",
