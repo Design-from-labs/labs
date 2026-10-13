@@ -30,7 +30,7 @@
   "preview": "preview.webp",
   "source": {
     "repo": "https://github.com/Design-from-labs/labs",
-    "commit": "8bdb5d8fa32b63042e9926af3e4f1d02f4696041",
+    "commit": "4c604d5a2de256af88624d2955b432a0f4fafbb2",
     "path": "examples/sidebar"
   },
   "author": "Design From Labs <https://labs.designfrom.com>",
@@ -89,5 +89,13 @@
     "device": "laptop",
     "slot": "sidebar-start",
     "shell": "app"
+  },
+  "tile": {
+    "span": 2,
+    "rows": 2
+  },
+  "loop": {
+    "script": "hover[2] → press[2] → release[2] → idle → hover[3] → idle → hover[5] → idle",
+    "duration": 6400
   }
 }

@@ -131,6 +131,17 @@
   animation-timing-function: ease-out;
 }
 
+/* A named element with no partner on the other page (every other tile on
+   the wall) is an only child of its image pair: it leaves with the outgoing
+   page and arrives with the incoming one, instead of lingering on its own. */
+::view-transition-old(*):only-child {
+  animation: var(--motion-duration-fast) ease-out both vt-fade-out;
+}
+::view-transition-new(*):only-child {
+  animation: var(--motion-duration-expand) ease-out
+    calc(var(--motion-duration-fast) / 2) both vt-fade-in;
+}
+
 @keyframes vt-fade-out {
   to {
     opacity: 0;
@@ -140,4 +151,178 @@
   from {
     opacity: 0;
   }
+}
+
+/*
+ * Loop states (docs/decisions/0020-specimen-loops.md). The wall's loop driver
+ * plays fake pointer and focus states by writing data-loop="hover press
+ * focus" on a control, never real input. These variants make every
+ * component's own hover:, active: and focus-visible: styles answer to it, so
+ * the published sources stay untouched.
+ */
+@custom-variant hover {
+  @media (hover: hover) {
+    &:hover {
+      @slot;
+    }
+  }
+  &[data-loop~="hover"] {
+    @slot;
+  }
+}
+@custom-variant active (&:active, &[data-loop~="press"]);
+@custom-variant focus-visible (&:focus-visible, &[data-loop~="focus"]);
+
+/*
+ * The specimen wall (docs/decisions/0019-specimen-wall.md): a dense grid of
+ * square-ish cells; a tile spans 1 or 2 columns and 1 to 3 rows. One row
+ * unit is four fifths of a column, measured from the wall's own width, so
+ * every box is reserved before anything loads. Hairline gaps, small radius,
+ * full bleed on phones.
+ */
+.specimen-frame {
+  container-type: inline-size;
+  margin-inline: -1rem;
+}
+@media (width >= 40rem) {
+  .specimen-frame {
+    margin-inline: 0;
+  }
+}
+.specimen-wall {
+  --wall-cols: 1;
+  --wall-gap: 4px;
+  --wall-row: calc(
+    (100cqw - (var(--wall-cols) - 1) * var(--wall-gap)) /
+    var(--wall-cols) *
+    0.8
+  );
+  display: grid;
+  grid-template-columns: repeat(var(--wall-cols), minmax(0, 1fr));
+  grid-auto-rows: var(--wall-row);
+  grid-auto-flow: row dense;
+  gap: var(--wall-gap);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+@container (width >= 22.5rem) {
+  .specimen-wall {
+    --wall-cols: 2;
+  }
+}
+@container (width >= 40rem) {
+  .specimen-wall {
+    --wall-cols: 3;
+    --wall-gap: 6px;
+  }
+}
+@container (width >= 60rem) {
+  .specimen-wall {
+    --wall-cols: 4;
+  }
+}
+.specimen-cell {
+  min-inline-size: 0;
+  grid-column: span min(var(--span), var(--wall-cols));
+  grid-row: span var(--rows);
+}
+/* Two columns (phones): a full-width tile is at least as tall as it is
+   wide in units, so a wide specimen is not squeezed into a strip. */
+@container (22.5rem <= width < 40rem) {
+  .specimen-cell {
+    grid-row: span max(var(--rows), var(--span));
+  }
+}
+/* One column: every tile is one row of the full width, two at most. */
+@container (width < 22.5rem) {
+  .specimen-cell {
+    grid-row: span min(var(--rows), 2);
+  }
+}
+
+.specimen-tile {
+  position: relative;
+  display: block;
+  block-size: 100%;
+  border-radius: var(--tile-radius);
+  background: var(--tile-surface);
+  overflow: hidden;
+  outline: none;
+  transition:
+    transform 260ms cubic-bezier(0.19, 1, 0.22, 1),
+    box-shadow 500ms cubic-bezier(0.37, 0, 0.63, 1);
+}
+.specimen-tile[data-surface="dark"] {
+  background: var(--tile-surface-dark);
+}
+.specimen-tile:focus-visible {
+  z-index: 1;
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+/* The lift from the owner's portfolio grid, smaller for hairline gaps. */
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .specimen-tile:hover {
+    z-index: 1;
+    transform: translateY(-2px) scale(1.012);
+    box-shadow: var(--tile-lift-shadow);
+  }
+}
+.specimen-surface {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: clamp(1rem, 6cqi, 2.5rem);
+  container-type: size;
+  color: var(--foreground);
+  --stage-fit-h: calc(100cqh - 2 * clamp(1rem, 6cqi, 2.5rem));
+}
+.specimen-surface[data-surface="dark"] {
+  background: var(--tile-surface-dark);
+}
+/* Small tiles show the specimen smaller rather than cropping it. */
+.specimen-zoom {
+  display: grid;
+  place-items: center;
+}
+@container (width < 17rem) {
+  .specimen-zoom {
+    zoom: 0.8;
+  }
+}
+@container (width < 13rem) {
+  .specimen-zoom {
+    zoom: 0.65;
+  }
+}
+
+/* Paused specimens (offscreen, hidden tab, the visitor's pause, reduced
+   motion, or a frozen frame during the morph) stop their CSS animations. */
+[data-loop-paused] *,
+html[data-loop-paused] * {
+  /* biome-ignore lint/complexity/noImportantStyles: a paused specimen must stop every animation, including third-party ones */
+  animation-play-state: paused !important;
+}
+
+/* Spotlight: the default loop for a specimen with no controls. */
+[data-spotlight] [data-spot] {
+  transition: opacity 600ms ease;
+}
+[data-spotlight] [data-spot]:not([data-loop~="spot"]) {
+  opacity: 0.5;
+}
+
+.specimen-toggle-icon {
+  inline-size: 0.625rem;
+  block-size: 0.75rem;
+  border-inline: 3px solid currentColor;
+}
+[aria-pressed="true"] > .specimen-toggle-icon {
+  inline-size: 0;
+  block-size: 0;
+  border-block: 0.375rem solid transparent;
+  border-inline-start: 0.625rem solid currentColor;
+  border-inline-end: 0;
 }

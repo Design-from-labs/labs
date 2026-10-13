@@ -34,6 +34,14 @@
     "S-152"
   ],
   "date": "2026-10-12",
+  "tile": {
+    "span": 2,
+    "rows": 1
+  },
+  "loop": {
+    "hydrate": true,
+    "duration": 7200
+  },
   "tags": [
     "animation",
     "text",

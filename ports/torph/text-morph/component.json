@@ -7,10 +7,22 @@
   "upstreamPath": "packages/torph/src",
   "iconSets": ["none"],
   "files": [
-    { "file": "text-morph.tsx", "type": "registry:ui" },
-    { "file": "text-morph-engine.ts", "type": "registry:lib" },
-    { "file": "text-morph-text.ts", "type": "registry:lib" },
-    { "file": "text-morph-core.ts", "type": "registry:lib" }
+    {
+      "file": "text-morph.tsx",
+      "type": "registry:ui"
+    },
+    {
+      "file": "text-morph-engine.ts",
+      "type": "registry:lib"
+    },
+    {
+      "file": "text-morph-text.ts",
+      "type": "registry:lib"
+    },
+    {
+      "file": "text-morph-core.ts",
+      "type": "registry:lib"
+    }
   ],
   "demo": "demo.tsx",
   "credits": ["S-003", "S-004", "S-152"],
@@ -91,5 +103,13 @@
     "It renders inline text with no role of its own; to announce changes, wrap it in a live region (for example aria-live=\"polite\")."
   ],
   "usage": "<TextMorph>{saved ? \"Saved\" : \"Save changes\"}</TextMorph>",
-  "docs": "Installed `TextMorph` (`@/components/ui/text-morph`) and its engine (`@/lib/text-morph-engine`, `@/lib/text-morph-text`, `@/lib/text-morph-core`).\n\n```tsx\nimport { TextMorph } from \"@/components/ui/text-morph\";\n\n<TextMorph>{label}</TextMorph>\n<TextMorph decimals={2}>{price}</TextMorph>\n```\n\nChange the children to morph. Pass text or numbers only. `useTextMorph()` gives the same engine for an element you render yourself. The motion follows `prefers-reduced-motion` by default.\n\nPorted from torph by Lochie Axon (MIT); the license notice is at the end of every file."
+  "docs": "Installed `TextMorph` (`@/components/ui/text-morph`) and its engine (`@/lib/text-morph-engine`, `@/lib/text-morph-text`, `@/lib/text-morph-core`).\n\n```tsx\nimport { TextMorph } from \"@/components/ui/text-morph\";\n\n<TextMorph>{label}</TextMorph>\n<TextMorph decimals={2}>{price}</TextMorph>\n```\n\nChange the children to morph. Pass text or numbers only. `useTextMorph()` gives the same engine for an element you render yourself. The motion follows `prefers-reduced-motion` by default.\n\nPorted from torph by Lochie Axon (MIT); the license notice is at the end of every file.",
+  "tile": {
+    "span": 2,
+    "rows": 1
+  },
+  "loop": {
+    "hydrate": true,
+    "duration": 7200
+  }
 }

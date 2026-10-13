@@ -373,6 +373,8 @@ export function exportPort(sourceId, name, source) {
     credits: [...new Set([source.credit, ...(spec.credits ?? [])])],
     date: lastChanged(`ports/${sourceId}/${name}`),
     ...(spec.stage ? { stage: spec.stage } : {}),
+    ...(spec.tile ? { tile: spec.tile } : {}),
+    ...(spec.loop ? { loop: spec.loop } : {}),
     ...(spec.tags ? { tags: spec.tags } : {}),
     ...(spec.props ? { props: spec.props } : {}),
     ...(spec.a11y ? { a11y: spec.a11y } : {}),

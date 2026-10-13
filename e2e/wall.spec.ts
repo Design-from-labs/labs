@@ -1,0 +1,194 @@
+import { expect, type Locator, type Page, test } from "@playwright/test";
+
+// The /ui specimen wall (decision 0019) and its loops (decision 0020). These
+// run in the `transitions` project, on their own: the loop timing assertions
+// are as load-sensitive as the morph ones (docs/pitfalls.md, P-016).
+
+const surface = (page: Page, name: string) =>
+  page.locator(`[data-specimen="${name}"]`);
+
+/** Distinct data-loop snapshots of a specimen, sampled for `ms`. */
+async function sampleStates(page: Page, specimen: Locator, ms: number) {
+  const seen = new Set<string>();
+  const end = Date.now() + ms;
+  while (Date.now() < end) {
+    seen.add(
+      await specimen.evaluate((el) =>
+        [...el.querySelectorAll("[data-loop]")]
+          .map((node, index) => `${index}:${node.getAttribute("data-loop")}`)
+          .join("|"),
+      ),
+    );
+    await page.waitForTimeout(150);
+  }
+  return seen;
+}
+
+test("tiles show only the specimen: no text of their own", async ({ page }) => {
+  await page.goto("/ui");
+  const tiles = page.locator("a[data-tile]");
+  expect(await tiles.count()).toBeGreaterThan(4);
+  const problems = await tiles.evaluateAll((links) =>
+    links.flatMap((link) => {
+      const out: string[] = [];
+      const name = link.getAttribute("data-tile");
+      // Every text node in the tile belongs to the specimen.
+      const walker = document.createTreeWalker(link, NodeFilter.SHOW_TEXT);
+      for (let node = walker.nextNode(); node; node = walker.nextNode()) {
+        if (
+          node.textContent?.trim() &&
+          !node.parentElement?.closest("[data-specimen]")
+        ) {
+          out.push(
+            `${name}: text outside the specimen "${node.textContent.trim()}"`,
+          );
+        }
+      }
+      if (link.querySelector("h1, h2, h3, h4, h5, h6")) {
+        out.push(`${name}: a heading`);
+      }
+      // The specimen is decoration: hidden from assistive technology, inert.
+      const specimen = link.querySelector("[data-specimen]");
+      if (
+        specimen?.getAttribute("aria-hidden") !== "true" ||
+        !specimen.hasAttribute("inert")
+      ) {
+        out.push(`${name}: the specimen is not aria-hidden and inert`);
+      }
+      // The link still has a name: title and a short description.
+      if (!/^.+: .{10,}/.test(link.getAttribute("aria-label") ?? "")) {
+        out.push(`${name}: no aria-label with a description`);
+      }
+      return out;
+    }),
+  );
+  expect(problems).toEqual([]);
+  await expect(page.getByRole("link", { name: /^Button: / })).toBeVisible();
+});
+
+test("phone widths: one or two columns, full bleed, no horizontal scroll", async ({
+  page,
+}) => {
+  for (const [width, columns] of [
+    [320, 1],
+    [375, 2],
+    [1440, 4],
+  ] as const) {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto("/ui");
+    const wall = page.getByTestId("gallery");
+    const layout = await wall.evaluate((el) => ({
+      columns: getComputedStyle(el).gridTemplateColumns.split(" ").length,
+      left: el.getBoundingClientRect().left,
+      right: el.getBoundingClientRect().right,
+      overflow: document.documentElement.scrollWidth - window.innerWidth,
+    }));
+    expect(layout.columns, `${width}px`).toBe(columns);
+    expect(layout.overflow).toBeLessThanOrEqual(0);
+    if (width < 640) {
+      expect(layout.left).toBe(0);
+      expect(layout.right).toBe(width);
+    }
+  }
+});
+
+test("loops play on tiles in view", async ({ page }) => {
+  await page.goto("/ui");
+  const button = surface(page, "button");
+  await button.scrollIntoViewIfNeeded();
+  await expect(button).toHaveAttribute("data-loop-state", "playing");
+  await expect(button).not.toHaveAttribute("data-loop-paused");
+  // The script moves through several states (hover, press, focus...).
+  const states = await sampleStates(page, button, 6500);
+  expect(states.size).toBeGreaterThanOrEqual(3);
+  // Fake input never follows a tile's link.
+  await expect(page).toHaveURL(/\/ui$/);
+  // A specimen with no controls gets the spotlight.
+  const badge = surface(page, "badge");
+  await badge.scrollIntoViewIfNeeded();
+  await expect(badge).toHaveAttribute("data-spotlight", "");
+});
+
+test("loops stop offscreen and in a hidden tab", async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 700 });
+  await page.goto("/ui");
+  const button = surface(page, "button");
+  await button.scrollIntoViewIfNeeded();
+  await expect(button).toHaveAttribute("data-loop-state", "playing");
+  // Scroll it out of view.
+  await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+  await expect(button).toHaveAttribute("data-loop-state", "paused");
+  await expect(button).toHaveAttribute("data-loop-paused", "");
+  expect(await sampleStates(page, button, 1500)).toEqual(new Set([""]));
+
+  // Back in view, then the tab hides.
+  await button.scrollIntoViewIfNeeded();
+  await expect(button).toHaveAttribute("data-loop-state", "playing");
+  await page.evaluate(() => {
+    Object.defineProperty(document, "visibilityState", {
+      configurable: true,
+      get: () => "hidden",
+    });
+    document.dispatchEvent(new Event("visibilitychange"));
+  });
+  await expect(button).toHaveAttribute("data-loop-state", "paused");
+});
+
+test("reduced motion: a static frame, no loops", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto("/ui");
+  const button = surface(page, "button");
+  await button.scrollIntoViewIfNeeded();
+  await page.waitForTimeout(500);
+  await expect(button).toHaveAttribute("data-loop-paused", "");
+  await expect(button).not.toHaveAttribute("data-loop-state", "playing");
+  expect(await sampleStates(page, button, 2500)).toEqual(new Set([""]));
+});
+
+test("the pause toggle stops every loop and is remembered", async ({
+  page,
+}) => {
+  await page.goto("/ui");
+  const toggle = page.getByRole("button", { name: "Pause animations" });
+  await expect(toggle).toBeVisible();
+  await expect(toggle).toHaveAttribute("aria-pressed", "false");
+  const button = surface(page, "button");
+  await button.scrollIntoViewIfNeeded();
+  await expect(button).toHaveAttribute("data-loop-state", "playing");
+
+  await toggle.click();
+  await expect(toggle).toHaveAttribute("aria-pressed", "true");
+  await expect(button).toHaveAttribute("data-loop-state", "paused");
+  await expect(
+    page.locator('[data-specimen][data-loop-state="playing"]'),
+  ).toHaveCount(0);
+  expect(await sampleStates(page, button, 1500)).toEqual(new Set([""]));
+
+  // Remembered for this visitor.
+  await page.reload();
+  await expect(toggle).toHaveAttribute("aria-pressed", "true");
+  await button.scrollIntoViewIfNeeded();
+  await page.waitForTimeout(800);
+  await expect(button).not.toHaveAttribute("data-loop-state", "playing");
+
+  await toggle.click();
+  await expect(toggle).toHaveAttribute("aria-pressed", "false");
+  // Clicking the toggle may scroll the tile away; loops play only in view.
+  await button.scrollIntoViewIfNeeded();
+  await expect(button).toHaveAttribute("data-loop-state", "playing");
+});
+
+test("pressing a tile freezes its frame for the morph", async ({ page }) => {
+  await page.goto("/ui");
+  const tile = page.locator('a[data-tile="button"]');
+  const button = surface(page, "button");
+  await button.scrollIntoViewIfNeeded();
+  // Wait for a state to be on screen, then press (without navigating).
+  await expect(button.locator("[data-loop]").first()).toBeAttached({
+    timeout: 8000,
+  });
+  await tile.dispatchEvent("pointerdown");
+  await expect(button).toHaveAttribute("data-loop-state", "frozen");
+  // The frame holds: whatever state was on screen stays there.
+  expect((await sampleStates(page, button, 1500)).size).toBe(1);
+});

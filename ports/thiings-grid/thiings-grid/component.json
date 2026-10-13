@@ -65,5 +65,12 @@
     "Right-to-left: panning is physical and does not mirror (dragging moves content with the pointer, ArrowRight reveals what is to the right), and cells are placed from a physical origin so the layout is identical in RTL.",
     "Cells are rendered by your renderItem; make interactive cells real buttons or links with their own names. Cells are virtualized, so off-screen cells are not in the accessibility tree."
   ],
-  "usage": "<div className=\"relative h-96\">\n  <ThiingsGrid\n    gridSize={80}\n    label=\"Number grid\"\n    renderItem={({ gridIndex }) => <div className=\"absolute inset-1 grid place-items-center rounded border\">{gridIndex}</div>}\n  />\n</div>"
+  "usage": "<div className=\"relative h-96\">\n  <ThiingsGrid\n    gridSize={80}\n    label=\"Number grid\"\n    renderItem={({ gridIndex }) => <div className=\"absolute inset-1 grid place-items-center rounded border\">{gridIndex}</div>}\n  />\n</div>",
+  "tile": {
+    "span": 2,
+    "rows": 2
+  },
+  "loop": {
+    "hydrate": true
+  }
 }

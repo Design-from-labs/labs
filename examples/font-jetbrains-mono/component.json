@@ -23,5 +23,9 @@
   },
   "credits": ["S-036", "S-004", "S-025"],
   "usage": "npx shadcn@latest add https://labs.designfrom.com/r/font-jetbrains-mono.json",
-  "docs": "Installed JetBrains Mono as `--font-mono`. In Next.js it loads through `next/font/google`; elsewhere through `@fontsource-variable/jetbrains-mono`. Licensed under the SIL Open Font License 1.1."
+  "docs": "Installed JetBrains Mono as `--font-mono`. In Next.js it loads through `next/font/google`; elsewhere through `@fontsource-variable/jetbrains-mono`. Licensed under the SIL Open Font License 1.1.",
+  "tile": {
+    "span": 2,
+    "rows": 1
+  }
 }

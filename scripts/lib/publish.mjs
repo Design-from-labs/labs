@@ -367,6 +367,8 @@ export function siteData(components, credits, projects, beta = includeBeta()) {
       a11y: meta.a11y ?? [],
       usage: meta.usage ?? null,
       stage: meta.stage ?? null,
+      tile: meta.tile ?? null,
+      loop: meta.loop ?? null,
       preview: meta.preview ? `${entry.rel}/${meta.preview}` : null,
       credits: meta.credits.map((id) => creditView(credits, id)),
       defaultVariant: meta.defaultVariant,

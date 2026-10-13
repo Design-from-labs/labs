@@ -1,9 +1,10 @@
 # Component export contract
 
-- Contract version: **1**, revision 3 (2026-10-12: the optional `stage` for
-  layout parts, section 4.1). Revision 2 (2026-10-12) added the primitive
+- Contract version: **1**, revision 4 (2026-10-12: the optional `tile` and
+  `loop` for the specimen wall, sections 4.2 and 4.3). Revision 3 (2026-10-12)
+  added the optional `stage` for layout parts (section 4.1). Revision 2 (2026-10-12) added the primitive
   dimension, per-variant status, foundation item types and the `@designfrom`
-  namespace. Both revisions are additive: a sidecar valid under an earlier
+  namespace. All three revisions are additive: a sidecar valid under an earlier
   revision is still valid, so the version number stays 1.
 - Machine-readable: [`schemas/meta.schema.json`](../schemas/meta.schema.json)
   (the sidecar) and
@@ -15,7 +16,9 @@
   pull request
 - Decisions: [0004](decisions/0004-canonical-component-format.md),
   [0009](decisions/0009-primitive-variants.md),
-  [0015](decisions/0015-layout-stages.md)
+  [0015](decisions/0015-layout-stages.md),
+  [0019](decisions/0019-specimen-wall.md),
+  [0020](decisions/0020-specimen-loops.md)
 
 This is what a source (an approved repository listed in
 [`sources.yaml`](../sources.yaml)) delivers so a component can appear on
@@ -180,6 +183,8 @@ Examples: `button-radix-lucide`, `button-aria-phosphor`,
 | `date` | yes | `YYYY-MM-DD` |
 | `label`, `tags`, `props`, `a11y`, `usage` | no | shown on the component page and in `llms-full.txt` |
 | `stage` | no | components only (revision 3): show a layout part in a device frame and app shell, section 4.1 |
+| `tile` | no | revision 4: the entry's tile on the `/ui` wall (span, rows, surface), section 4.2 |
+| `loop` | no | revision 4: the scripted motion of the entry's tile, section 4.3 |
 
 **Publishing rule:** a variant publishes when the component's `status` is
 `ready` **and** the variant's `status` is `ready` (implemented and tested).
@@ -236,6 +241,56 @@ skeleton app shell, where the layout reads as the sum of its parts.
   height when the slot is a column (`sidebar-*`, `panel-end`), so use
   `md:h-full` rather than a fixed height.
 - The preview still shows the default device.
+
+### 4.2 Tiles on the specimen wall
+
+`/ui` is a wall of specimens: each tile shows only the component (its demo,
+or its exports for a foundation without one), with no title or text of its
+own. Everything else is on the component page, which the tile expands into.
+`tile` sizes the entry's tile:
+
+```json
+"tile": { "span": 2, "rows": 1, "surface": "dark" }
+```
+
+| Field | Default | Values |
+| --- | --- | --- |
+| `span` | 1 (2 for a staged layout part) | columns: `1` or `2`. The wall has 4 columns on desktop, 3 on tablets, 2 on phones (where `2` is full width) and 1 below 360px. |
+| `rows` | 1 (2 for a staged layout part) | row units, `1` to `3`; a unit is four fifths of a column's width. On phones a full-width tile is at least two units tall. |
+| `surface` | `light` | `light` (soft gray) or `dark`; `dark` also renders the specimen with the dark theme tokens. The component page's hero uses the same surface. |
+
+- Size the tile so the demo fits with padding: a wide demo spans 2. Small
+  tiles show the demo smaller (CSS `zoom`), never scrolled.
+- The tile is a link named "Title: first sentence of the description"; the
+  specimen is `aria-hidden` and `inert`, so a demo's own controls are never
+  reachable from the wall.
+
+### 4.3 Loops
+
+On the wall, a specimen moves on repeat: `loop` scripts its signature
+interaction with fake states, never real input.
+
+```json
+"loop": { "script": "hover[4] → press[4] → release[4] → idle", "duration": 5600 }
+```
+
+| Field | Default | Values |
+| --- | --- | --- |
+| `script` | none | steps separated by `→` (or `->`), played evenly over `duration`: `hover`, `press`, `release`, `focus`, `blur`, `click` (each with an optional `[n]`, the nth control in the specimen: buttons, links, inputs and widgets with a role, in document order, inside a stage's iframe for a staged entry), `idle` (clear every state) and `wait` |
+| `duration` | 4000 | one pass, 1500 to 20000 ms |
+| `hydrate` | `false` | `true` hydrates the specimen as a lazy island on the wall (`client:visible`): needed for `click`, or for a demo whose own motion needs JavaScript |
+
+- Without `script`: a specimen with its own infinite CSS animation keeps it;
+  one with controls cycles a hover state over its first three; anything else
+  gets a gentle spotlight over its parts.
+- States reach the component's own `hover:`, `active:` and `focus-visible:`
+  styles (and React Aria's `data-hovered`, `data-pressed`,
+  `data-focus-visible`), so write states with those, as usual.
+- Loops play only in view and stop offscreen, in a hidden tab, under reduced
+  motion and while the visitor's "Pause animations" toggle is on. A paused
+  specimen has `data-loop-paused`, which also pauses its CSS animations. A
+  hydrated demo that moves on its own timer must skip its step while
+  `element.closest("[data-loop-paused]")` is set.
 
 ## 5. Tokens
 

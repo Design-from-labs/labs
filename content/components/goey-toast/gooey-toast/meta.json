@@ -48,6 +48,11 @@
     "device": "laptop",
     "slot": "inline"
   },
+  "loop": {
+    "hydrate": true,
+    "script": "click[0] → wait → wait → click[2] → wait → wait",
+    "duration": 8000
+  },
   "tags": [
     "toast",
     "notification",

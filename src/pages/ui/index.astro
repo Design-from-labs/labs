@@ -2,7 +2,13 @@
 import Command from "../../components/Command.astro";
 import Tile from "../../components/Tile.astro";
 import Base from "../../layouts/Base.astro";
-import { components, data, foundations } from "../../lib/data";
+import { components, data, type Entry, foundations } from "../../lib/data";
+import { tileOf } from "../../lib/tile";
+
+// Bento packing: larger tiles first, so the dense grid fills its holes with
+// the small ones (a stable sort keeps the content order within a size).
+const area = (entry: Entry) => tileOf(entry).span * tileOf(entry).rows;
+const bySize = (list: Entry[]) => [...list].sort((a, b) => area(b) - area(a));
 ---
 <Base
   title="UI"
@@ -20,21 +26,40 @@ import { components, data, foundations } from "../../lib/data";
     </div>
   </section>
 
-  <section aria-labelledby="components-heading" class="pb-12">
-    <h2 id="components-heading" class="mb-4 font-medium text-muted-foreground text-sm">Components</h2>
-    <ul class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3" data-testid="gallery">
-      {components.map((entry) => <li><Tile entry={entry} /></li>)}
+  <div class="mb-3 flex items-end justify-between gap-4">
+    <h2 id="components-heading" class="font-medium text-muted-foreground text-sm">Components</h2>
+    <button
+      type="button"
+      class="inline-flex h-8 items-center gap-2 rounded-md border px-3 text-muted-foreground text-sm transition-colors hover:text-foreground aria-pressed:text-foreground"
+      aria-pressed="false"
+      data-loops-toggle
+    >
+      <span aria-hidden="true" class="specimen-toggle-icon"></span>
+      Pause animations
+    </button>
+  </div>
+  <!--
+    The specimen wall (decision 0019): a dense grid of tiles that show only
+    the component; everything else is on the component page. Full bleed on
+    phones.
+  -->
+  <section aria-labelledby="components-heading" class="specimen-frame pb-12">
+    <ul class="specimen-wall" data-testid="gallery">
+      {bySize(components).map((entry) => <Tile entry={entry} />)}
     </ul>
   </section>
 
   {
     foundations.length > 0 && (
-      <section aria-labelledby="foundations-heading">
-        <h2 id="foundations-heading" class="mb-4 font-medium text-muted-foreground text-sm">Foundations</h2>
-        <ul class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {foundations.map((entry) => <li><Tile entry={entry} /></li>)}
+      <section aria-labelledby="foundations-heading" class="specimen-frame">
+        <h2 id="foundations-heading" class="mb-3 px-4 font-medium text-muted-foreground text-sm sm:px-0">Foundations</h2>
+        <ul class="specimen-wall" data-testid="foundations">
+          {bySize(foundations).map((entry) => <Tile entry={entry} />)}
         </ul>
       </section>
     )
   }
+  <script>
+    import "../../scripts/specimens.ts";
+  </script>
 </Base>

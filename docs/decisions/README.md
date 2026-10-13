@@ -24,3 +24,5 @@ record has a `- Sources:` line (registry ids, or `none: <reason>`).
 | [0016](0016-ported-component-sources.md) | Multi-file ports as sources in `ports/`, exported by a script | Accepted |
 | [0017](0017-port-variants-and-nested-targets.md) | Ports may ship primitive variants and nested file targets | Accepted |
 | [0018](0018-node-env-in-items.md) | Item files may read `process.env.NODE_ENV` and nothing else from the environment | Accepted |
+| [0019](0019-specimen-wall.md) | Show /ui as a wall of specimens with no text on the tiles | Accepted |
+| [0020](0020-specimen-loops.md) | Loop each specimen with scripted fake states, in view only, pausable | Accepted |

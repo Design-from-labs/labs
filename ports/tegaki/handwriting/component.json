@@ -62,5 +62,15 @@
     "Decorative motion only: it never moves layout, so nothing on the page shifts while it writes."
   ],
   "usage": "<Handwriting className=\"text-5xl\">Hello, world</Handwriting>",
-  "docs": "Installed `Handwriting` (`@/components/ui/handwriting`), a thin wrapper over the `tegaki` renderer with the Caveat font.\n\n```tsx\nimport { Handwriting } from \"@/components/ui/handwriting\";\n\n<Handwriting className=\"text-5xl\">Hello, world</Handwriting>\n```\n\nSize and color follow the text styles. Change the text to write it again.\n\nComplex shaping (ligatures, contextual alternates, Arabic and Indic scripts) is opt-in: `npm i harfbuzzjs`, then register the shaper once, in the browser:\n\n```tsx\nimport { TegakiEngine } from \"tegaki/react\";\n\nuseEffect(() => {\n  import(\"tegaki/shaper-harfbuzz\").then((m) => TegakiEngine.registerShaper(m.default));\n}, []);\n```\n\nNext.js (Turbopack) also needs `turbopack: { resolveAlias: { module: { browser: \"./src/lib/empty-module.ts\" } } }` with an empty module there: harfbuzzjs imports Node's `module` on its server branch.\n\nVite dev server (Vite 7 or older): add `optimizeDeps: { exclude: [\"tegaki\", \"harfbuzzjs\"] }` so the font and WASM files keep their URLs. Astro: add `tegaki()` from `tegaki/astro/integration` when it renders on the server.\n\nFont data carries its font's license: Caveat is SIL OFL 1.1 (Copyright 2014 The Caveat Project Authors). Wraps Tegaki by Gokhan Kurt (MIT); the license notice is at the end of the file."
+  "docs": "Installed `Handwriting` (`@/components/ui/handwriting`), a thin wrapper over the `tegaki` renderer with the Caveat font.\n\n```tsx\nimport { Handwriting } from \"@/components/ui/handwriting\";\n\n<Handwriting className=\"text-5xl\">Hello, world</Handwriting>\n```\n\nSize and color follow the text styles. Change the text to write it again.\n\nComplex shaping (ligatures, contextual alternates, Arabic and Indic scripts) is opt-in: `npm i harfbuzzjs`, then register the shaper once, in the browser:\n\n```tsx\nimport { TegakiEngine } from \"tegaki/react\";\n\nuseEffect(() => {\n  import(\"tegaki/shaper-harfbuzz\").then((m) => TegakiEngine.registerShaper(m.default));\n}, []);\n```\n\nNext.js (Turbopack) also needs `turbopack: { resolveAlias: { module: { browser: \"./src/lib/empty-module.ts\" } } }` with an empty module there: harfbuzzjs imports Node's `module` on its server branch.\n\nVite dev server (Vite 7 or older): add `optimizeDeps: { exclude: [\"tegaki\", \"harfbuzzjs\"] }` so the font and WASM files keep their URLs. Astro: add `tegaki()` from `tegaki/astro/integration` when it renders on the server.\n\nFont data carries its font's license: Caveat is SIL OFL 1.1 (Copyright 2014 The Caveat Project Authors). Wraps Tegaki by Gokhan Kurt (MIT); the license notice is at the end of the file.",
+  "tile": {
+    "span": 2,
+    "rows": 1,
+    "surface": "dark"
+  },
+  "loop": {
+    "hydrate": true,
+    "script": "wait → wait → wait → click[0]",
+    "duration": 6000
+  }
 }

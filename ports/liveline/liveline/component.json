@@ -159,5 +159,13 @@
     "Under prefers-reduced-motion the chart still scrolls with live data, but easing snaps, the loading line, pulse rings, arrows and candle glow stop moving, degen particles and shake are off, and `LivelineTransition` swaps without fading. The outgoing chart in a transition is inert.",
     "Right-to-left: the button row starts on the inline-start side, but the plot stays left to right because it is a time axis (the canvas container is dir=\"ltr\")."
   ],
-  "usage": "<div className=\"h-64\">\n  <Liveline data={points} value={latest} theme=\"light\" windows={[{ label: \"30s\", secs: 30 }, { label: \"1m\", secs: 60 }]} aria-label=\"Requests per second\" />\n</div>"
+  "usage": "<div className=\"h-64\">\n  <Liveline data={points} value={latest} theme=\"light\" windows={[{ label: \"30s\", secs: 30 }, { label: \"1m\", secs: 60 }]} aria-label=\"Requests per second\" />\n</div>",
+  "tile": {
+    "span": 2,
+    "rows": 2
+  },
+  "loop": {
+    "hydrate": true,
+    "duration": 6000
+  }
 }

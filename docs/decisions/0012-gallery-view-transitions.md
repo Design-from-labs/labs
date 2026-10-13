@@ -1,6 +1,6 @@
 # 0012: Expand gallery tiles into component pages with cross-document view transitions
 
-- Status: Accepted
+- Status: Accepted, amended by [0019](0019-specimen-wall.md) (tiles show no title, so only the specimen morphs)
 - Date: 2026-10-12
 - Deciders: Owner (brief), Pod GRID
 - Sources: S-042, S-043, S-044, S-045, S-046, S-002

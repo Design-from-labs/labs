@@ -1,6 +1,7 @@
 // Typed access to .generated/site-data.json (scripts/prepare-content.mjs).
 import raw from "../../.generated/site-data.json";
 import type { StageMeta } from "./stage";
+import type { LoopMeta, TileMeta } from "./tile";
 
 export interface Credit {
   id: string;
@@ -76,6 +77,10 @@ export interface Entry {
   usage: string | null;
   /** A layout part shown in a device frame and app shell (contract rev. 3). */
   stage: StageMeta | null;
+  /** The tile on the /ui specimen wall (contract rev. 4). */
+  tile: TileMeta | null;
+  /** The tile's scripted loop (contract rev. 4). */
+  loop: LoopMeta | null;
   preview: string | null;
   credits: Credit[];
   defaultVariant: string;

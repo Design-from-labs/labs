@@ -155,8 +155,9 @@ const transitionName = (page: Page, selector: string) =>
     .locator(selector)
     .evaluate((el) => getComputedStyle(el).viewTransitionName);
 
+// A tile shows no text; its name is "<Title>: <first sentence>" (aria-label).
 const tileLink = (page: Page, title: string) =>
-  page.getByTestId("gallery").getByRole("link", { name: title, exact: true });
+  page.getByRole("link", { name: new RegExp(`^${title}( \\(beta\\))?: `) });
 
 test.beforeEach(async ({ context }) => {
   await recordTransitions(context);
@@ -167,18 +168,12 @@ test("a tile is a link that expands into the component page hero", async ({
 }) => {
   await page.goto("/ui");
   await painted(page);
-  const tile = page.locator('[data-tile="button"]');
   expect(
-    await transitionName(page, '[data-tile="button"] [data-tile-preview]'),
+    await transitionName(page, '[data-tile="button"] [data-specimen]'),
   ).toBe("tile-preview-button");
-  expect(
-    await tile
-      .locator(".vt-tile-title")
-      .evaluate((el) => getComputedStyle(el).viewTransitionName),
-  ).toBe("tile-title-button");
   // Names are unique on the gallery, or the browser skips the transition.
   const names = await page
-    .locator("[data-tile-preview], [data-stage], .vt-tile-title")
+    .locator("[data-specimen], [data-stage]")
     .evaluateAll((els) =>
       els
         .map((el) => getComputedStyle(el).viewTransitionName)
@@ -186,18 +181,14 @@ test("a tile is a link that expands into the component page hero", async ({
     );
   expect(new Set(names).size).toBe(names.length);
 
-  const vt = await navigateWithMorph(page, {
+  await navigateWithMorph(page, {
     go: () => tileLink(page, "Button").click(),
     reset: () => page.goBack(),
     path: "/ui/button",
     group: "tile-preview-button",
   });
-  // A group animation exists only when both pages have the name: the morph.
-  if (vt) {
-    expect(vt.pseudos).toContain("::view-transition-group(tile-title-button)");
-  }
   await expect(page).toHaveURL(/\/ui\/button$/);
-  // The hero and heading carry the same names as the tile.
+  // The hero carries the specimen's name.
   expect(await transitionName(page, "[data-variant-demo]:not([hidden])")).toBe(
     "tile-preview-button",
   );
@@ -264,9 +255,7 @@ test("back returns to the same scroll position and shrinks into the tile", async
 }) => {
   await page.goto("/ui");
   await painted(page);
-  const tile = page
-    .locator('[data-tile="designfrom-theme"]')
-    .getByRole("link", { name: "Design From theme", exact: true });
+  const tile = page.locator('a[data-tile="designfrom-theme"]');
   // Scroll so the tile sits mid-viewport (an instant scroll, so the
   // position is final when it is read).
   const before = await tile.evaluate((el) => {
