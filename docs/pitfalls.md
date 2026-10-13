@@ -108,6 +108,16 @@ Design From and Design From Labs (the guards enforce this).
 | [P-095](#p-095) | Site (loops) | A toggling click in a staged loop can invert when the frame loads late |
 | [P-096](#p-096) | Ports (tests) | Upstream tests that mock one module miss calls in a merged file |
 | [P-097](#p-097) | Components (CSS) | A library-owned custom property failed the prefixed-variables guard |
+| [P-098](#p-098) | Components (WebGL, context loss) | A canvas hidden while its context is lost never draws again |
+| [P-099](#p-099) | Components (dependencies) | npm `cobe` 2.0.1 lags the pinned source in three behaviors |
+| [P-100](#p-100) | Fidelity harness (async order) | A cached image raced a ResizeObserver and shifted seeded jitter |
+| [P-101](#p-101) | Fidelity (upstream demos) | An upstream demo used Tailwind classes without loading Tailwind |
+| [P-102](#p-102) | Components (inline SVG) | An inline SVG's height attribute won over `h-auto` |
+| [P-103](#p-103) | Fidelity harness (fake clock) | `page.screenshot()` hangs while the fake clock is paused |
+| [P-104](#p-104) | Fidelity harness (fake clock) | The paused clock crept during load and shifted one side a frame |
+| [P-105](#p-105) | Components (Motion) | A custom `animateValue` driver is not honoured by pause or start time |
+| [P-106](#p-106) | Components (GSAP rewrite) | A delayed call created during a tick ran in that tick |
+| [P-107](#p-107) | Fidelity harness (Vite) | Harnesses sharing `node_modules` shared Vite's dependency cache |
 
 ---
 
@@ -1594,3 +1604,149 @@ Design From and Design From Labs (the guards enforce this).
   variables under the component prefix instead of reading them.
 - Links: `ports/driver-js/product-tour/product-tour.tsx`,
   `ports/simpleplayer/video-player/src/shared/video-player-styles.ts`
+
+### P-098
+
+- Date: 2026-10-13
+- Area: Components (WebGL, context loss)
+- Symptom: After a WebGL context loss and restore, an effect stayed at
+  status `lost` and never drew again.
+- Cause: The component hid its canvas (`hidden`) for every status but
+  `ready` and `pending`. A `display: none` canvas is off screen to the render
+  loop's IntersectionObserver, so the restored context never got a frame.
+- Fix: Hide the canvas only for `unsupported` and `reduced-motion` (Globe,
+  Viscose Carousel, and now Holo Sticker, Holo Foil and Iridescent Ribbon);
+  the fallback layer still covers it while `lost`.
+- Prevention: `e2e/webgl.spec.ts` loses and restores every WebGL effect's
+  context (`WEBGL_lose_context`) and expects `ready` again.
+- Links: `docs/decisions/0026-canvas-and-3d-ports.md`, `ports/shuding-cobe/globe/globe.tsx`
+
+### P-099
+
+- Date: 2026-10-13
+- Area: Components (dependencies)
+- Symptom: The Globe on npm `cobe` 2.0.1 restyled the whole page every
+  frame, showed an empty sphere until something else redrew it, and kept its
+  land texture after `destroy()`.
+- Cause: 2.0.1 was published before the pinned commit, which fixed all
+  three (the anchor `<style>` is rewritten only on change, the texture's load
+  redraws, `destroy()` frees the texture).
+- Fix: The wrapper restores the pinned behavior for each and keeps the static
+  picture up until the land has loaded.
+- Prevention: When a port wraps an npm package, diff the published bundle
+  against the pinned source, not only the README.
+- Links: `docs/evidence/ports/globe/fidelity.md`
+
+### P-100
+
+- Date: 2026-10-13
+- Area: Fidelity harness (async order)
+- Symptom: Dot Halftone frames differed from upstream by 1 to 2% in one run
+  and 0% in the next, and upstream called the seeded `Math.random` 2,438 more
+  times than the port.
+- Cause: Upstream re-samples the current image in the first ResizeObserver
+  callback after each `src` change; a cached image (StrictMode loads it
+  twice) can finish loading before that callback, so the number of samplings,
+  and with it the seeded jitter, depends on a race.
+- Fix: The port keeps upstream's mechanism; the harness delays every sample
+  image by 150 ms with a network route and never revisits a loaded one.
+- Prevention: Count seeded random calls on both sides before reading a
+  percentage, and fix the order of async events with routes rather than
+  wall-clock waits.
+- Links: `docs/evidence/ports/dot-halftone/fidelity.md`
+
+### P-101
+
+- Date: 2026-10-13
+- Area: Fidelity (upstream demos)
+- Symptom: In the upstream Dot Halftone demo the corner clusters sat in a
+  stack at the top of the picture instead of at its corners.
+- Cause: The component positions them with Tailwind classes (`absolute`,
+  `z-10`), and the demo app does not load Tailwind.
+- Fix: Canvas pixels were measured against the demo as is, and the whole
+  stage against the component file rendered with Tailwind; the port places
+  the clusters at the corners, as the code intends.
+- Prevention: Check that an upstream demo loads what its component's classes
+  need before treating its screenshot as the reference.
+- Links: `docs/evidence/ports/dot-halftone/fidelity.md`
+
+### P-102
+
+- Date: 2026-10-13
+- Area: Components (inline SVG)
+- Symptom: An inline `<svg width="1024" height="1024">` with `w-full h-auto`
+  rendered 752 px wide but 1024 px tall, the picture centered in the extra
+  height.
+- Cause: Observed, not traced: the height attribute won over Tailwind's
+  layered `h-auto` utility.
+- Fix: Vector Dither sizes its SVG with an inline `width: 100%; height: auto`.
+- Prevention: Size an inline SVG that keeps its `width` and `height`
+  attributes with inline styles, and check its box at two widths.
+- Links: `ports/shpigford-dither/vector-dither/vector-dither.tsx`
+
+### P-103
+
+- Date: 2026-10-13
+- Area: Fidelity harness (fake clock)
+- Symptom: `page.screenshot()` hung while Playwright's fake clock was paused.
+- Cause: Playwright's screenshot waits for a new animation frame, which a
+  paused clock never delivers.
+- Fix: Capture through the DevTools protocol (`Page.captureScreenshot`) in
+  paused-clock runs.
+- Prevention: Use the CDP capture in every run that pauses the clock.
+- Links: `docs/evidence/ports/viscose-carousel/fidelity.md`
+
+### P-104
+
+- Date: 2026-10-13
+- Area: Fidelity harness (fake clock)
+- Symptom: One Viscose run in three started its entry animation a frame
+  apart from upstream, and every later frame differed.
+- Cause: The paused fake clock still advanced a millisecond or two while the
+  pages loaded, and the two sides start their tween clocks at different
+  moments of the load (upstream when GSAP loads, the port when its engine is
+  built).
+- Fix: Both pages read `performance.now()` and `Date.now()` snapped to the
+  16 ms frame grid (an init script); every frame and input falls on it.
+- Prevention: Snap time to the step grid whenever two implementations start
+  their clocks at different points of a load.
+- Links: `docs/evidence/ports/viscose-carousel/fidelity.md`
+
+### P-105
+
+- Date: 2026-10-13
+- Area: Components (Motion)
+- Symptom: Tweens rebuilt on Motion's `animateValue` with a custom `driver`
+  paused and staggered on the wrong clock.
+- Cause: The driver is not honoured everywhere: `pause()` reads Motion's
+  global clock, and a tick pulls any future `startTime` back to now.
+- Fix: Each timeline gets its own local driver, and stagger is a `delay`
+  rather than a later `startTime`.
+- Prevention: Verify a driver-based animation by recording its values every
+  frame, not only by its end state.
+- Links: `ports/yousuf-viscose-carousel/viscose-carousel/viscose-carousel-motion.ts`
+
+### P-106
+
+- Date: 2026-10-13
+- Area: Components (GSAP rewrite)
+- Symptom: A delayed call created inside a frame fired in the same frame in
+  the rewrite, one frame earlier than upstream.
+- Cause: GSAP runs a `delayedCall` created during a tick on the next tick;
+  iterating the live subscriber list ran it at once.
+- Fix: Each tick iterates a snapshot of the top-level subscribers.
+- Prevention: Compare recorded state frame by frame against upstream before
+  pixels when rewriting a GSAP timeline.
+- Links: `ports/yousuf-viscose-carousel/viscose-carousel/viscose-carousel-motion.ts`
+
+### P-107
+
+- Date: 2026-10-13
+- Area: Fidelity harness (Vite)
+- Symptom: A new harness rebuilt another pod's Vite dependency cache.
+- Cause: Harnesses that symlink one shared `node_modules` also share Vite's
+  default cache directory inside it (`node_modules/.vite`).
+- Fix: Give each harness its own `cacheDir` in its Vite config.
+- Prevention: Set `cacheDir` whenever a harness reuses another's
+  `node_modules`.
+- Links: `docs/evidence/ports/globe/fidelity.md`

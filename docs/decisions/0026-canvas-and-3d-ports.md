@@ -45,12 +45,12 @@ dependency of an MIT registry item.
   frame clock), with GSAP's eases written out as functions, its timeline
   offsets, `delayedCall`, `killTweensOf`, rounding and lag smoothing
   reproduced, and verified by recording the animated state every frame on
-  both sides before comparing pixels.
+  both sides before comparing pixels (P-104 to P-106).
 - **Keep the canvas laid out while the context is lost.** A canvas hidden on
   `lost` is off screen to the loop's IntersectionObserver and never draws
   again; components hide it only for `unsupported` and `reduced-motion`
   (applied to Holo Sticker, Holo Foil and Iridescent Ribbon too; e2e loses
-  and restores the context of every WebGL effect).
+  and restores the context of every WebGL effect; P-098).
 - **Layout** follows decision [0016](0016-ported-component-sources.md):
   merged upstream modules (`vector-dither-core.ts`,
   `viscose-carousel-engine.ts`, `viscose-carousel-shaders.ts`) are excluded
@@ -94,6 +94,6 @@ SVG.
 - `cobe` publishes a release past the pinned commit: drop the wrapper's
   restorations of the three behaviors and diff again.
 - Motion changes `animateValue`'s driver semantics (pause and `startTime`
-  read its global clock today; see the pitfalls).
+  read its global clock today; P-105).
 - The render loop gains a device-pixel-ratio listener (today a ratio change
   without a resize is noticed at the next resize).
