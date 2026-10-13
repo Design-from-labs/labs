@@ -4,7 +4,39 @@
 // (upstream: `segmented-control__indicator`); the arrow keys follow the
 // reading direction (in right to left, ArrowLeft moves to the next item); and
 // the pill is re-measured when a `dir` attribute changes, since a direction
-// switch moves the items without resizing the row.
+// switch moves the items without resizing the row; the pill is placed in the
+// control's own pixels, so a scaled ancestor does not resize it.
+
+/**
+ * Labs: the pill is placed in the control's own (layout) pixels. Bounding
+ * rects are in screen pixels, so under a scaled ancestor (a transform, as on
+ * the wall's tiles and the gallery stills) they would size and place the pill
+ * wrongly. The scale is the control's rect against its layout box (read from
+ * its computed size, which a transform does not touch); without a transform
+ * it is exactly 1 and the values are upstream's.
+ */
+function layoutScale(root: Element, rootRect: DOMRect) {
+  const style = getComputedStyle(root);
+  let width = Number.parseFloat(style.width);
+  let height = Number.parseFloat(style.height);
+  if (style.boxSizing !== "border-box") {
+    width +=
+      Number.parseFloat(style.paddingLeft) +
+      Number.parseFloat(style.paddingRight) +
+      Number.parseFloat(style.borderLeftWidth) +
+      Number.parseFloat(style.borderRightWidth);
+    height +=
+      Number.parseFloat(style.paddingTop) +
+      Number.parseFloat(style.paddingBottom) +
+      Number.parseFloat(style.borderTopWidth) +
+      Number.parseFloat(style.borderBottomWidth);
+  }
+  const x = rootRect.width / width;
+  const y = rootRect.height / height;
+  const valid = (scale: number) =>
+    Number.isFinite(scale) && scale > 0 && Math.abs(scale - 1) > 0.001;
+  return { x: valid(x) ? x : 1, y: valid(y) ? y : 1 };
+}
 
 export interface SegmentedControlOptions {
   value?: string;
@@ -156,9 +188,10 @@ export function segmentedControl(
   function positionIndicator() {
     const rootRect = root.getBoundingClientRect();
     const itemRect = activeItem.getBoundingClientRect();
-    indicator.style.width = `${itemRect.width}px`;
-    indicator.style.height = `${itemRect.height}px`;
-    indicator.style.transform = `translate3d(${itemRect.left - rootRect.left}px, ${itemRect.top - rootRect.top}px, 0)`;
+    const scale = layoutScale(root, rootRect);
+    indicator.style.width = `${itemRect.width / scale.x}px`;
+    indicator.style.height = `${itemRect.height / scale.y}px`;
+    indicator.style.transform = `translate3d(${(itemRect.left - rootRect.left) / scale.x}px, ${(itemRect.top - rootRect.top) / scale.y}px, 0)`;
   }
 
   function squashIndicator() {
