@@ -1,0 +1,106 @@
+{
+  "$schema": "https://labs.designfrom.com/schemas/meta.schema.json",
+  "schemaVersion": 1,
+  "name": "holo-foil",
+  "kind": "component",
+  "title": "Holo Foil",
+  "description": "A draped sheet of holographic foil: view-angle rainbow diffraction, sparkle, a scratched clear coat, bloom and film grain, rendered with three.js.",
+  "status": "beta",
+  "category": "media",
+  "label": "dmitrykurash holocloth",
+  "variants": [
+    {
+      "name": "holo-foil",
+      "primitive": "none",
+      "iconSet": "none",
+      "status": "beta"
+    }
+  ],
+  "defaultVariant": "holo-foil",
+  "demo": "demo.tsx",
+  "preview": "preview.webp",
+  "source": {
+    "repo": "https://github.com/dmitrykurash/holocloth",
+    "commit": "a6078ba698a53cbf18be870cea555c1971f84103",
+    "path": "src/holoMaterial.ts"
+  },
+  "author": "Dmitry Kurash <https://github.com/dmitrykurash>",
+  "license": "MIT",
+  "attribution": "Copyright (c) 2026 Dmitry Kurash. MIT License.",
+  "credits": [
+    "S-272",
+    "S-275",
+    "S-276",
+    "S-279",
+    "S-003",
+    "S-004",
+    "S-019",
+    "S-020",
+    "S-157",
+    "S-288"
+  ],
+  "date": "2026-10-12",
+  "tile": {
+    "span": 2,
+    "rows": 2,
+    "surface": "dark"
+  },
+  "tags": [
+    "holographic",
+    "foil",
+    "three",
+    "webgl",
+    "effect"
+  ],
+  "props": [
+    {
+      "name": "preset",
+      "type": "\"holo\" | \"chrome\" | \"black-cloth\"",
+      "default": "\"holo\"",
+      "description": "The starting look."
+    },
+    {
+      "name": "material",
+      "type": "Partial<HoloFoilMaterial>",
+      "description": "baseColor, holoIntensity, holoScale, bandFreq, saturation, hueShift, sparkle, specTint, iridescence, roughness, metalness, clearcoat, coatRoughness, sheen, bump, bumpTiling."
+    },
+    {
+      "name": "look",
+      "type": "Partial<HoloFoilLook>",
+      "description": "background, exposure, environment, bloom, bloomThreshold, noise, toneMapping, occlusion, occlusionStrength."
+    },
+    {
+      "name": "image",
+      "type": "string",
+      "description": "A full-bleed image printed on the foil; it also sets the sheet's shape."
+    },
+    {
+      "name": "interactive",
+      "type": "boolean",
+      "default": "true",
+      "description": "Lean the sheet toward the pointer."
+    },
+    {
+      "name": "time",
+      "type": "number",
+      "description": "Freezes the film grain at this time (seconds) and draws only on change, for stills."
+    },
+    {
+      "name": "maxDpr",
+      "type": "number",
+      "default": "2",
+      "description": "Device pixel ratio cap."
+    },
+    {
+      "name": "fallback",
+      "type": "React.ReactNode",
+      "description": "Replaces the static picture shown without WebGL 2 or under reduced motion."
+    }
+  ],
+  "a11y": [
+    "Decorative by default (aria-hidden); with aria-label it is role=\"img\" with that name.",
+    "Without WebGL 2, under reduced motion and before the first frame it shows a static CSS picture of a foil sheet.",
+    "Pointer lean only changes the picture; nothing needs a pointer."
+  ],
+  "usage": "<HoloFoil preset=\"holo\" aria-label=\"Holographic foil\" className=\"rounded-xl\" />"
+}

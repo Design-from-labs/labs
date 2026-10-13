@@ -88,3 +88,9 @@ paths (pitfall P-044); until then they are reviewed on preview deployments.
 | `data-table-filters` | `data-table`, `data-table-filter-command`, `data-table-sheet` | openstatusHQ/data-table-filters, `packages/registry` (variants shape, primitives) |
 | `tableofcontent` | `table-of-contents` | batuhankarasakal/tableofcontent, `src` (React rewrite) |
 | `guide-frame` | `guideframe-grid` | Dinil-Thilakarathne/guide-frame, `packages/core` and `packages/react` |
+| `samasante-liquid-glass` | `glass` | samasante/liquid-glass, `src` |
+| `jal-co-holosticker` | `holo-sticker` | jal-co/holosticker, `src/lib/three-renderer.ts` (renderer only) |
+| `dmitrykurash-holocloth` | `holo-foil` | dmitrykurash/holocloth, `src/holoMaterial.ts` (material only, no cloth) |
+| `obta1ner-lenticular` | `lenticular` | obta1ner/lenticular, `index.html` (rewritten as React) |
+| `mark-x64-ribbon-shader` | `iridescent-ribbon` | mark-x64/siri-ribbon-shader, `src/ribbon.frag` (renamed, no branding) |
+

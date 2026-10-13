@@ -19,7 +19,11 @@
       "!ports/torph/text-morph/text-morph*.ts*",
       "!ports/goey-toast/gooey-toast/gooey-toast*.ts*",
       "!ports/peckz-playground/dot-morph/dot-morph-motion.ts",
-      "!ports/*/*/src"
+      "!ports/*/*/src",
+      "!ports/samasante-liquid-glass/glass/glass*.ts*",
+      "!ports/jal-co-holosticker/holo-sticker/holo-sticker-renderer.ts",
+      "!ports/dmitrykurash-holocloth/holo-foil/holo-foil-scene.ts",
+      "!ports/dmitrykurash-holocloth/holo-foil/holo-foil-pose.ts"
     ]
   },
   "formatter": {

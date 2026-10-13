@@ -10,3 +10,7 @@ other sources.
 
 Each component directory holds `component.json` (sidecar fields and item
 settings), its source files, and `demo.tsx`.
+
+`component.json` may set `"status"` (`"beta"`, `"draft"`, `"deprecated"`) for
+an example that is not ready yet; it defaults to `"ready"`. The variants carry
+their own `status` as well.

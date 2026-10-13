@@ -1,0 +1,88 @@
+{
+  "title": "Holo Sticker",
+  "description": "Your artwork as a die-cut holographic foil sticker with a peeling corner, rendered with three.js and tilting toward the pointer.",
+  "category": "media",
+  "type": "registry:ui",
+  "status": "beta",
+  "upstreamPath": "src/lib/three-renderer.ts",
+  "iconSets": ["none"],
+  "dependencies": ["three@^0.185.1"],
+  "devDependencies": ["@types/three@^0.185.3"],
+  "registryDependencies": ["utils", "render-loop"],
+  "files": [
+    {
+      "file": "holo-sticker.tsx",
+      "type": "registry:ui"
+    },
+    {
+      "file": "holo-sticker-renderer.ts",
+      "type": "registry:ui"
+    }
+  ],
+  "demo": "demo.tsx",
+  "tile": {
+    "span": 1,
+    "rows": 1
+  },
+  "credits": [
+    "S-275",
+    "S-276",
+    "S-277",
+    "S-280",
+    "S-281",
+    "S-003",
+    "S-004",
+    "S-019",
+    "S-020",
+    "S-157",
+    "S-288"
+  ],
+  "tags": ["holographic", "sticker", "three", "webgl", "effect"],
+  "props": [
+    {
+      "name": "src",
+      "type": "string",
+      "required": true,
+      "description": "The artwork: an SVG, PNG, JPG or WebP URL (a data URL works too). Transparent areas are cut away."
+    },
+    {
+      "name": "alt",
+      "type": "string",
+      "description": "Describes the artwork; without it the sticker is decorative (aria-hidden)."
+    },
+    {
+      "name": "settings",
+      "type": "Partial<StickerSettings>",
+      "description": "Any dial: finish, size, border, cutTolerance, overlay, ink, relief, layers, holoIntensity, bands, hueShift, grain, pattern, peelDirection, peelAmount, curl, shadow, light."
+    },
+    {
+      "name": "interactive",
+      "type": "boolean",
+      "default": "true",
+      "description": "Tilt toward the pointer."
+    },
+    {
+      "name": "tilt",
+      "type": "{ x: number; y: number }",
+      "description": "A fixed tilt from -1 to 1 on each axis, for stills."
+    },
+    {
+      "name": "maxDpr",
+      "type": "number",
+      "default": "2",
+      "description": "Device pixel ratio cap."
+    },
+    {
+      "name": "fallback",
+      "type": "React.ReactNode",
+      "description": "Replaces the static picture shown without WebGL 2 or under reduced motion."
+    }
+  ],
+  "a11y": [
+    "With alt it is role=\"img\" with that name; without it the sticker is decorative.",
+    "Without WebGL 2, under reduced motion and before the first frame it shows a static picture: the artwork with a die-cut edge and a foil sheen.",
+    "Pointer tilt only changes the picture; nothing needs a pointer to read or use."
+  ],
+  "usage": "<HoloSticker src=\"/logo.svg\" alt=\"Our logo as a foil sticker\" className=\"size-64\" />",
+  "docs": "Installed `HoloSticker` and its three.js renderer in `components/ui/`, plus the `render-loop` helper in `lib/`. Render `<HoloSticker src=\"/logo.svg\" alt=\"Our logo\" className=\"size-64\" />`; the canvas fills the box, so size it with `className`.\n\nTune any dial with `settings`, for example `settings={{ finish: \"chrome\", peelAmount: 0 }}`. Rendering pauses off screen and in hidden tabs; without WebGL 2 or under reduced motion a static picture of the artwork shows instead.\n\nNeeds `three` (installed) and, for TypeScript, `@types/three`. Ported from jal-co/holosticker (MIT, copyright 2026 Justin Levine); the license text is in each file."
+}

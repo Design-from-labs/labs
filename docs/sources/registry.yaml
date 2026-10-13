@@ -764,3 +764,198 @@ sources:
     accessed: 2026-10-12
     visibility: public
     used-in: [docs/decisions/0020-specimen-loops.md, src/styles/global.css]
+  - id: S-270
+    title: "samasante/liquid-glass (Glass, GlassSurface, GlassMaterial)"
+    author: "Sam Asante"
+    kind: library
+    url: "https://github.com/samasante/liquid-glass"
+    license: "MIT"
+    accessed: 2026-10-12
+    visibility: public
+    used-in: [content/components/samasante-liquid-glass, sources.yaml, docs/evidence/ports/glass]
+  - id: S-271
+    title: "jal-co/holosticker (the sticker renderer)"
+    author: "Justin Levine"
+    kind: library
+    url: "https://github.com/jal-co/holosticker"
+    license: "MIT"
+    accessed: 2026-10-12
+    visibility: public
+    used-in: [content/components/jal-co-holosticker, sources.yaml, docs/evidence/ports/holo-sticker]
+  - id: S-272
+    title: "dmitrykurash/holocloth (the holographic foil material)"
+    author: "Dmitry Kurash"
+    kind: library
+    url: "https://github.com/dmitrykurash/holocloth"
+    license: "MIT"
+    accessed: 2026-10-12
+    visibility: public
+    used-in: [content/components/dmitrykurash-holocloth, sources.yaml, docs/evidence/ports/holo-foil]
+  - id: S-273
+    title: "obta1ner/lenticular"
+    author: "obtainer"
+    kind: library
+    url: "https://github.com/obta1ner/lenticular"
+    license: "MIT"
+    accessed: 2026-10-12
+    visibility: public
+    used-in: [content/components/obta1ner-lenticular, sources.yaml, docs/evidence/ports/lenticular]
+  - id: S-274
+    title: "mark-x64 iridescent ribbon shader study (GLSL)"
+    author: "Mark By"
+    kind: library
+    url: "https://github.com/mark-x64/siri-ribbon-shader"
+    license: "MIT"
+    accessed: 2026-10-12
+    visibility: public
+    used-in: [content/components/mark-x64-ribbon-shader, sources.yaml, docs/evidence/ports/iridescent-ribbon]
+    note: "Ported as IridescentRibbon without the upstream name, branding or its third-party reference footage (excluded upstream from the MIT license and not used here)."
+  - id: S-275
+    title: "three.js"
+    author: "three.js authors (mrdoob and contributors)"
+    kind: library
+    url: "https://github.com/mrdoob/three.js"
+    license: "MIT"
+    accessed: 2026-10-12
+    visibility: public
+    used-in: [package.json, content/components/jal-co-holosticker, content/components/dmitrykurash-holocloth]
+    note: "A dependency of the Holo Sticker and Holo Foil items (three@^0.185.1), and a site devDependency for their demos."
+  - id: S-276
+    title: "@types/three (DefinitelyTyped)"
+    author: "DefinitelyTyped contributors"
+    kind: library
+    url: "https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/three"
+    license: "MIT"
+    accessed: 2026-10-12
+    visibility: public
+    used-in: [package.json, content/components/jal-co-holosticker, content/components/dmitrykurash-holocloth]
+    note: "Installed as a devDependency by the three.js items, for TypeScript projects; a site devDependency (0.185.3) so the port sources typecheck."
+  - id: S-277
+    title: "konvert.design sticker tool (layered laminate and emboss concept, credited by holosticker)"
+    author: "konvert.design"
+    kind: design-reference
+    url: "https://konvert.design/tools/sticker"
+    license: "All rights reserved (concept credit only; no code or assets used)"
+    accessed: 2026-10-12
+    visibility: public
+    used-in: [content/components/jal-co-holosticker]
+  - id: S-278
+    title: "Building glass for the web (the SDF displacement-map approach liquid-glass follows)"
+    author: "Aave"
+    kind: article
+    url: "https://aave.com/design/building-glass-for-the-web"
+    license: "All rights reserved (technique credit only)"
+    accessed: 2026-10-12
+    visibility: public
+    used-in: [content/components/samasante-liquid-glass]
+  - id: S-279
+    title: "Hash without Sine (the sinless hash in the holo foil grain and flakes)"
+    author: "Dave Hoskins"
+    kind: article
+    url: "https://www.shadertoy.com/view/4djSRW"
+    license: "MIT"
+    accessed: 2026-10-12
+    visibility: public
+    used-in: [content/components/dmitrykurash-holocloth]
+  - id: S-280
+    title: "Followup: Normal Mapping Without Precomputed Tangents (cotangent frame)"
+    author: "Christian Schüler"
+    kind: article
+    url: "https://web.archive.org/web/20250126153633/http://www.thetenthplanet.de/archives/1180"
+    license: "All rights reserved (technique credit only)"
+    accessed: 2026-10-12
+    visibility: public
+    used-in: [content/components/jal-co-holosticker]
+    note: "Archived copy: the original site (thetenthplanet.de) fails the TLS handshake of the Node.js link check."
+  - id: S-281
+    title: "Distance Transforms of Sampled Functions"
+    author: "Pedro F. Felzenszwalb and Daniel P. Huttenlocher"
+    kind: article
+    url: "https://theoryofcomputing.org/articles/v008a019/"
+    license: "CC-BY-3.0"
+    accessed: 2026-10-12
+    visibility: public
+    used-in: [content/components/jal-co-holosticker]
+  - id: S-282
+    title: "kitasenjudesign lenticular study (inspiration credited by obta1ner/lenticular)"
+    author: "kitasenjudesign"
+    kind: design-reference
+    url: "https://x.com/kitasenjudesign/status/1625453194544578562"
+    license: "All rights reserved (inspiration credit only)"
+    accessed: 2026-10-12
+    visibility: public
+    used-in: [content/components/obta1ner-lenticular]
+  - id: S-283
+    title: "SwiftShader"
+    author: "Google"
+    kind: library
+    url: "https://github.com/google/swiftshader"
+    license: "Apache-2.0"
+    accessed: 2026-10-12
+    visibility: public
+    used-in: [docs/evidence/ports, docs/decisions/0021-webgl-render-loop.md]
+    note: "Fidelity harness only: Chromium's software WebGL renderer (--use-angle=swiftshader), deterministic across runs; not a repository dependency."
+  - id: S-284
+    title: "Vite"
+    author: "VoidZero and Vite contributors"
+    kind: library
+    url: "https://github.com/vitejs/vite"
+    license: "MIT"
+    accessed: 2026-10-12
+    visibility: public
+    used-in: [docs/evidence/ports]
+    note: "Fidelity harness only (serves the upstream demos and the ported components side by side); not a repository dependency."
+  - id: S-285
+    title: "MDN: webglcontextlost and webglcontextrestored events"
+    author: "MDN contributors"
+    kind: doc
+    url: "https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/webglcontextlost_event"
+    license: "CC-BY-SA-2.5"
+    accessed: 2026-10-12
+    visibility: public
+    used-in: [examples/render-loop, docs/decisions/0021-webgl-render-loop.md]
+  - id: S-286
+    title: "MDN: Intersection Observer API"
+    author: "MDN contributors"
+    kind: doc
+    url: "https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API"
+    license: "CC-BY-SA-2.5"
+    accessed: 2026-10-12
+    visibility: public
+    used-in: [examples/render-loop, docs/decisions/0021-webgl-render-loop.md]
+  - id: S-287
+    title: "MDN: Page Visibility API"
+    author: "MDN contributors"
+    kind: doc
+    url: "https://developer.mozilla.org/en-US/docs/Web/API/Page_Visibility_API"
+    license: "CC-BY-SA-2.5"
+    accessed: 2026-10-12
+    visibility: public
+    used-in: [examples/render-loop, docs/decisions/0021-webgl-render-loop.md]
+  - id: S-288
+    title: "Owner brief: glass and holographic surfaces (shared three.js setup, WebGL fallback, performance and fidelity standard)"
+    author: "Owner"
+    kind: brief
+    private-file: "Owner instructions relayed to port pod W1; not in the repository"
+    license: "All rights reserved (owner)"
+    accessed: 2026-10-12
+    visibility: private-cited-only
+    used-in: [docs/decisions/0021-webgl-render-loop.md, docs/evidence/ports, content/components]
+  - id: S-289
+    title: "MDN: DeviceOrientationEvent (requestPermission)"
+    author: "MDN contributors"
+    kind: doc
+    url: "https://developer.mozilla.org/en-US/docs/Web/API/DeviceOrientationEvent"
+    license: "CC-BY-SA-2.5"
+    accessed: 2026-10-12
+    visibility: public
+    used-in: [content/components/obta1ner-lenticular]
+  - id: S-290
+    title: "WAI-ARIA Authoring Practices: Slider pattern"
+    author: "W3C"
+    kind: doc
+    url: "https://www.w3.org/WAI/ARIA/apg/patterns/slider/"
+    license: "W3C Software and Document License"
+    accessed: 2026-10-12
+    visibility: public
+    used-in: [content/components/obta1ner-lenticular]

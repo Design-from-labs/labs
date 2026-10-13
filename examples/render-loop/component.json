@@ -1,0 +1,67 @@
+{
+  "kind": "lib",
+  "type": "registry:lib",
+  "status": "beta",
+  "title": "useRenderLoop",
+  "description": "A canvas drawing loop for WebGL and 2D effects: one context, a capped pixel ratio, resize, off-screen and hidden-tab pauses, reduced motion and context loss.",
+  "category": "foundations",
+  "iconSets": ["none"],
+  "registryDependencies": ["use-reduced-motion"],
+  "variants": [
+    {
+      "primitive": "none",
+      "files": ["render-loop.ts"],
+      "status": "beta"
+    }
+  ],
+  "defaultVariant": "render-loop",
+  "credits": ["S-003", "S-004", "S-285", "S-286", "S-287", "S-288"],
+  "props": [
+    {
+      "name": "canvasRef",
+      "type": "React.RefObject<HTMLCanvasElement | null>",
+      "required": true,
+      "description": "The canvas to draw on."
+    },
+    {
+      "name": "options.context",
+      "type": "\"webgl2\" | \"webgl\" | \"2d\"",
+      "required": true,
+      "description": "The context to create; three.js renderers take it as `context`."
+    },
+    {
+      "name": "options.setup / render / resize / dispose",
+      "type": "functions",
+      "description": "Create the drawing state, draw one frame, size the buffer (default: CSS size x pixel ratio), release it."
+    },
+    {
+      "name": "options.continuous",
+      "type": "boolean",
+      "default": "true",
+      "description": "Draw every frame, or only after invalidate() and resizes."
+    },
+    {
+      "name": "options.maxDpr",
+      "type": "number",
+      "default": "2",
+      "description": "Upper bound for the device pixel ratio."
+    },
+    {
+      "name": "options.respectReducedMotion",
+      "type": "boolean",
+      "default": "true",
+      "description": "Report \"reduced-motion\" and draw nothing when the user prefers reduced motion."
+    },
+    {
+      "name": "returns",
+      "type": "{ status, invalidate, handle }",
+      "description": "status is pending, ready, unsupported, reduced-motion or lost; show a static fallback unless it is ready."
+    }
+  ],
+  "a11y": [
+    "Reduced motion stops drawing by default, so the component can show a still picture instead.",
+    "Nothing is drawn while the canvas is off screen or the tab is hidden."
+  ],
+  "usage": "const { status, invalidate } = useRenderLoop(canvasRef, { context: \"webgl2\", setup, render });",
+  "docs": "Installed `useRenderLoop` in your lib folder (and `useReducedMotion` in hooks). Pass a canvas ref and `{ context, setup, render }`; render a static fallback unless `status` is \"ready\". With three.js, create the renderer in `setup` from the context it hands you: `new WebGLRenderer({ canvas, context })`."
+}

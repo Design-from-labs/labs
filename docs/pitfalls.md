@@ -67,6 +67,15 @@ Design From and Design From Labs (the guards enforce this).
 | [P-054](#p-054) | Site (wall) | A full-width demo collapsed to zero width in a centring grid |
 | [P-055](#p-055) | Site (wall) | Fixed zoom steps cropped tall and wide specimens |
 | [P-056](#p-056) | Site (wall) | A ResizeObserver on an Astro island never fires |
+| [P-057](#p-057) | Fidelity (WebGL) | Headless Chromium draws WebGL on a different renderer per flag set |
+| [P-058](#p-058) | Fidelity harness | A canvas at a fractional offset screenshots one pixel taller |
+| [P-059](#p-059) | Components (three.js) | A renderer given an outside context can change its output |
+| [P-060](#p-060) | Fidelity harness | Eased pointer tilt is not converged after a fixed wait on software GL |
+| [P-061](#p-061) | Site (previews) | The preview route and gallery tiles never hydrate, so canvas effects show only their fallback |
+| [P-062](#p-062) | Licenses (assets) | Upstream demo photos and textures are not covered by the code license |
+| [P-063](#p-063) | Components (hydration) | Reduced motion read through a hook still runs one WebGL setup on hydration |
+| [P-064](#p-064) | Tests (axe) | axe's region rule takes over 30 s on a page with a large highlighted source |
+| [P-065](#p-065) | Components (TypeScript) | A type imported without `type` breaks hydration under `verbatimModuleSyntax` |
 
 ---
 
@@ -900,3 +909,149 @@ Design From and Design From Labs (the guards enforce this).
   the wrapper and the tile.
 - Prevention: Never observe an island element itself.
 - Links: `src/scripts/specimens.ts`
+
+### P-057
+
+- Date: 2026-10-12
+- Area: Fidelity (WebGL screenshots)
+- Symptom: The same WebGL frame came out differently depending on how
+  Chromium was launched.
+- Cause: Headless Chromium on macOS uses ANGLE on SwiftShader (software) by
+  default and the Metal GPU with `--use-angle=metal`; GPU bytes depend on the
+  GPU and driver.
+- Fix: Every WebGL fidelity run pins SwiftShader (`--use-angle=swiftshader
+  --enable-unsafe-swiftshader`), which is deterministic: the upstream noise
+  floor (two loads diffed) was 0.000% for every still frame.
+- Prevention: Record the renderer string and flags in each fidelity.md;
+  compare a port only with upstream captured under the same flags (decision
+  0021).
+- Links: `docs/decisions/0021-webgl-render-loop.md`, `docs/evidence/ports/iridescent-ribbon/fidelity.md`
+
+### P-058
+
+- Date: 2026-10-12
+- Area: Fidelity harness (screenshots)
+- Symptom: Every ribbon frame differed by 100%: the upstream canvas capture
+  was 1216x685 and the port's 1216x684.
+- Cause: The upstream canvas sits at y = 234.59 px; Playwright's element
+  screenshot rounds the clip outward, while the compositor snaps the canvas
+  to whole pixels.
+- Fix: Capture a page clip at the box rounded to whole CSS pixels on both
+  sides (or read the canvas with `toDataURL` when it preserves its buffer).
+- Prevention: Check both capture sizes before reading a percentage; a size
+  mismatch is reported as 100%.
+- Links: `docs/evidence/ports/iridescent-ribbon/fidelity.md`
+
+### P-059
+
+- Date: 2026-10-12
+- Area: Components (three.js)
+- Symptom: A three.js renderer built on a context created elsewhere can
+  render differently from one that created its own.
+- Cause: Given `context`, `WebGLRenderer` reads `alpha` from that context and
+  uses it as is; on its own it always requests `alpha: true`, `depth: true`,
+  `stencil: false` and premultiplied alpha, plus the caller's antialias and
+  `preserveDrawingBuffer`.
+- Fix: The render-loop helper creates the context with exactly those
+  attributes for each three.js item (Holo Sticker: antialias and a preserved
+  buffer; Holo Foil: no antialias, high-performance), then hands it over.
+- Prevention: When an item moves to `useRenderLoop`, copy the upstream
+  `WebGLRenderer` options into `contextAttributes` and diff it against
+  upstream again.
+- Links: `examples/render-loop/render-loop.ts`, `docs/decisions/0021-webgl-render-loop.md`
+
+### P-060
+
+- Date: 2026-10-12
+- Area: Fidelity harness (animation)
+- Symptom: Tilted Holo Sticker frames differed by 1 to 3% from upstream, and
+  upstream differed from itself by up to 0.4%.
+- Cause: The tilt eases toward the pointer by 9% per frame. Software GL draws
+  only a few frames a second, so after a fixed 3 s wait neither page had
+  converged, and each had drawn a different number of frames.
+- Fix: Read the canvas every 250 ms and take the frame once three reads in a
+  row are identical.
+- Prevention: Never wait a fixed time for an eased value; wait for a stable
+  frame, or fix the value (`tilt`, `time`) on the port and drive upstream to
+  the same state.
+- Links: `docs/evidence/ports/holo-sticker/fidelity.md`
+
+### P-061
+
+- Date: 2026-10-12
+- Area: Site (gallery tiles and previews)
+- Symptom: The gallery tile and the `/preview/<item>` still of a WebGL effect
+  showed its static fallback, never the rendered effect.
+- Cause: Tiles and the preview route render demos on the server without
+  hydration; a canvas is only drawn by client JavaScript.
+- Fix: The fallback is designed as the tile picture (decision 0021), and the
+  beta previews were captured from the hydrated demo on the component page.
+- Prevention: For a canvas effect, review the tile with JavaScript off, and
+  take its preview from the component page (see also P-037).
+- Links: `docs/decisions/0021-webgl-render-loop.md`
+
+### P-062
+
+- Date: 2026-10-12
+- Area: Licenses (third-party assets)
+- Symptom: Upstream demos shipped photographs, a poster and a scratch texture
+  with no stated license of their own, and one shipped a vendor's video
+  excerpt explicitly excluded from its MIT license.
+- Cause: A repository license covers its code; assets of unknown origin are
+  not shown to be redistributable.
+- Fix: No upstream asset is shipped. Demos use original inline SVG art, the
+  foil uses a procedural scratch map, and fidelity runs feed the same
+  original inputs to upstream and port.
+- Prevention: Check every image, video and font in an upstream before a port;
+  ship only assets with a redistribution license, credited.
+- Links: `docs/evidence/ports/lenticular/fidelity.md`, `docs/evidence/ports/holo-foil/fidelity.md`
+
+### P-063
+
+- Date: 2026-10-12
+- Area: Components (hydration, reduced motion)
+- Symptom: Under reduced motion the Holo Foil page froze for seconds on load
+  in software GL, although the component only shows its fallback.
+- Cause: `useReducedMotion` (useSyncExternalStore) returns the server value,
+  false, during hydration, so the render-loop effect ran once with motion
+  allowed: it created the WebGL scene (shader compiles, a PMREM environment)
+  and disposed it a frame later.
+- Fix: The helper also reads `matchMedia("(prefers-reduced-motion: reduce)")`
+  inside its effect before any setup.
+- Prevention: Gate expensive effects on the live media query, not only on a
+  hydration-safe hook value.
+- Links: `examples/render-loop/render-loop.ts`
+
+### P-064
+
+- Date: 2026-10-12
+- Area: Tests (axe)
+- Symptom: `axe: /ui/holo-foil` timed out at 30 s; the color-contrast rule
+  took 1.3 s, the region rule 37 s.
+- Cause: The component page shows every source file, highlighted token by
+  token; the foil's captured pose was one array literal of 4,851 numbers,
+  each a token for the region rule to walk.
+- Fix: The pose data is one string literal (the same numbers, checked equal
+  as Float32 values), and the axe tests of these pages allow 90 s.
+- Prevention: Keep large data in string literals or separate assets, and
+  watch axe time when an item adds big files.
+- Links: `e2e/webgl.spec.ts`, `content/components/dmitrykurash-holocloth/holo-foil`
+
+### P-065
+
+- Date: 2026-10-13
+- Area: Components (TypeScript, bundling)
+- Symptom: The Glass demo threw "does not provide an export named
+  'GlassLensDescriptor'" in the browser once its sources lived in this
+  repository, while the same files worked in a scratch harness.
+- Cause: Upstream imports some types in value imports (`import { Renderer,
+  GlassLensDescriptor }`). This repository's tsconfig extends Astro's strict
+  config, which sets `verbatimModuleSyntax`, so Vite's esbuild keeps every
+  import name and the browser asks the module for an export that does not
+  exist. Without that option esbuild drops the unused name.
+- Fix: The port marks those names `type` (an import-only deviation, listed in
+  the Glass fidelity notes).
+- Prevention: Typecheck port sources under the site's tsconfig before
+  exporting them, and keep the `hydrates without page errors` checks in
+  `e2e/webgl.spec.ts`.
+- Links: `ports/samasante-liquid-glass/glass`, `e2e/webgl.spec.ts`

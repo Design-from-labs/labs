@@ -241,3 +241,91 @@ oss:
         status: beta
         category: layout
         port: ports/thiings-grid/thiings-grid
+  # Glass and holographic surfaces, ported by hand from the pinned commits
+  # (fetch: in-repo). Fidelity evidence: docs/evidence/ports/<component>/.
+  - id: samasante-liquid-glass
+    name: samasante liquid-glass
+    repo: https://github.com/samasante/liquid-glass
+    visibility: public
+    status: active
+    fetch: in-repo
+    ref: 4e7b769e1df7e5a7d3669fef22417fe3d2f79ade
+    author: "Sam Asante <https://github.com/samasante>"
+    license: MIT
+    attribution: "Copyright (c) 2026 Sam Asante. MIT License."
+    credit: S-270
+    components:
+      - name: glass
+        status: beta
+        category: media
+        upstream: src/Glass.tsx
+
+  - id: jal-co-holosticker
+    name: jal-co holosticker
+    repo: https://github.com/jal-co/holosticker
+    visibility: public
+    status: active
+    fetch: in-repo
+    ref: 34688eb3fd2986c6721ff270a00ca9267f8a195c
+    author: "Justin Levine <https://github.com/jal-co>"
+    license: MIT
+    attribution: "Copyright (c) 2026 Justin Levine. MIT License."
+    credit: S-271
+    components:
+      - name: holo-sticker
+        status: beta
+        category: media
+        upstream: src/lib/three-renderer.ts
+
+  - id: dmitrykurash-holocloth
+    name: dmitrykurash holocloth
+    repo: https://github.com/dmitrykurash/holocloth
+    visibility: public
+    status: active
+    fetch: in-repo
+    ref: a6078ba698a53cbf18be870cea555c1971f84103
+    author: "Dmitry Kurash <https://github.com/dmitrykurash>"
+    license: MIT
+    attribution: "Copyright (c) 2026 Dmitry Kurash. MIT License."
+    credit: S-272
+    components:
+      - name: holo-foil
+        status: beta
+        category: media
+        upstream: src/holoMaterial.ts
+
+  - id: obta1ner-lenticular
+    name: obta1ner lenticular
+    repo: https://github.com/obta1ner/lenticular
+    visibility: public
+    status: active
+    fetch: in-repo
+    ref: fe6e33bbc5850b3be7694d0a822a2ee451621e6e
+    author: "obtainer <https://github.com/obta1ner>"
+    license: MIT
+    attribution: "Copyright (c) 2025 obtainer. MIT License."
+    credit: S-273
+    components:
+      - name: lenticular
+        status: beta
+        category: media
+        upstream: index.html
+
+  # Renamed: the upstream repository names a vendor's assistant; the port is
+  # IridescentRibbon and carries no branding and no reference footage.
+  - id: mark-x64-ribbon-shader
+    name: mark-x64 ribbon shader
+    repo: https://github.com/mark-x64/siri-ribbon-shader
+    visibility: public
+    status: active
+    fetch: in-repo
+    ref: 775a3c093a14d89880532733e9acc6782acad4aa
+    author: "Mark By <https://github.com/mark-x64>"
+    license: MIT
+    attribution: "Copyright (c) 2026 Mark By. MIT License."
+    credit: S-274
+    components:
+      - name: iridescent-ribbon
+        status: beta
+        category: media
+        upstream: src/ribbon.frag

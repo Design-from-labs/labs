@@ -1,0 +1,108 @@
+{
+  "title": "Lenticular",
+  "description": "A lenticular picture: views cut into interleaved strips under a barrier grid, flipping as the pointer moves or the phone tilts.",
+  "category": "media",
+  "type": "registry:ui",
+  "status": "beta",
+  "upstreamPath": "index.html",
+  "iconSets": ["none"],
+  "registryDependencies": ["utils", "render-loop", "use-reduced-motion"],
+  "files": [
+    {
+      "file": "lenticular.tsx",
+      "type": "registry:ui"
+    }
+  ],
+  "demo": "demo.tsx",
+  "tile": {
+    "span": 1,
+    "rows": 2
+  },
+  "cssVars": {
+    "light": {
+      "lenticular-grid": "#000000"
+    },
+    "dark": {
+      "lenticular-grid": "#000000"
+    }
+  },
+  "credits": [
+    "S-282",
+    "S-289",
+    "S-290",
+    "S-003",
+    "S-004",
+    "S-019",
+    "S-020",
+    "S-157",
+    "S-288"
+  ],
+  "tags": ["lenticular", "canvas", "tilt", "effect"],
+  "props": [
+    {
+      "name": "images",
+      "type": "readonly string[]",
+      "required": true,
+      "description": "The views in tilt order (upstream uses three). The smallest size wins; larger ones are center-cropped."
+    },
+    {
+      "name": "gridWidth",
+      "type": "number",
+      "default": "8",
+      "description": "Strip pitch in image pixels."
+    },
+    {
+      "name": "rowHeight",
+      "type": "number",
+      "default": "40",
+      "description": "Height of a row of strips in image pixels."
+    },
+    {
+      "name": "rowOffset",
+      "type": "number",
+      "default": "4",
+      "description": "Offset of every other row in image pixels."
+    },
+    {
+      "name": "speed",
+      "type": "number",
+      "default": "1",
+      "description": "View cycles per full sweep."
+    },
+    {
+      "name": "maxAngle",
+      "type": "number",
+      "default": "45",
+      "description": "Phone tilt (degrees either way) that sweeps every view."
+    },
+    {
+      "name": "track",
+      "type": "\"window\" | \"element\" | \"none\"",
+      "default": "\"window\"",
+      "description": "What moves the views: the pointer across the window (upstream), across the picture, or nothing."
+    },
+    {
+      "name": "tilt",
+      "type": "boolean",
+      "default": "true",
+      "description": "Follow the device tilt on touch devices (shows a Tilt to play button where permission is needed)."
+    },
+    {
+      "name": "progress",
+      "type": "number",
+      "description": "Controlled sweep position, 0 to 1."
+    },
+    {
+      "name": "onProgressChange",
+      "type": "(progress: number) => void",
+      "description": "Called when the pointer, tilt or keys move the sweep."
+    }
+  ],
+  "a11y": [
+    "A slider (role=\"slider\") named by aria-label, with the visible view as aria-valuetext (\"View 2 of 3\"). Arrow keys step one view, Home and End jump to the ends; the arrows follow the physical pointer direction in right-to-left pages too.",
+    "Reduced motion: pointer and tilt tracking are off and the picture holds still; the keys still change the view.",
+    "Before the strips are drawn, or if an image fails to load, the first view shows as a plain image."
+  ],
+  "usage": "<Lenticular images={[\"/a.png\", \"/b.png\", \"/c.png\"]} aria-label=\"A card that changes as you tilt it\" />",
+  "docs": "Installed `Lenticular` in `components/ui/`, plus the `render-loop` helper in `lib/` and `useReducedMotion` in `hooks/`. Render `<Lenticular images={[\"/a.png\", \"/b.png\", \"/c.png\"]} aria-label=\"...\" />` with views of the same size.\n\nThe canvases keep the images' pixel size and scale down to fit (`max-w-full`, `max-h-svh`); cap the height with `className=\"max-h-80\"`. The barrier color is `--lenticular-grid` (black). On iPhone a \"Tilt to play\" button asks for motion permission.\n\nPorted from obta1ner/lenticular (MIT, copyright 2025 obtainer); the license text is in the file."
+}
