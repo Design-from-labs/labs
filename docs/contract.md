@@ -275,6 +275,11 @@ own. Everything else is on the component page, which the tile expands into.
 - The tile is a link named "Title: first sentence of the description"; the
   specimen is `aria-hidden` and `inert`, so a demo's own controls are never
   reachable from the wall.
+- On the wall the demo's default export receives `wall: true` (the component
+  page and previews pass nothing), so a demo whose page version carries text
+  of its own, such as an `sr-only` heading or a component's section
+  headings, renders a text-free specimen there:
+  `export default function Demo({ wall = false }: { wall?: boolean } = {})`.
 
 ### 4.3 Loops
 

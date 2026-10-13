@@ -253,12 +253,15 @@ function main() {
       ...demoImports.map(
         (name) => `import ${id(name)} from "./items/${name}/__demo.tsx";`,
       ),
-      "interface Props { item: string; hydrate?: boolean }",
-      "const { item, hydrate = false } = Astro.props;",
+      "// `wall` renders the /ui specimen: a demo may read it to drop text of",
+      "// its own, such as headings (contract section 4.2).",
+      "interface Props { item: string; hydrate?: boolean; wall?: boolean }",
+      "const { item, hydrate = false, wall = false } = Astro.props;",
+      "const extra = wall ? { wall: true } : {};",
       "---",
       ...demoImports.map(
         (name) =>
-          `{item === ${JSON.stringify(name)} && (hydrate ? <${id(name)} client:visible /> : <${id(name)} />)}`,
+          `{item === ${JSON.stringify(name)} && (hydrate ? <${id(name)} client:visible {...extra} /> : <${id(name)} {...extra} />)}`,
       ),
       "",
     ].join("\n"),

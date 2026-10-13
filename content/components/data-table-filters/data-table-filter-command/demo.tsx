@@ -209,7 +209,7 @@ const columns: ColumnDef<DataTableFeatures, Check>[] = [
   },
 ];
 
-function ChecksTable() {
+function ChecksTable({ wall = false }: { wall?: boolean }) {
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     [],
   );
@@ -245,9 +245,13 @@ function ChecksTable() {
       pagination={pagination}
     >
       <div className="flex w-full flex-col sm:flex-row sm:[--controls-width:13rem] md:[--controls-width:16rem]">
-        <FilterPanel>
-          <DataTableFilterControls />
-        </FilterPanel>
+        {/* On the /ui wall the specimen carries no text of its own, so the
+            filter column (whose section headers are headings) is left out. */}
+        {wall ? null : (
+          <FilterPanel>
+            <DataTableFilterControls />
+          </FilterPanel>
+        )}
         <div className="flex max-w-full flex-1 flex-col gap-4 overflow-hidden p-1 sm:group-data-[expanded=true]/controls:ms-3">
           <DataTableFilterCommand
             schema={filterSchema.definition}
@@ -321,15 +325,20 @@ function FilterPanel({ children }: { children: React.ReactNode }) {
   );
 }
 
-export default function DataTableFilterCommandDemo() {
+/** `wall`: the /ui wall's specimen (no headings); the page demo omits it. */
+export default function DataTableFilterCommandDemo({
+  wall = false,
+}: {
+  wall?: boolean;
+} = {}) {
   const adapter = useMemoryAdapter(filterSchema.definition, {
     id: "demo-command",
   });
   return (
     <div className="w-full max-w-5xl text-sm">
-      <h2 className="sr-only">Uptime checks</h2>
+      {wall ? null : <h2 className="sr-only">Uptime checks</h2>}
       <DataTableStoreProvider adapter={adapter}>
-        <ChecksTable />
+        <ChecksTable wall={wall} />
       </DataTableStoreProvider>
     </div>
   );

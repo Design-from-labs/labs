@@ -62,7 +62,8 @@ Files: `<state>-<viewport>-before.webp` (upstream), `-after.webp` (port), `-diff
 
 ## Deviations after the fidelity run
 
-Both are pixel-neutral: no class, element or style changed.
+All of these are pixel-neutral; the filter-active states were re-diffed against
+upstream after the reset chip moved (table below).
 
 - **Type-only imports** (`constants/date-preset.ts`, `data-table-provider.tsx`,
   `lib/table/filterfns.ts`, and in data-table-sheet `data-table-sheet-content.tsx`,
@@ -83,6 +84,42 @@ Both are pixel-neutral: no class, element or style changed.
   before and after, and axe shows 0 violations for the view options with the slider
   open and for the date popover at 1280 and 375, light and dark, LTR and RTL (each of
   those states had one to three findings before).
+- **The reset chip moved out of the accordion trigger** (an accessibility fix; the
+  filter sidebar's "N x" chip that clears a section's filter). Upstream renders it as a
+  `div role="button"` inside the accordion's trigger button, so axe reported
+  `nested-interactive` and the chip had no keyboard path of its own. It is now a real
+  `<button>` (`aria-label="Reset <label>"`) rendered next to the trigger in the same
+  grid cell, over an invisible, `aria-hidden` copy of the chip that keeps its spot
+  inside the header (`src/shared/data-table-filter-reset-button.tsx` and
+  `data-table-filter-controls.tsx`; the per-primitive overlays of the old chip were
+  deleted). A 2 px transparent padding gives it a 42x24 px target (WCAG 2.5.8 asks
+  for 24x24) without moving a pixel. Activating it clears the filter and puts focus
+  back on the section's header button. The header text colour still follows
+  hover/focus of the whole header (`group/filter-header`). Measured with the
+  filter-active states, upstream against the Radix + Lucide port, filters from the
+  URL (`/default?tags=web,api&active=true&regions=ams&p95=100-300`, two sections
+  with a chip), the same clock and hooks as above:
+
+  | State | Viewport | Scheme | Differing px | % | Pass |
+  | --- | --- | --- | --- | --- | --- |
+  | Filters active (chips shown) | 1280x800 | light | 0 | 0.0000 | yes |
+  | Filters active (chips shown) | 375x812 | light | 0 | 0.0000 | yes |
+  | Filters active (chips shown) | 1280x800 | dark | 0 | 0.0000 | yes |
+  | Filters active (chips shown) | 375x812 | dark | 0 | 0.0000 | yes |
+
+  (The `filters*` images in this directory. At 375 the sidebar is in the drawer, which
+  the hook opens first.) axe with a filter set (chip visible) on the Radix, Base UI and
+  React Aria demos: 0 violations (so no `nested-interactive` and no `target-size`) in
+  light and dark, LTR and RTL, at 1280 and 375.
+- **Upstream symbols nothing reads, removed.** A fresh Vite app from shadcn's template
+  turns on `noUnusedLocals` and `noUnusedParameters`, so `tsc -b` (the build) failed on
+  them; each is dead code, so nothing rendered changes (the table, infinite, dark and
+  filter states stay at 0 px, re-run after the removal):
+  - `data-table-infinite.tsx` (shared copy and the React Aria copy): the destructured
+    `fetchPreviousPage` and `className` props.
+  - `data-table-toolbar.tsx` (Radix, Base UI and React Aria): `isLoading`.
+  - `lib/store/schema/index.ts`: the `InferSchemaType` type import.
+  - In the filter-command item (see its fidelity note): `commandDisabledFilterKeys`.
 
 ## Residual differences
 

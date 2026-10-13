@@ -54,6 +54,20 @@ no visual change.
 Files: `<state>-<viewport>-before.webp` (upstream), `-after.webp` (port), `-diff.webp`
 (pixelmatch, threshold 0.1), and `fidelity.json`.
 
+## Deviations after the fidelity run
+
+Pixel-neutral:
+
+- **Upstream symbol nothing reads, removed.** In `data-table-filter-command/index.tsx`
+  (shared and React Aria copies) the `currentDisabledFilters` filter and the
+  `commandDisabledFilterKeys` object built from it were computed and never used. A fresh
+  Vite app from shadcn's template turns on `noUnusedLocals`, so `tsc -b` failed on it.
+  Dead code, so nothing rendered changes: the `command-open` state stays at 0 px
+  (1280x800 and 375x812), re-run after the removal.
+- **The filter sidebar's reset chip** is no longer a `div role="button"` inside the
+  accordion trigger; see the data-table fidelity note (shared `data-table` item, 0 px in
+  every filter-active state, axe clean). This item's command input is unchanged.
+
 ## Residual differences
 
 None measured: every state is pixel-identical. What the comparison does not cover:

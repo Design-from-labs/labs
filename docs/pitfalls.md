@@ -157,6 +157,18 @@ Design From and Design From Labs (the guards enforce this).
 | [P-144](#p-144) | Components (CSS) | Links ported to buttons lose their letter-spacing |
 | [P-145](#p-145) | Fidelity (dependency versions) | three.js 0.185 blends fading WebGPU planes differently from 0.184 |
 | [P-146](#p-146) | Ports (closure) | A bundler's metafile misses type-only modules |
+| [P-147](#p-147) | Registry (Vite installs) | Port items crashed in a fresh Vite app while CI was green |
+| [P-148](#p-148) | Toolchain (shadcn CLI) | `shadcn init -t vite` clones its template from the default branch |
+| [P-149](#p-149) | Local servers | Killing `$!` of `astro preview` leaves the server listening |
+| [P-150](#p-150) | Components (Base UI) | Base UI popups and menus swallow arrow keys |
+| [P-151](#p-151) | Components (dnd kit) | dnd kit's live region inside a listbox fails axe |
+| [P-152](#p-152) | Components (React Aria) | An Autocomplete closed after the first typed character |
+| [P-153](#p-153) | Components (React Aria) | React Aria ignored `dir="rtl"` on the page |
+| [P-154](#p-154) | Components (accessibility) | A reset chip nested inside an accordion trigger button |
+| [P-155](#p-155) | Registry (Vite installs) | Upstream unused symbols fail a fresh Vite app's build |
+| [P-156](#p-156) | Site (wall) | Beta demos with headings broke the wall's no-text rule unnoticed |
+| [P-157](#p-157) | Site (beta build) | A variant's direct npm import failed the beta site build |
+| [P-158](#p-158) | Registry (Vite installs) | Stock `aria-nova` `ui/label` fails a fresh Vite app's build |
 
 ---
 
@@ -2333,3 +2345,173 @@ Design From and Design From Labs (the guards enforce this).
 - Prevention: Compute a port's file closure from the sources, not from a
   bundler's output.
 - Links: `ports/paperlab/paper/src`
+
+### P-147
+
+- Date: 2026-10-13
+- Area: Registry (Vite installs)
+- Symptom: Every data-table demo crashed at runtime in a fresh
+  `shadcn init -t vite` app ("does not provide an export named
+  'DataTableFilterField'"), Radix included, while CI was green.
+- Cause: Eight imports of types were written as value imports; the Vite
+  template sets `verbatimModuleSyntax`, so they survive to the bundle. The
+  `registry-install` job only built a Next.js app with ready items.
+- Fix: `import type` in the six shared files; `scripts/registry-install-vite-test.sh`
+  installs beta port items into a pinned Vite template and runs its
+  `tsc -b && vite build` (decision 0027).
+- Prevention: The Vite scenario fails on TS1484 and on `MISSING_EXPORT`.
+- Links: `scripts/registry-install-vite-test.sh`, `docs/decisions/0027-vite-install-check-on-beta-items.md`
+
+### P-148
+
+- Date: 2026-10-13
+- Area: Toolchain (shadcn CLI)
+- Symptom: A pinned shadcn CLI could still create a different Vite project on
+  another day.
+- Cause: `shadcn init -t vite` `git clone`s its template from the
+  shadcn-ui/ui default branch at run time.
+- Fix: Clone the `shadcn@<version>` tag sparsely and pass it as
+  `SHADCN_TEMPLATE_DIR`.
+- Prevention: Pin templates together with the CLI.
+- Links: `scripts/registry-install-vite-test.sh`
+
+### P-149
+
+- Date: 2026-10-13
+- Area: Local servers
+- Symptom: Killing the PID of a backgrounded `astro preview` left the server
+  listening on its port.
+- Cause: The launcher exits and the server process is reparented.
+- Fix: Find the listening process by port (`lsof -nP -iTCP:<port> -sTCP:LISTEN`),
+  check its working directory, and stop that one.
+- Prevention: Stop servers by port, never by `$!`.
+- Links: `docs/CICD.md`
+
+### P-150
+
+- Date: 2026-10-13
+- Area: Components (Base UI)
+- Symptom: In the Base UI data-table sheet, ArrowUp/ArrowDown row navigation
+  stopped working, and a menu trigger opened on both arrows and swallowed
+  them.
+- Cause: Base UI's dialog popup and menu trigger stop composite keys, and they
+  ignore `preventDefault`.
+- Fix: `event.preventBaseUIHandler()` for those keys.
+- Prevention: Test document-level key handlers inside Base UI popups.
+- Links: `ports/data-table-filters/data-table-sheet/src/base/`
+
+### P-151
+
+- Date: 2026-10-13
+- Area: Components (dnd kit)
+- Symptom: axe `aria-required-children` on the view-options listbox with
+  sortable items.
+- Cause: `DndContext` renders its live region and instructions inline, inside
+  the listbox.
+- Fix: `accessibility={{ container: document.body }}` after mount, in the
+  Radix and Base UI sortables (the React Aria variant renders the sortable
+  rows inside menu items and passed axe without it).
+- Prevention: Do the same for any sortable list inside a listbox or menu.
+- Links: `ports/data-table-filters/data-table/src/{radix,base}/custom/sortable.tsx`
+
+### P-152
+
+- Date: 2026-10-13
+- Area: Components (React Aria)
+- Symptom: The React Aria command filter closed after the first typed
+  character.
+- Cause: The Autocomplete's virtual focus dispatches a synthetic blur on the
+  field.
+- Fix: Close only when `document.activeElement` is no longer the field.
+- Prevention: Never close on a raw `onBlur` inside an Autocomplete.
+- Links: `ports/data-table-filters/data-table-filter-command/src/aria/`
+
+### P-153
+
+- Date: 2026-10-13
+- Area: Components (React Aria)
+- Symptom: The React Aria slider and calendar stayed left to right on a
+  `dir="rtl"` page.
+- Cause: React Aria reads direction from the locale, not from `dir`.
+- Fix: A `FollowDirection` wrapper sets an `I18nProvider` when the locale's
+  direction disagrees with `dir` on `<html>`.
+- Prevention: Test right to left with an English browser locale.
+- Links: `ports/data-table-filters/data-table/src/aria/custom/follow-direction.tsx`
+
+### P-154
+
+- Date: 2026-10-13
+- Area: Components (accessibility)
+- Symptom: With a filter set, axe reported `nested-interactive` and
+  `target-size` on the data-table filter headers in every primitive.
+- Cause: Upstream renders the reset chip inside the accordion trigger, a
+  button inside a button, at 20px.
+- Fix: The chip is a real button beside the trigger, positioned over an
+  invisible placeholder inside it, with 2px transparent padding for a 24px
+  target; the Radix filter states still diff 0 px.
+- Prevention: Run axe on states with filters set, not only the idle page.
+- Links: `ports/data-table-filters/data-table/src/shared/data-table-filter-reset-button.tsx`
+
+### P-155
+
+- Date: 2026-10-13
+- Area: Registry (Vite installs)
+- Symptom: A fresh Vite app that installed the data-table or Liveline items
+  failed `npm run build` on eleven unused symbols (TS6133, TS6196).
+- Cause: The template turns on `noUnusedLocals` and `noUnusedParameters`, and
+  the upstream code declares symbols it never reads.
+- Fix: The ports drop them, each recorded as a pixel-neutral deviation; CI
+  keeps the template's flags on.
+- Prevention: The Vite scenario builds with the template's flags as shipped.
+- Links: `docs/evidence/ports/liveline/fidelity.md`, `docs/evidence/ports/data-table/fidelity.md`
+
+### P-156
+
+- Date: 2026-10-13
+- Area: Site (wall)
+- Symptom: On a beta build, the wall test "tiles show only the specimen" failed
+  on `data-table` and `data-table-filter-command`: their demos carry an
+  `sr-only` heading and the filter accordion's section headings.
+- Cause: CI's e2e job builds without beta items, so beta-only wall checks never
+  ran on those demos.
+- Fix: On the wall, demos receive `wall: true` (contract section 4.2); the two
+  demos then leave out the heading and the filter column. The component page
+  is unchanged.
+- Prevention: Run `e2e/wall.spec.ts` on a `LABS_INCLUDE_BETA=1` build when a
+  port adds a demo.
+- Links: `src/components/Tile.astro`, `scripts/prepare-content.mjs`
+
+### P-157
+
+- Date: 2026-10-13
+- Area: Site (beta build)
+- Symptom: `LABS_INCLUDE_BETA=1 pnpm build:site` failed with "Rolldown failed
+  to resolve import `@internationalized/date`" from the React Aria data-table
+  item. The default build and `shadcn add` in a user app were fine.
+- Cause: The site compiles every published item's files against the
+  repository root's `node_modules`. pnpm does not hoist transitive
+  dependencies, and the variant imports `@internationalized/date` directly
+  while the root only listed `react-aria-components`.
+- Fix: An exact root devDependency `@internationalized/date@3.12.4` (the
+  version already resolved through `react-aria-components`).
+- Prevention: Every npm package an item or variant imports must also be a root
+  devDependency. Run the beta `build:site` before opening a PR that adds a
+  variant.
+- Links: `package.json`, `ports/data-table-filters/data-table/src/aria/custom/date-picker-with-range.tsx`
+
+### P-158
+
+- Date: 2026-10-13
+- Area: Registry (Vite installs)
+- Symptom: A fresh `shadcn init -t vite --base aria` app failed `tsc -b` on
+  the stock `ui/label.tsx` (TS6133, unused `React` import) before any Labs
+  item was added.
+- Cause: The upstream `aria-nova` registry file is not clean under the Vite
+  template's `noUnusedLocals`.
+- Fix: None in Labs: the local strict builds of the aria items removed that
+  line from the stock file only. CI's Vite scenario covers Radix, so it does
+  not hit this.
+- Prevention: If the Vite scenario is extended to React Aria, expect this
+  failure from the stock file and decide on a pin or workaround there, not by
+  turning the template's flags off.
+- Links: `scripts/registry-install-vite-test.sh`
